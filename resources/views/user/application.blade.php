@@ -133,6 +133,7 @@
                                                 <label for="name" class="text-uppercase">{{ $program->status }}</label>
                                             </div>
                                         </div>
+                                        @if ($program->status !== 'baru' && $program->status !== 'layak')
                                         <div class="row mb-2">
                                             <div class="col-md-3 col-sm-3">
                                                 <label for="">Catatan</label>
@@ -141,6 +142,7 @@
                                                 <textarea name="notes" id="notes" rows="2" class="form-control form-control-sm" disabled></textarea>
                                             </div>
                                         </div>
+                                        @endif
                                         @endforeach
                                         <div class="col-md-12 col-sm-12 mb-3">
                                             <label for="" class="fw-bold">Pegawai Perhubungan</label>
