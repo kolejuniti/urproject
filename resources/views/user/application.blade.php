@@ -1,6 +1,7 @@
 @extends('layouts.user')
 
 @section('content')
+<link href="https://cdn.datatables.net/v/bs5/jq-3.7.0/dt-2.0.7/datatables.min.css" rel="stylesheet">
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
@@ -16,7 +17,7 @@
                         </div>
                     </div>
                     @endauth
-                    <table class="table table-bordered small table-sm text-center">
+                    <table id="myTable" class="table table-bordered small table-sm text-center">
                         <thead class="table-dark">
                             <tr>
                                 <th>#</th>
@@ -25,21 +26,23 @@
                                 <th>No. Telefon</th>
                                 <th>Email</th>
                                 <th>Tarikh Permohonan</th>
-                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($applicantsWithPrograms as $data)
+                            @if ($data['applicant']->user_id !== null)
+                            <tr class="table-warning">
+                            @else
                             <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $data['applicant']->name }}</td>
+                            @endif
+                                <td>&nbsp;</td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-link" data-bs-toggle="modal" data-bs-target="#modal{{ $data['applicant']->ic }}">{{ $data['applicant']->name }}</button>
+                                </td>
                                 <td>{{ $data['applicant']->ic }}</td>
                                 <td>{{ $data['applicant']->phone }}</td>
                                 <td>{{ $data['applicant']->email }}</td>
                                 <td>{{ \Carbon\Carbon::parse($data['applicant']->created_at)->format('d-m-Y') }}</td>
-                                <td>
-                                    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modal{{ $data['applicant']->ic }}">Details</button>
-                                </td>
                             </tr>
                             <div class="modal fade" id="modal{{ $data['applicant']->ic }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ $data['applicant']->ic }}" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -190,5 +193,25 @@
             console.error('Failed to copy text: ', err);
         });
     }
+</script>
+<script src="https://cdn.datatables.net/v/bs5/jq-3.7.0/dt-2.0.7/datatables.min.js"></script>
+<script>
+    $(document).ready(function() {
+        var t = $('#myTable').DataTable({
+            columnDefs: [
+                {
+                    targets: ['_all'],
+                    className: 'dt-head-center'
+                }
+            ]
+        });
+        t.on('order.dt search.dt', function () {
+            let i = 1;
+        
+            t.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
+                this.data(i++);
+            });
+        }).draw();
+    });
 </script>
 @endsection
