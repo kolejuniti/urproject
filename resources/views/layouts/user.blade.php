@@ -148,7 +148,7 @@
                     </div>
                 </div>
                 <div class="col-sm-10">
-                    <main class="py-4" style="max-height: 80vh; overflow-y: auto;">
+                    <main class="py-2" style="max-height: 80vh; overflow-y: auto;">
                         @yield('content')
                     </main>
                 </div>
