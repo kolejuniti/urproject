@@ -135,7 +135,7 @@ class AdminController extends Controller
 
             $programs = DB::table('student_programs')
                         ->join('program', 'student_programs.program_id', '=', 'program.id')
-                        ->select('program.name', 'student_programs.status')
+                        ->select('program.name', 'student_programs.status', 'student_programs.notes')
                         ->where('student_programs.student_ic', $applicant->ic)
                         ->get();
 
@@ -173,7 +173,7 @@ class AdminController extends Controller
 
             $programs = DB::table('student_programs')
                         ->join('program', 'student_programs.program_id', '=', 'program.id')
-                        ->select('program.name', 'student_programs.status')
+                        ->select('program.name', 'student_programs.status', 'student_programs.notes')
                         ->where('student_programs.student_ic', $applicant->ic)
                         ->get();
 
@@ -189,6 +189,8 @@ class AdminController extends Controller
 
     public function userlist()
     {
-        return view('admin.userlist');
+        $users = User::whereIn('type', [0, 1])->get();
+
+        return view('admin.userlist', compact('users'));
     }
 }

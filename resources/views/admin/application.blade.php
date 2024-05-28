@@ -36,8 +36,8 @@
                                 <td>
                                     <button type="button" class="btn btn-sm btn-link" data-bs-toggle="modal" data-bs-target="#modal{{ $data['applicant']->ic }}">{{ $data['applicant']->name }}</button>
                                 </td>
-                                <td>{{ $data['applicant']->ic }}</td>
-                                <td>{{ $data['applicant']->phone }}</td>
+                                <td class="text-center">{{ $data['applicant']->ic }}</td>
+                                <td class="text-center">{{ $data['applicant']->phone }}</td>
                                 <td>{{ $data['applicant']->email }}</td>
                                 <td>{{ \Carbon\Carbon::parse($data['applicant']->created_at)->format('d-m-Y') }}</td>
                             </tr>
@@ -79,6 +79,36 @@
                                             </div>
                                             <div class="col-md-3 col-sm-3">
                                                 <label for="name">{{ $data['applicant']->email }}</label>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <div class="col-md-3 col-sm-3">
+                                                <label for="">Alamat 1</label>
+                                            </div>
+                                            <div class="col-md-9 col-sm-9">
+                                                <label for="name">{{ $data['applicant']->address1 }}</label>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <div class="col-md-3 col-sm-3">
+                                                <label for="">Alamat 2</label>
+                                            </div>
+                                            <div class="col-md-9 col-sm-9">
+                                                <label for="name">{{ $data['applicant']->address2 }}</label>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <div class="col-md-3 col-sm-3">
+                                                <label for="">Poskod</label>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3">
+                                                <label for="name">{{ $data['applicant']->postcode }}</label>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3">
+                                                <label for="">Bandar</label>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3">
+                                                <label for="name">{{ $data['applicant']->city }}</label>
                                             </div>
                                         </div>
                                         <div class="row mb-2">
@@ -139,7 +169,7 @@
                                                 <label for="">Catatan</label>
                                             </div>
                                             <div class="col-md-9 col-sm-9">
-                                                <textarea name="notes" id="notes" rows="2" class="form-control form-control-sm" disabled></textarea>
+                                                <textarea name="notes" id="notes" rows="2" class="form-control form-control-sm text-uppercase" disabled>{{ $program->notes }}</textarea>
                                             </div>
                                         </div>
                                         @endif

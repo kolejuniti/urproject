@@ -45,6 +45,10 @@ class StudentController extends Controller
             $ic = $request->input('ic');
             $phone = $request->input('phone');
             $email = $request->input('email');
+            $address1 = $request->input('address1');
+            $address2 = $request->input('address2');
+            $postcode = $request->input('postcode');
+            $city = $request->input('city');
             $state = $request->input('state');
             $year = $request->input('year');
             $location = $request->input('location');
@@ -71,6 +75,10 @@ class StudentController extends Controller
                 'ic'=>$ic,
                 'phone'=>$phone,
                 'email'=>$email,
+                'address1'=>$address1,
+                'address2'=>$address2,
+                'postcode'=>$postcode,
+                'city'=>$city,
                 'state_id'=>$state,
                 'spm_year'=>$year,
                 'location_id'=>$location,
@@ -118,6 +126,10 @@ class StudentController extends Controller
                 'ic'=>$ic,
                 'phone'=>$phone,
                 'email'=>$email,
+                'address1'=>$address1,
+                'address2'=>$address2,
+                'postcode'=>$postcode,
+                'city'=>$city,
                 'state'=>$stateName,
                 'year'=>$year,
                 'location'=>$locationName,
@@ -155,10 +167,21 @@ class StudentController extends Controller
 
         $studentPrograms = DB::table('student_programs')
                             ->join('program', 'student_programs.program_id', '=', 'program.id')
-                            ->select('program.name AS program', 'student_programs.status AS status')
+                            ->select('program.name AS program', 'student_programs.status AS status', 'student_programs.notes')
                             ->where('student_programs.student_ic', 'LIKE', "{$ic}")
                             ->get();
 
         return view('student.search', compact('students', 'ic', 'studentPrograms'));
+    }
+
+    public function offerletter(Request $request)
+    {
+        $ic = $request->input('ic');
+
+        $students = DB::table('students')
+                    ->where('students.ic', 'LIKE', "{$ic}")
+                    ->get();
+
+        return view('student.offerletter', compact('students'));
     }
 }

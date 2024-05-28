@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 class AdvisorController extends Controller
 {
@@ -64,7 +65,7 @@ class AdvisorController extends Controller
 
             $programs = DB::table('student_programs')
                         ->join('program', 'student_programs.program_id', '=', 'program.id')
-                        ->select('student_programs.id', 'program.name', 'student_programs.status')
+                        ->select('student_programs.id', 'program.name', 'student_programs.status', 'student_programs.notes')
                         ->where('student_programs.student_ic', $applicant->ic)
                         ->get();
 
@@ -94,6 +95,10 @@ class AdvisorController extends Controller
                 ->update(['student_programs.status' => $status, 'student_programs.notes' => $notes]);
         }
 
+        $updateDates = DB::table('students')
+                    ->where('students.ic', $ic)
+                    ->update(['updated_at' => Carbon::now()]);
+
         $user = Auth::user();
 
         $ref = $user->referral_code;
@@ -115,19 +120,31 @@ class AdvisorController extends Controller
 
         foreach ($applicants as $applicant) {
 
+            $filePath = 'urproject/student/resultspm/' . $applicant->ic . '.jpg';
+            // $fileUrl = Storage::disk('linode')->url($filePath);
+
+            if (Storage::disk('linode')->exists($filePath)) {
+                // Generate the file URL
+                $fileUrl = Storage::disk('linode')->url($filePath);
+            } else {
+                // If the file doesn't exist, set $fileUrl to null or any other default value
+                $fileUrl = null; // You can customize this to any default value you prefer
+            }
+
             $programs = DB::table('student_programs')
                         ->join('program', 'student_programs.program_id', '=', 'program.id')
-                        ->select('student_programs.id', 'program.name', 'student_programs.status')
+                        ->select('student_programs.id', 'program.name', 'student_programs.status', 'student_programs.notes')
                         ->where('student_programs.student_ic', $applicant->ic)
                         ->get();
 
             $applicantsWithPrograms[] = [
                 'applicant' => $applicant,
-                'programs' => $programs
+                'programs' => $programs,
+                'file_url' => $fileUrl
             ];
 
         }
 
-        return view('advisor.application', ['applicantsWithPrograms' => $applicantsWithPrograms])->with('success', '.');
+        return view('advisor.application', ['applicantsWithPrograms' => $applicantsWithPrograms])->with('success', 'Status permohonan program pelajar berjaya dikemaskini.');
     }
 }

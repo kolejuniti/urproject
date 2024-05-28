@@ -59,6 +59,36 @@
                     </div>
                     <div class="row mb-2">
                         <div class="col-md-3 col-sm-3">
+                            <label for="">Alamat 1</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <input type="text" name="address1" id="address1" class="form-control form-control-sm" required>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-3 col-sm-3">
+                            <label for="">Alamat 2</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <input type="text" name="address2" id="address2" class="form-control form-control-sm" required>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-3 col-sm-3">
+                            <label for="">Poskod</label>
+                        </div>
+                        <div class="col-md-3 col-sm-3">
+                            <input type="text" name="postcode" id="postcode" class="form-control form-control-sm" required>
+                        </div>
+                        <div class="col-md-3 col-sm-3">
+                            <label for="">Bandar</label>
+                        </div>
+                        <div class="col-md-3 col-sm-3">
+                            <input type="text" name="city" id="city" class="form-control form-control-sm" required>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-3 col-sm-3">
                             <label for="">Negeri</label>
                         </div>
                         <div class="col-md-6 col-sm-6">
@@ -133,6 +163,9 @@
                         </div>
                         <div class="col-md-3 col-sm-3">
                             <input type="text" id="ref" name="referral_code" value="{{ old('ref', $ref) }}" class="form-control form-control-sm" @if($ref) readonly @endif>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <label for="">* Sila masukkan sekiranya anda mempunyai kod rujukan</label>
                         </div>
                     </div>
                 </div>

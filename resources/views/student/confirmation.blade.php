@@ -48,6 +48,36 @@
                     </div>
                     <div class="row mb-2">
                         <div class="col-md-3 col-sm-3">
+                            <label for="">Alamat 1</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <label for="name">{{ session('address1') }}</label>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-3 col-sm-3">
+                            <label for="">Alamat 2</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <label for="name">{{ session('address2') }}</label>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-3 col-sm-3">
+                            <label for="">Poskod</label>
+                        </div>
+                        <div class="col-md-3 col-sm-3">
+                            <label for="name">{{ session('postcode') }}</label>
+                        </div>
+                        <div class="col-md-3 col-sm-3">
+                            <label for="">Bandar</label>
+                        </div>
+                        <div class="col-md-3 col-sm-3">
+                            <label for="name">{{ session('city') }}</label>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-3 col-sm-3">
                             <label for="">Negeri</label>
                         </div>
                         <div class="col-md-9 col-sm-9">

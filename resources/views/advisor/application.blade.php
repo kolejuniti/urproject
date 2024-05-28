@@ -1,6 +1,7 @@
 @extends('layouts.advisor')
 
 @section('content')
+<link href="https://cdn.datatables.net/v/bs5/jq-3.7.0/dt-2.0.7/datatables.min.css" rel="stylesheet">
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
@@ -21,7 +22,7 @@
                         </div>
                     </div>
                     @endauth
-                    <table class="table table-bordered small table-sm text-center">
+                    <table id="myTable" class="table table-bordered small table-sm text-center">
                         <thead class="table-dark">
                             <tr>
                                 <th>#</th>
@@ -39,8 +40,8 @@
                                 <td>
                                     <button type="button" class="btn btn-sm btn-link" data-bs-toggle="modal" data-bs-target="#modal{{ $data['applicant']->ic }}">{{ $data['applicant']->name }}</button>
                                 </td>
-                                <td>{{ $data['applicant']->ic }}</td>
-                                <td>{{ $data['applicant']->phone }}</td>
+                                <td class="text-center">{{ $data['applicant']->ic }}</td>
+                                <td class="text-center">{{ $data['applicant']->phone }}</td>
                                 <td>{{ $data['applicant']->email }}</td>
                                 <td>{{ \Carbon\Carbon::parse($data['applicant']->created_at)->format('d-m-Y') }}</td>
                             </tr>
@@ -85,6 +86,36 @@
                                             </div>
                                             <div class="col-md-3 col-sm-3">
                                                 <label for="name">{{ $data['applicant']->email }}</label>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <div class="col-md-3 col-sm-3">
+                                                <label for="">Alamat 1</label>
+                                            </div>
+                                            <div class="col-md-9 col-sm-9">
+                                                <label for="name">{{ $data['applicant']->address1 }}</label>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <div class="col-md-3 col-sm-3">
+                                                <label for="">Alamat 2</label>
+                                            </div>
+                                            <div class="col-md-9 col-sm-9">
+                                                <label for="name">{{ $data['applicant']->address2 }}</label>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <div class="col-md-3 col-sm-3">
+                                                <label for="">Poskod</label>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3">
+                                                <label for="name">{{ $data['applicant']->postcode }}</label>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3">
+                                                <label for="">Bandar</label>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3">
+                                                <label for="name">{{ $data['applicant']->city }}</label>
                                             </div>
                                         </div>
                                         <div class="row mb-2">
@@ -156,25 +187,38 @@
                                             </div>
                                             <div class="col-md-3 col-sm-3">
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="programs[{{ $loop->iteration }}][status]" id="layak{{ $uniqueId }}" value="layak" onchange="toggleTextarea('{{ $uniqueId }}')" required />
+                                                    <input class="form-check-input" type="radio" name="programs[{{ $loop->iteration }}][status]" id="layak{{ $uniqueId }}" value="layak" onchange="toggleTextarea('{{ $uniqueId }}')" {{ $program->status === 'layak' ? 'checked' : '' }} required />
                                                     <label class="form-check-label" for="layak{{ $uniqueId }}">LAYAK</label>
                                                 </div>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="programs[{{ $loop->iteration }}][status]" id="tidaklayak{{ $uniqueId }}" value="tidak layak" onchange="toggleTextarea('{{ $uniqueId }}')" required />
+                                                    <input class="form-check-input" type="radio" name="programs[{{ $loop->iteration }}][status]" id="tidaklayak{{ $uniqueId }}" value="tidak layak" onchange="toggleTextarea('{{ $uniqueId }}')" {{ $program->status === 'tidak layak' ? 'checked' : '' }} required />
                                                     <label class="form-check-label" for="tidaklayak{{ $uniqueId }}">TIDAK LAYAK</label>
                                                 </div>
                                             </div>
                                         </div>
+                                        @if ($program->status === 'tidak layak')
+                                        <div>
+                                            <div class="row mb-2">
+                                                <div class="col-md-3 col-sm-3">
+                                                    <label for="notes{{ $uniqueId }}" >Catatan</label>
+                                                </div>
+                                                <div class="col-md-9 col-sm-9">
+                                                    <textarea name="programs[{{ $loop->iteration }}][notes]" id="notes{{ $uniqueId }}" rows="2" class="form-control form-control-sm">{{ $program->notes }}</textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @else
                                         <div id="notes-container{{ $uniqueId }}" style="display: none;">
                                             <div class="row mb-2">
                                                 <div class="col-md-3 col-sm-3">
-                                                    <label for="" >Catatan</label>
+                                                    <label for="notes{{ $uniqueId }}" >Catatan</label>
                                                 </div>
                                                 <div class="col-md-9 col-sm-9">
                                                     <textarea name="programs[{{ $loop->iteration }}][notes]" id="notes{{ $uniqueId }}" rows="2" class="form-control form-control-sm"></textarea>
                                                 </div>
                                             </div>
                                         </div>
+                                        @endif
                                         <input type="hidden" name="programs[{{ $loop->iteration }}][id]" value="{{ $program->id }}">
                                         @endforeach
                                     </div>
@@ -217,5 +261,25 @@
             console.error('Failed to copy text: ', err);
         });
     }
+</script>
+<script src="https://cdn.datatables.net/v/bs5/jq-3.7.0/dt-2.0.7/datatables.min.js"></script>
+<script>
+    $(document).ready(function() {
+        var t = $('#myTable').DataTable({
+            columnDefs: [
+                {
+                    targets: ['_all'],
+                    className: 'dt-head-center'
+                }
+            ]
+        });
+        t.on('order.dt search.dt', function () {
+            let i = 1;
+        
+            t.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
+                this.data(i++);
+            });
+        }).draw();
+    });
 </script>
 @endsection

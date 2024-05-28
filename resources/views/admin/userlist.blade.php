@@ -25,38 +25,34 @@
                                 <th>Jawatan</th>
                             </tr>
                         </thead>
-                        {{-- <tbody>
-                            @foreach ($applicantsWithPrograms as $data)
-                            @if ($data['applicant']->user_id !== null)
-                            <tr class="table-warning">
-                            @else
+                        <tbody>
+                            @foreach ($users as $user )
                             <tr>
-                            @endif
                                 <td>&nbsp;</td>
                                 <td>
-                                    <button type="button" class="btn btn-sm btn-link" data-bs-toggle="modal" data-bs-target="#modal{{ $data['applicant']->ic }}">{{ $data['applicant']->name }}</button>
+                                    <button type="button" class="btn btn-sm btn-link" data-bs-toggle="modal" data-bs-target="#modal{{ $user->ic }}">{{ $user->name }}</button>
                                 </td>
-                                <td>{{ $data['applicant']->ic }}</td>
-                                <td>{{ $data['applicant']->phone }}</td>
-                                <td>{{ $data['applicant']->email }}</td>
-                                <td>{{ \Carbon\Carbon::parse($data['applicant']->created_at)->format('d-m-Y') }}</td>
+                                <td class="text-center">{{ $user->ic }}</td>
+                                <td class="text-center">{{ $user->phone }}</td>
+                                <td>{{ $user->email }}</td>
+                                <td>{{ $user->position }}</td>
                             </tr>
-                            <div class="modal fade" id="modal{{ $data['applicant']->ic }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ $data['applicant']->ic }}" aria-hidden="true">
+                            <div class="modal fade" id="modal{{ $user->ic }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ $user->ic }}" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                     <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="modalLabel{{ $data['applicant']->ic }}"></h5>
+                                        <h5 class="modal-title" id="modalLabel{{ $user->ic }}"></h5>
                                     </div>
                                     <div class="modal-body small">
                                         <div class="col-md-12 col-sm-12 mb-3">
-                                            <label for="" class="fw-bold">Maklumat Pemohon</label>
+                                            <label for="" class="fw-bold">Maklumat Pengguna</label>
                                         </div>
                                         <div class="row mb-2">
                                             <div class="col-md-3 col-sm-3">
-                                                <label for="">Nama Penuh</label>
+                                                <label for="">Nama Pengguna</label>
                                             </div>
                                             <div class="col-md-9 col-sm-9">
-                                                <label for="name">{{ $data['applicant']->name }}</label>
+                                                <label for="name">{{ $user->name }}</label>
                                             </div>
                                         </div>
                                         <div class="row mb-2">
@@ -64,7 +60,7 @@
                                                 <label for="">No. Kad Pengenalan</label>
                                             </div>
                                             <div class="col-md-3 col-sm-3">
-                                                <label for="name">{{ $data['applicant']->ic }}</label>
+                                                <label for="name">{{ $user->ic }}</label>
                                             </div>
                                         </div>
                                         <div class="row mb-2">
@@ -72,110 +68,14 @@
                                                 <label for="">No. Telefon</label>
                                             </div>
                                             <div class="col-md-3 col-sm-3">
-                                                <label for="name">{{ $data['applicant']->phone }}</label>
+                                                <label for="name">{{ $user->phone }}</label>
                                             </div>
                                             <div class="col-md-3 col-sm-3">
                                                 <label for="">Email</label>
                                             </div>
                                             <div class="col-md-3 col-sm-3">
-                                                <label for="name">{{ $data['applicant']->email }}</label>
+                                                <label for="name">{{ $user->email }}</label>
                                             </div>
-                                        </div>
-                                        <div class="row mb-2">
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="">Negeri</label>
-                                            </div>
-                                            <div class="col-md-9 col-sm-9">
-                                                <label for="name">{{ $data['applicant']->state }}</label>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-2">
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="">Tahun SPM</label>
-                                            </div>
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="name">{{ $data['applicant']->spm_year }}</label>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-2">
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="">Tarikh Permohonan</label>
-                                            </div>
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="name">{{ \Carbon\Carbon::parse( $data['applicant']->created_at )->format('d-m-Y') }}</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12 col-sm-12 mb-3 mt-3">
-                                            <label for="" class="fw-bold">Program Yang Dipohon</label>
-                                        </div>
-                                        <div class="row mb-2">
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="">Lokasi</label>
-                                            </div>
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="name">{{ $data['applicant']->location }}</label>
-                                            </div>
-                                        </div>
-                                        @foreach ($data['programs'] as $program)
-                                        <div class="row mb-2">
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="">Program Pilihan {{ $loop->iteration }}</label>
-                                            </div>
-                                            <div class="col-md-9 col-sm-9">
-                                                <label for="name">{{ $program->name }}</label>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-2">
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="">Status</label>
-                                            </div>
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="name" class="text-uppercase">{{ $program->status }}</label>
-                                            </div>
-                                        </div>
-                                        @if ($program->status !== 'baru' && $program->status !== 'layak')
-                                        <div class="row mb-2">
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="">Catatan</label>
-                                            </div>
-                                            <div class="col-md-9 col-sm-9">
-                                                <textarea name="notes" id="notes" rows="2" class="form-control form-control-sm" disabled></textarea>
-                                            </div>
-                                        </div>
-                                        @endif
-                                        @endforeach
-                                        <form action="{{ route('admin.application.update', ['id' => $data['applicant']->id]) }}" method="POST">
-                                        @csrf
-                                        @method('PUT')   
-                                        <div class="mt-3">
-                                            <div class="col-sm-3 col-md-3">
-                                                <label for="" class="fw-bold">Pegawai Perhubungan</label>
-                                            </div>
-                                        </div>
-                                        <div class="row mt-3">
-                                            <div class="col-sm-3 col-md-3">
-                                                <label for="">Nama Pegawai</label>
-                                            </div>
-                                            @if ($data['applicant']->user_id == NULL)
-                                            <div class="col-sm-9 col-md-9">
-                                                <select name="pic" id="pic" class="form-control form-control-sm">
-                                                    <option value=""></option>
-                                                    @foreach ($users as $user )
-                                                        <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            @else
-                                            <div class="col-sm-9 col-md-9">
-                                                <select name="pic" id="pic" class="form-control form-control-sm">
-                                                    <option value="{{ $data['applicant']->user_id }}">{{ $data['applicant']->user }}</option>
-                                                    <option value="">TIADA PEGAWAI</option>
-                                                    @foreach ($users as $user )
-                                                        <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            @endif
                                         </div>
                                     </div>
                                     <div class="modal-footer">
@@ -187,7 +87,7 @@
                                 </div>
                             </div>
                             @endforeach
-                        </tbody> --}}
+                        </tbody>
                     </table>
                 </div>
             </div>

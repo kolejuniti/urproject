@@ -54,7 +54,7 @@ class UserController extends Controller
 
             $programs = DB::table('student_programs')
                         ->join('program', 'student_programs.program_id', '=', 'program.id')
-                        ->select('program.name', 'student_programs.status')
+                        ->select('program.name', 'student_programs.status', 'student_programs.notes')
                         ->where('student_programs.student_ic', $applicant->ic)
                         ->get();
 

@@ -95,6 +95,36 @@
                             </div>
                             <div class="row mb-2">
                                 <div class="col-md-3 col-sm-3">
+                                    <label for="">Alamat 1</label>
+                                </div>
+                                <div class="col-md-9 col-sm-9">
+                                    <label for="name">{{ $student->address1 }}</label>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-3 col-sm-3">
+                                    <label for="">Alamat 2</label>
+                                </div>
+                                <div class="col-md-9 col-sm-9">
+                                    <label for="name">{{ $student->address2 }}</label>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-3 col-sm-3">
+                                    <label for="">Poskod</label>
+                                </div>
+                                <div class="col-md-3 col-sm-3">
+                                    <label for="name">{{ $student->postcode }}</label>
+                                </div>
+                                <div class="col-md-3 col-sm-3">
+                                    <label for="">Bandar</label>
+                                </div>
+                                <div class="col-md-3 col-sm-3">
+                                    <label for="name">{{ $student->city }}</label>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-3 col-sm-3">
                                     <label for="">Negeri</label>
                                 </div>
                                 <div class="col-md-9 col-sm-9">
@@ -151,7 +181,8 @@
                                 <div class="col-md-3 col-sm-3">
                                     <label for="">Surat Tawaran</label>
                                 </div>
-                                <div class="col-md-9 col-sm-9">.....
+                                <div class="col-md-9 col-sm-9">
+                                    <a href="#" onclick="openOfferLetter(event, '{{ $student->ic }}')" target="_blank">Klik</a>
                                 </div>
                             </div>
                             @else
@@ -160,7 +191,7 @@
                                     <label for="">Catatan</label>
                                 </div>
                                 <div class="col-md-9 col-sm-9">
-                                    <textarea name="notes" id="notes" rows="2" class="form-control form-control-sm" disabled></textarea>
+                                    <textarea name="notes" id="notes" rows="2" class="form-control form-control-sm" disabled>{{ $program->notes }}</textarea>
                                 </div>
                             </div>
                             @endif
@@ -196,6 +227,17 @@
     </div>
 </div>
 <script>
+    function printCardBody() {
+        window.print();
+    }
+</script>
+<script>
+    function openOfferLetter(event, ic) {
+        event.preventDefault(); // Prevent the default link behavior
+        var url = "{{ route('student.offerletter') }}" + "?ic=" + encodeURIComponent(ic);
+        window.open(url, '_blank');
+    }
+
     function printCardBody() {
         window.print();
     }

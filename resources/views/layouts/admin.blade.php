@@ -134,6 +134,18 @@
                             </ul>
                             </div>
                         </li>
+                        <li class="mb-1">
+                            <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-Laporan" aria-expanded="false">
+                            Laporan
+                            </button>
+                            <div class="collapse" id="dashboard-Laporan">
+                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                <li>
+                                    <a href="#" class="btn btn-link">Laporan Pelajar</a>
+                                </li>
+                            </ul>
+                            </div>
+                        </li>
                         <li class="border-top my-3"></li>
                         <li class="mb-1">
                             <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
