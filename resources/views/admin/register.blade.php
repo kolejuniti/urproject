@@ -86,6 +86,18 @@
                     </div>
                     <div class="row mb-2">
                         <div class="col-md-3 col-sm-3">
+                            <label for="">Jawatan</label>
+                        </div>
+                        <div class="col-md-3 col-sm-3">
+                            <select name="position" id="position" class="form-control form-control-sm" required>
+                                <option value=""></option>
+                                <option value="MANAGER">MANAGER</option>
+                                <option value="EDUCATION ADVISOR">EDUCATION ADVISOR</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-3 col-sm-3">
                             <label for="">No. Akaun Bank</label>
                         </div>
                         <div class="col-md-3 col-sm-3">

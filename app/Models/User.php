@@ -25,6 +25,7 @@ class User extends Authenticatable
         'sex_id',
         'phone',
         'email',
+        'position',
         'bank_account',
         'password',
         'type',

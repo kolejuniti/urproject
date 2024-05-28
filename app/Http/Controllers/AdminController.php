@@ -93,6 +93,7 @@ class AdminController extends Controller
             'sex_id' => $data['sex'],
             'phone' => $data['phone'],
             'email' => $data['email'],
+            'position' => $data['position'],
             'bank_account' => $data['bank_account'],
             'type' => ('1'),
             'password' => Hash::make('12345678'),

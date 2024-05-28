@@ -103,7 +103,7 @@ class StudentController extends Controller
             $file = $request->file('file');
 
              // Upload file to Linode and set it as public
-            $filePath = 'urproject/resultspm/' . $ic . '.' . $file->getClientOriginalExtension();
+            $filePath = 'urproject/student/resultspm/' . $ic . '.' . $file->getClientOriginalExtension();
 
             // Get the file URL from Linode
             $fileUrl = Storage::disk('linode')->url($filePath);

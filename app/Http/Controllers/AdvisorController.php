@@ -51,7 +51,7 @@ class AdvisorController extends Controller
 
         foreach ($applicants as $applicant) {
 
-            $filePath = 'urproject/resultspm/' . $applicant->ic . '.jpg';
+            $filePath = 'urproject/student/resultspm/' . $applicant->ic . '.jpg';
             // $fileUrl = Storage::disk('linode')->url($filePath);
 
             if (Storage::disk('linode')->exists($filePath)) {
