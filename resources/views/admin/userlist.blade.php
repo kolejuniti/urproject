@@ -11,7 +11,7 @@
                 </div>
             @endif
             <div class="card">
-                <div class="card-header">{{ __('Senarai Permohonan')}}</div>
+                <div class="card-header">{{ __('Senarai Pengguna')}}</div>
 
                 <div class="card-body">
                     <table id="myTable" class="table table-bordered small table-sm text-center">

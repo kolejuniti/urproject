@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use App\Models\User;
+use Carbon\Carbon;
 
 class StudentController extends Controller
 {
@@ -38,7 +39,11 @@ class StudentController extends Controller
 
         $user = User::where('referral_code', 'LIKE', $referral_code)->first();
 
-        $ref = $user ? $user : null;
+        if ($user !== null) {
+            $ref = $user->referral_code;
+        } else {
+            $ref = null;
+        }
 
         $ic = $request->input('ic');
         $students = DB::table('students')
@@ -61,18 +66,18 @@ class StudentController extends Controller
             $programA = $request->input('programA');
             $programB = $request->input('programB');
 
+            $userID = null;
+            $update = null;
+
             if ($referral_code !== null) {
                 $user = User::where('referral_code', $referral_code)
-                        ->where('type', 1)
-                        ->first();
-                
+                            ->where('type', 1)
+                            ->first();
+
                 if ($user) {
                     $userID = $user->id;
-                } else {
-                    $userID = null;
+                    $update = date('Y-m-d H:i:s');
                 }
-            } else {
-                $userID = null;
             }
 
             DB::table('students')->insert([
@@ -88,7 +93,8 @@ class StudentController extends Controller
                 'spm_year'=>$year,
                 'location_id'=>$location,
                 'referral_code'=>$ref,
-                'user_id'=>$userID
+                'user_id'=>$userID,
+                'updated_at'=> $update
             ]);
 
             $student = DB::table('students')->where('ic', $ic)->first();

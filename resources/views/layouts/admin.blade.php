@@ -141,7 +141,7 @@
                             <div class="collapse" id="dashboard-Laporan">
                             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                                 <li>
-                                    <a href="#" class="btn btn-link">Laporan Pelajar</a>
+                                    <a href="{{ route('admin.studentlist') }}" class="btn btn-link">Laporan Pelajar</a>
                                 </li>
                             </ul>
                             </div>

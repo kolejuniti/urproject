@@ -193,4 +193,34 @@ class AdminController extends Controller
 
         return view('admin.userlist', compact('users'));
     }
+
+    public function studentlist()
+    {
+        $students = DB::table('students')
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+        
+        $affiliates = [];
+        
+        $advisors = [];
+
+        foreach ($students as $student) {
+            // Find the affiliate(s) associated with the current student's referral code
+            $affiliate = User::where('referral_code', $student->referral_code)
+                        ->whereIn('type', [0,1])
+                        ->get();
+        
+            // Store the affiliate(s) in the $affiliates array, using student ID as key
+            $affiliates[$student->id] = $affiliate;
+
+            $advisor = User::where('id', $student->user_id)
+                        ->whereIn('type', [1])
+                        ->get();
+        
+            // Store the affiliate(s) in the $affiliates array, using student ID as key
+            $advisors[$student->id] = $advisor;
+        }
+
+        return view('admin.studentlist', compact('students', 'affiliates', 'advisors'));
+    }
 }

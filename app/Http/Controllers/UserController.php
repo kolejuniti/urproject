@@ -45,7 +45,7 @@ class UserController extends Controller
                     ->join('location', 'students.location_id', '=', 'location.id')
                     ->select('students.*', 'state.name AS state', 'users.name AS user', 'users.phone AS user_phone', 'location.name AS location')
                     ->where('students.referral_code', $ref)
-                    ->orderBy('students.name', 'asc')
+                    ->orderBy('students.created_at', 'desc')
                     ->get();
 
         $applicantsWithPrograms = [];

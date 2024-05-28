@@ -45,7 +45,7 @@ class AdvisorController extends Controller
                     $query->where('students.referral_code', $ref)
                           ->orWhere('students.user_id', $id);
                 })
-                ->orderBy('students.name', 'asc')
+                ->orderBy('students.created_at', 'desc')
                 ->get();
 
         $applicantsWithPrograms = [];
@@ -113,7 +113,7 @@ class AdvisorController extends Controller
                     $query->where('students.referral_code', $ref)
                           ->orWhere('students.user_id', $id);
                 })
-                ->orderBy('students.name', 'asc')
+                ->orderBy('students.created_at', 'desc')
                 ->get();
 
         $applicantsWithPrograms = [];
