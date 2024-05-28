@@ -117,7 +117,7 @@
                                     <a href="{{ route('admin.register') }}" class="btn btn-link">Daftar Pengguna</a>
                                 </li>
                                 <li>
-                                    <a href="#" class="btn btn-link">Senarai Pengguna</a>
+                                    <a href="{{ route('admin.userlist') }}" class="btn btn-link">Senarai Pengguna</a>
                                 </li>
                             </ul>
                             </div>

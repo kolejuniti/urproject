@@ -186,4 +186,9 @@ class AdminController extends Controller
 
         return view('admin.application', ['applicantsWithPrograms' => $applicantsWithPrograms, 'users' => $users])->with('success', 'Agihan pegawai perhubungan kepada pelajar telah berjaya.');
     }
+
+    public function userlist()
+    {
+        return view('admin.userlist');
+    }
 }

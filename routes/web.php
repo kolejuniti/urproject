@@ -25,6 +25,7 @@ Route::middleware(['auth', 'user-access:admin'])->group(function() {
     Route::post('/admin/register', [AdminController::class, 'register']);
     Route::get('/admin/application', [AdminController::class, 'applications'])->name('admin.application');
     Route::put('/admin/application/{id}', [AdminController::class, 'update'])->name('admin.application.update');
+    Route::get('/admin/userlist', [AdminController::class, 'userlist'])->name('admin.userlist');
 });
 
 // advisor route
