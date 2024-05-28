@@ -34,6 +34,12 @@ class StudentController extends Controller
             'file' => 'required|file|mimes:jpg,png,pdf|max:10240', // max 10MB
         ]);
 
+        $referral_code = $request->input('referral_code');
+
+        $user = User::where('referral_code', 'LIKE', $referral_code)->first();
+
+        $ref = $user ? $user : null;
+
         $ic = $request->input('ic');
         $students = DB::table('students')
                     ->where('ic', $ic)
@@ -52,7 +58,6 @@ class StudentController extends Controller
             $state = $request->input('state');
             $year = $request->input('year');
             $location = $request->input('location');
-            $referral_code = $request->input('referral_code');
             $programA = $request->input('programA');
             $programB = $request->input('programB');
 
@@ -82,7 +87,7 @@ class StudentController extends Controller
                 'state_id'=>$state,
                 'spm_year'=>$year,
                 'location_id'=>$location,
-                'referral_code'=>$referral_code,
+                'referral_code'=>$ref,
                 'user_id'=>$userID
             ]);
 
