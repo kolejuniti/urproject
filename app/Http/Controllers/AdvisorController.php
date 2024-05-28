@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
-class ManagerController extends Controller
+class AdvisorController extends Controller
 {
     /**
     * Create a new controller instance.
@@ -25,13 +26,12 @@ class ManagerController extends Controller
      */
      public function dashboard()
     {
-        return view('manager.dashboard');
+        return view('advisor.dashboard');
     }
 
     public function applications()
     {
         $user = Auth::user();
-
         $ref = $user->referral_code;
         $id = $user->id;
 
@@ -51,6 +51,17 @@ class ManagerController extends Controller
 
         foreach ($applicants as $applicant) {
 
+            $filePath = 'urproject/resultspm/' . $applicant->ic . '.jpg';
+            // $fileUrl = Storage::disk('linode')->url($filePath);
+
+            if (Storage::disk('linode')->exists($filePath)) {
+                // Generate the file URL
+                $fileUrl = Storage::disk('linode')->url($filePath);
+            } else {
+                // If the file doesn't exist, set $fileUrl to null or any other default value
+                $fileUrl = null; // You can customize this to any default value you prefer
+            }
+
             $programs = DB::table('student_programs')
                         ->join('program', 'student_programs.program_id', '=', 'program.id')
                         ->select('student_programs.id', 'program.name', 'student_programs.status')
@@ -59,12 +70,13 @@ class ManagerController extends Controller
 
             $applicantsWithPrograms[] = [
                 'applicant' => $applicant,
-                'programs' => $programs
+                'programs' => $programs,
+                'file_url' => $fileUrl
             ];
 
         }
 
-        return view('manager.application', ['applicantsWithPrograms' => $applicantsWithPrograms]);
+        return view('advisor.application', ['applicantsWithPrograms' => $applicantsWithPrograms]);
     }
 
     public function update(Request $request, $ic)
@@ -116,6 +128,6 @@ class ManagerController extends Controller
 
         }
 
-        return view('manager.application', ['applicantsWithPrograms' => $applicantsWithPrograms])->with('success', '.');
+        return view('advisor.application', ['applicantsWithPrograms' => $applicantsWithPrograms])->with('success', '.');
     }
 }

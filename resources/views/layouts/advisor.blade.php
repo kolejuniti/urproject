@@ -20,7 +20,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ route('manager.dashboard') }}">
+                <a class="navbar-brand" href="{{ route('advisor.dashboard') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -107,7 +107,7 @@
                         </label>
                         <ul class="list-unstyled ps-0">
                         <li class="mb-1">
-                            <a href="{{ route('manager.dashboard') }}" class="btn btn-toggle align-items-center rounded collapsed" aria-expanded="true">Home</a>
+                            <a href="{{ route('advisor.dashboard') }}" class="btn btn-toggle align-items-center rounded collapsed" aria-expanded="true">Home</a>
                         </li>
                         <li class="mb-1">
                             <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
@@ -116,7 +116,7 @@
                             <div class="collapse" id="dashboard-collapse">
                             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                                 <li>
-                                    <a href="{{ route('manager.application') }}" class="btn btn-link">Senarai Permohonan</a>
+                                    <a href="{{ route('advisor.application') }}" class="btn btn-link">Senarai Permohonan</a>
                                 </li>
                             </ul>
                             </div>

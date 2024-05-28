@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\ManagerController;
+use App\Http\Controllers\AdvisorController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\RegisterController;
 
@@ -27,11 +27,11 @@ Route::middleware(['auth', 'user-access:admin'])->group(function() {
     Route::put('/admin/application/{id}', [AdminController::class, 'update'])->name('admin.application.update');
 });
 
-// manager route
-Route::middleware(['auth', 'user-access:manager'])->group(function() {
-    Route::get('/manager/dashboard', [ManagerController::class, 'dashboard'])->name('manager.dashboard');
-    Route::get('/manager/application', [ManagerController::class, 'applications'])->name('manager.application');
-    Route::put('/manager/application/{ic}', [ManagerController::class, 'update'])->name('manager.application.update');
+// advisor route
+Route::middleware(['auth', 'user-access:advisor'])->group(function() {
+    Route::get('/advisor/dashboard', [AdvisorController::class, 'dashboard'])->name('advisor.dashboard');
+    Route::get('/advisor/application', [AdvisorController::class, 'applications'])->name('advisor.application');
+    Route::put('/advisor/application/{ic}', [AdvisorController::class, 'update'])->name('advisor.application.update');
 });
 
 // user route

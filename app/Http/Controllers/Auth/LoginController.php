@@ -52,9 +52,9 @@ class LoginController extends Controller
             {
                 return redirect()->route('admin.dashboard');
             }
-            else if(auth()->user()->type == 'manager')
+            else if(auth()->user()->type == 'advisor')
             {
-                return redirect()->route('manager.dashboard');
+                return redirect()->route('advisor.dashboard');
             } 
             else 
             {

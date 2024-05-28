@@ -1,4 +1,4 @@
-@extends('layouts.manager')
+@extends('layouts.advisor')
 
 @section('content')
 <div class="container">
@@ -50,7 +50,7 @@
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="modalLabel{{ $data['applicant']->ic }}"></h5>
                                     </div>
-                                    <form action="{{ route('manager.application.update', ['ic' => $data['applicant']->ic]) }}" method="POST">
+                                    <form action="{{ route('advisor.application.update', ['ic' => $data['applicant']->ic]) }}" method="POST">
                                         @csrf
                                         @method('PUT')   
                                     <div class="modal-body small">
@@ -109,6 +109,22 @@
                                             </div>
                                             <div class="col-md-3 col-sm-3">
                                                 <label for="name">{{ \Carbon\Carbon::parse( $data['applicant']->created_at )->format('d-m-Y') }}</label>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <div class="col-md-12 col-sm-12">
+                                                <a class="btn btn-sm btn-warning" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">Keputusan SPM</a>
+                                            </div>
+                                        </div>
+                                        <div class="mb-2">
+                                            <div class="collapse" id="collapseExample">
+                                                <div class="card card-body">
+                                                    @if ($data['file_url'])
+                                                        <img src="{{ $data['file_url'] }}" alt="Keputusan SPM" class="img-fluid">
+                                                    @else
+                                                        <label for="">Tiada keputusan peperiksaan SPM</label>
+                                                    @endif
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-md-12 col-sm-12 mb-3 mt-3">
