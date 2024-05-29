@@ -98,7 +98,7 @@
         </nav>
 
         <main class="py-0" style="overflow-y:auto;">
-            <img src="https://uniti.edu.my/wp-content/uploads/2024/05/banner-web-kupd-jom-masuk-uniti-1.jpg" alt="" style="width: 100%; height: 100%;">
+            @yield('content')
         </main>
     </div>
 </body>
