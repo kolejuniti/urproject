@@ -37,7 +37,7 @@
                     <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->
                         @guest
-                            <li class="nav-item dropdown">
+                            {{-- <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{__('Pelajar')}}
                                 </a>
@@ -50,17 +50,15 @@
                                         {{__('Semakan')}}
                                     </a>
                                 </div>
-                            </li>
+                            </li> --}}
                             <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{__('Affiliates UNITI')}}
-                                </a>
+                                <a href="{{ route('about') }}" class="nav-link">{{__('Affiliate UNITI')}}</a>
 
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                {{-- <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('register') }}">
                                         {{__('Pendaftaran')}}
                                     </a>
-                                </div>
+                                </div> --}}
                             </li>
 
                             @if (Route::has('login'))
@@ -98,41 +96,9 @@
             </div>
         </nav>
 
-        <main class="py-4" style="max-height: 80vh; overflow-y: auto;">
+        <main class="py-4" style="max-height: 90vh; overflow-y: auto;">
             @yield('content')
         </main>
     </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('#location').change(function() {
-                var locationId = $(this).val();
-
-                // Clear the program dropdown
-                $('#programA').empty().append('<option value="">Pilih Program</option>');
-                $('#programB').empty().append('<option value="">Pilih Program</option>');
-
-                if (locationId) {
-                    // Send an AJAX request to get the programs for the selected location
-                    $.ajax({
-                        url: '/student/location/' + locationId, // Adjust the URL according to your route
-                        type: 'GET',
-                        success: function(data) {
-                            // Populate the program dropdown with the received data
-                            $.each(data, function(key, value) {
-                                $('#programA').append('<option value="' + value.id + '">' + value.name + '</option>');
-                            });
-                            $.each(data, function(key, value) {
-                                $('#programB').append('<option value="' + value.id + '">' + value.name + '</option>');
-                            });
-                        },
-                        error: function(xhr, status, error) {
-                            console.log('An error occurred while fetching programs:', error);
-                        }
-                    });
-                }
-            });
-        });
-    </script>    
 </body>
 </html>

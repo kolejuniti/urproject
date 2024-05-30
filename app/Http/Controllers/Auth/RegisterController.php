@@ -59,6 +59,11 @@ class RegisterController extends Controller
         ]);
     }
 
+    public function about()
+    {
+        return view('auth.about');
+    }
+
     public function showRegistrationForm()
     {
         $religions = DB::table('religion')->get();

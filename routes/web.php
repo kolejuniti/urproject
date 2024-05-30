@@ -14,9 +14,11 @@ Route::get('/', function () {
 Auth::routes();
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
-Route::post('register', [RegisterController::class, 'register']);
+Route::prefix('affiliate')->group(function() {
+    Route::get('/', [RegisterController::class, 'about'])->name('about');
+    Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+    Route::post('/register', [RegisterController::class, 'register']);
+});
 
 // admin route
 Route::middleware(['auth', 'user-access:admin'])->group(function() {
@@ -50,4 +52,5 @@ Route::prefix('student')->group(function() {
     Route::get('/search', [App\Http\Controllers\StudentController::class, 'search'])->name('student.search');
     Route::get('/location/{id}', [App\Http\Controllers\StudentController::class, 'location']);
     Route::get('/offerletter', [App\Http\Controllers\StudentController::class, 'offerletter'])->name('student.offerletter');
+    Route::get('/about', [App\Http\Controllers\StudentController::class, 'about'])->name('student.about');
 });

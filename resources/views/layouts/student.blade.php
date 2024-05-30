@@ -10,19 +10,11 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+    <link rel="dns-prefetch" href="//fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
-
-    <style>
-        body {
-            background-image: url("https://uniti.edu.my/wp-content/uploads/2024/05/banner-web-kupd-jom-masuk-uniti-1.jpg");
-            background-size: cover; /* Adjust the size to cover the entire container */
-            background-repeat: no-repeat; /* Prevent the image from repeating */
-        }
-    </style>
 </head>
 <body>
     <div id="app">
@@ -45,7 +37,7 @@
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item dropdown">
-                                <a href="{{ route('student.about') }}" class="btn btn-success">Jom Masuk UNITI!</a>
+                                <a href="{{ route('student.about', ['ref' => old('ref', $ref)]) }}" class="btn btn-success">Jom Masuk UNITI!</a>
 
                                 {{-- <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{__('Pelajar')}}
@@ -107,7 +99,7 @@
             </div>
         </nav>
 
-        <main class="py-4" style="max-height: 80vh; overflow-y: auto;">
+        <main class="py-4" style="max-height: 90vh; overflow-y: auto;">
             @yield('content')
         </main>
     </div>

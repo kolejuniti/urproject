@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.student')
 
 @section('content')
 <div class="container">
@@ -157,6 +157,7 @@
                             <input type="file" class="form-control form-control-sm" name="file" id="file" required>
                         </div>
                     </div>
+                    @if ($ref !== null)
                     <div class="row mb-2">
                         <div class="col-md-3 col-sm-3">
                             <label for="">Kod Rujukan</label>
@@ -164,14 +165,11 @@
                         <div class="col-md-3 col-sm-3">
                             <input type="text" id="ref" name="referral_code" value="{{ old('ref', $ref) }}" class="form-control form-control-sm" @if($ref) readonly @endif>
                         </div>
-                        <div class="col-md-6 col-sm-6">
-                            <label for="">* Sila masukkan sekiranya anda mempunyai kod rujukan</label>
-                        </div>
                     </div>
+                    @endif
                 </div>
                 <div class="card-footer">
                     <div class="col-sm-12 text-center">
-                        {{-- <input type="hidden" name="referral_code" value="{{ $referral_code }}"> --}}
                         <button class="btn btn-primary" type="submit">Daftar</button>
                     </div>
                 </div>
@@ -180,4 +178,36 @@
         </div>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#location').change(function() {
+            var locationId = $(this).val();
+
+            // Clear the program dropdown
+            $('#programA').empty().append('<option value="">Pilih Program</option>');
+            $('#programB').empty().append('<option value="">Pilih Program</option>');
+
+            if (locationId) {
+                // Send an AJAX request to get the programs for the selected location
+                $.ajax({
+                    url: '/student/location/' + locationId, // Adjust the URL according to your route
+                    type: 'GET',
+                    success: function(data) {
+                        // Populate the program dropdown with the received data
+                        $.each(data, function(key, value) {
+                            $('#programA').append('<option value="' + value.id + '">' + value.name + '</option>');
+                        });
+                        $.each(data, function(key, value) {
+                            $('#programB').append('<option value="' + value.id + '">' + value.name + '</option>');
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.log('An error occurred while fetching programs:', error);
+                    }
+                });
+            }
+        });
+    });
+</script>  
 @endsection

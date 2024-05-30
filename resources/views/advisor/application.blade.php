@@ -16,7 +16,7 @@
                 <div class="card-body">
                     @auth
                     <div class="input-group mb-3">
-                        <input type="text" id="referral_url" name="url" class="form-control" value="{{ route('student.register', ['ref' => Auth::user()->referral_code]) }}" readonly>
+                        <input type="text" id="referral_url" name="url" class="form-control" value="{{ route('student.about', ['ref' => Auth::user()->referral_code]) }}" readonly>
                         <div class="input-group-prepend">
                             <button class="btn btn-outline-secondary" type="button" onclick="copyToClipboard()"><i class="bi bi-clipboard"></i></button>
                         </div>

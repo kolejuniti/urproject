@@ -166,6 +166,7 @@ class StudentController extends Controller
 
     public function search(Request $request)
     {
+        $ref = $request->query('ref');
         $ic = $request->input('ic');
         
         $students = DB::table('students')
@@ -182,7 +183,7 @@ class StudentController extends Controller
                             ->where('student_programs.student_ic', 'LIKE', "{$ic}")
                             ->get();
 
-        return view('student.search', compact('students', 'ic', 'studentPrograms'));
+        return view('student.search', compact('ref', 'students', 'ic', 'studentPrograms'));
     }
 
     public function offerletter(Request $request)
@@ -194,5 +195,12 @@ class StudentController extends Controller
                     ->get();
 
         return view('student.offerletter', compact('students'));
+    }
+
+    public function about(Request $request)
+    {
+        $ref = $request->query('ref');
+
+        return view('student.about', compact('ref'));
     }
 }

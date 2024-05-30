@@ -11,7 +11,7 @@
                 <div class="card-body">
                     @auth
                     <div class="input-group mb-3">
-                        <input type="text" id="referral_url" name="url" class="form-control" value="{{ route('student.register', ['ref' => Auth::user()->referral_code]) }}" readonly>
+                        <input type="text" id="referral_url" name="url" class="form-control" value="{{ route('student.about', ['ref' => Auth::user()->referral_code]) }}" readonly>
                         <div class="input-group-prepend">
                             <button class="btn btn-outline-secondary" type="button" onclick="copyToClipboard()"><i class="bi bi-clipboard"></i></button>
                         </div>
@@ -22,10 +22,11 @@
                             <tr>
                                 <th>#</th>
                                 <th>Nama Pemohon</th>
-                                <th>No. Kad Pengenalan</th>
-                                <th>No. Telefon</th>
-                                <th>Email</th>
                                 <th>Tarikh Permohonan</th>
+                                <th>Status</th>
+                                <th>Tarikh Pendaftaran</th>
+                                <th>Tarikh Komisen</th>
+                                <th>Amaun Komisen</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -39,16 +40,17 @@
                                 <td>
                                     <button type="button" class="btn btn-sm btn-link" data-bs-toggle="modal" data-bs-target="#modal{{ $data['applicant']->ic }}">{{ $data['applicant']->name }}</button>
                                 </td>
-                                <td class="text-center">{{ $data['applicant']->ic }}</td>
-                                <td class="text-center">{{ $data['applicant']->phone }}</td>
-                                <td>{{ $data['applicant']->email }}</td>
                                 <td>{{ \Carbon\Carbon::parse($data['applicant']->created_at)->format('d-m-Y') }}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                             </tr>
                             <div class="modal fade" id="modal{{ $data['applicant']->ic }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ $data['applicant']->ic }}" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                     <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="modalLabel{{ $data['applicant']->ic }}">Senarai Program</h5>
+                                        <h5 class="modal-title" id="modalLabel{{ $data['applicant']->ic }}"></h5>
                                     </div>
                                     <div class="modal-body small">
                                         <div class="col-md-12 col-sm-12 mb-3">
@@ -60,74 +62,6 @@
                                             </div>
                                             <div class="col-md-9 col-sm-9">
                                                 <label for="name">{{ $data['applicant']->name }}</label>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-2">
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="">No. Kad Pengenalan</label>
-                                            </div>
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="name">{{ $data['applicant']->ic }}</label>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-2">
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="">No. Telefon</label>
-                                            </div>
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="name">{{ $data['applicant']->phone }}</label>
-                                            </div>
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="">Email</label>
-                                            </div>
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="name">{{ $data['applicant']->email }}</label>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-2">
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="">Alamat 1</label>
-                                            </div>
-                                            <div class="col-md-9 col-sm-9">
-                                                <label for="name">{{ $data['applicant']->address1 }}</label>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-2">
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="">Alamat 2</label>
-                                            </div>
-                                            <div class="col-md-9 col-sm-9">
-                                                <label for="name">{{ $data['applicant']->address2 }}</label>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-2">
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="">Poskod</label>
-                                            </div>
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="name">{{ $data['applicant']->postcode }}</label>
-                                            </div>
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="">Bandar</label>
-                                            </div>
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="name">{{ $data['applicant']->city }}</label>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-2">
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="">Negeri</label>
-                                            </div>
-                                            <div class="col-md-9 col-sm-9">
-                                                <label for="name">{{ $data['applicant']->state }}</label>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-2">
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="">Tahun SPM</label>
-                                            </div>
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="name">{{ $data['applicant']->spm_year }}</label>
                                             </div>
                                         </div>
                                         <div class="row mb-2">
@@ -158,7 +92,7 @@
                                                 <label for="name">{{ $program->name }}</label>
                                             </div>
                                         </div>
-                                        <div class="row mb-2">
+                                        {{-- <div class="row mb-2">
                                             <div class="col-md-3 col-sm-3">
                                                 <label for="">Status</label>
                                             </div>
@@ -175,7 +109,7 @@
                                                 <textarea name="notes" id="notes" rows="2" class="form-control form-control-sm text-uppercase" disabled>{{ $program->notes }}</textarea>
                                             </div>
                                         </div>
-                                        @endif
+                                        @endif --}}
                                         @endforeach
                                         <div class="col-md-12 col-sm-12 mb-3">
                                             <label for="" class="fw-bold">Pegawai Perhubungan</label>
