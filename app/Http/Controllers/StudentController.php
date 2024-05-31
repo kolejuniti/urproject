@@ -165,7 +165,7 @@ class StudentController extends Controller
             return redirect()->route('student.register')->with('msg_error', 'Tiada data pelajar. Sila daftar terlebih dahulu.');
         }
 
-        return view('student.confirmation');
+        return view('student.confirmation', compact('ref'));
     }
 
     public function search(Request $request)
@@ -199,7 +199,7 @@ class StudentController extends Controller
                     ->where('students.ic', 'LIKE', "{$ic}")
                     ->get();
 
-        return view('student.offerletter', compact('students'));
+        return view('student.offerletter', compact('ref','students'));
     }
 
     public function about(Request $request)
