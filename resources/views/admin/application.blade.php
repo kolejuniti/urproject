@@ -14,7 +14,8 @@
                 <div class="card-header">{{ __('Senarai Permohonan')}}</div>
 
                 <div class="card-body">
-                    <table id="myTable" class="table table-bordered small table-sm text-center">
+                    <div class="table-responsive">
+                        <table id="myTable" class="table table-bordered small table-sm text-center">
                         <thead class="table-dark">
                             <tr>
                                 <th>#</th>
@@ -218,7 +219,8 @@
                             </div>
                             @endforeach
                         </tbody>
-                    </table>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

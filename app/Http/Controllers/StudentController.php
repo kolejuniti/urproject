@@ -157,6 +157,8 @@ class StudentController extends Controller
 
     public function confirmation(Request $request)
     {
+        $ref = $request->query('ref');
+        
         if (!$request->session()->has('ic')) {
             return redirect()->route('student.register')->with('msg_error', 'Tiada data pelajar. Sila daftar terlebih dahulu.');
         }
@@ -188,6 +190,7 @@ class StudentController extends Controller
 
     public function offerletter(Request $request)
     {
+        $ref = $request->query('ref');
         $ic = $request->input('ic');
 
         $students = DB::table('students')

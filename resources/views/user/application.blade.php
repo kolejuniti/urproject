@@ -17,129 +17,131 @@
                         </div>
                     </div>
                     @endauth
-                    <table id="myTable" class="table table-bordered small table-sm text-center">
-                        <thead class="table-dark">
-                            <tr>
-                                <th>#</th>
-                                <th>Nama Pemohon</th>
-                                <th>Tarikh Permohonan</th>
-                                <th>Status</th>
-                                <th>Tarikh Pendaftaran</th>
-                                <th>Tarikh Komisen</th>
-                                <th>Amaun Komisen</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($applicantsWithPrograms as $data)
-                            @if ($data['applicant']->user_id !== null)
-                            <tr class="table-warning">
-                            @else
-                            <tr>
-                            @endif
-                                <td>&nbsp;</td>
-                                <td>
-                                    <button type="button" class="btn btn-sm btn-link" data-bs-toggle="modal" data-bs-target="#modal{{ $data['applicant']->ic }}">{{ $data['applicant']->name }}</button>
-                                </td>
-                                <td>{{ \Carbon\Carbon::parse($data['applicant']->created_at)->format('d-m-Y') }}</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <div class="modal fade" id="modal{{ $data['applicant']->ic }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ $data['applicant']->ic }}" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                                    <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="modalLabel{{ $data['applicant']->ic }}"></h5>
-                                    </div>
-                                    <div class="modal-body small">
-                                        <div class="col-md-12 col-sm-12 mb-3">
-                                            <label for="" class="fw-bold">Maklumat Pemohon</label>
+                    <div class="table-responsive">
+                        <table id="myTable" class="table table-bordered small table-sm text-center">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Nama Pemohon</th>
+                                    <th>Tarikh Permohonan</th>
+                                    <th>Status</th>
+                                    <th>Tarikh Pendaftaran</th>
+                                    <th>Tarikh Komisen</th>
+                                    <th>Amaun Komisen</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($applicantsWithPrograms as $data)
+                                @if ($data['applicant']->user_id !== null)
+                                <tr class="table-warning">
+                                @else
+                                <tr>
+                                @endif
+                                    <td>&nbsp;</td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-link" data-bs-toggle="modal" data-bs-target="#modal{{ $data['applicant']->ic }}">{{ $data['applicant']->name }}</button>
+                                    </td>
+                                    <td>{{ \Carbon\Carbon::parse($data['applicant']->created_at)->format('d-m-Y') }}</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <div class="modal fade" id="modal{{ $data['applicant']->ic }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ $data['applicant']->ic }}" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                        <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="modalLabel{{ $data['applicant']->ic }}"></h5>
                                         </div>
-                                        <div class="row mb-2">
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="">Nama Penuh</label>
+                                        <div class="modal-body small">
+                                            <div class="col-md-12 col-sm-12 mb-3">
+                                                <label for="" class="fw-bold">Maklumat Pemohon</label>
                                             </div>
-                                            <div class="col-md-9 col-sm-9">
-                                                <label for="name">{{ $data['applicant']->name }}</label>
+                                            <div class="row mb-2">
+                                                <div class="col-md-3 col-sm-3">
+                                                    <label for="">Nama Penuh</label>
+                                                </div>
+                                                <div class="col-md-9 col-sm-9">
+                                                    <label for="name">{{ $data['applicant']->name }}</label>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-2">
+                                                <div class="col-md-3 col-sm-3">
+                                                    <label for="">Tarikh Permohonan</label>
+                                                </div>
+                                                <div class="col-md-3 col-sm-3">
+                                                    <label for="name">{{ \Carbon\Carbon::parse( $data['applicant']->created_at )->format('d-m-Y') }}</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-sm-12 mb-3 mt-3">
+                                                <label for="" class="fw-bold">Program Yang Dipohon</label>
+                                            </div>
+                                            <div class="row mb-2">
+                                                <div class="col-md-3 col-sm-3">
+                                                    <label for="">Lokasi</label>
+                                                </div>
+                                                <div class="col-md-3 col-sm-3">
+                                                    <label for="name">{{ $data['applicant']->location }}</label>
+                                                </div>
+                                            </div>
+                                            @foreach ($data['programs'] as $program)
+                                            <div class="row mb-2">
+                                                <div class="col-md-3 col-sm-3">
+                                                    <label for="">Program Pilihan {{ $loop->iteration }}</label>
+                                                </div>
+                                                <div class="col-md-9 col-sm-9">
+                                                    <label for="name">{{ $program->name }}</label>
+                                                </div>
+                                            </div>
+                                            {{-- <div class="row mb-2">
+                                                <div class="col-md-3 col-sm-3">
+                                                    <label for="">Status</label>
+                                                </div>
+                                                <div class="col-md-3 col-sm-3">
+                                                    <label for="name" class="text-uppercase">{{ $program->status }}</label>
+                                                </div>
+                                            </div>
+                                            @if ($program->status !== 'baru' && $program->status !== 'layak')
+                                            <div class="row mb-2">
+                                                <div class="col-md-3 col-sm-3">
+                                                    <label for="">Catatan</label>
+                                                </div>
+                                                <div class="col-md-9 col-sm-9">
+                                                    <textarea name="notes" id="notes" rows="2" class="form-control form-control-sm text-uppercase" disabled>{{ $program->notes }}</textarea>
+                                                </div>
+                                            </div>
+                                            @endif --}}
+                                            @endforeach
+                                            <div class="col-md-12 col-sm-12 mb-3">
+                                                <label for="" class="fw-bold">Pegawai Perhubungan</label>
+                                            </div>
+                                            <div class="row mb-2">
+                                                <div class="col-md-3 col-sm-3">
+                                                    <label for="">Nama Pegawai</label>
+                                                </div>
+                                                <div class="col-md-9 col-sm-9">
+                                                    <label for="">{{ $data['applicant']->user }}</label>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-2">
+                                                <div class="col-md-3 col-sm-3">
+                                                    <label for="">No. Telefon</label>
+                                                </div>
+                                                <div class="col-md-9 col-sm-9">
+                                                    <label for="">{{ $data['applicant']->user_phone }}</label>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="row mb-2">
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="">Tarikh Permohonan</label>
-                                            </div>
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="name">{{ \Carbon\Carbon::parse( $data['applicant']->created_at )->format('d-m-Y') }}</label>
-                                            </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
                                         </div>
-                                        <div class="col-md-12 col-sm-12 mb-3 mt-3">
-                                            <label for="" class="fw-bold">Program Yang Dipohon</label>
                                         </div>
-                                        <div class="row mb-2">
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="">Lokasi</label>
-                                            </div>
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="name">{{ $data['applicant']->location }}</label>
-                                            </div>
-                                        </div>
-                                        @foreach ($data['programs'] as $program)
-                                        <div class="row mb-2">
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="">Program Pilihan {{ $loop->iteration }}</label>
-                                            </div>
-                                            <div class="col-md-9 col-sm-9">
-                                                <label for="name">{{ $program->name }}</label>
-                                            </div>
-                                        </div>
-                                        {{-- <div class="row mb-2">
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="">Status</label>
-                                            </div>
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="name" class="text-uppercase">{{ $program->status }}</label>
-                                            </div>
-                                        </div>
-                                        @if ($program->status !== 'baru' && $program->status !== 'layak')
-                                        <div class="row mb-2">
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="">Catatan</label>
-                                            </div>
-                                            <div class="col-md-9 col-sm-9">
-                                                <textarea name="notes" id="notes" rows="2" class="form-control form-control-sm text-uppercase" disabled>{{ $program->notes }}</textarea>
-                                            </div>
-                                        </div>
-                                        @endif --}}
-                                        @endforeach
-                                        <div class="col-md-12 col-sm-12 mb-3">
-                                            <label for="" class="fw-bold">Pegawai Perhubungan</label>
-                                        </div>
-                                        <div class="row mb-2">
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="">Nama Pegawai</label>
-                                            </div>
-                                            <div class="col-md-9 col-sm-9">
-                                                <label for="">{{ $data['applicant']->user }}</label>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-2">
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="">No. Telefon</label>
-                                            </div>
-                                            <div class="col-md-9 col-sm-9">
-                                                <label for="">{{ $data['applicant']->user_phone }}</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    </div>
                                     </div>
                                 </div>
-                            </div>
-                            @endforeach
-                        </tbody>
-                    </table>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

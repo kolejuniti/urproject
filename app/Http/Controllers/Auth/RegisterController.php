@@ -70,8 +70,9 @@ class RegisterController extends Controller
         $nations = DB::table('nation')->get();
         $sexs = DB::table('sex')->get();
         $states = DB::table('state')->get();
+        $banks = DB::table('bank')->get();
 
-        return view('auth.register', compact('religions', 'nations', 'sexs', 'states'));
+        return view('auth.register', compact('religions', 'nations', 'sexs', 'states', 'banks'));
     }
 
     /**
@@ -107,6 +108,7 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'position' => ('AFFILIATES UNITI'),
             'bank_account' => $data['bank_account'],
+            'bank' => $data['bank'],
             'password' => Hash::make('12345678'),
             'referral_code' => Str::random(8),
         ]);

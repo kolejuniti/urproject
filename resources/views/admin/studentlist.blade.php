@@ -14,46 +14,48 @@
                 <div class="card-header">{{ __('Senarai Pelajar')}}</div>
 
                 <div class="card-body">
-                    <table id="myTable" class="table table-bordered small table-sm text-center">
-                        <thead class="table-dark">
-                            <tr>
-                                <th>#</th>
-                                <th>Nama Pelajar</th>
-                                <th>No. Kad Pengenalan</th>
-                                <th>No. Telefon</th>
-                                <th>Email</th>
-                                <th>Tarikh Permohonan</th>
-                                <th>Affiliates</th>
-                                <th>Tarikh Agihan</th>
-                                <th>Education Advisor</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($students as $student )
-                            <tr>
-                                <td>&nbsp;</td>
-                                <td>{{ $student->name }}</td>
-                                <td class="text-center">{{ $student->ic }}</td>
-                                <td class="text-center">{{ $student->phone }}</td>
-                                <td>{{ $student->email }}</td>
-                                <td>{{ \Carbon\Carbon::parse($student->created_at)->format('d-m-Y') }}</td>
-                                <td>
-                                    @foreach ($affiliates[$student->id] as $affiliate)
-                                        {{ $affiliate->name }}
-                                    @endforeach
-                                </td>
-                                <td>{{ $student->updated_at ? \Carbon\Carbon::parse($student->updated_at)->format('d-m-Y') : '' }}</td>
-                                <td>
-                                    @foreach ($advisors[$student->id] as $advisor)
-                                        {{ $advisor->name }}
-                                    @endforeach
-                                </td>
-                                <td>&nbsp;</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table id="myTable" class="table table-bordered small table-sm text-center">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Nama Pelajar</th>
+                                    <th>No. Kad Pengenalan</th>
+                                    <th>No. Telefon</th>
+                                    <th>Email</th>
+                                    <th>Tarikh Permohonan</th>
+                                    <th>Affiliates</th>
+                                    <th>Tarikh Agihan</th>
+                                    <th>Education Advisor</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($students as $student )
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>{{ $student->name }}</td>
+                                    <td class="text-center">{{ $student->ic }}</td>
+                                    <td class="text-center">{{ $student->phone }}</td>
+                                    <td>{{ $student->email }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($student->created_at)->format('d-m-Y') }}</td>
+                                    <td>
+                                        @foreach ($affiliates[$student->id] as $affiliate)
+                                            {{ $affiliate->name }}
+                                        @endforeach
+                                    </td>
+                                    <td>{{ $student->updated_at ? \Carbon\Carbon::parse($student->updated_at)->format('d-m-Y') : '' }}</td>
+                                    <td>
+                                        @foreach ($advisors[$student->id] as $advisor)
+                                            {{ $advisor->name }}
+                                        @endforeach
+                                    </td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

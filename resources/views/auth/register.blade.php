@@ -24,8 +24,8 @@
                         <div class="col-md-3 col-sm-3">
                             <label for="">No. Kad Pengenalan</label>
                         </div>
-                        <div class="col-md-9 col-sm-9">
-                            <input type="text" name="ic" id="ic" class="form-control form-control-sm" required>
+                        <div class="col-md-3 col-sm-3">
+                            <input type="text" name="ic" id="ic" class="form-control form-control-sm" maxlength="12" required>
                         </div>
                     </div>
                     <div class="row mb-2">
@@ -70,7 +70,7 @@
                             <label for="">No. Telefon</label>
                         </div>
                         <div class="col-md-3 col-sm-3">
-                            <input type="text" name="phone" id="phone" class="form-control form-control-sm" required>
+                            <input type="text" name="phone" id="phone" class="form-control form-control-sm" maxlength="12" required>
                         </div>
                         <div class="col-md-3 col-sm-3">
                             <label for="">Emel</label>
@@ -85,6 +85,17 @@
                         </div>
                         <div class="col-md-3 col-sm-3">
                             <input type="text" name="bank_account" id="bank_account" class="form-control form-control-sm" required>
+                        </div>
+                        <div class="col-md-3 col-sm-3">
+                            <label for="">Bank</label>
+                        </div>
+                        <div class="col-md-3 col-sm-3">
+                            <select name="bank" id="" class="form-control form-control-sm" required>
+                                <option value=""></option>
+                                @foreach ($banks as $bank)
+                                    <option value="{{ $bank->id }}">{{ $bank->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <div class="col-md-12 col-sm-12 mb-3">
