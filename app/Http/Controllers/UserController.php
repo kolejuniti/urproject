@@ -43,7 +43,8 @@ class UserController extends Controller
                     ->join('state', 'students.state_id', '=', 'state.id')
                     ->leftjoin('users', 'students.user_id', '=', 'users.id')
                     ->join('location', 'students.location_id', '=', 'location.id')
-                    ->select('students.*', 'state.name AS state', 'users.name AS user', 'users.phone AS user_phone', 'location.name AS location')
+                    ->leftjoin('status', 'students.status_id', '=', 'status.id')
+                    ->select('students.*', 'state.name AS state', 'users.name AS user', 'users.phone AS user_phone', 'location.name AS location', 'status.name AS status', DB::raw('DATE_ADD(students.register_at, INTERVAL 18 DAY) AS commission_date'))
                     ->where('students.referral_code', $ref)
                     ->orderBy('students.created_at', 'desc')
                     ->get();

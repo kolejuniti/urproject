@@ -39,13 +39,22 @@ class StudentController extends Controller
 
         $referral_code = $request->input('referral_code');
 
-        $user = User::where('referral_code', 'LIKE', $referral_code)->first();
+        $ref = null;
+        $userID = null;
+        $update = null;
 
-        if ($user !== null) {
-            $ref = $user->referral_code;
-        } else {
-            $ref = null;
-        }
+        if ($referral_code !== null) {
+            $user = User::where('referral_code', $referral_code)->first();
+
+            if ($user !== null) { // Check if user is found
+                $ref = $user->referral_code;
+
+                if ($user->type === 'advisor') { // Adjust the comparison based on actual returned value
+                    $userID = $user->id;
+                    $update = date('Y-m-d H:i:s');
+                }
+            }
+        }    
 
         $ic = $request->input('ic');
         $students = DB::table('students')
@@ -67,20 +76,6 @@ class StudentController extends Controller
             $location = $request->input('location');
             $programA = $request->input('programA');
             $programB = $request->input('programB');
-
-            $userID = null;
-            $update = null;
-
-            if ($referral_code !== null) {
-                $user = User::where('referral_code', $referral_code)
-                            ->where('type', 1)
-                            ->first();
-
-                if ($user) {
-                    $userID = $user->id;
-                    $update = date('Y-m-d H:i:s');
-                }
-            }
 
             DB::table('students')->insert([
                 'name'=>$name,

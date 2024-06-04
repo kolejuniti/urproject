@@ -40,26 +40,32 @@ class AdvisorController extends Controller
                 ->join('state', 'students.state_id', '=', 'state.id')
                 ->leftjoin('users', 'students.user_id', '=', 'users.id')
                 ->join('location', 'students.location_id', '=', 'location.id')
-                ->select('students.*', 'state.name AS state', 'users.name AS user', 'location.name AS location')
+                ->leftjoin('status', 'students.status_id', '=', 'status.id')
+                ->select('students.*', 'state.name AS state', 'users.name AS user', 'location.name AS location', 'status.name AS status')
                 ->where(function($query) use ($ref, $id) {
                     $query->where('students.referral_code', $ref)
                           ->orWhere('students.user_id', $id);
                 })
                 ->orderBy('students.created_at', 'desc')
                 ->get();
+                
+        $statusApplications = DB::table('status')->get();
 
         $applicantsWithPrograms = [];
 
         foreach ($applicants as $applicant) {
 
-            $filePath = 'urproject/student/resultspm/' . $applicant->ic . '.jpg';
-            // $fileUrl = Storage::disk('linode')->url($filePath);
+            $jpgFilePath = 'urproject/student/resultspm/' . $applicant->ic . '.jpg';
+            $jpegFilePath = 'urproject/student/resultspm/' . $applicant->ic . '.jpeg';
 
-            if (Storage::disk('linode')->exists($filePath)) {
-                // Generate the file URL
-                $fileUrl = Storage::disk('linode')->url($filePath);
+            if (Storage::disk('linode')->exists($jpgFilePath)) {
+                // If the .jpg file exists, use its URL
+                $fileUrl = Storage::disk('linode')->url($jpgFilePath);
+            } elseif (Storage::disk('linode')->exists($jpegFilePath)) {
+                // If the .jpeg file exists, use its URL
+                $fileUrl = Storage::disk('linode')->url($jpegFilePath);
             } else {
-                // If the file doesn't exist, set $fileUrl to null or any other default value
+                // If neither file exists, set $fileUrl to null or a default value
                 $fileUrl = null; // You can customize this to any default value you prefer
             }
 
@@ -77,12 +83,17 @@ class AdvisorController extends Controller
 
         }
 
-        return view('advisor.application', ['applicantsWithPrograms' => $applicantsWithPrograms]);
+        return view('advisor.application', ['applicantsWithPrograms' => $applicantsWithPrograms], ['statusApplications' => $statusApplications]);
     }
 
     public function update(Request $request, $ic)
     {
         $programs = $request->input('programs'); // This should be an array
+        $statusApplication = $request->input('statusApplication');
+
+        DB::table('students')
+            ->where('students.ic', $ic)
+            ->update(['students.status_id' => $statusApplication]);        
 
         foreach ($programs as $program) {
             $status = $program['status'];
@@ -94,6 +105,8 @@ class AdvisorController extends Controller
                 ->where('student_programs.id', $id)
                 ->update(['student_programs.status' => $status, 'student_programs.notes' => $notes]);
         }
+
+        $statusApplications = DB::table('status')->get();
 
         $updateDates = DB::table('students')
                     ->where('students.ic', $ic)
@@ -108,7 +121,8 @@ class AdvisorController extends Controller
                 ->join('state', 'students.state_id', '=', 'state.id')
                 ->leftjoin('users', 'students.user_id', '=', 'users.id')
                 ->join('location', 'students.location_id', '=', 'location.id')
-                ->select('students.*', 'state.name AS state', 'users.name AS user', 'location.name AS location')
+                ->leftjoin('status', 'students.status_id', '=', 'status.id')
+                ->select('students.*', 'state.name AS state', 'users.name AS user', 'location.name AS location', 'status.name AS status')
                 ->where(function($query) use ($ref, $id) {
                     $query->where('students.referral_code', $ref)
                           ->orWhere('students.user_id', $id);
@@ -120,14 +134,17 @@ class AdvisorController extends Controller
 
         foreach ($applicants as $applicant) {
 
-            $filePath = 'urproject/student/resultspm/' . $applicant->ic . '.jpg';
-            // $fileUrl = Storage::disk('linode')->url($filePath);
+            $jpgFilePath = 'urproject/student/resultspm/' . $applicant->ic . '.jpg';
+            $jpegFilePath = 'urproject/student/resultspm/' . $applicant->ic . '.jpeg';
 
-            if (Storage::disk('linode')->exists($filePath)) {
-                // Generate the file URL
-                $fileUrl = Storage::disk('linode')->url($filePath);
+            if (Storage::disk('linode')->exists($jpgFilePath)) {
+                // If the .jpg file exists, use its URL
+                $fileUrl = Storage::disk('linode')->url($jpgFilePath);
+            } elseif (Storage::disk('linode')->exists($jpegFilePath)) {
+                // If the .jpeg file exists, use its URL
+                $fileUrl = Storage::disk('linode')->url($jpegFilePath);
             } else {
-                // If the file doesn't exist, set $fileUrl to null or any other default value
+                // If neither file exists, set $fileUrl to null or a default value
                 $fileUrl = null; // You can customize this to any default value you prefer
             }
 
@@ -145,6 +162,6 @@ class AdvisorController extends Controller
 
         }
 
-        return view('advisor.application', ['applicantsWithPrograms' => $applicantsWithPrograms])->with('success', 'Status permohonan program pelajar berjaya dikemaskini.');
+        return view('advisor.application', ['applicantsWithPrograms' => $applicantsWithPrograms], ['statusApplications' => $statusApplications])->with('success', 'Status permohonan program pelajar berjaya dikemaskini.');
     }
 }

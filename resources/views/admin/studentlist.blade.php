@@ -24,7 +24,7 @@
                                     <th>No. Telefon</th>
                                     <th>Email</th>
                                     <th>Tarikh Permohonan</th>
-                                    <th>Affiliates</th>
+                                    <th>Affiliate</th>
                                     <th>Tarikh Agihan</th>
                                     <th>Education Advisor</th>
                                     <th>Status</th>

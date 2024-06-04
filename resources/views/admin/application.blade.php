@@ -24,6 +24,7 @@
                                 <th>No. Telefon</th>
                                 <th>Email</th>
                                 <th>Tarikh Permohonan</th>
+                                <th>Tarikh Agihan</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -41,6 +42,7 @@
                                 <td class="text-center">{{ $data['applicant']->phone }}</td>
                                 <td>{{ $data['applicant']->email }}</td>
                                 <td>{{ \Carbon\Carbon::parse($data['applicant']->created_at)->format('d-m-Y') }}</td>
+                                <td>{{$data['applicant']->updated_at ? \Carbon\Carbon::parse($data['applicant']->updated_at)->format('d-m-Y') : '' }}</td>
                             </tr>
                             <div class="modal fade" id="modal{{ $data['applicant']->ic }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ $data['applicant']->ic }}" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -175,6 +177,16 @@
                                         </div>
                                         @endif
                                         @endforeach
+                                        @if ($data['applicant']->status !== null)
+                                            <div class="row mb-2">
+                                                <div class="col-md-3 col-sm-3">
+                                                    <label for="">Status Permohonan</label>
+                                                </div>
+                                                <div class="col-md-9 col-sm-9">
+                                                    <label for="" class="text-uppercase">{{ $data['applicant']->status }}</label>
+                                                </div>
+                                            </div>                                            
+                                        @endif
                                         <form action="{{ route('admin.application.update', ['id' => $data['applicant']->id]) }}" method="POST">
                                         @csrf
                                         @method('PUT')   

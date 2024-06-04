@@ -32,6 +32,9 @@
                                     <th>No. Telefon</th>
                                     <th>Email</th>
                                     <th>Tarikh Permohonan</th>
+                                    <th>Tarikh Agihan</th>
+                                    <th>Status</th>
+                                    <th>Tarikh Pendaftaran</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -45,6 +48,9 @@
                                     <td class="text-center">{{ $data['applicant']->phone }}</td>
                                     <td>{{ $data['applicant']->email }}</td>
                                     <td>{{ \Carbon\Carbon::parse($data['applicant']->created_at)->format('d-m-Y') }}</td>
+                                    <td>{{$data['applicant']->updated_at ? \Carbon\Carbon::parse($data['applicant']->updated_at)->format('d-m-Y') : '' }}</td>
+                                    <td class="text-uppercase">{{ $data['applicant']->status }}</td>
+                                    <td>{{$data['applicant']->register_at ? \Carbon\Carbon::parse($data['applicant']->register_at)->format('d-m-Y') : '' }}</td>
                                 </tr>
                                 <div class="modal fade" id="modal{{ $data['applicant']->ic }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ $data['applicant']->ic }}" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -222,6 +228,19 @@
                                             @endif
                                             <input type="hidden" name="programs[{{ $loop->iteration }}][id]" value="{{ $program->id }}">
                                             @endforeach
+                                            <div class="row mb-2">
+                                                <div class="col-md-3 col-sm-3">
+                                                    <label for="">Status Permohonan</label>
+                                                </div>
+                                                <div class="col-md-9 col-sm-9">
+                                                    <select name="statusApplication" id="statusApplication" class="form-control form-control-sm text-uppercase">
+                                                        <option value="{{ $data['applicant']->status_id }}">{{ $data['applicant']->status }}</option>
+                                                        @foreach ($statusApplications as $statusApplication )
+                                                            <option value="{{ $statusApplication->id }}">{{ $statusApplication->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>

@@ -123,7 +123,8 @@ class AdminController extends Controller
                     ->join('state', 'students.state_id', '=', 'state.id')
                     ->leftjoin('users', 'students.user_id', '=', 'users.id')
                     ->join('location', 'students.location_id', '=', 'location.id')
-                    ->select('students.*', 'state.name AS state', 'users.name AS user', 'location.name AS location')
+                    ->leftjoin('status', 'students.status_id', '=', 'status.id')
+                    ->select('students.*', 'state.name AS state', 'users.name AS user', 'location.name AS location', 'status.name AS status')
                     ->orderBy('students.created_at', 'desc')
                     ->get();
 
@@ -155,13 +156,14 @@ class AdminController extends Controller
 
         $studentPIC = DB::table('students')
                     ->where('students.id', $id)
-                    ->update(['user_id'=>$pic]);
+                    ->update(['user_id'=>$pic, 'updated_at'=>date('Y-m-d H:i:s')]);
 
         $applicants = DB::table('students')
                     ->join('state', 'students.state_id', '=', 'state.id')
                     ->leftjoin('users', 'students.user_id', '=', 'users.id')
                     ->join('location', 'students.location_id', '=', 'location.id')
-                    ->select('students.*', 'state.name AS state', 'users.name AS user', 'location.name AS location')
+                    ->leftjoin('status', 'students.status_id', '=', 'status.id')
+                    ->select('students.*', 'state.name AS state', 'users.name AS user', 'location.name AS location', 'status.name AS status')
                     ->orderBy('students.name', 'asc')
                     ->get();
 
@@ -207,7 +209,7 @@ class AdminController extends Controller
         foreach ($students as $student) {
             // Find the affiliate(s) associated with the current student's referral code
             $affiliate = User::where('referral_code', $student->referral_code)
-                        ->whereIn('type', [0,1])
+                        ->whereIn('type', [0])
                         ->get();
         
             // Store the affiliate(s) in the $affiliates array, using student ID as key

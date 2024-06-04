@@ -101,7 +101,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-2">
-                    <div class="flex-shrink-0 p-3 bg-white" style="width: 230px;">
+                    <div class="flex-shrink-0 p-3 bg-white" style="width: 230px; height: 90vh;">
                         <label class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
                             <span class="fs-5 fw-semibold">Menu</span>
                         </label>

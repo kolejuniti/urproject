@@ -18,6 +18,7 @@ class MultiAuthUser
         if(auth()->user()->type == $userType) {
             return $next($request);
         }
+
         return response()->json(['You are not authorized to access this page.']);
     }
 }

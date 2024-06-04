@@ -14,6 +14,7 @@ Route::get('/', function () {
 Auth::routes();
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
 Route::prefix('affiliate')->group(function() {
     Route::get('/', [RegisterController::class, 'about'])->name('about');
     Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');

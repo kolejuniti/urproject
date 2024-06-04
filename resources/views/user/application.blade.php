@@ -42,10 +42,10 @@
                                         <button type="button" class="btn btn-sm btn-link" data-bs-toggle="modal" data-bs-target="#modal{{ $data['applicant']->ic }}">{{ $data['applicant']->name }}</button>
                                     </td>
                                     <td>{{ \Carbon\Carbon::parse($data['applicant']->created_at)->format('d-m-Y') }}</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td class="text-uppercase">{{ $data['applicant']->status }}</td>
+                                    <td>{{$data['applicant']->register_at ? \Carbon\Carbon::parse($data['applicant']->register_at)->format('d-m-Y') : '' }}</td>
+                                    <td>{{$data['applicant']->register_at ? \Carbon\Carbon::parse($data['applicant']->commission_date)->format('d-m-Y') : '' }}</td>
+                                    <td class="text-center">{{ $data['applicant']->commission }}</td>
                                 </tr>
                                 <div class="modal fade" id="modal{{ $data['applicant']->ic }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ $data['applicant']->ic }}" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -93,6 +93,16 @@
                                                     <label for="name">{{ $program->name }}</label>
                                                 </div>
                                             </div>
+                                            @if ($data['applicant']->status !== null)
+                                            <div class="row mb-2">
+                                                <div class="col-md-3 col-sm-3">
+                                                    <label for="">Status Permohonan</label>
+                                                </div>
+                                                <div class="col-md-9 col-sm-9">
+                                                    <label for="" class="text-uppercase">{{ $data['applicant']->status }}</label>
+                                                </div>
+                                            </div>                                            
+                                            @endif
                                             {{-- <div class="row mb-2">
                                                 <div class="col-md-3 col-sm-3">
                                                     <label for="">Status</label>

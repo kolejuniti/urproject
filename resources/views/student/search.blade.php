@@ -150,7 +150,7 @@
                             <div class="col-md-12 col-sm-12 mt-3 mb-3">
                                 <label for="" class="fw-bold">Program Yang Dipohon</label>
                             </div>
-                            <div class="row mb-3">
+                            <div class="row mb-2">
                                 <div class="col-md-3 col-sm-3">
                                     <label for="">Lokasi</label>
                                 </div>
@@ -196,7 +196,8 @@
                             </div>
                             @endif
                             @endforeach
-                            <div class="col-md-12 col-sm-12 mb-3">
+                            @if( $student->user !== null )
+                            <div class="col-md-12 col-sm-12 mt-3 mb-3">
                                 <label for="" class="fw-bold">Pegawai Perhubungan</label>
                             </div>
                             <div class="row mb-2">
@@ -215,6 +216,14 @@
                                     <label for="">{{ $student->user_phone }}</label>
                                 </div>
                             </div>
+                            @else
+                            <div class="col-md-12 col-sm-12 mt-3 mb-3">
+                                <label for="" class="fw-bold">Pegawai Perhubungan</label>
+                            </div>
+                            <div class="col-md-12 col-sm-12">
+                                <label for="">Pegawai yang dilantik akan menghubungi anda dalam masa terdekat.</label>
+                            </div>
+                            @endif
                         </div>
                         <div class="card-footer text-center">
                             <button class="btn col-1 btn-outline-secondary" type="button"  onclick="printCardBody()"><i class="bi bi-printer-fill"></i></button>                            

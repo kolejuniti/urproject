@@ -64,4 +64,15 @@ class LoginController extends Controller
             return redirect()->route('login')->with('error', 'email or password is incorrect.');
         }
     }
+
+    public function logout(Request $request)
+    {
+        $this->guard()->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('/login');
+    }
 }

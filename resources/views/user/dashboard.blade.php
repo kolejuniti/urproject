@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    {{ __('You are logged as user!') }}
+                    {{ __('You are logged as affiliate!') }}
                 </div>
             </div>
         </div>
