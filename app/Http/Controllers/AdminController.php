@@ -199,6 +199,8 @@ class AdminController extends Controller
     public function studentlist()
     {
         $students = DB::table('students')
+                    ->leftjoin('status', 'students.status_id', '=', 'status.id')
+                    ->select('students.*', 'status.name AS status')
                     ->orderBy('created_at', 'desc')
                     ->get();
         
@@ -209,7 +211,7 @@ class AdminController extends Controller
         foreach ($students as $student) {
             // Find the affiliate(s) associated with the current student's referral code
             $affiliate = User::where('referral_code', $student->referral_code)
-                        ->whereIn('type', [0])
+                        ->whereIn('type', [0,1])
                         ->get();
         
             // Store the affiliate(s) in the $affiliates array, using student ID as key
@@ -221,6 +223,7 @@ class AdminController extends Controller
         
             // Store the affiliate(s) in the $affiliates array, using student ID as key
             $advisors[$student->id] = $advisor;
+            
         }
 
         return view('admin.studentlist', compact('students', 'affiliates', 'advisors'));

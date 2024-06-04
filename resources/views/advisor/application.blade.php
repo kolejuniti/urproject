@@ -15,6 +15,9 @@
 
                 <div class="card-body">
                     @auth
+                    <div class="col-md-12 col-sm-12 mb-2">
+                        <label for="">Kongsi pautan ini kepada yang berminat mendaftar / belajar di Kolej UNITI.</label>
+                    </div>
                     <div class="input-group mb-3">
                         <input type="text" id="referral_url" name="url" class="form-control" value="{{ route('student.about', ['ref' => Auth::user()->referral_code]) }}" readonly>
                         <div class="input-group-prepend">

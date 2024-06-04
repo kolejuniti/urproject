@@ -191,10 +191,21 @@ class StudentController extends Controller
         $ic = $request->input('ic');
 
         $students = DB::table('students')
+                    ->join('state', 'students.state_id', '=', 'state.id')
+                    ->select('students.*', 'state.name AS state')
                     ->where('students.ic', 'LIKE', "{$ic}")
                     ->get();
+        
+        foreach ($students as $student) {
+            $studentprograms = DB::table('student_programs')
+                            ->join('program', 'student_programs.program_id', '=', 'program.id')
+                            ->select('program.name AS program')
+                            ->where('student_programs.student_ic', $student->ic)
+                            ->where('student_programs.status', '=', 'layak' )
+                            ->get();
+        }
 
-        return view('student.offerletter', compact('ref','students'));
+        return view('student.offerletter', compact('ref','students', 'studentprograms'));
     }
 
     public function about(Request $request)

@@ -191,7 +191,7 @@
                                     <label for="">Catatan</label>
                                 </div>
                                 <div class="col-md-9 col-sm-9">
-                                    <textarea name="notes" id="notes" rows="2" class="form-control form-control-sm" disabled>{{ $program->notes }}</textarea>
+                                    <textarea name="notes" id="notes" rows="2" class="form-control form-control-sm text-uppercase" disabled>{{ $program->notes }}</textarea>
                                 </div>
                             </div>
                             @endif

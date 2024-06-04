@@ -10,6 +10,9 @@
 
                 <div class="card-body">
                     @auth
+                    <div class="col-md-12 col-sm-12 mb-2">
+                        <label for="">Kongsi pautan ini kepada yang berminat mendaftar / belajar di Kolej UNITI.</label>
+                    </div>
                     <div class="input-group mb-3">
                         <input type="text" id="referral_url" name="url" class="form-control" value="{{ route('student.about', ['ref' => Auth::user()->referral_code]) }}" readonly>
                         <div class="input-group-prepend">
@@ -44,7 +47,7 @@
                                     <td>{{ \Carbon\Carbon::parse($data['applicant']->created_at)->format('d-m-Y') }}</td>
                                     <td class="text-uppercase">{{ $data['applicant']->status }}</td>
                                     <td>{{$data['applicant']->register_at ? \Carbon\Carbon::parse($data['applicant']->register_at)->format('d-m-Y') : '' }}</td>
-                                    <td>{{$data['applicant']->register_at ? \Carbon\Carbon::parse($data['applicant']->commission_date)->format('d-m-Y') : '' }}</td>
+                                    <td>{{$data['applicant']->commission_date ? \Carbon\Carbon::parse($data['applicant']->commission_date)->format('d-m-Y') : '' }}</td>
                                     <td class="text-center">{{ $data['applicant']->commission }}</td>
                                 </tr>
                                 <div class="modal fade" id="modal{{ $data['applicant']->ic }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ $data['applicant']->ic }}" aria-hidden="true">

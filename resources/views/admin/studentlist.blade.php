@@ -28,6 +28,7 @@
                                     <th>Tarikh Agihan</th>
                                     <th>Education Advisor</th>
                                     <th>Status</th>
+                                    <th>Tarikh Daftar</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -40,9 +41,13 @@
                                     <td>{{ $student->email }}</td>
                                     <td>{{ \Carbon\Carbon::parse($student->created_at)->format('d-m-Y') }}</td>
                                     <td>
-                                        @foreach ($affiliates[$student->id] as $affiliate)
-                                            {{ $affiliate->name }}
-                                        @endforeach
+                                        @if( $student->referral_code !== null)
+                                            @foreach ($affiliates[$student->id] as $affiliate)
+                                                {{ $affiliate->name }}
+                                            @endforeach
+                                        @else
+                                            {{__('TIADA AFFILIATE')}}
+                                        @endif
                                     </td>
                                     <td>{{ $student->updated_at ? \Carbon\Carbon::parse($student->updated_at)->format('d-m-Y') : '' }}</td>
                                     <td>
@@ -50,7 +55,8 @@
                                             {{ $advisor->name }}
                                         @endforeach
                                     </td>
-                                    <td>&nbsp;</td>
+                                    <td class="text-uppercase">{{ $student->status }}</td>
+                                    <td>{{ $student->register_at ? \Carbon\Carbon::parse($student->register_at)->format('d-m-Y') : '' }}</td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -65,6 +71,7 @@
 <script>
     $(document).ready(function() {
         var t = $('#myTable').DataTable({
+            responsive: true,
             columnDefs: [
                 {
                     targets: ['_all'],
