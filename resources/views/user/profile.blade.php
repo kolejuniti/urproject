@@ -17,7 +17,7 @@
                             <label for="">Nama Penuh</label>
                         </div>
                         <div class="col-sm-9 col-md-9">
-                            <label for=""></label>
+                            <label for="">{{ $user->name }}</label>
                         </div>
                     </div>
                     <div class="row mb-2">
@@ -25,7 +25,7 @@
                             <label for="">No. Kad Pengenalan</label>
                         </div>
                         <div class="col-sm-9 col-md-9">
-                            <label for=""></label>
+                            <label for="">{{ $user->ic }}</label>
                         </div>
                     </div>
                     <div class="row mb-2">
@@ -33,13 +33,13 @@
                             <label for="">Agama</label>
                         </div>
                         <div class="col-md-3 col-sm-3">
-                            <label for=""></label>
+                            <label for="">{{ $user->religion }}</label>
                         </div>
                         <div class="col-md-3 col-sm-3">
                             <label for="">Bangsa</label>
                         </div>
                         <div class="col-md-3 col-sm-3">
-                            <label for=""></label>
+                            <label for="">{{ $user->nation }}</label>
                         </div>
                     </div>
                     <div class="row mb-2">
