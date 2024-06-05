@@ -80,8 +80,6 @@ class UserController extends Controller
                 ->where('users.id', Auth::id())
                 ->first();
 
-        dd($user);
-
         return view('user.profile', compact('user'));
     }
 }
