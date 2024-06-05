@@ -96,16 +96,6 @@
                                                     <label for="name">{{ $program->name }}</label>
                                                 </div>
                                             </div>
-                                            @if ($data['applicant']->status !== null)
-                                            <div class="row mb-2">
-                                                <div class="col-md-3 col-sm-3">
-                                                    <label for="">Status Permohonan</label>
-                                                </div>
-                                                <div class="col-md-9 col-sm-9">
-                                                    <label for="" class="text-uppercase">{{ $data['applicant']->status }}</label>
-                                                </div>
-                                            </div>                                            
-                                            @endif
                                             {{-- <div class="row mb-2">
                                                 <div class="col-md-3 col-sm-3">
                                                     <label for="">Status</label>
@@ -125,6 +115,16 @@
                                             </div>
                                             @endif --}}
                                             @endforeach
+                                            @if ($data['applicant']->status !== null)
+                                            <div class="row mb-2">
+                                                <div class="col-md-3 col-sm-3">
+                                                    <label for="">Status Permohonan</label>
+                                                </div>
+                                                <div class="col-md-9 col-sm-9">
+                                                    <label for="" class="text-uppercase">{{ $data['applicant']->status }}</label>
+                                                </div>
+                                            </div>                                            
+                                            @endif
                                             <div class="col-md-12 col-sm-12 mb-3">
                                                 <label for="" class="fw-bold">Pegawai Perhubungan</label>
                                             </div>
