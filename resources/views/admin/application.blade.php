@@ -25,6 +25,7 @@
                                 <th>Email</th>
                                 <th>Tarikh Permohonan</th>
                                 <th>Tarikh Agihan</th>
+                                <th>Education Advisor</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -36,13 +37,14 @@
                             @endif
                                 <td>&nbsp;</td>
                                 <td>
-                                    <button type="button" class="btn btn-sm btn-link" data-bs-toggle="modal" data-bs-target="#modal{{ $data['applicant']->ic }}">{{ $data['applicant']->name }}</button>
+                                    <button type="button" class="btn btn-sm btn-link text-uppercase" data-bs-toggle="modal" data-bs-target="#modal{{ $data['applicant']->ic }}">{{ $data['applicant']->name }}</button>
                                 </td>
                                 <td class="text-center">{{ $data['applicant']->ic }}</td>
                                 <td class="text-center">{{ $data['applicant']->phone }}</td>
                                 <td>{{ $data['applicant']->email }}</td>
                                 <td>{{ \Carbon\Carbon::parse($data['applicant']->created_at)->format('d-m-Y') }}</td>
                                 <td>{{$data['applicant']->updated_at ? \Carbon\Carbon::parse($data['applicant']->updated_at)->format('d-m-Y') : '' }}</td>
+                                <td>{{ $data['applicant']->user }}</td>
                             </tr>
                             <div class="modal fade" id="modal{{ $data['applicant']->ic }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ $data['applicant']->ic }}" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
