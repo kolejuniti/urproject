@@ -108,7 +108,7 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'position' => ('AFFILIATES UNITI'),
             'bank_account' => $data['bank_account'],
-            'bank' => $data['bank'],
+            'bank_id' => $data['bank'],
             'password' => Hash::make('12345678'),
             'referral_code' => Str::random(8),
         ]);

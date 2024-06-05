@@ -74,9 +74,13 @@ class UserController extends Controller
         $user = Auth::user()
                 ->join('religion', 'users.religion_id', '=', 'religion.id')
                 ->join('nation', 'users.nation_id', '=', 'nation.id')
-                ->select('users.*', 'religion.name AS religion', 'nation.name AS nation')
+                ->join('sex', 'users.sex_id', '=', 'sex.id')
+                ->join('bank', 'users.bank_id', '=', 'bank.id')
+                ->select('users.*', 'religion.name AS religion', 'nation.name AS nation', 'sex.name AS sex', 'bank.name AS bank')
                 ->where('users.id', Auth::id())
                 ->first();
+
+        dd($user);
 
         return view('user.profile', compact('user'));
     }
