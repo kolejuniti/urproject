@@ -31,7 +31,7 @@
                                 <tr>
                                     <td>&nbsp;</td>
                                     <td>
-                                        <button type="button" class="btn btn-sm btn-link" data-bs-toggle="modal" data-bs-target="#modal{{ $user->ic }}">{{ $user->name }}</button>
+                                        <button type="button" class="btn btn-sm btn-link text-uppercase" data-bs-toggle="modal" data-bs-target="#modal{{ $user->ic }}">{{ $user->name }}</button>
                                     </td>
                                     <td class="text-center">{{ $user->ic }}</td>
                                     <td class="text-center">{{ $user->phone }}</td>
