@@ -53,7 +53,7 @@
                                                     <label for="">Nama Pengguna</label>
                                                 </div>
                                                 <div class="col-md-9 col-sm-9">
-                                                    <label for="name">{{ $user->name }}</label>
+                                                    <label for="name" class="text-uppercase">{{ $user->name }}</label>
                                                 </div>
                                             </div>
                                             <div class="row mb-2">

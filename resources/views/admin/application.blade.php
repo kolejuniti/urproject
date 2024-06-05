@@ -44,7 +44,7 @@
                                 <td>{{ $data['applicant']->email }}</td>
                                 <td>{{ \Carbon\Carbon::parse($data['applicant']->created_at)->format('d-m-Y') }}</td>
                                 <td>{{$data['applicant']->updated_at ? \Carbon\Carbon::parse($data['applicant']->updated_at)->format('d-m-Y') : '' }}</td>
-                                <td>{{ $data['applicant']->user }}</td>
+                                <td class="text-uppercase">{{ $data['applicant']->user }}</td>
                             </tr>
                             <div class="modal fade" id="modal{{ $data['applicant']->ic }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ $data['applicant']->ic }}" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -61,7 +61,7 @@
                                                 <label for="">Nama Penuh</label>
                                             </div>
                                             <div class="col-md-9 col-sm-9">
-                                                <label for="name">{{ $data['applicant']->name }}</label>
+                                                <label for="name" class="text-uppercase">{{ $data['applicant']->name }}</label>
                                             </div>
                                         </div>
                                         <div class="row mb-2">
@@ -203,7 +203,7 @@
                                             </div>
                                             @if ($data['applicant']->user_id == NULL)
                                             <div class="col-sm-9 col-md-9">
-                                                <select name="pic" id="pic" class="form-control form-control-sm">
+                                                <select name="pic" id="pic" class="form-control form-control-sm text-uppercase">
                                                     <option value=""></option>
                                                     @foreach ($users as $user )
                                                         <option value="{{ $user->id }}">{{ $user->name }}</option>
@@ -212,7 +212,7 @@
                                             </div>
                                             @else
                                             <div class="col-sm-9 col-md-9">
-                                                <select name="pic" id="pic" class="form-control form-control-sm">
+                                                <select name="pic" id="pic" class="form-control form-control-sm text-uppercase">
                                                     <option value="{{ $data['applicant']->user_id }}">{{ $data['applicant']->user }}</option>
                                                     <option value="">TIADA PEGAWAI</option>
                                                     @foreach ($users as $user )
