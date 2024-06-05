@@ -68,4 +68,16 @@ class UserController extends Controller
 
         return view('user.application', ['applicantsWithPrograms' => $applicantsWithPrograms]);
     }
+
+    public function profile()
+    {
+        $user = Auth::user()
+                ->join('religion', 'users.religion_id', '=', 'religion.id')
+                ->join('nation', 'users.nation_id', '=', 'nation.id')
+                ->select('users.*', 'religion.name AS religion', 'nation.name AS nation')
+                ->where('users.id', Auth::id())
+                ->first();
+
+        return view('user.profile', compact('user'));
+    }
 }
