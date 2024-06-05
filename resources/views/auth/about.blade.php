@@ -23,12 +23,12 @@
             <p class="fs-6">Pemasaran afiliasi memberikan anda kebebasan untuk bekerja mengikut keselesaan anda sendiri. Anda boleh mempromosikan Kolej UNITI pada masa dan tempat yang sesuai dengan jadual anda, tanpa terikat dengan jam kerja yang tetap.</p>
         </div>
         <div class="feature col">
-            <h3 class="fs-3 text-body-emphasis text-uppercase">Membangunkan Hubungan Profesional</h3>
-            <p class="fs-6">Anda akan berpeluang untuk membina hubungan profesional dengan staf dan pengurusan Kolej UNITI. Ini boleh membuka pintu kepada peluang kerjaya atau kolaborasi lain di masa hadapan.</p>
+            {{-- <h3 class="fs-3 text-body-emphasis text-uppercase">Menerima Sokongan dan Bahan Pemasaran</h3>
+            <p class="fs-6">Kolej UNITI akan menyediakan pelbagai bahan pemasaran seperti banting, pautan teks, brosur dan video bagi membantu anda mempromosikan kolej dengan lebih berkesan. Sokongan ini memudahkan anda dalam menjalankan aktiviti pemasaran.</p> --}}
         </div>
         <div class="feature col">
-            <h3 class="fs-3 text-body-emphasis text-uppercase">Menerima Sokongan dan Bahan Pemasaran</h3>
-            <p class="fs-6">Kolej UNITI akan menyediakan pelbagai bahan pemasaran seperti banting, pautan teks, brosur dan video bagi membantu anda mempromosikan kolej dengan lebih berkesan. Sokongan ini memudahkan anda dalam menjalankan aktiviti pemasaran.</p>
+            <h3 class="fs-3 text-body-emphasis text-uppercase">Membangunkan Hubungan Profesional</h3>
+            <p class="fs-6">Anda akan berpeluang untuk membina hubungan profesional dengan staf dan pengurusan Kolej UNITI. Ini boleh membuka pintu kepada peluang kerjaya atau kolaborasi lain di masa hadapan.</p>
         </div>
     </div>
     <div class="row g-4 py-1 row-cols-1 row-cols-lg-3">
