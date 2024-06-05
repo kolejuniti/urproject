@@ -99,7 +99,7 @@ class RegisterController extends Controller
         ]);
 
         return User::create([
-            'name' => $data['name'],
+            'name' => strtoupper($data['name']),
             'ic' => $data['ic'],
             'religion_id' => $data['religion'],
             'nation_id' => $data['nation'],

@@ -63,14 +63,14 @@ class StudentController extends Controller
                     
         if ($students === null)
         {
-            $name = $request->input('name');
+            $name = strtoupper($request->input('name'));
             $ic = $request->input('ic');
             $phone = $request->input('phone');
             $email = $request->input('email');
-            $address1 = $request->input('address1');
-            $address2 = $request->input('address2');
+            $address1 = strtoupper($request->input('address1'));
+            $address2 = strtoupper($request->input('address2'));
             $postcode = $request->input('postcode');
-            $city = $request->input('city');
+            $city = strtoupper($request->input('city'));
             $state = $request->input('state');
             $year = $request->input('year');
             $location = $request->input('location');
