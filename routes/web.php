@@ -43,6 +43,7 @@ Route::middleware(['auth', 'user-access:advisor'])->group(function() {
 Route::middleware(['auth', 'user-access:user'])->group(function() {
     Route::get('/user/dashboard', [UserController::class, 'dashboard'])->name('user.dashboard');
     Route::get('/user/application', [UserController::class, 'applications'])->name('user.application');
+    Route::get('/user/profile', [UserController::class, 'profile'])->name('user.profile');
 });
 
 // student route
