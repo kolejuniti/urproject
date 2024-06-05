@@ -33,7 +33,7 @@
                             <label for="">Agama</label>
                         </div>
                         <div class="col-md-3 col-sm-3">
-                            <select name="religion" id="religion" class="form-control form-control-sm">
+                            <select name="religion" id="religion" class="form-control form-control-sm" required>
                                 <option value=""></option>
                                 @foreach ($religions as $religion)
                                     <option value="{{ $religion->id }}">{{ $religion->name }}</option>
@@ -44,7 +44,7 @@
                             <label for="">Bangsa</label>
                         </div>
                         <div class="col-md-3 col-sm-3">
-                            <select name="nation" id="nation" class="form-control form-control-sm">
+                            <select name="nation" id="nation" class="form-control form-control-sm" required>
                                 <option value=""></option>
                                 @foreach ($nations as $nation)
                                     <option value="{{ $nation->id }}">{{ $nation->name }}</option>
@@ -57,7 +57,7 @@
                             <label for="">Jantina</label>
                         </div>
                         <div class="col-md-3 col-sm-3">
-                            <select name="sex" id="sex" class="form-control form-control-sm">
+                            <select name="sex" id="sex" class="form-control form-control-sm" required>
                                 <option value=""></option>
                                 @foreach ($sexs as $sex)
                                     <option value="{{ $sex->id }}">{{ $sex->name }}</option>
@@ -136,7 +136,7 @@
                             <label for="">Negeri</label>
                         </div>
                         <div class="col-md-6 col-sm-6">
-                            <select name="state" id="state" class="form-control form-control-sm">
+                            <select name="state" id="state" class="form-control form-control-sm" required>
                                 <option value=""></option>
                                 @foreach ($states as $state)
                                     <option value="{{ $state->id }}">{{ $state->name }}</option>
