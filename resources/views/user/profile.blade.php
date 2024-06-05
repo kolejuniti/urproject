@@ -17,7 +17,7 @@
                             <label for="">Nama Penuh</label>
                         </div>
                         <div class="col-sm-9 col-md-9">
-                            <label for="">{{ $user->name }}</label>
+                            <label for="" class="text-uppercase">{{ $user->name }}</label>
                         </div>
                     </div>
                     <div class="row mb-2">
