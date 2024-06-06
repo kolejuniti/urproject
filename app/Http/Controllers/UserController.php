@@ -80,6 +80,12 @@ class UserController extends Controller
                 ->where('users.id', Auth::id())
                 ->first();
 
-        return view('user.profile', compact('user'));
+        $userAddress = DB::table('user_address')
+                        ->join('state', 'user_address.state_id', '=', 'state.id')
+                        ->select('user_address.*', 'state.name AS state')
+                        ->where('user_address.user_ic', '=', $user->ic)
+                        ->first();
+
+        return view('user.profile', compact('user', 'userAddress'));
     }
 }
