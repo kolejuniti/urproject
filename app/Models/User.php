@@ -27,7 +27,7 @@ class User extends Authenticatable
         'email',
         'position',
         'bank_account',
-        'bank',
+        'bank_id',
         'password',
         'type',
         'referral_code',
