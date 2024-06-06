@@ -90,7 +90,7 @@
                             <label for="">Bank</label>
                         </div>
                         <div class="col-md-3 col-sm-3">
-                            <select name="bank" id="" class="form-control form-control-sm" required>
+                            <select name="bank" id="bank" class="form-control form-control-sm" required>
                                 <option value=""></option>
                                 @foreach ($banks as $bank)
                                     <option value="{{ $bank->id }}">{{ $bank->name }}</option>
