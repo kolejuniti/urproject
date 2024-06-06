@@ -206,7 +206,7 @@
                                                 <select name="pic" id="pic" class="form-control form-control-sm text-uppercase">
                                                     <option value=""></option>
                                                     @foreach ($users as $user )
-                                                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                                        <option value="{{ $user->id }}">{{ $loop->iteration }}.&nbsp;{{ $user->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -216,7 +216,7 @@
                                                     <option value="{{ $data['applicant']->user_id }}">{{ $data['applicant']->user }}</option>
                                                     <option value="">TIADA PEGAWAI</option>
                                                     @foreach ($users as $user )
-                                                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                                        <option value="{{ $user->id }}">{{ $loop->iteration }}.&nbsp;{{ $user->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
