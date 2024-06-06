@@ -37,6 +37,8 @@ Route::middleware(['auth', 'user-access:advisor'])->group(function() {
     Route::get('/advisor/dashboard', [AdvisorController::class, 'dashboard'])->name('advisor.dashboard');
     Route::get('/advisor/application', [AdvisorController::class, 'applications'])->name('advisor.application');
     Route::put('/advisor/application/{ic}', [AdvisorController::class, 'update'])->name('advisor.application.update');
+    Route::get('/advisor/profile', [AdvisorController::class, 'profile'])->name('advisor.profile');
+    Route::put('/advisor/profile', [AdvisorController::class, 'updateProfile'])->name('advisor.profile.update');
 });
 
 // user route
@@ -44,6 +46,7 @@ Route::middleware(['auth', 'user-access:user'])->group(function() {
     Route::get('/user/dashboard', [UserController::class, 'dashboard'])->name('user.dashboard');
     Route::get('/user/application', [UserController::class, 'applications'])->name('user.application');
     Route::get('/user/profile', [UserController::class, 'profile'])->name('user.profile');
+    Route::put('/user/profile', [UserController::class, 'update'])->name('user.profile.update');
 });
 
 // student route

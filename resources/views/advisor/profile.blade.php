@@ -1,4 +1,4 @@
-@extends('layouts.user')
+@extends('layouts.advisor')
 
 @section('content')
 <div class="container">
@@ -12,7 +12,7 @@
             <div class="card">
                 <div class="card-header">{{ __('Profil') }}</div>
 
-                <form action="{{ route('user.profile.update') }}" method="POST">
+                <form action="{{ route('advisor.profile.update') }}" method="POST">
                 <div class="card-body">
                     @csrf
                     @method('PUT')

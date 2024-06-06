@@ -164,4 +164,41 @@ class AdvisorController extends Controller
 
         return view('advisor.application', ['applicantsWithPrograms' => $applicantsWithPrograms], ['statusApplications' => $statusApplications])->with('success', 'Status permohonan program pelajar berjaya dikemaskini.');
     }
+
+    public function profile()
+    {
+        $banks = DB::table('bank')->get();
+
+        $user = Auth::user()
+                ->join('religion', 'users.religion_id', '=', 'religion.id')
+                ->join('nation', 'users.nation_id', '=', 'nation.id')
+                ->join('sex', 'users.sex_id', '=', 'sex.id')
+                ->join('bank', 'users.bank_id', '=', 'bank.id')
+                ->select('users.*', 'religion.name AS religion', 'nation.name AS nation', 'sex.name AS sex', 'bank.name AS bank')
+                ->where('users.id', Auth::id())
+                ->first();
+
+        $userAddress = DB::table('user_address')
+                        ->join('state', 'user_address.state_id', '=', 'state.id')
+                        ->select('user_address.*', 'state.name AS state')
+                        ->where('user_address.user_ic', '=', $user->ic)
+                        ->first();
+
+        return view('advisor.profile', compact('banks', 'user', 'userAddress'));
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $user = Auth::user();
+
+        $phone = $request->input('phone');
+        $bank_account = $request->input('bank_account');
+        $bank = $request->input('bank');
+
+        $user = DB::table('users')
+                ->where('users.id', Auth::id())
+                ->update(['phone'=>$phone, 'bank_account'=>$bank_account, 'bank_id'=>$bank]);
+
+        return redirect()->route('advisor.profile')->with('success', 'Maklumat anda berjaya dikemaskini.');;
+    }
 }
