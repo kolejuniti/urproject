@@ -35,12 +35,12 @@
                                 @foreach ($students as $student )
                                 <tr>
                                     <td>&nbsp;</td>
-                                    <td>{{ $student->name }}</td>
+                                    <td class="text-uppercase">{{ $student->name }}</td>
                                     <td class="text-center">{{ $student->ic }}</td>
                                     <td class="text-center">{{ $student->phone }}</td>
                                     <td>{{ $student->email }}</td>
                                     <td>{{ \Carbon\Carbon::parse($student->created_at)->format('d-m-Y') }}</td>
-                                    <td>
+                                    <td class="text-uppercase">
                                         @if( $student->referral_code !== null)
                                             @foreach ($affiliates[$student->id] as $affiliate)
                                                 {{ $affiliate->name }}
@@ -50,7 +50,7 @@
                                         @endif
                                     </td>
                                     <td>{{ $student->updated_at ? \Carbon\Carbon::parse($student->updated_at)->format('d-m-Y') : '' }}</td>
-                                    <td>
+                                    <td class="text-uppercase">
                                         @foreach ($advisors[$student->id] as $advisor)
                                             {{ $advisor->name }}
                                         @endforeach
