@@ -128,7 +128,7 @@ class AdminController extends Controller
                     ->orderBy('students.created_at', 'desc')
                     ->get();
 
-        $users = User::where('type', 1)->get();
+        $users = User::where('type', 1)->orderBy('id')->get();
 
         $applicantsWithPrograms = [];
 
@@ -167,7 +167,7 @@ class AdminController extends Controller
                     ->orderBy('students.name', 'asc')
                     ->get();
 
-        $users = User::where('type', 1)->get();
+        $users = User::where('type', 1)->orderBy('id')->get();
 
         $applicantsWithPrograms = [];
 
