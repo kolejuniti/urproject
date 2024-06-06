@@ -90,10 +90,12 @@ class AdvisorController extends Controller
     {
         $programs = $request->input('programs'); // This should be an array
         $statusApplication = $request->input('statusApplication');
+        $offer_letter_date = $request->input('offer_letter_date');
+        $register_letter_date = $request->input('register_letter_date');
 
         DB::table('students')
             ->where('students.ic', $ic)
-            ->update(['students.status_id' => $statusApplication]);        
+            ->update(['students.status_id' => $statusApplication, 'offer_letter_date' => $offer_letter_date, 'register_letter_date' => $register_letter_date]);        
 
         foreach ($programs as $program) {
             $status = $program['status'];

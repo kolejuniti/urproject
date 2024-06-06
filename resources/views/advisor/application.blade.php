@@ -149,7 +149,7 @@
                                                     <label for="">Tarikh Permohonan</label>
                                                 </div>
                                                 <div class="col-md-3 col-sm-3">
-                                                    <label for="name">{{ \Carbon\Carbon::parse( $data['applicant']->created_at )->format('d-m-Y') }}</label>
+                                                    <label for="name">{{$data['applicant']->offer_letter_date ? \Carbon\Carbon::parse($data['applicant']->created_at)->format('d-m-Y') : '' }}</label>
                                                 </div>
                                             </div>
                                             <div class="row mb-2">
@@ -242,6 +242,23 @@
                                                             <option value="{{ $statusApplication->id }}">{{ $statusApplication->name }}</option>
                                                         @endforeach
                                                     </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-sm-12 mb-3 mt-3">
+                                                <label for="" class="fw-bold">Surat Tawaran</label>
+                                            </div>
+                                            <div class="row mb-2">
+                                                <div class="col-md-3 col-sm-3">
+                                                    <label for="">Tarikh Tawaran</label>
+                                                </div>
+                                                <div class="col-md-3 col-sm-3">
+                                                    <input type="date" name="offer_letter_date" id="offer_letter_date" class="form-control form-control-sm" value="{{ $data['applicant']->offer_letter_date ? \Carbon\Carbon::parse($data['applicant']->offer_letter_date)->format('Y-m-d') : '' }}">
+                                                </div>
+                                                <div class="col-md-3 col-sm-3">
+                                                    <label for="">Tarikh Pendaftaran</label>
+                                                </div>
+                                                <div class="col-md-3 col-sm-3">
+                                                    <input type="date" name="register_letter_date" id="register_letter_date" class="form-control form-control-sm" value="{{ $data['applicant']->register_letter_date ? \Carbon\Carbon::parse($data['applicant']->register_letter_date)->format('Y-m-d') : '' }}">
                                                 </div>
                                             </div>
                                         </div>

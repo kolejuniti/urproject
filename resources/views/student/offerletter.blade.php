@@ -21,9 +21,9 @@
 <body>
     @foreach($students as $student)
     <div class="container">
-        <div class="col-sm-10">
+        <div class="col-sm-12">
             <div class="mt-3">
-                <label for="">{{ date('d-M-Y') }}</label>
+                <label for="">{{ \Carbon\Carbon::parse($student->offer_letter_date)->format('d-m-Y') }}</label>
             </div>
             <div class="mt-3 mb-3">
                 <label for="">{{ $student->name }}</label>
@@ -42,26 +42,83 @@
                 <label for="">{{ $student->state }}</label>
             </div>
             <div class="mt-3 mb-3">
-                <label for="">Saudara / Saudari,</label>
+                <label for="">Saudara/i,</label>
             </div>
             <div class="mb-3">
-                <label for="">TAWARAN KEMASUKAN KE PROGRAM AKADEMIK KOLEJ UNITI SESI <strong>JULAI 2024/2025</strong></label>
+                <label for="">Sukacita dimaklumkan bahawa anda ditawarkan tempat untuk mengikuti kursus pengajian pilihan di Peringkat Diploma.</label>
             </div>
-            <div class="mb-3">
-                <label for=""><strong>TAHNIAH</strong> dan <strong>SUKACITA</strong> di maklumkan, saudara / saudari layak untuk mengikuti pengajian bagi program</label>
-            </div>
-            <div class="row">
+            <div class="row mb-3">
                 @foreach ( $studentprograms as $studentprogram )
-                <div class="col-sm-1">
-                    <label for="">{{ $loop->iteration }}.</label>
+                <div class="col-sm-3">
+                    <label for="">Program</label>
                 </div>
-                <div class="col-sm-11">
-                    <label for="">{{ $studentprogram->program }}</label>
+                <div class="col-sm-9">
+                    <label for="">:&nbsp;<strong>{{ $studentprogram->program }}</strong></label>
+                </div>
+                <div class="col-sm-3">
+                    <label for="">Penganugerahan</label>
+                </div>
+                <div class="col-sm-9">
+                    <label for="">:&nbsp;<strong>MQA & JPA</strong></label>
+                </div>
+                <div class="col-sm-3">
+                    <label for="">Tempoh</label>
+                </div>
+                <div class="col-sm-9 mb-1">
+                    <label for="">:&nbsp;<strong>3 Tahun</strong></label>
                 </div>
                 @endforeach
             </div>
-            <div class="mt-3 mb-3">
-                <label for="">Untuk pengetahuan saudara / saudari, program yang layak adalah program akademik yang dikendalikan oleh <strong>KOLEJ UNITI di PERSIARAN UNITI VILLAGE, TANJUNG AGAS, 71250, PORT DICKSON, NEGERI SEMBILAN</strong>. Setelah memenuhi semua keperluan, saudara / saudari akan <strong>DIANUGERAHKAN DIPLOMA OLEH KOLEJ UNITI ATAU UiTM DAN UTM</strong>.</label>
+            <div class="mb-3">
+                <label for="">Sila hadir bagi sesi pendaftaran di:</label>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <label for="">Kampus</label>
+                </div>
+                <div class="col-sm-9">
+                    <label for="">:&nbsp;<strong>Kampus UNITI, UNITI Village</strong></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <label for="">&nbsp;</label>
+                </div>
+                <div class="col-sm-9">
+                    <label for="">&nbsp;&nbsp;<strong>Tanjung Agas, 71250 Port Dickson</strong></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <label for="">&nbsp;</label>
+                </div>
+                <div class="col-sm-9">
+                    <label for="">&nbsp;&nbsp;<strong>Negeri Sembilan Darul Khusus</strong></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <label for="">Tempat</label>
+                </div>
+                <div class="col-sm-9">
+                    <label for="">:&nbsp;<strong>Pejabat Pentadbiran Kolej UNITI</strong></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <label for="">Tarikh</label>
+                </div>
+                <div class="col-sm-9">
+                    <label for="">:&nbsp;<strong>{{ \Carbon\Carbon::parse($student->register_letter_date)->format('d-m-Y') }}</strong></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <label for="">Masa</label>
+                </div>
+                <div class="col-sm-9">
+                    <label for="">:&nbsp;<strong>10:00 Pagi</strong></label>
+                </div>
             </div>
         </div>
     </div>

@@ -11,6 +11,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
@@ -134,6 +135,20 @@ class AdminController extends Controller
 
         foreach ($applicants as $applicant) {
 
+            $jpgFilePath = 'urproject/student/resultspm/' . $applicant->ic . '.jpg';
+            $jpegFilePath = 'urproject/student/resultspm/' . $applicant->ic . '.jpeg';
+
+            if (Storage::disk('linode')->exists($jpgFilePath)) {
+                // If the .jpg file exists, use its URL
+                $fileUrl = Storage::disk('linode')->url($jpgFilePath);
+            } elseif (Storage::disk('linode')->exists($jpegFilePath)) {
+                // If the .jpeg file exists, use its URL
+                $fileUrl = Storage::disk('linode')->url($jpegFilePath);
+            } else {
+                // If neither file exists, set $fileUrl to null or a default value
+                $fileUrl = null; // You can customize this to any default value you prefer
+            }
+
             $programs = DB::table('student_programs')
                         ->join('program', 'student_programs.program_id', '=', 'program.id')
                         ->select('program.name', 'student_programs.status', 'student_programs.notes')
@@ -142,7 +157,8 @@ class AdminController extends Controller
 
             $applicantsWithPrograms[] = [
                 'applicant' => $applicant,
-                'programs' => $programs
+                'programs' => $programs,
+                'file_url' => $fileUrl
             ];
 
         }
@@ -173,6 +189,20 @@ class AdminController extends Controller
 
         foreach ($applicants as $applicant) {
 
+            $jpgFilePath = 'urproject/student/resultspm/' . $applicant->ic . '.jpg';
+            $jpegFilePath = 'urproject/student/resultspm/' . $applicant->ic . '.jpeg';
+
+            if (Storage::disk('linode')->exists($jpgFilePath)) {
+                // If the .jpg file exists, use its URL
+                $fileUrl = Storage::disk('linode')->url($jpgFilePath);
+            } elseif (Storage::disk('linode')->exists($jpegFilePath)) {
+                // If the .jpeg file exists, use its URL
+                $fileUrl = Storage::disk('linode')->url($jpegFilePath);
+            } else {
+                // If neither file exists, set $fileUrl to null or a default value
+                $fileUrl = null; // You can customize this to any default value you prefer
+            }
+
             $programs = DB::table('student_programs')
                         ->join('program', 'student_programs.program_id', '=', 'program.id')
                         ->select('program.name', 'student_programs.status', 'student_programs.notes')
@@ -181,7 +211,8 @@ class AdminController extends Controller
 
             $applicantsWithPrograms[] = [
                 'applicant' => $applicant,
-                'programs' => $programs
+                'programs' => $programs,
+                'file_url' => $fileUrl
             ];
 
         }
