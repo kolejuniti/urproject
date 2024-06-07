@@ -16,7 +16,7 @@
         .printableArea {
             position: absolute;
             left: 5%;
-            top: 10%;
+            top: 5%;
             width: 90%;
         }
         .card-footer {
