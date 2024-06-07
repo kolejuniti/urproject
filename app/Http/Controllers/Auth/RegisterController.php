@@ -83,6 +83,13 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $checkIC = User::where('ic', $data['ic'])->first();
+
+        if ($checkIC) {
+        // If the IC already exists, return a view with an error message
+            return redirect()->back()->with('msg_error', 'No. kad pengenalan telah didaftar di dalam sistem.')->withInput();;
+        }
+
         $address1 = $data['address1'];
         $address2 = $data['address2'];
         $postcode = $data['postcode'];
@@ -119,7 +126,11 @@ class RegisterController extends Controller
         $this->validator($request->all())->validate();
 
         // Create the user but do not log them in
-        $user = $this->create($request->all());
+        $response = $this->create($request->all());
+
+        if ($response instanceof \Illuminate\Http\RedirectResponse) {
+            return $response;
+        }
 
         // Manually log the user out just in case
         $this->guard()->logout();
