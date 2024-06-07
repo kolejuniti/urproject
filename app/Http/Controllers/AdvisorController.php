@@ -86,7 +86,7 @@ class AdvisorController extends Controller
         return view('advisor.application', ['applicantsWithPrograms' => $applicantsWithPrograms], ['statusApplications' => $statusApplications]);
     }
 
-    public function update(Request $request, $ic)
+    public function update(Request $request, $id)
     {
         $programs = $request->input('programs'); // This should be an array
         $statusApplication = $request->input('statusApplication');
@@ -94,7 +94,7 @@ class AdvisorController extends Controller
         $register_letter_date = $request->input('register_letter_date');
 
         DB::table('students')
-            ->where('students.ic', $ic)
+            ->where('students.ic', $id)
             ->update(['students.status_id' => $statusApplication, 'offer_letter_date' => $offer_letter_date, 'register_letter_date' => $register_letter_date]);        
 
         foreach ($programs as $program) {
@@ -103,7 +103,7 @@ class AdvisorController extends Controller
             $id = $program['id'];
 
             DB::table('student_programs')
-                ->where('student_programs.student_ic', $ic)
+                ->where('student_programs.student_ic', $id)
                 ->where('student_programs.id', $id)
                 ->update(['student_programs.status' => $status, 'student_programs.notes' => $notes]);
         }

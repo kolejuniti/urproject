@@ -61,7 +61,7 @@
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="modalLabel{{ $data['applicant']->ic }}"></h5>
                                         </div>
-                                        <form action="{{ route('advisor.application.update', ['ic' => $data['applicant']->ic]) }}" method="POST">
+                                        <form action="{{ route('advisor.application.update', ['id' => $data['applicant']->ic]) }}" method="POST">
                                             @csrf
                                             @method('PUT')   
                                         <div class="modal-body small">
