@@ -112,8 +112,6 @@ class RegisterController extends Controller
             'password' => Hash::make('12345678'),
             'referral_code' => Str::random(8),
         ]);
-
-        dd($data['bank'],);
     }
 
     public function register(Request $request)
