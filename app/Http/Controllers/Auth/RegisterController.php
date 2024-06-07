@@ -106,7 +106,7 @@ class RegisterController extends Controller
             'sex_id' => $data['sex'],
             'phone' => $data['phone'],
             'email' => $data['email'],
-            'position' => ('AFFILIATES UNITI'),
+            'position' => ('AFFILIATE UNITI'),
             'bank_account' => $data['bank_account'],
             'bank_id' => $data['bank'],
             'password' => Hash::make('12345678'),

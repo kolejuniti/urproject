@@ -108,63 +108,7 @@ class AdvisorController extends Controller
                 ->update(['student_programs.status' => $status, 'student_programs.notes' => $notes]);
         }
 
-        $statusApplications = DB::table('status')->get();
-
-        $updateDates = DB::table('students')
-                    ->where('students.ic', $ic)
-                    ->update(['updated_at' => Carbon::now()]);
-
-        $user = Auth::user();
-
-        $ref = $user->referral_code;
-        $id = $user->id;
-
-        $applicants = DB::table('students')
-                ->join('state', 'students.state_id', '=', 'state.id')
-                ->leftjoin('users', 'students.user_id', '=', 'users.id')
-                ->join('location', 'students.location_id', '=', 'location.id')
-                ->leftjoin('status', 'students.status_id', '=', 'status.id')
-                ->select('students.*', 'state.name AS state', 'users.name AS user', 'location.name AS location', 'status.name AS status')
-                ->where(function($query) use ($ref, $id) {
-                    $query->where('students.referral_code', $ref)
-                          ->orWhere('students.user_id', $id);
-                })
-                ->orderBy('students.created_at', 'desc')
-                ->get();
-
-        $applicantsWithPrograms = [];
-
-        foreach ($applicants as $applicant) {
-
-            $jpgFilePath = 'urproject/student/resultspm/' . $applicant->ic . '.jpg';
-            $jpegFilePath = 'urproject/student/resultspm/' . $applicant->ic . '.jpeg';
-
-            if (Storage::disk('linode')->exists($jpgFilePath)) {
-                // If the .jpg file exists, use its URL
-                $fileUrl = Storage::disk('linode')->url($jpgFilePath);
-            } elseif (Storage::disk('linode')->exists($jpegFilePath)) {
-                // If the .jpeg file exists, use its URL
-                $fileUrl = Storage::disk('linode')->url($jpegFilePath);
-            } else {
-                // If neither file exists, set $fileUrl to null or a default value
-                $fileUrl = null; // You can customize this to any default value you prefer
-            }
-
-            $programs = DB::table('student_programs')
-                        ->join('program', 'student_programs.program_id', '=', 'program.id')
-                        ->select('student_programs.id', 'program.name', 'student_programs.status', 'student_programs.notes')
-                        ->where('student_programs.student_ic', $applicant->ic)
-                        ->get();
-
-            $applicantsWithPrograms[] = [
-                'applicant' => $applicant,
-                'programs' => $programs,
-                'file_url' => $fileUrl
-            ];
-
-        }
-
-        return view('advisor.application', ['applicantsWithPrograms' => $applicantsWithPrograms], ['statusApplications' => $statusApplications])->with('success', 'Status permohonan program pelajar berjaya dikemaskini.');
+        return redirect()->route('advisor.application')->with('success', 'Status permohonan program pelajar berjaya dikemaskini.');;
     }
 
     public function profile()

@@ -29,6 +29,7 @@ Route::middleware(['auth', 'user-access:admin'])->group(function() {
     Route::get('/admin/application', [AdminController::class, 'applications'])->name('admin.application');
     Route::put('/admin/application/{id}', [AdminController::class, 'update'])->name('admin.application.update');
     Route::get('/admin/userlist', [AdminController::class, 'userlist'])->name('admin.userlist');
+    Route::put('/admin/userlist/{id}', [AdminController::class, 'updateUser'])->name('admin.userlist.update');
     Route::get('/admin/studentlist', [AdminController::class, 'studentlist'])->name('admin.studentlist');
 });
 

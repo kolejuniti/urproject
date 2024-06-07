@@ -174,57 +174,47 @@ class AdminController extends Controller
                     ->where('students.id', $id)
                     ->update(['user_id'=>$pic, 'updated_at'=>date('Y-m-d H:i:s')]);
 
-        $applicants = DB::table('students')
-                    ->join('state', 'students.state_id', '=', 'state.id')
-                    ->leftjoin('users', 'students.user_id', '=', 'users.id')
-                    ->join('location', 'students.location_id', '=', 'location.id')
-                    ->leftjoin('status', 'students.status_id', '=', 'status.id')
-                    ->select('students.*', 'state.name AS state', 'users.name AS user', 'location.name AS location', 'status.name AS status')
-                    ->orderBy('students.name', 'asc')
-                    ->get();
-
-        $users = User::where('type', 1)->orderBy('id')->get();
-
-        $applicantsWithPrograms = [];
-
-        foreach ($applicants as $applicant) {
-
-            $jpgFilePath = 'urproject/student/resultspm/' . $applicant->ic . '.jpg';
-            $jpegFilePath = 'urproject/student/resultspm/' . $applicant->ic . '.jpeg';
-
-            if (Storage::disk('linode')->exists($jpgFilePath)) {
-                // If the .jpg file exists, use its URL
-                $fileUrl = Storage::disk('linode')->url($jpgFilePath);
-            } elseif (Storage::disk('linode')->exists($jpegFilePath)) {
-                // If the .jpeg file exists, use its URL
-                $fileUrl = Storage::disk('linode')->url($jpegFilePath);
-            } else {
-                // If neither file exists, set $fileUrl to null or a default value
-                $fileUrl = null; // You can customize this to any default value you prefer
-            }
-
-            $programs = DB::table('student_programs')
-                        ->join('program', 'student_programs.program_id', '=', 'program.id')
-                        ->select('program.name', 'student_programs.status', 'student_programs.notes')
-                        ->where('student_programs.student_ic', $applicant->ic)
-                        ->get();
-
-            $applicantsWithPrograms[] = [
-                'applicant' => $applicant,
-                'programs' => $programs,
-                'file_url' => $fileUrl
-            ];
-
-        }
-
-        return view('admin.application', ['applicantsWithPrograms' => $applicantsWithPrograms, 'users' => $users])->with('success', 'Agihan pegawai perhubungan kepada pelajar telah berjaya.');
+        return redirect()->route('admin.application')->with('success', 'Agihan pegawai perhubungan kepada pelajar telah berjaya.');;
     }
 
     public function userlist()
     {
-        $users = User::whereIn('type', [0, 1])->get();
+        $banks = DB::table('bank')->get();
 
-        return view('admin.userlist', compact('users'));
+        $users = User::whereIn('type', [0, 1])
+                ->join('religion', 'users.religion_id', '=', 'religion.id')
+                ->join('nation', 'users.nation_id', '=', 'nation.id')
+                ->join('sex', 'users.sex_id', '=', 'sex.id')
+                ->join('bank', 'users.bank_id', '=', 'bank.id')
+                ->select('users.*', 'religion.name AS religion', 'nation.name AS nation', 'sex.name AS sex', 'bank.name AS bank')
+                ->orderBy('users.name')
+                ->get();
+
+        foreach ($users as $user) {
+
+            $userAddress = DB::table('user_address')
+                        ->join('state', 'user_address.state_id', '=', 'state.id')
+                        ->select('user_address.*', 'state.name AS state')
+                        ->where('user_address.user_ic', '=', $user->ic)
+                        ->first();
+        }
+
+        return view('admin.userlist', compact('users', 'banks', 'userAddress'));
+    }
+
+    public function updateUser(Request $request, $id)
+    {
+        $phone = $request->input('phone');
+        $bank_account = $request->input('bank_account');
+        $bank = $request->input('bank');
+        $type = $request->input('type');
+        $position = $request->input('position');
+
+        $user = DB::table('users')
+                ->where('users.id', $id)
+                ->update(['phone'=>$phone, 'bank_account'=>$bank_account, 'bank_id'=>$bank, 'type'=>$type, 'position'=>$position]);
+
+        return redirect()->route('admin.userlist')->with('success', 'Maklumat pengguna berjaya dikemaskini.');;
     }
 
     public function studentlist()

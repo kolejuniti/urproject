@@ -5,9 +5,9 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
-            @if(isset($success))
+            @if(session('success'))
                 <div class="alert alert-success">
-                    {{ $success }}
+                    {{ session('success') }}
                 </div>
             @endif
             <div class="card">
@@ -149,7 +149,7 @@
                                                     <label for="">Tarikh Permohonan</label>
                                                 </div>
                                                 <div class="col-md-3 col-sm-3">
-                                                    <label for="name">{{$data['applicant']->offer_letter_date ? \Carbon\Carbon::parse($data['applicant']->created_at)->format('d-m-Y') : '' }}</label>
+                                                    <label for="name">{{ \Carbon\Carbon::parse($data['applicant']->created_at)->format('d-m-Y') }}</label>
                                                 </div>
                                             </div>
                                             <div class="row mb-2">
