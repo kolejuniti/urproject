@@ -124,20 +124,6 @@
                                                 </div>
                                                 <div class="row mb-2">
                                                     <div class="col-md-3 col-sm-3">
-                                                        <label for="">Jenis Pengguna</label>
-                                                    </div>
-                                                    <div class="col-md-3 col-sm-3">
-                                                        <select name="type" id="type" class="form-control form-control-sm" required>>
-                                                            @if ($user->type === "user")
-                                                                <option value="0">AFFILIATE</option> 
-                                                                <option value="1">ADVISOR</option> 
-                                                            @elseif($user->type === "advisor")
-                                                                <option value="1">ADVISOR</option>
-                                                                <option value="0">AFFILIATE</option>  
-                                                            @endif
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-md-3 col-sm-3">
                                                         <label for="">Jawatan</label>
                                                     </div>
                                                     <div class="col-md-3 col-sm-3">
