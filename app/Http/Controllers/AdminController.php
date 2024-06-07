@@ -71,6 +71,13 @@ class AdminController extends Controller
      */
     protected function create(array $data)
     {
+        $checkIC = User::where('ic', $data['ic'])->first();
+
+        if ($checkIC) {
+        // If the IC already exists, return a view with an error message
+            return redirect()->back()->with('msg_error', 'No. kad pengenalan telah didaftar di dalam sistem.')->withInput();;
+        }
+
         $address1 = $data['address1'];
         $address2 = $data['address2'];
         $postcode = $data['postcode'];
@@ -107,7 +114,11 @@ class AdminController extends Controller
         $this->validator($request->all())->validate();
 
         // Create the user but do not log them in
-        $user = $this->create($request->all());
+        $response = $this->create($request->all());
+
+        if ($response instanceof \Illuminate\Http\RedirectResponse) {
+            return $response;
+        }
 
         // Redirect to the desired page, such as a login page with a success message
         return redirect('/admin/register')->with('success', 'Pendaftaran pengguna baru berjaya.');
