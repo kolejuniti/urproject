@@ -4,8 +4,13 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12 col-sm-12">
+            @if(session('msg_error'))
+                <div class="alert alert-danger">
+                    {{ session('msg_error') }}
+                </div>
+            @endif
             <div class="card">
-                <div class="card-header">{{ __('Pendaftaran Affiliates UNITI') }}</div>
+                <div class="card-header">{{ __('Pendaftaran Affiliate UNITI') }}</div>
                 <form method="POST" action="{{ route('register') }}">
                 <div class="card-body">
                     @csrf
