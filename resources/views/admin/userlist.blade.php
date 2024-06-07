@@ -152,7 +152,7 @@
                                                         <label for="">Alamat 1</label>
                                                     </div>
                                                     <div class="col-md-9 col-sm-9">
-                                                        <label for="" class="text-uppercase">{{ $userAddress->address1 }}</label>
+                                                        <label for="" class="text-uppercase">{{ $user->address1 }}</label>
                                                     </div>
                                                 </div>
                                                 <div class="row mb-2">
@@ -160,7 +160,7 @@
                                                         <label for="">Alamat 2</label>
                                                     </div>
                                                     <div class="col-md-9 col-sm-9">
-                                                        <label for="" class="text-uppercase">{{ $userAddress->address2 }}</label>
+                                                        <label for="" class="text-uppercase">{{ $user->address2 }}</label>
                                                     </div>
                                                 </div>
                                                 <div class="row mb-2">
@@ -168,13 +168,13 @@
                                                         <label for="">Poskod</label>
                                                     </div>
                                                     <div class="col-md-3 col-sm-3">
-                                                        <label for="">{{ $userAddress->postcode }}</label>
+                                                        <label for="">{{ $user->postcode }}</label>
                                                     </div>
                                                     <div class="col-md-3 col-sm-3">
                                                         <label for="">Bandar</label>
                                                     </div>
                                                     <div class="col-md-3 col-sm-3">
-                                                        <label for="" class="text-uppercase">{{ $userAddress->city }}</label>
+                                                        <label for="" class="text-uppercase">{{ $user->city }}</label>
                                                     </div>
                                                 </div>
                                                 <div class="row mb-2">
@@ -182,7 +182,7 @@
                                                         <label for="">Negeri</label>
                                                     </div>
                                                     <div class="col-md-6 col-sm-6">
-                                                        <label for="">{{ $userAddress->state }}</label>
+                                                        <label for="">{{ $user->state }}</label>
                                                     </div>
                                                 </div>
                                             </div>
