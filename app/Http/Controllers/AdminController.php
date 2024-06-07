@@ -186,20 +186,13 @@ class AdminController extends Controller
                 ->join('nation', 'users.nation_id', '=', 'nation.id')
                 ->join('sex', 'users.sex_id', '=', 'sex.id')
                 ->join('bank', 'users.bank_id', '=', 'bank.id')
-                ->select('users.*', 'religion.name AS religion', 'nation.name AS nation', 'sex.name AS sex', 'bank.name AS bank')
+                ->leftjoin('user_address', 'users.ic', '=', 'user_address.user_ic' )
+                ->join('state', 'user_address.state_id', '=', 'state.id')
+                ->select('users.*', 'religion.name AS religion', 'nation.name AS nation', 'sex.name AS sex', 'bank.name AS bank', 'user_address.*', 'state.name AS state')
                 ->orderBy('users.name')
                 ->get();
 
-        foreach ($users as $user) {
-
-            $userAddress = DB::table('user_address')
-                        ->join('state', 'user_address.state_id', '=', 'state.id')
-                        ->select('user_address.*', 'state.name AS state')
-                        ->where('user_address.user_ic', '=', $user->ic)
-                        ->first();
-        }
-
-        return view('admin.userlist', compact('users', 'banks', 'userAddress'));
+        return view('admin.userlist', compact('users', 'banks'));
     }
 
     public function updateUser(Request $request, $id)
