@@ -59,7 +59,7 @@
     <div class="container-fluid">
         <div class="col-sm-12">
             <div class="mt-3">
-                <label for="">{{ \Carbon\Carbon::parse($student->offer_letter_date)->format('d-m-Y') }}</label>
+                <label for="">{{$student->offer_letter_date ? \Carbon\Carbon::parse($student->offer_letter_date)->format('d-m-Y') : '' }}</label>
             </div>
             <div class="mt-3 mb-3">
                 <label for="">{{ $student->name }}</label>
@@ -145,7 +145,7 @@
                     <label for="">Tarikh</label>
                 </div>
                 <div class="col-sm-9">
-                    <label for="">:&nbsp;<strong>{{ \Carbon\Carbon::parse($student->register_letter_date)->format('d-m-Y') }}</strong></label>
+                    <label for="">:&nbsp;<strong>{{$student->register_letter_date ? \Carbon\Carbon::parse($student->register_letter_date)->format('d-m-Y') : '' }}</strong></label>
                 </div>
             </div>
             <div class="row mb-3">
