@@ -17,10 +17,46 @@
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     <title>Surat Tawaran</title>
+
+    <style>
+        @media print {
+        @page {
+            size: A4; /* or 'letter' */
+            margin: 10mm; /* Adjust as needed */
+        }
+
+        body {
+            font-size: 12px; /* Adjust font size for print */
+        }
+
+        .container-fluid {
+            width: 100%;
+            padding: 0;
+        }
+
+        /* Hide unnecessary elements */
+        .navbar, .footer {
+            display: none;
+        }
+
+        /* Adjust other elements as needed */
+        /* Forcing a single page */
+        body, html {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .container-fluid, .row, .col-sm-2, .col-sm-10, main {
+            page-break-inside: avoid;
+            page-break-after: avoid;
+        }
+    }
+    </style>
+
 </head>
-<body>
+<body class="bg-white">
     @foreach($students as $student)
-    <div class="container">
+    <div class="container-fluid">
         <div class="col-sm-12">
             <div class="mt-3">
                 <label for="">{{ \Carbon\Carbon::parse($student->offer_letter_date)->format('d-m-Y') }}</label>
@@ -112,13 +148,42 @@
                     <label for="">:&nbsp;<strong>{{ \Carbon\Carbon::parse($student->register_letter_date)->format('d-m-Y') }}</strong></label>
                 </div>
             </div>
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col-sm-3">
                     <label for="">Masa</label>
                 </div>
                 <div class="col-sm-9">
                     <label for="">:&nbsp;<strong>10:00 Pagi</strong></label>
                 </div>
+            </div>
+            <div class="mb-3">
+                <label for="">Sila hubungi pegawai yang bertugas kami iaitu <strong>{{ $student->advisor }}</strong> di talian <strong>{{ $student->phone }}</strong> untuk sebarang pertanyaan dan pengesahan.</label>
+            </div>
+            <div class="border px-2 py-2 col-sm-12">
+                <div class="mb-3">
+                    <label for="" class="fw-bold">PENTING</label>
+                </div>
+                <ol class="list-group-numbered">
+                    <li class="list-group-item mb-1">Keputusan muktamad tawaran adalah tertakluk kepada keputusan peperiksaan SPM atau yang setarafnya.</li>
+                    <li class="list-group-item mb-1">Tuan dikehendaki membawa bersama:
+                        <ol class="list-group-numbered">
+                            <li class="list-group-item mb-1">6 keping gambar berwarna berukuran passport dan 1 salinan dokumen berikut yang telah disahkan:
+                                <ol class="list-group-numbered">
+                                    <li class="list-group-item mb-1">Kad Pengenalan (Pelajar, ibu dan bapa)</li>
+                                    <li class="list-group-item mb-1">Sijil Kelahiran (Pelajar, ibu dan bapa)</li>
+                                    <li class="list-group-item mb-1">Slip Keputusan SPM</li>
+                                    <li class="list-group-item mb-1">Slip gaji atau surat pengesahan pendapatan (ibu/bapa)</li>
+                                </ol>
+                            </li>
+                            <li class="list-group-item mb-1">Sertakan pembayaran yuran pendaftaran secara tunai atau cek/bank draft/wang pos ke akaun Kolej UNITI Sdn Bhd di akaun CIMB no akaun 8601062464 bagi tujuan pengesahan tempat dan bantuan pengajian atau bayaran boleh dibuat terus di Kolej UNITI.
+                            </li>
+                        </ol>
+                    </li>
+                    <li class="list-group-item mb-1">Ini adalah surat tawaran bersyarat, tidak boleh digunakan bagi sebarang permohonan pinjaman atau lain-lain.
+                    </li>
+                    <li class="list-group-item mb-1">Surat tawaran sebenar untuk tujuan permohonan pinjaman MARA, PTPTN dan lain-lain akan diberikan kepada pelajar semasa pendaftaran.
+                    </li>
+                </ol>
             </div>
         </div>
     </div>

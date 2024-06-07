@@ -192,7 +192,8 @@ class StudentController extends Controller
 
         $students = DB::table('students')
                     ->join('state', 'students.state_id', '=', 'state.id')
-                    ->select('students.*', 'state.name AS state')
+                    ->join('users', 'students.user_id', '=', 'users.id')
+                    ->select('students.*', 'state.name AS state', 'users.name AS advisor', 'users.phone')
                     ->where('students.ic', 'LIKE', "{$ic}")
                     ->get();
         
