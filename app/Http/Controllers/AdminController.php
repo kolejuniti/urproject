@@ -207,14 +207,20 @@ class AdminController extends Controller
         $phone = $request->input('phone');
         $bank_account = $request->input('bank_account');
         $bank = $request->input('bank');
-        $type = $request->input('type');
         $position = $request->input('position');
+
+        if ($position === "AFFILIATE UNITI") {
+            $type = 0;
+        }
+        elseif ($position === "MANAGER" || $position === "EDUCATION ADVISOR") {
+            $type = 1;
+        }
 
         $user = DB::table('users')
                 ->where('users.id', $id)
                 ->update(['phone'=>$phone, 'bank_account'=>$bank_account, 'bank_id'=>$bank, 'type'=>$type, 'position'=>$position]);
 
-        return redirect()->route('admin.userlist')->with('success', 'Maklumat pengguna berjaya dikemaskini.');;
+        return redirect()->route('admin.userlist')->with('success', 'Maklumat pengguna berjaya dikemaskini.');
     }
 
     public function studentlist()
