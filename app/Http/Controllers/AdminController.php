@@ -199,7 +199,7 @@ class AdminController extends Controller
                 ->join('bank', 'users.bank_id', '=', 'bank.id')
                 ->leftjoin('user_address', 'users.ic', '=', 'user_address.user_ic' )
                 ->join('state', 'user_address.state_id', '=', 'state.id')
-                ->select('users.*', 'religion.name AS religion', 'nation.name AS nation', 'sex.name AS sex', 'bank.name AS bank', 'user_address.*', 'state.name AS state')
+                ->select('users.*', 'religion.name AS religion', 'nation.name AS nation', 'sex.name AS sex', 'bank.name AS bank', 'user_address.address1', 'user_address.address2','user_address.postcode','user_address.city', 'state.name AS state')
                 ->orderBy('users.name')
                 ->get();
 

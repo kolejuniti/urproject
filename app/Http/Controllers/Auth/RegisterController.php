@@ -59,20 +59,24 @@ class RegisterController extends Controller
         ]);
     }
 
-    public function about()
+    public function about(Request $request)
     {
-        return view('auth.about');
+        $ref = $request->query('ref');
+
+        return view('auth.about', compact('ref'));
     }
 
-    public function showRegistrationForm()
-    {
+    public function showRegistrationForm(Request $request)
+    {   
+        $ref = $request->query('ref');
+
         $religions = DB::table('religion')->get();
         $nations = DB::table('nation')->get();
         $sexs = DB::table('sex')->get();
         $states = DB::table('state')->get();
         $banks = DB::table('bank')->get();
 
-        return view('auth.register', compact('religions', 'nations', 'sexs', 'states', 'banks'));
+        return view('auth.register', compact('ref', 'religions', 'nations', 'sexs', 'states', 'banks'));
     }
 
     /**
@@ -122,7 +126,9 @@ class RegisterController extends Controller
     }
 
     public function register(Request $request)
-    {
+    {   
+        $ref = $request->query('ref');
+
         $this->validator($request->all())->validate();
 
         // Create the user but do not log them in

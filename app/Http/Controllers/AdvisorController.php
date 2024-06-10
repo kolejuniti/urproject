@@ -145,6 +145,11 @@ class AdvisorController extends Controller
                 ->where('users.id', Auth::id())
                 ->update(['phone'=>$phone, 'bank_account'=>$bank_account, 'bank_id'=>$bank]);
 
-        return redirect()->route('advisor.profile')->with('success', 'Maklumat anda berjaya dikemaskini.');;
+        return redirect()->route('advisor.profile')->with('success', 'Maklumat anda berjaya dikemaskini.');
+    }
+
+    public function affiliate()
+    {        
+        return view('advisor.affiliate');
     }
 }
