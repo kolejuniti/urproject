@@ -68,7 +68,7 @@ class LoginController extends Controller
                 return redirect()->route('user.dashboard');
             }
         } else {
-            return redirect()->route('login')->with('error', 'email or password is incorrect.');
+            return redirect()->route('login')->with('error', 'Salah emel atau kata laluan tidak sah.');
         }
     }
 

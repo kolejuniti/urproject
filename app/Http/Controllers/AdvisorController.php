@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class AdvisorController extends Controller
 {
@@ -147,6 +149,24 @@ class AdvisorController extends Controller
                 ->update(['phone'=>$phone, 'bank_account'=>$bank_account, 'bank_id'=>$bank]);
 
         return redirect()->route('advisor.profile')->with('success', 'Maklumat anda berjaya dikemaskini.');
+    }
+
+    public function password(Request $request)
+    {
+        $request->validate([
+            'password' => 'required|min:8|confirmed', // Example validation rules, adjust as needed
+        ], [
+            'password.required' => 'Kata laluan diperlukan.',
+            'password.min' => 'Kata laluan mesti sekurang-kurangnya 8 aksara.',
+            'password.confirmed' => 'Pengesahan kata laluan tidak sepadan.',
+        ]);
+
+        $user = Auth::user();
+
+        $user->password = Hash::make($request->input('password'));
+        $user->save();
+
+        return redirect()->route('advisor.profile')->with('success', 'Katalaluan anda berjaya dikemaskini.');;
     }
 
     public function affiliate()

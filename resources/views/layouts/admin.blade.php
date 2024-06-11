@@ -154,7 +154,7 @@
                             <div class="collapse" id="account-collapse">
                             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                                 <li>
-                                    <a href="#" class="btn btn-link">Profil</a>
+                                    <a href="{{ route('admin.profile') }}" class="btn btn-link">Profil</a>
                                 </li>
                                 <li>
                                     <a href="{{ route('logout') }}" class="btn btn-link"

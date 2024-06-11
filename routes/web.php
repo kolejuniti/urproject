@@ -31,6 +31,9 @@ Route::middleware(['auth', 'user-access:admin'])->group(function() {
     Route::get('/admin/userlist', [AdminController::class, 'userlist'])->name('admin.userlist');
     Route::put('/admin/userlist/{id}', [AdminController::class, 'updateUser'])->name('admin.userlist.update');
     Route::get('/admin/studentlist', [AdminController::class, 'studentlist'])->name('admin.studentlist');
+    Route::get('/admin/profile', [AdminController::class, 'profile'])->name('admin.profile');
+    Route::put('/admin/update/profile', [AdminController::class, 'updateProfile'])->name('admin.profile.update');
+    Route::put('/admin/update/password', [AdminController::class, 'password'])->name('admin.profile.password');
 });
 
 // advisor route
@@ -39,7 +42,8 @@ Route::middleware(['auth', 'user-access:advisor'])->group(function() {
     Route::get('/advisor/application', [AdvisorController::class, 'applications'])->name('advisor.application');
     Route::put('/advisor/application/{id}', [AdvisorController::class, 'update'])->name('advisor.application.update');
     Route::get('/advisor/profile', [AdvisorController::class, 'profile'])->name('advisor.profile');
-    Route::put('/advisor/profile', [AdvisorController::class, 'updateProfile'])->name('advisor.profile.update');
+    Route::put('/advisor/update/profile', [AdvisorController::class, 'updateProfile'])->name('advisor.profile.update');
+    Route::put('/advisor/update/password', [AdvisorController::class, 'password'])->name('advisor.profile.password');
     Route::get('/advisor/affiliate', [AdvisorController::class, 'affiliate'])->name('advisor.affiliate');
 });
 
@@ -48,7 +52,8 @@ Route::middleware(['auth', 'user-access:user'])->group(function() {
     Route::get('/user/dashboard', [UserController::class, 'dashboard'])->name('user.dashboard');
     Route::get('/user/application', [UserController::class, 'applications'])->name('user.application');
     Route::get('/user/profile', [UserController::class, 'profile'])->name('user.profile');
-    Route::put('/user/profile', [UserController::class, 'update'])->name('user.profile.update');
+    Route::put('/user/update/profile', [UserController::class, 'update'])->name('user.profile.update');
+    Route::put('/user/update/password', [UserController::class, 'password'])->name('user.profile.password');
 });
 
 // student route

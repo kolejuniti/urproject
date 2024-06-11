@@ -34,7 +34,11 @@ class StudentController extends Controller
         $ref = $request->query('ref');
         
         $request->validate([
-            'file' => 'required|file|mimes:jpg,png,pdf|max:10240', // max 10MB
+            'file' => 'required|file|mimes:jpg,png,pdf|max:5120', // max 5MB
+        ], [
+            'file.required' => 'Salinan SPM diperlukan.',
+            'file.mimes' => 'Salinan SPM mestilah dalam bentuk fail jpg, jpeg, png atau pdf.',
+            'file.max' => 'Saiz salinan SPM mestilah tidak melebihin 5MB.',
         ]);
 
         $referral_code = $request->input('referral_code');

@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use App\Models\User;
 
 class UserController extends Controller
 {
@@ -104,5 +107,23 @@ class UserController extends Controller
                 ->update(['phone'=>$phone, 'bank_account'=>$bank_account, 'bank_id'=>$bank]);
 
         return redirect()->route('user.profile')->with('success', 'Maklumat anda berjaya dikemaskini.');;
+    }
+
+    public function password(Request $request)
+    {
+        $request->validate([
+            'password' => 'required|min:8|confirmed', // Example validation rules, adjust as needed
+        ], [
+            'password.required' => 'Kata laluan diperlukan.',
+            'password.min' => 'Kata laluan mesti sekurang-kurangnya 8 aksara.',
+            'password.confirmed' => 'Pengesahan kata laluan tidak sepadan.',
+        ]);
+
+        $user = Auth::user();
+
+        $user->password = Hash::make($request->input('password'));
+        $user->save();
+
+        return redirect()->route('user.profile')->with('success', 'Katalaluan anda berjaya dikemaskini.');;
     }
 }

@@ -1,4 +1,4 @@
-@extends('layouts.user')
+@extends('layouts.admin')
 
 @section('content')
 <div class="container">
@@ -13,7 +13,7 @@
                     </ul>
                 </div>
             @endif
-            
+
             @if(session('success'))
                 <div class="alert alert-success">
                     {{ session('success') }}
@@ -22,7 +22,7 @@
             <div class="card">
                 <div class="card-header">{{ __('Profil') }}</div>
 
-                <form action="{{ route('user.profile.update') }}" method="POST">
+                <form action="{{ route('admin.profile.update') }}" method="POST">
                 <div class="card-body">
                     @csrf
                     @method('PUT')
@@ -153,7 +153,7 @@
             <div class="card">
                 <div class="card-header">{{ __('Kemaskini Katalaluan') }}</div>
 
-                <form action="{{ route('user.profile.password') }}" method="POST">
+                <form action="{{ route('admin.profile.password') }}" method="POST">
                 <div class="card-body">
                     @csrf
                     @method('PUT')

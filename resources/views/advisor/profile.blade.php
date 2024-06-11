@@ -4,6 +4,16 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             @if(session('success'))
                 <div class="alert alert-success">
                     {{ session('success') }}
@@ -129,6 +139,38 @@
                         </div>
                         <div class="col-md-6 col-sm-6">
                             <label for="">{{ $userAddress->state }}</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-center">
+                    <button type="submit" class="col-1 btn btn-sm btn-primary">Save</button>
+                </div>
+                </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 mt-2">
+            <div class="card">
+                <div class="card-header">{{ __('Kemaskini Katalaluan') }}</div>
+
+                <form action="{{ route('advisor.profile.password') }}" method="POST">
+                <div class="card-body">
+                    @csrf
+                    @method('PUT')
+                    <div class="row mb-2">
+                        <div class="col-md-3 col-sm-3">
+                            <label for="">Kata Laluan</label>
+                        </div>
+                        <div class="col-md-3 col-sm-3">
+                            <input type="password" name="password" class="form-control form-control-sm" required>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-3 col-sm-3">
+                            <label for="">Pengesahan Kata Laluan</label>
+                        </div>
+                        <div class="col-md-3 col-sm-3">
+                            <input type="password" name="password_confirmation" class="form-control form-control-sm" required>
                         </div>
                     </div>
                 </div>
