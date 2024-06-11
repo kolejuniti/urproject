@@ -31,7 +31,8 @@ class User extends Authenticatable
         'password',
         'type',
         'referral_code',
-        
+        'leader_id',
+        'status',        
     ];
 
     /**

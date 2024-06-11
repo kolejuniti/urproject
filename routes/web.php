@@ -40,6 +40,7 @@ Route::middleware(['auth', 'user-access:advisor'])->group(function() {
     Route::put('/advisor/application/{id}', [AdvisorController::class, 'update'])->name('advisor.application.update');
     Route::get('/advisor/profile', [AdvisorController::class, 'profile'])->name('advisor.profile');
     Route::put('/advisor/profile', [AdvisorController::class, 'updateProfile'])->name('advisor.profile.update');
+    Route::get('/advisor/affiliate', [AdvisorController::class, 'affiliate'])->name('advisor.affiliate');
 });
 
 // user route

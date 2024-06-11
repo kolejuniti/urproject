@@ -78,20 +78,26 @@ class AdminController extends Controller
             return redirect()->back()->with('msg_error', 'No. kad pengenalan telah didaftar di dalam sistem.')->withInput();;
         }
 
-        $address1 = $data['address1'];
-        $address2 = $data['address2'];
-        $postcode = $data['postcode'];
-        $city = $data['city'];
-        $state = $data['state'];
-        
-        DB::table('user_address')->insert([
-            'user_ic' => $data['ic'],
-            'address1' => $address1,
-            'address2' => $address2,
-            'postcode' => $postcode,
-            'city' => $city,
-            'state_id' => $state,
-        ]);
+        $checkAddress = DB::table('user_address')->where('user_address.user_ic', $data['ic'])->first();
+
+        if($checkAddress === null) {
+
+            $address1 = $data['address1'];
+            $address2 = $data['address2'];
+            $postcode = $data['postcode'];
+            $city = $data['city'];
+            $state = $data['state'];
+
+            DB::table('user_address')->insert([
+                'user_ic' => $data['ic'],
+                'address1' => $address1,
+                'address2' => $address2,
+                'postcode' => $postcode,
+                'city' => $city,
+                'state_id' => $state,
+            ]);
+
+        }
 
         return User::create([
             'name' => strtoupper($data['name']),
@@ -106,6 +112,7 @@ class AdminController extends Controller
             'type' => ('1'),
             'password' => Hash::make('12345678'),
             'referral_code' => Str::random(8),
+            'status' => ('AKTIF'),
         ]);
     }
 
@@ -212,6 +219,7 @@ class AdminController extends Controller
         $bank_account = $request->input('bank_account');
         $bank = $request->input('bank');
         $position = $request->input('position');
+        $status = $request->input('status');
 
         if ($position === "AFFILIATE UNITI") {
             $type = 0;
@@ -222,7 +230,7 @@ class AdminController extends Controller
 
         $user = DB::table('users')
                 ->where('users.id', $id)
-                ->update(['phone'=>$phone, 'bank_account'=>$bank_account, 'bank_id'=>$bank, 'type'=>$type, 'position'=>$position]);
+                ->update(['phone'=>$phone, 'bank_account'=>$bank_account, 'bank_id'=>$bank, 'type'=>$type, 'position'=>$position, 'status'=>$status]);
 
         return redirect()->route('admin.userlist')->with('success', 'Maklumat pengguna berjaya dikemaskini.');
     }

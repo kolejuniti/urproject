@@ -24,6 +24,7 @@
                                     <th>No. Telefon</th>
                                     <th>Email</th>
                                     <th>Jawatan</th>
+                                    <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -37,6 +38,7 @@
                                     <td class="text-center">{{ $user->phone }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->position }}</td>
+                                    <td>{{ $user->status }}</td>
                                 </tr>  
                                 <div class="modal fade" id="modal{{ $user->ic }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ $user->ic }}" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -140,6 +142,20 @@
                                                                 <option value="EDUCATION ADVISOR">EDUCATION ADVISOR</option>
                                                                 <option value="AFFILIATE UNITI">AFFILIATE UNITI</option>
                                                                 <option value="MANAGER">MANAGER</option>
+                                                            @endif
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-3">
+                                                        <label for="">Status</label>
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-3">
+                                                        <select name="status" id="status" class="form-control form-control-sm" required>
+                                                            @if ($user->status === "AKTIF")
+                                                                <option value="AKTIF">AKTIF</option>
+                                                                <option value="TIDAK AKTIF">TIDAK AKTIF</option>
+                                                            @elseif ($user->status === "TIDAK AKTIF")
+                                                                <option value="TIDAK AKTIF">TIDAK AKTIF</option>
+                                                                <option value="AKTIF">AKTIF</option>
                                                             @endif
                                                         </select>
                                                     </div>

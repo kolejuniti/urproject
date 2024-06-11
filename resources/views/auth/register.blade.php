@@ -149,6 +149,21 @@
                             </select>
                         </div>
                     </div>
+                    @if ($ref !== null)
+                    <div class="col-sm-12">
+                        <hr>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-3 col-sm-3">
+                            <label for="">Kod Rujukan</label>
+                        </div>
+                        <div class="col-md-3 col-sm-3">
+                            <input type="text" id="ref" name="referral_code" value="{{ old('ref', $ref) }}" class="form-control form-control-sm" @if($ref) readonly @endif>
+                        </div>
+                    </div>
+                    @else
+                        <input type="hidden" id="ref" name="referral_code" value="" class="form-control form-control-sm">
+                    @endif
                 </div>
                 <div class="card-footer">
                     <div class="col-sm-12 text-center">

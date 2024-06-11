@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
+use App\Models\User;
 
 class AdvisorController extends Controller
 {
@@ -150,6 +151,8 @@ class AdvisorController extends Controller
 
     public function affiliate()
     {        
-        return view('advisor.affiliate');
+        $affiliates = User::where('leader_id', Auth::id())->orderBy('name')->get();
+
+        return view('advisor.affiliate', compact('affiliates'));
     }
 }

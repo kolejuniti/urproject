@@ -121,6 +121,18 @@
                             </ul>
                             </div>
                         </li>
+                        <li class="mb-1">
+                            <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-affiliate" aria-expanded="false">
+                            Affiliates
+                            </button>
+                            <div class="collapse" id="dashboard-affiliate">
+                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                <li>
+                                    <a href="{{ route('advisor.affiliate') }}" class="btn btn-link">Senarai Affiliates</a>
+                                </li>
+                            </ul>
+                            </div>
+                        </li>
                         <li class="border-top my-3"></li>
                         <li class="mb-1">
                             <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">

@@ -94,20 +94,32 @@ class RegisterController extends Controller
             return redirect()->back()->with('msg_error', 'No. kad pengenalan telah didaftar di dalam sistem.')->withInput();;
         }
 
-        $address1 = $data['address1'];
-        $address2 = $data['address2'];
-        $postcode = $data['postcode'];
-        $city = $data['city'];
-        $state = $data['state'];
-        
-        DB::table('user_address')->insert([
-            'user_ic' => $data['ic'],
-            'address1' => $address1,
-            'address2' => $address2,
-            'postcode' => $postcode,
-            'city' => $city,
-            'state_id' => $state,
-        ]);
+        $leaderID = null;
+
+        if ($data['referral_code'] !== null) {
+            $leaderID = User::where('referral_code', $data['referral_code'])->first();
+        }
+
+        $checkAddress = DB::table('user_address')->where('user_address.user_ic', $data['ic'])->first();
+
+        if($checkAddress === null) {
+
+            $address1 = $data['address1'];
+            $address2 = $data['address2'];
+            $postcode = $data['postcode'];
+            $city = $data['city'];
+            $state = $data['state'];
+
+            DB::table('user_address')->insert([
+                'user_ic' => $data['ic'],
+                'address1' => $address1,
+                'address2' => $address2,
+                'postcode' => $postcode,
+                'city' => $city,
+                'state_id' => $state,
+            ]);
+
+        }
 
         return User::create([
             'name' => strtoupper($data['name']),
@@ -122,6 +134,8 @@ class RegisterController extends Controller
             'bank_id' => $data['bank'],
             'password' => Hash::make('12345678'),
             'referral_code' => Str::random(8),
+            'leader_id' => $leaderID ? $leaderID->id : null,
+            'status' => ('AKTIF'),
         ]);
     }
 

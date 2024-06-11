@@ -53,8 +53,12 @@ class StudentController extends Controller
                     $userID = $user->id;
                     $update = date('Y-m-d H:i:s');
                 }
+                else {
+                    $userID = $user->leader_id;
+                    $update = date('Y-m-d H:i:s');
+                }
             }
-        }    
+        }
 
         $ic = $request->input('ic');
         $students = DB::table('students')

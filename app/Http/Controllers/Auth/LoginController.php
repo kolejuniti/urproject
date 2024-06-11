@@ -48,6 +48,13 @@ class LoginController extends Controller
         ]);
 
         if(auth()->attempt(array('email'=>$input['email'], 'password'=>$input['password']))){
+            $user = auth()->user();
+
+            if ($user->status != 'AKTIF') {
+                auth()->logout();
+                return redirect()->route('login')->with('error', 'Akaun anda tidak aktif. Sila hubungi pihak pentadbir sistem.');
+            }
+
             if(auth()->user()->type == 'admin')
             {
                 return redirect()->route('admin.dashboard');
