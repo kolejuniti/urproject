@@ -116,6 +116,9 @@
                                             @endif --}}
                                             @endforeach
                                             @if ($data['applicant']->status !== null)
+                                            <div class="col-md-12 col-sm-12">
+                                                <hr>
+                                            </div>
                                             <div class="row mb-2">
                                                 <div class="col-md-3 col-sm-3">
                                                     <label for="">Status Permohonan</label>
@@ -125,7 +128,7 @@
                                                 </div>
                                             </div>                                            
                                             @endif
-                                            <div class="col-md-12 col-sm-12 mb-3">
+                                            {{-- <div class="col-md-12 col-sm-12 mb-3">
                                                 <label for="" class="fw-bold">Pegawai Perhubungan</label>
                                             </div>
                                             <div class="row mb-2">
@@ -143,7 +146,7 @@
                                                 <div class="col-md-9 col-sm-9">
                                                     <label for="">{{ $data['applicant']->user_phone }}</label>
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
