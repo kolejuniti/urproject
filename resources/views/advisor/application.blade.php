@@ -161,7 +161,7 @@
                                                 <div class="collapse" id="collapseExample">
                                                     <div class="card card-body">
                                                         @if ($data['file_url'])
-                                                            <img src="{{ $data['file_url'] }}" alt="Keputusan SPM" class="img-fluid">
+                                                            <img src="{{ $data['file_url'] }}" loading="lazy" alt="Keputusan SPM" class="img-fluid">
                                                         @else
                                                             <label for="">Tiada keputusan peperiksaan SPM</label>
                                                         @endif
