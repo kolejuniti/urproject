@@ -75,8 +75,9 @@ class RegisterController extends Controller
         $sexs = DB::table('sex')->get();
         $states = DB::table('state')->get();
         $banks = DB::table('bank')->get();
+        $professions = DB::table('profession')->get();
 
-        return view('auth.register', compact('ref', 'religions', 'nations', 'sexs', 'states', 'banks'));
+        return view('auth.register', compact('ref', 'religions', 'nations', 'sexs', 'states', 'banks', 'professions'));
     }
 
     /**
@@ -132,6 +133,7 @@ class RegisterController extends Controller
             'position' => ('AFFILIATE UNITI'),
             'bank_account' => $data['bank_account'],
             'bank_id' => $data['bank'],
+            'profession' => strtoupper($data['profession']),
             'password' => Hash::make('12345678'),
             'referral_code' => Str::random(8),
             'leader_id' => $leaderID ? $leaderID->id : null,

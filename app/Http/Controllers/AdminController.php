@@ -59,6 +59,7 @@ class AdminController extends Controller
         $nations = DB::table('nation')->get();
         $sexs = DB::table('sex')->get();
         $states = DB::table('state')->get();
+        $professions = DB::table('profession')->get();
 
         return view('admin.register', compact('religions', 'nations', 'sexs', 'states'));
     }
