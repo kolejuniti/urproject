@@ -75,6 +75,7 @@ class UserController extends Controller
     public function profile()
     {
         $banks = DB::table('bank')->get();
+        $professions = DB::table('profession')->get();
 
         $user = Auth::user()
                 ->join('religion', 'users.religion_id', '=', 'religion.id')
@@ -91,7 +92,7 @@ class UserController extends Controller
                         ->where('user_address.user_ic', '=', $user->ic)
                         ->first();
 
-        return view('user.profile', compact('banks', 'user', 'userAddress'));
+        return view('user.profile', compact('banks', 'user', 'userAddress', 'professions'));
     }
 
     public function update(Request $request)
@@ -101,10 +102,11 @@ class UserController extends Controller
         $phone = $request->input('phone');
         $bank_account = $request->input('bank_account');
         $bank = $request->input('bank');
+        $profession = $request->input('profession');
 
         $user = DB::table('users')
                 ->where('users.id', Auth::id())
-                ->update(['phone'=>$phone, 'bank_account'=>$bank_account, 'bank_id'=>$bank]);
+                ->update(['phone'=>$phone, 'bank_account'=>$bank_account, 'bank_id'=>$bank, 'profession'=>$profession]);
 
         return redirect()->route('user.profile')->with('success', 'Maklumat anda berjaya dikemaskini.');;
     }

@@ -100,6 +100,19 @@
                             </select>
                         </div>
                     </div>
+                    <div class="row mb-2">
+                        <div class="col-md-3 col-sm-3">
+                            <label for="">Profesion / Pekerjaan</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9">
+                            <input list="professions" name="profession" id="profession" class="form-control form-control-sm" value="{{ $user->profession }}">
+                            <datalist id="professions">
+                                @foreach ($professions as $profession)
+                                    <option value="{{ $profession->name }}">
+                                @endforeach
+                            </datalist>
+                        </div>
+                    </div>
                     <div class="col-md-12 col-sm-12 mb-3 mt-3">
                         <label for="" class="fw-bold">Alamat Pengguna</label>
                     </div>
