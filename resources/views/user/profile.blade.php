@@ -156,7 +156,7 @@
                     </div>
                 </div>
                 <div class="card-footer text-center">
-                    <button type="submit" class="col-1 btn btn-sm btn-primary">Save</button>
+                    <button type="submit" class="btn btn-sm btn-primary">Save</button>
                 </div>
                 </form>
                 </div>
@@ -188,7 +188,7 @@
                     </div>
                 </div>
                 <div class="card-footer text-center">
-                    <button type="submit" class="col-1 btn btn-sm btn-primary">Save</button>
+                    <button type="submit" class="btn btn-sm btn-primary">Save</button>
                 </div>
                 </form>
                 </div>
