@@ -59,7 +59,6 @@ class StudentController extends Controller
                 }
                 else {
                     $userID = $user->leader_id;
-                    $update = date('Y-m-d H:i:s');
                 }
             }
         }
