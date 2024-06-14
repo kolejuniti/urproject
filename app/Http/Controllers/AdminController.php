@@ -156,6 +156,7 @@ class AdminController extends Controller
 
             $jpgFilePath = 'urproject/student/resultspm/' . $applicant->ic . '.jpg';
             $jpegFilePath = 'urproject/student/resultspm/' . $applicant->ic . '.jpeg';
+            $pngFilePath = 'urproject/student/resultspm/' . $applicant->ic . '.png';
 
             if (Storage::disk('linode')->exists($jpgFilePath)) {
                 // If the .jpg file exists, use its URL
@@ -163,6 +164,9 @@ class AdminController extends Controller
             } elseif (Storage::disk('linode')->exists($jpegFilePath)) {
                 // If the .jpeg file exists, use its URL
                 $fileUrl = Storage::disk('linode')->url($jpegFilePath);
+            } elseif (Storage::disk('linode')->exists($pngFilePath)) {
+                // If the .png file exists, use its URL
+                $fileUrl = Storage::disk('linode')->url($pngFilePath);
             } else {
                 // If neither file exists, set $fileUrl to null or a default value
                 $fileUrl = null; // You can customize this to any default value you prefer
