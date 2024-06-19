@@ -61,6 +61,7 @@ class AdvisorController extends Controller
             $jpgFilePath = 'urproject/student/resultspm/' . $applicant->ic . '.jpg';
             $jpegFilePath = 'urproject/student/resultspm/' . $applicant->ic . '.jpeg';
             $pngFilePath = 'urproject/student/resultspm/' . $applicant->ic . '.png';
+            $pdfFilePath = 'urproject/student/resultspm/' . $applicant->ic . '.pdf';
 
             if (Storage::disk('linode')->exists($jpgFilePath)) {
                 // If the .jpg file exists, use its URL
@@ -71,6 +72,9 @@ class AdvisorController extends Controller
             } elseif (Storage::disk('linode')->exists($pngFilePath)) {
                 // If the .png file exists, use its URL
                 $fileUrl = Storage::disk('linode')->url($pngFilePath);
+            } elseif (Storage::disk('linode')->exists($pdfFilePath)) {
+                // If the .png file exists, use its URL
+                $fileUrl = Storage::disk('linode')->url($pdfFilePath);
             } else {
                 // If neither file exists, set $fileUrl to null or a default value
                 $fileUrl = null; // You can customize this to any default value you prefer
