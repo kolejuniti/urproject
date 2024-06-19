@@ -149,7 +149,13 @@
                                             <div class="collapse" id="collapseExample">
                                                 <div class="card card-body">
                                                     @if ($data['file_url'])
-                                                        <img src="{{ $data['file_url'] }}" loading="lazy" alt="Keputusan SPM" class="img-fluid">
+                                                        @if (pathinfo($data['file_url'], PATHINFO_EXTENSION) === 'pdf')
+                                                            <object data="{{ $data['file_url'] }}" type="application/pdf" width="100%" height="500px">
+                                                                <p><a href="{{ $data['file_url'] }}">Click here to download the PDF file.</a></p>
+                                                            </object>
+                                                        @else
+                                                            <img src="{{ $data['file_url'] }}" loading="lazy" alt="Keputusan SPM" class="img-fluid">
+                                                        @endif
                                                     @else
                                                         <label for="">Tiada keputusan peperiksaan SPM</label>
                                                     @endif
