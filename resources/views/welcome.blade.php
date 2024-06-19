@@ -17,14 +17,6 @@
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
-
-    <style>
-        body {
-            background-image: url("https://uniti.edu.my/wp-content/uploads/2024/05/banner-web-kupd-jom-masuk-uniti-1.jpg");
-            background-size: cover; /* Adjust the size to cover the entire container */
-            background-repeat: no-repeat; /* Prevent the image from repeating */
-        }
-    </style>
 </head>
 <body>
     <div id="app">
@@ -48,43 +40,7 @@
                         @guest
                             <li class="nav-item dropdown">
                                 <a href="{{ route('student.about') }}" class="btn btn-success">Jom Masuk UNITI!</a>
-
-                                {{-- <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{__('Pelajar')}}
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('student.register') }}">
-                                        {{__('Pendaftaran')}}
-                                    </a>
-                                    <a class="dropdown-item" href="{{ route('student.search') }}">
-                                        {{__('Semakan')}}
-                                    </a>
-                                </div> --}}
                             </li>
-                            {{-- <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{__('Affiliates UNITI')}}
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('register') }}">
-                                        {{__('Pendaftaran')}}
-                                    </a>
-                                </div>
-                            </li> --}}
-
-                            {{-- @if (Route::has('login'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                                </li>
-                            @endif --}}
-
-                            {{-- @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif --}}
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle text-uppercase" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -109,8 +65,52 @@
             </div>
         </nav>
 
-        <main class="py-4" style="max-height: 80vh; overflow-y: auto;">
-            @yield('content')
+        <main class="py-4" style="max-height: 90vh;">
+            {{-- @yield('content') --}}
+            <div class="container mb-5">
+                    <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/banner-web-kupd-jom-masuk-uniti-1.jpg" alt="" class="img-fluid">
+            </div>
+            {{-- <div id="myCarousel" class="carousel slide mb-6" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                  <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                  <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                  <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                </div>
+                <div class="carousel-inner">
+                  <div class="carousel-item active">
+                    <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="var(--bs-secondary-color)"/></svg>
+                    <div class="container">
+                      <div class="carousel-caption text-start">
+                        <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/banner-web-kupd-jom-masuk-uniti-1.jpg" alt="" class="img-fluid">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="carousel-item">
+                    <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="var(--bs-secondary-color)"/></svg>
+                    <div class="container">
+                      <div class="carousel-caption text-start">
+                        <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/poster1.jpg" alt="" class="img-fluid">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="carousel-item">
+                    <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="var(--bs-secondary-color)"/></svg>
+                    <div class="container">
+                      <div class="carousel-caption text-start">
+                        <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/poster-01.png" alt="" class="img-fluid">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+            </div>             --}}
         </main>
     </div>
 </body>
