@@ -104,10 +104,10 @@
               <div class="card-body" style="height: 480px">
                   <p class="card-text text-center"><h4 class="text-center">FAKULTI TEKNOLOGI & KEJURUTERAAN</h4></p>
                   <ul class="small nav flex-column">
-                      <li class="nav-item mb-3">
+                      {{-- <li class="nav-item mb-3">
                         <a type="button" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" data-bs-toggle="modal" data-bs-target="#dcn">DIPLOMA IN COMPUTER NETWORK
                         </a>
-                      </li>
+                      </li> --}}
                       <li class="nav-item mb-3">
                         <a type="button" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" data-bs-toggle="modal" data-bs-target="#digd">DIPLOMA IN GRAPHIC DESIGN
                         </a>
