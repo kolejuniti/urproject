@@ -55,16 +55,16 @@
                     <ul class="small nav flex-column">
                         <li class="nav-item mb-3">
                           <a type="button" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" data-bs-toggle="modal" data-bs-target="#dpakk">
-                            DIPLOMA PENDIDIKAN AWAL KANAK-KANAK
+                            DIPLOMA PENDIDIKAN AWAL KANAK-KANAK&nbsp;<i class="bi bi-arrow-left-circle-fill"></i>
                           </a>
                         </li>
                         <li class="nav-item mb-3">
                           <a type="button" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" data-bs-toggle="modal" data-bs-target="#dpisr">
-                          DIPLOMA PENDIDIKAN ISLAM SEKOLAH RENDAH
+                          DIPLOMA PENDIDIKAN ISLAM SEKOLAH RENDAH&nbsp;<i class="bi bi-arrow-left-circle-fill"></i>
                           </a>
                         </li>
                         <li class="nav-item mb-3">
-                          <a type="button" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" data-bs-toggle="modal" data-bs-target="#dpk">DIPLOMA PSIKOLOGI KAUNSELING
+                          <a type="button" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" data-bs-toggle="modal" data-bs-target="#dpk">DIPLOMA PSIKOLOGI KAUNSELING&nbsp;<i class="bi bi-arrow-left-circle-fill"></i>
                           </a>
                         </li>
                     </ul>
@@ -109,15 +109,15 @@
                         </a>
                       </li> --}}
                       <li class="nav-item mb-3">
-                        <a type="button" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" data-bs-toggle="modal" data-bs-target="#digd">DIPLOMA IN GRAPHIC DESIGN
+                        <a type="button" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" data-bs-toggle="modal" data-bs-target="#digd">DIPLOMA IN GRAPHIC DESIGN&nbsp;<i class="bi bi-arrow-left-circle-fill"></i>
                         </a>
                       </li>
                       <li class="nav-item mb-3">
-                        <a type="button" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" data-bs-toggle="modal" data-bs-target="#ditss">DIPLOMA IN INFORMATION TECHNOLOGY (SYSTEM SUPPORT)
+                        <a type="button" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" data-bs-toggle="modal" data-bs-target="#ditss">DIPLOMA IN INFORMATION TECHNOLOGY (SYSTEM SUPPORT)&nbsp;<i class="bi bi-arrow-left-circle-fill"></i>
                         </a>
                       </li>
                       <li class="nav-item mb-3">
-                        <a type="button" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" data-bs-toggle="modal" data-bs-target="#dkm">DIPLOMA KOMUNIKASI DAN MEDIA
+                        <a type="button" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" data-bs-toggle="modal" data-bs-target="#dkm">DIPLOMA KOMUNIKASI DAN MEDIA&nbsp;<i class="bi bi-arrow-left-circle-fill"></i>
                         </a>
                       </li>
                   </ul>
@@ -158,43 +158,43 @@
                   <p class="card-text"><h4 class="text-center">FAKULTI PENGURUSAN & INDUSTRI HALAL</h4></p>
                   <ul class="small nav flex-column">
                     <li class="nav-item mb-3">
-                      <a type="button" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" data-bs-toggle="modal" data-bs-target="#dia">DIPLOMA IN ACCOUNTING [UiTM]
+                      <a type="button" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" data-bs-toggle="modal" data-bs-target="#dia">DIPLOMA IN ACCOUNTING [UiTM]&nbsp;<i class="bi bi-arrow-left-circle-fill"></i>
                       </a>
                     </li>
                     <li class="nav-item mb-3">
-                      <a type="button" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" data-bs-toggle="modal" data-bs-target="#dbs">DIPLOMA IN BUSINESS STUDIES [UiTM]
+                      <a type="button" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" data-bs-toggle="modal" data-bs-target="#dbs">DIPLOMA IN BUSINESS STUDIES [UiTM]&nbsp;<i class="bi bi-arrow-left-circle-fill"></i>
                       </a>
                     </li>
                     <li class="nav-item mb-3">
-                      <a type="button" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" data-bs-toggle="modal" data-bs-target="#dhpm">DIPLOMA IN HALAL PRODUCT MANUFACTURING
+                      <a type="button" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" data-bs-toggle="modal" data-bs-target="#dhpm">DIPLOMA IN HALAL PRODUCT MANUFACTURING&nbsp;<i class="bi bi-arrow-left-circle-fill"></i>
                       </a>
                     </li>
                     <li class="nav-item mb-3">
-                      <a type="button" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" data-bs-toggle="modal" data-bs-target="#ditm">DIPLOMA IN TOURISM MANAGEMENT
+                      <a type="button" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" data-bs-toggle="modal" data-bs-target="#ditm">DIPLOMA IN TOURISM MANAGEMENT&nbsp;<i class="bi bi-arrow-left-circle-fill"></i>
                       </a>
                     </li>
                     <li class="nav-item mb-3">
-                      <a type="button" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" data-bs-toggle="modal" data-bs-target="#dpi">DIPLOMA PENGAJIAN ISLAM
+                      <a type="button" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" data-bs-toggle="modal" data-bs-target="#dpi">DIPLOMA PENGAJIAN ISLAM&nbsp;<i class="bi bi-arrow-left-circle-fill"></i>
                       </a>
                     </li>
                     <li class="nav-item mb-3">
-                      <a type="button" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" data-bs-toggle="modal" data-bs-target="#dpih">DIPLOMA PENGURUSAN INDUSTRI HALAL
+                      <a type="button" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" data-bs-toggle="modal" data-bs-target="#dpih">DIPLOMA PENGURUSAN INDUSTRI HALAL&nbsp;<i class="bi bi-arrow-left-circle-fill"></i>
                       </a>
                     </li>
                     <li class="nav-item mb-3">
-                      <a type="button" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" data-bs-toggle="modal" data-bs-target="#dpm">DIPLOMA PENGURUSAN MUAMALAT
+                      <a type="button" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" data-bs-toggle="modal" data-bs-target="#dpm">DIPLOMA PENGURUSAN MUAMALAT&nbsp;<i class="bi bi-arrow-left-circle-fill"></i>
                       </a>
                     </li>
                     <li class="nav-item mb-3">
-                      <a type="button" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" data-bs-toggle="modal" data-bs-target="#dpp">DIPLOMA PENGURUSAN PERNIAGAAN
+                      <a type="button" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" data-bs-toggle="modal" data-bs-target="#dpp">DIPLOMA PENGURUSAN PERNIAGAAN&nbsp;<i class="bi bi-arrow-left-circle-fill"></i>
                       </a>
                     </li>
                     <li class="nav-item mb-3">
-                      <a type="button" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" data-bs-toggle="modal" data-bs-target="#dpa">DIPLOMA PERAKAUNAN
+                      <a type="button" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" data-bs-toggle="modal" data-bs-target="#dpa">DIPLOMA PERAKAUNAN&nbsp;<i class="bi bi-arrow-left-circle-fill"></i>
                       </a>
                     </li>
                     <li class="nav-item mb-3">
-                      <a type="button" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" data-bs-toggle="modal" data-bs-target="#dpt">DIPLOMA PENGURUSAN TEKNOLOGI
+                      <a type="button" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" data-bs-toggle="modal" data-bs-target="#dpt">DIPLOMA PENGURUSAN TEKNOLOGI&nbsp;<i class="bi bi-arrow-left-circle-fill"></i>
                       </a>
                     </li>
                   </ul>
