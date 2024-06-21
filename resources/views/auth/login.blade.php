@@ -135,9 +135,9 @@
                             <button class="btn btn-primary btn-lg" type="submit">Log in</button>
                             </div>
                         </div>
-                        <div class="col-12">
+                        {{-- <div class="col-12">
                             <p class="m-0 text-secondary text-center">Don't have an account? <a href="#!" class="link-primary text-decoration-none">Sign up</a></p>
-                        </div>
+                        </div> --}}
                         </div>
                     </form>
                     </div>
