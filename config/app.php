@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'e-Daftar'),
+    'name' => env('APP_NAME', 'Kolej UNITI | e-Daftar'),
 
     /*
     |--------------------------------------------------------------------------
