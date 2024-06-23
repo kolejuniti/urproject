@@ -78,10 +78,10 @@
                       <label class="text-white"><i class="bi bi-envelope-at-fill"></i>&nbsp;{{ __('info@uniti.edu.my') }}</label>
                   </div>
                   <div class="col-12 col-md-2 d-flex justify-content-md-end justify-content-start mt-md-0">
-                      <a href="#" class="text-white mx-2"><i class="bi bi-facebook"></i></a>
-                      <a href="#" class="text-white mx-2"><i class="bi bi-instagram"></i></a>
-                      <a href="#" class="text-white mx-2"><i class="bi bi-youtube"></i></a>
-                      <a href="#" class="text-white mx-2"><i class="bi bi-tiktok"></i></a>
+                      <a href="https://www.facebook.com/kolejunitiportdickson" class="text-white mx-2"><i class="bi bi-facebook"></i></a>
+                      <a href="https://www.instagram.com/kolejunitiportdickson/" class="text-white mx-2"><i class="bi bi-instagram"></i></a>
+                      <a href="https://www.youtube.com/KOLEJUNITIPORTDICKSON" class="text-white mx-2"><i class="bi bi-youtube"></i></a>
+                      <a href="https://www.tiktok.com/@kolejunitipd" class="text-white mx-2"><i class="bi bi-tiktok"></i></a>
                   </div>
               </div>
           </div>
