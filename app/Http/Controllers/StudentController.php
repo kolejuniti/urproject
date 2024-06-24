@@ -12,7 +12,7 @@ use Carbon\Carbon;
 class StudentController extends Controller
 {
     public function index(Request $request)
-    {
+    {   
         $states = DB::table('state')->get();
         $locations = DB::table('location')->get();
         $ref = $request->query('ref');
@@ -64,98 +64,108 @@ class StudentController extends Controller
         }
 
         $ic = $request->input('ic');
-        $students = DB::table('students')
-                    ->where('ic', $ic)
-                    ->first();
-                    
-        if ($students === null)
+        $studentlists = DB::connection('mysql2')->table('students')->where('ic', $ic)
+        ->first();
+
+        if($studentlists === null)
         {
-            $name = strtoupper($request->input('name'));
             $ic = $request->input('ic');
-            $phone = $request->input('phone');
-            $email = $request->input('email');
-            $address1 = strtoupper($request->input('address1'));
-            $address2 = strtoupper($request->input('address2'));
-            $postcode = $request->input('postcode');
-            $city = strtoupper($request->input('city'));
-            $state = $request->input('state');
-            $year = $request->input('year');
-            $location = $request->input('location');
-            $programA = $request->input('programA');
-            $programB = $request->input('programB');
+            $students = DB::table('students')
+                        ->where('ic', $ic)
+                        ->first();
+                        
+            if ($students === null)
+            {
+                $name = strtoupper($request->input('name'));
+                $ic = $request->input('ic');
+                $phone = $request->input('phone');
+                $email = $request->input('email');
+                $address1 = strtoupper($request->input('address1'));
+                $address2 = strtoupper($request->input('address2'));
+                $postcode = $request->input('postcode');
+                $city = strtoupper($request->input('city'));
+                $state = $request->input('state');
+                $year = $request->input('year');
+                $location = $request->input('location');
+                $programA = $request->input('programA');
+                $programB = $request->input('programB');
 
-            DB::table('students')->insert([
-                'name'=>$name,
-                'ic'=>$ic,
-                'phone'=>$phone,
-                'email'=>$email,
-                'address1'=>$address1,
-                'address2'=>$address2,
-                'postcode'=>$postcode,
-                'city'=>$city,
-                'state_id'=>$state,
-                'spm_year'=>$year,
-                'location_id'=>$location,
-                'referral_code'=>$ref,
-                'user_id'=>$userID,
-                'updated_at'=> $update
-            ]);
+                DB::table('students')->insert([
+                    'name'=>$name,
+                    'ic'=>$ic,
+                    'phone'=>$phone,
+                    'email'=>$email,
+                    'address1'=>$address1,
+                    'address2'=>$address2,
+                    'postcode'=>$postcode,
+                    'city'=>$city,
+                    'state_id'=>$state,
+                    'spm_year'=>$year,
+                    'location_id'=>$location,
+                    'referral_code'=>$ref,
+                    'user_id'=>$userID,
+                    'updated_at'=> $update
+                ]);
 
-            $student = DB::table('students')->where('ic', $ic)->first();
+                $student = DB::table('students')->where('ic', $ic)->first();
 
-            DB::table('student_programs')->insert([
-                'student_ic'=>$ic,
-                'program_id'=>$programA
-            ]);
+                DB::table('student_programs')->insert([
+                    'student_ic'=>$ic,
+                    'program_id'=>$programA
+                ]);
 
-            DB::table('student_programs')->insert([
-                'student_ic'=>$ic,
-                'program_id'=>$programB
-            ]);
+                DB::table('student_programs')->insert([
+                    'student_ic'=>$ic,
+                    'program_id'=>$programB
+                ]);
 
-            $stateName = DB::table('state')->where('id', $state)->value('name');
-            
-            $locationName = DB::table('location')->where('id', $location)->value('name');
+                $stateName = DB::table('state')->where('id', $state)->value('name');
+                
+                $locationName = DB::table('location')->where('id', $location)->value('name');
 
-            $programNames = DB::table('student_programs')
-                            ->join('program', 'student_programs.program_id', '=', 'program.id')
-                            ->select('program.name', 'student_programs.status')
-                            ->where('student_programs.student_ic', $ic)
-                            ->get();
+                $programNames = DB::table('student_programs')
+                                ->join('program', 'student_programs.program_id', '=', 'program.id')
+                                ->select('program.name', 'student_programs.status')
+                                ->where('student_programs.student_ic', $ic)
+                                ->get();
 
-            $file = $request->file('file');
+                $file = $request->file('file');
 
-             // Upload file to Linode and set it as public
-            $filePath = 'urproject/student/resultspm/' . $ic . '.' . $file->getClientOriginalExtension();
+                // Upload file to Linode and set it as public
+                $filePath = 'urproject/student/resultspm/' . $ic . '.' . $file->getClientOriginalExtension();
 
-            // Get the file URL from Linode
-            $fileUrl = Storage::disk('linode')->url($filePath);
+                // Get the file URL from Linode
+                $fileUrl = Storage::disk('linode')->url($filePath);
 
-            // dd($filePath);
+                // dd($filePath);
 
-            Storage::disk('linode')->put($filePath, file_get_contents($file), 'public');
+                Storage::disk('linode')->put($filePath, file_get_contents($file), 'public');
 
-            return redirect()->route('student.confirmation')
-            ->with([
-                'name'=>$name, 
-                'ic'=>$ic,
-                'phone'=>$phone,
-                'email'=>$email,
-                'address1'=>$address1,
-                'address2'=>$address2,
-                'postcode'=>$postcode,
-                'city'=>$city,
-                'state'=>$stateName,
-                'year'=>$year,
-                'location'=>$locationName,
-                'program'=>$programNames,
-                'created_at' => $student->created_at,
-                'msg_reg' => 'Maklumat berjaya didaftarkan.'
-            ]);
+                return redirect()->route('student.confirmation')
+                ->with([
+                    'name'=>$name, 
+                    'ic'=>$ic,
+                    'phone'=>$phone,
+                    'email'=>$email,
+                    'address1'=>$address1,
+                    'address2'=>$address2,
+                    'postcode'=>$postcode,
+                    'city'=>$city,
+                    'state'=>$stateName,
+                    'year'=>$year,
+                    'location'=>$locationName,
+                    'program'=>$programNames,
+                    'created_at' => $student->created_at,
+                    'msg_reg' => 'Maklumat berjaya didaftarkan.'
+                ]);
+            }
+            else
+            {
+                return redirect()->back()->with('msg_error', 'No. kad pengenalan telah didaftar di dalam sistem.');
+            }
         }
-        else
-        {
-            return redirect()->back()->with('msg_error', 'No. kad pengenalan telah didaftar di dalam sistem.');
+        else {
+            return redirect()->back()->with('msg_error', 'No. kad pengenalan telah didaftar di dalam Sistem Maklumat Pelajar Kolej UNITI.');
         }
     }
 
