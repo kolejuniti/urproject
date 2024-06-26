@@ -25,6 +25,7 @@
                                     <th>Email</th>
                                     <th>Jawatan</th>
                                     <th>Status</th>
+                                    <th>Tarikh Daftar</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -39,6 +40,7 @@
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->position }}</td>
                                     <td>{{ $user->status }}</td>
+                                    <td class="text-center">{{ \Carbon\Carbon::parse($user->created_at)->format('d-m-Y') }}</td>
                                 </tr>  
                                 <div class="modal fade" id="modal{{ $user->ic }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ $user->ic }}" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
