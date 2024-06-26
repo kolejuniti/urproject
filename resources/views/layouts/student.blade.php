@@ -125,7 +125,7 @@
             </div>
         </nav>
 
-        <main class="py-4" style="max-height: 80vh; overflow-y: auto;">
+        <main class="py-4 bg-white" style="max-height: 80vh; overflow-y: auto;">
             @yield('content')
         </main>
     </div>
