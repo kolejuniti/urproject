@@ -90,7 +90,7 @@
                 <div class="card border border-light-subtle rounded-3 shadow-sm">
                     <div class="card-body p-3 p-md-4 p-xl-4">
                     <div class="text-center mb-1">
-                        <a href="#!">
+                        <a href="{{ route('login')}}">
                             <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/logo/logo_edaftar.png" alt="...." class="img-fluid" width="120" height="120">
                         </a>
                     </div>
