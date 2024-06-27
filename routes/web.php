@@ -8,7 +8,18 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\RegisterController;
 
 Route::get('/', function () {
-    return view('welcome');
+    if (auth()->check()) {
+        switch (auth()->user()->type) {
+            case 'user':
+                return redirect('/user/dashboard');
+            case 'advisor':
+                return redirect('/advisor/dashboard');
+            case 'admin':
+                return redirect('/admin/dashboard');
+        }
+    }
+
+    return view('welcome'); // Or any other public view
 });
 
 // Route::get('/example', function () {

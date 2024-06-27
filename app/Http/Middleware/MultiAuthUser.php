@@ -15,8 +15,21 @@ class MultiAuthUser
      */
     public function handle(Request $request, Closure $next, $userType): Response
     {
-        if(auth()->user()->type == $userType) {
-            return $next($request);
+
+        if (auth()->check()) {
+            if (auth()->user()->type == $userType) {
+                return $next($request);
+            }
+            
+            // Redirect based on user type
+            switch (auth()->user()->type) {
+                case 'user':
+                    return redirect('/user/dashboard');
+                case 'advisor':
+                    return redirect('/advisor/dashboard');
+                case 'admin':
+                    return redirect('/admin/dashboard');
+            }
         }
 
         return response()->json(['You are not authorized to access this page.']);
