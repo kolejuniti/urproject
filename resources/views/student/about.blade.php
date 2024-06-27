@@ -50,7 +50,7 @@
         <div class="card">
           <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/asrama.jpg" loading="lazy" class="card-img-top" alt="...">
           <div class="card-body">
-            <h5 class="card-title">Hostel</h5>
+            <h5 class="card-title">Penginapan</h5>
             <p class="card-text">Jaminan penginapan selama 3 tahun di dalam kawasan kolej.</p>
           </div>
         </div>
