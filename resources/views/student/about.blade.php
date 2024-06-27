@@ -448,7 +448,7 @@
         <div class="card">
           <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/guard.jpg" class="card-img" alt="...">
           <div class="card-img-overlay">
-            <h6 class="card-title position-absolute bottom-0 start-0 fw-bold text-white bg-dark px-3 py-1">Kawalan Keselamatan 24Jam</h6>
+            <h6 class="card-title position-absolute bottom-0 start-0 fw-bold text-white bg-dark px-3 py-1">Kawalan Keselamatan 24 Jam</h6>
           </div>
         </div>
       </div>
