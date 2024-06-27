@@ -88,13 +88,18 @@
                 @endif
                 <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4">
                 <div class="card border border-light-subtle rounded-3 shadow-sm">
-                    <div class="card-body p-3 p-md-4 p-xl-5">
+                    <div class="card-body p-3 p-md-4 p-xl-4">
+                    <div class="text-center mb-1">
+                        <a href="#!">
+                            <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/logo/logo_edaftar.png" alt="...." class="img-fluid" width="120" height="120">
+                        </a>
+                    </div>
                     <h2 class="fs-6 fw-normal text-center text-secondary mb-4">Sign in to your account</h2>
                     <form method="POST" action="{{ route('login') }}">
                     @csrf
                         <div class="row gy-2 overflow-hidden">
                         <div class="col-12">
-                            <div class="form-floating mb-3">
+                            <div class="form-floating mb-1">
                             <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" id="email" value="{{ old('email') }}" placeholder="name@example.com" required autocomplete="email">
                             
                             @error('email')
@@ -107,7 +112,7 @@
                             </div>
                         </div>
                         <div class="col-12">
-                            <div class="form-floating mb-3">
+                            <div class="form-floating mb-1">
                             <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" id="password" value="" placeholder="Password" required autocomplete="current-password">
 
                             @error('password')
@@ -131,7 +136,7 @@
                             </div>
                         </div>
                         <div class="col-12">
-                            <div class="d-grid my-3">
+                            <div class="d-grid my-1">
                             <button class="btn btn-primary btn-lg" type="submit">Log in</button>
                             </div>
                         </div>
