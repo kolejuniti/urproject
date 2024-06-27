@@ -21,93 +21,154 @@
 <body>
     <div class="container mt-3">
         <div class="card mb-3">
-            <div class="card-header">Hostel Registration</div>
+            <div class="card-header">Laporan Pelajar R</div>
             <div class="card-body">
                 <div class="row mb-2">
                     <div class="col-sm-3">
-                        <label for="">Block</label>
+                        <label for="">Tarikh Mula</label>
                     </div>
                     <div class="col-sm-3">
-                        <label for="">A1 - UNITI VILLAGE</label>
+                        <input type="date" name="" id="" class="form-control form-control-sm">
                     </div>
                     <div class="col-sm-3">
-                        <label for="">No. Unit</label>
+                        <label for="">Tarikh Akhir</label>
                     </div>
                     <div class="col-sm-3">
-                        <label for="">01</label>
-                    </div>
-                </div>
-                <div class="col-sm-12">
-                    <hr>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-sm-3">
-                        <label for="">Name / IC / Matrics No.</label>
-                    </div>
-                    <div class="col-sm-3">
-                        <input type="text" name="" id="" class="form-control form-control-sm col-sm-3">
-                    </div>
-                    <div class="col-sm-6">
-                        <select name="" id="" class="form-control form-control-sm">
-                            <option value=""></option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-sm-12">
-                        <label for=""><strong>Student Information</strong></label>
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-sm-3">
-                        <label for="">Name</label>
-                    </div>
-                    <div class="col-sm-9">
-                        <label for="">ABYANA SALSABILLA BINTI AMIN</label>
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-sm-3">
-                        <label for="">Program</label>
-                    </div>
-                    <div class="col-sm-3">
-                        <label for="">DIPLOMA IN GRAPHIC DESIGN</label>
-                    </div>
-                    <div class="col-sm-3">
-                        <label for="">Matrics No.</label>
-                    </div>
-                    <div class="col-sm-3">
-                        <label for="">22230414</label>
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-sm-3">
-                        <label for="">Current Session</label>
-                    </div>
-                    <div class="col-sm-3">
-                        <label for="">MAC 2023/2024</label>
-                    </div>
-                    <div class="col-sm-3">
-                        <label for="">Semester</label>
-                    </div>
-                    <div class="col-sm-3">
-                        <label for="">4</label>
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-sm-3">
-                        <label for="">Date</label>
-                    </div>
-                    <div class="col-sm-3">
-                        <label for="">24-06-2024</label>
+                        <input type="date" name="" id="" class="form-control form-control-sm">
                     </div>
                 </div>
             </div>
             <div class="card-footer text-center">
-                <button class="btn btn-success btn-sm">Register</button>
+                <button class="btn btn-success btn-sm">Search</button>
             </div>
         </div>
-        <table class="table table-sm table-bordered text-center">
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-sm-3">
+                        <label for="">Jumlah Pelajar Mengikut Bulan</label>
+                    </div>
+                    <div class="col-sm-3">
+                        <label for="">:&nbsp;70</label>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-sm-3">
+                        <label for="">Jumlah Pelajar Mengikut Minggu</label>
+                    </div>
+                    <div class="col-sm-9">
+                        <table class="table table-sm table-bordered text-center">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th class="col-6">Minggu</th>
+                                    <th class="col-6">Jumlah</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>15</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>10</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>0</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-sm-3">
+                        <label for="">Jumlah Pelajar Mengikut Hari</label>
+                    </div>
+                    <div class="col-sm-9">
+                        <table class="table table-sm table-bordered text-center">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th class="col-6">Tarikh</th>
+                                    <th class="col-6">Jumlah</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>01-06-2024</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td>02-06-2024</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td>03-06-2024</td>
+                                    <td>3</td>
+                                </tr>
+                                <tr>
+                                    <td>04-06-2024</td>
+                                    <td>2</td>
+                                </tr>
+                                <tr>
+                                    <td>05-06-2024</td>
+                                    <td>4</td>
+                                </tr>
+                                <tr>
+                                    <td>06-06-2024</td>
+                                    <td>4</td>
+                                </tr>
+                                <tr>
+                                    <td>07-06-2024</td>
+                                    <td>2</td>
+                                </tr>
+                                <tr>
+                                    <td>08-06-2024</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td>09-06-2024</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td>10-06-2024</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td>11-06-2024</td>
+                                    <td>2</td>
+                                </tr>
+                                <tr>
+                                    <td>12-06-2024</td>
+                                    <td>2</td>
+                                </tr>
+                                <tr>
+                                    <td>13-06-2024</td>
+                                    <td>3</td>
+                                </tr>
+                                <tr>
+                                    <td>14-06-2024</td>
+                                    <td>1</td>
+                                </tr>
+                                <tr>
+                                    <td>15-06-2024</td>
+                                    <td>2</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{-- <table class="table table-sm table-bordered text-center">
             <thead class="table-dark">
                 <tr>
                     <th>#</th>
@@ -164,7 +225,7 @@
                     </div>
                   </div>
             </tbody>
-        </table>
+        </table> --}}
     </div>
 </body>
 </html>

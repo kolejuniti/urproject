@@ -20,7 +20,7 @@
 </head>
 <body style="background-color: white;">
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light shadow-sm sticky-top" style="background-color: darkslateblue;">
+        <nav class="navbar navbar-expand-md navbar-light shadow-sm" style="background-color: darkslateblue;">
           <div class="container">
               <div class="row col-12">
                   <div class="col-md-4">
@@ -43,7 +43,7 @@
           </div>
         </nav>
         
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm sticky-top">
           <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/logo/edaftar.png" alt="...." class="img-fluid" style="width: 150px; height: auto;">
@@ -88,10 +88,54 @@
           </div>
         </nav>
 
-        <main class="py-3" style="max-height: 80vh;">
+        <main class="py-3" style="max-height: 90vh;">
             {{-- @yield('content') --}}
-            <div class="container mb-5">
+            <div class="container mb-3">
                     <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/banner-web-kupd-jom-masuk-uniti-1.jpg" alt="" class="img-fluid">
+            </div>
+        
+            <div class="container">
+                <footer>
+                  <div class="row">
+                    <div class="col-md-2 offset-md-5 mb-3">
+                      <h5>Pautan Segera</h5>
+                      <ul class="nav flex-column">
+                        <li class="nav-item mb-2"><a href="{{ route('student.about') }}" class="nav-link p-0 text-body-secondary">Daftar Kemasukan</a></li>
+                      </ul>
+                    </div>
+                    
+                    <div class="col-md-2 mb-3">
+                        <h5>Info Kualiti</h5>
+                        <ul class="nav flex-column">
+                          <li class="nav-item mb-2"><a href="https://uniti.edu.my/polisi-kualiti/" class="nav-link p-0 text-body-secondary">Polisi Kualiti</a></li>
+                          <li class="nav-item mb-2"><a href="https://uniti.edu.my/objektif-kualiti/" class="nav-link p-0 text-body-secondary">Objektif Kualiti</a></li>
+                          <li class="nav-item mb-2"><a href="https://uniti.edu.my/sijil-dan-logo-iso/" class="nav-link p-0 text-body-secondary">Logo & Sijil ISO</a></li>
+                        </ul>
+                      </div>
+
+                    <div class="col-md-3 mb-3">
+                        <form>
+                          <h5>UNITI, Pilihan Terbaik Anda</h5>
+                          <label class="mb-1">UNITI Village Persiaran UNITI</label><br>
+                          <label class="mb-1">Tanjung Agas, 71250 Port Dickson</label><br>
+                          <label class="mb-1">Negeri Sembilan</label><br>
+                          <label class="mb-1"><i class="bi bi-telephone-fill"></i>&nbsp;{{ __('+606-6490350') }}</label><br>
+                          <label class="mb-1"><i class="bi bi-envelope-at-fill"></i>&nbsp;{{ __('info@uniti.edu.my') }}</label>
+                        </form>
+                      </div>
+                  </div>
+              
+                  <div class="d-flex flex-column flex-sm-row justify-content-between py-2 border-top">
+                    <p>&copy; Copyright Kolej UNITI 2024.</p>
+                    <ul class="list-unstyled d-flex">
+                      <li class="ms-3"><a href="https://uniti.edu.my" target="_blank" class="text-dark"><i class="bi bi-globe-central-south-asia"></i></a></li>
+                      <li class="ms-3"><a href="https://www.facebook.com/kolejunitiportdickson" target="_blank" class="text-dark"><i class="bi bi-facebook"></i></a></li>
+                      <li class="ms-3"><a href="https://www.instagram.com/kolejunitiportdickson/" target="_blank" class="text-dark"><i class="bi bi-instagram"></i></a></li>
+                      <li class="ms-3"><a href="https://www.youtube.com/KOLEJUNITIPORTDICKSON" target="_blank" class="text-dark"><i class="bi bi-youtube"></i></a></li>
+                      <li class="ms-3"><a href="https://www.tiktok.com/@kolejunitipd" target="_blank" class="text-dark"><i class="bi bi-tiktok"></i></a></li>
+                    </ul>
+                  </div>
+                </footer>
             </div>
         </main>
     </div>
