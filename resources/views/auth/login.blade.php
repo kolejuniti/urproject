@@ -76,19 +76,19 @@
         <section class="bg-light py-3 py-md-4">
             <div class="container">
             <div class="row justify-content-center">
-                @if (session('success'))
-                    <div class="alert alert-success">
-                        {{ session('success') }}
-                    </div>
-                @endif
-                @if (session('error'))
-                    <div class="alert alert-danger">
-                        {{ session('error') }}
-                    </div>
-                @endif
                 <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-4">
                 <div class="card border border-light-subtle rounded-3 shadow-sm">
                     <div class="card-body p-3 p-md-4 p-xl-4">
+                    @if (session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+                    @if (session('error'))
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
+                        </div>
+                    @endif
                     <div class="text-center mb-1">
                         <a href="{{ route('login')}}">
                             <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/logo/logo_edaftar.png" alt="...." class="img-fluid" width="120" height="120">
