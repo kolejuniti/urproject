@@ -34,7 +34,7 @@
                     <div class="card-header">{{ __('Carian Permohonan') }}</div>
 
                     <div class="card-body">
-                        <div class="row mb-3">
+                        {{-- <div class="row mb-3">
                             <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('No. Kad Pengenalan') }}</label>
                             <div class="col-md-6">
                                 <input type="text" name="ic" id="ic" class="form-control form-control-sm" required autofocus>
@@ -45,6 +45,12 @@
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Search') }}
                                 </button>
+                            </div>
+                        </div> --}}
+                        <div class="col-12 col-md-6 col-sm-6 offset-md-3">
+                            <div class="input-group mb-3">
+                                <input type="text" name="ic" id="ic" class="form-control" placeholder="No. Kad Pengenalan" aria-label="No. Kad Pengenalan" aria-describedby="button-addon2">
+                                <button class="btn btn-warning" type="button" id="button-addon2"><i class="bi bi-search"></i></button>
                             </div>
                         </div>
                     </div>
