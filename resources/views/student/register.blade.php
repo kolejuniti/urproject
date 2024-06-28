@@ -122,12 +122,10 @@
                         </div>
                     </div>
                     @if ($ref !== null)
-                    <div class="row mb-2">
-                        <div class="col-md-3 col-sm-3">
-                            <label for="">Kod Rujukan</label>
-                        </div>
-                        <div class="col-md-3 col-sm-3">
+                    <div class="mb-2 pt-2 border-top">
+                        <div class="col-md-6 col-sm-6 form-floating">
                             <input type="text" id="ref" name="referral_code" value="{{ old('ref', $ref) }}" class="form-control form-control-sm" @if($ref) readonly @endif>
+                            <label for="ref">Kod Rujukan</label>
                         </div>
                     </div>
                     @endif
