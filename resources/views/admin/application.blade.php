@@ -161,7 +161,7 @@
                                     @endforeach
                                     @if ($data['applicant']->status !== null)
                                         <div class="mb-2">
-                                            <div class="col-md-12 form-floating">
+                                            <div class="col-md-6 form-floating">
                                                 <input type="text" name="status" id="status" class="form-control text-uppercase" value="{{ $data['applicant']->status }}" readonly disabled>
                                                 <label for="status" class="labels fw-bold">Status Permohonan</label>
                                             </div>
@@ -227,12 +227,6 @@
                 </tbody>
                 </table>
             </div>
-            {{-- <div class="card">
-                <div class="card-header">{{ __('Senarai Permohonan')}}</div>
-
-                <div class="card-body">
-                </div>
-            </div> --}}
         </div>
     </div>
 </div>

@@ -10,213 +10,209 @@
                     {{ session('success') }}
                 </div>
             @endif
-            <div class="card">
-                <div class="card-header">{{ __('Senarai Pengguna')}}</div>
-
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table id="myTable" class="table table-bordered small table-sm text-center">
-                            <thead class="table-dark">
-                                <tr>
-                                    <th>#</th>
-                                    <th>Nama Pengguna</th>
-                                    <th>No. Kad Pengenalan</th>
-                                    <th>No. Telefon</th>
-                                    <th>Email</th>
-                                    <th>Jawatan</th>
-                                    <th>Status</th>
-                                    <th>Tarikh Daftar</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($users as $user )
-                                <tr>
-                                    <td>&nbsp;</td>
-                                    <td>
-                                        <button type="button" class="btn btn-sm btn-link text-uppercase" data-bs-toggle="modal" data-bs-target="#modal{{ $user->ic }}">{{ $user->name }}</button>
-                                    </td>
-                                    <td class="text-center">{{ $user->ic }}</td>
-                                    <td class="text-center">{{ $user->phone }}</td>
-                                    <td>{{ $user->email }}</td>
-                                    <td>{{ $user->position }}</td>
-                                    <td>{{ $user->status }}</td>
-                                    <td class="text-center">{{ \Carbon\Carbon::parse($user->created_at)->format('d-m-Y') }}</td>
-                                </tr>  
-                                <div class="modal fade" id="modal{{ $user->ic }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ $user->ic }}" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="modalLabel{{ $user->ic }}"></h5>
+            
+            <div class="table-responsive">
+                <h2>Senarai Pengguna</h2>
+                <table id="myTable" class="table table-bordered small table-sm text-center">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>#</th>
+                            <th>Nama Pengguna</th>
+                            <th>No. Kad Pengenalan</th>
+                            <th>No. Telefon</th>
+                            <th>Email</th>
+                            <th>Jawatan</th>
+                            <th>Status</th>
+                            <th>Tarikh Daftar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($users as $user )
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>
+                                <button type="button" class="btn btn-sm btn-link text-uppercase" data-bs-toggle="modal" data-bs-target="#modal{{ $user->ic }}">{{ $user->name }}</button>
+                            </td>
+                            <td class="text-center">{{ $user->ic }}</td>
+                            <td class="text-center">{{ $user->phone }}</td>
+                            <td>{{ $user->email }}</td>
+                            <td>{{ $user->position }}</td>
+                            <td>{{ $user->status }}</td>
+                            <td class="text-center">{{ \Carbon\Carbon::parse($user->created_at)->format('d-m-Y') }}</td>
+                        </tr>  
+                        <div class="modal fade" id="modal{{ $user->ic }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ $user->ic }}" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="modalLabel{{ $user->ic }}"></h5>
+                                    </div>
+                                    <form action="{{ route('admin.userlist.update', ['id' => $user->id]) }}" method="POST">
+                                    @csrf
+                                    @method('PUT') 
+                                    <div class="modal-body small">
+                                        <div class="col-md-12 col-sm-12 mb-3">
+                                            <label for="" class="fw-bold">Maklumat Pengguna</label>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <div class="col-md-3 col-sm-3">
+                                                <label for="">Nama Pengguna</label>
                                             </div>
-                                            <form action="{{ route('admin.userlist.update', ['id' => $user->id]) }}" method="POST">
-                                            @csrf
-                                            @method('PUT') 
-                                            <div class="modal-body small">
-                                                <div class="col-md-12 col-sm-12 mb-3">
-                                                    <label for="" class="fw-bold">Maklumat Pengguna</label>
-                                                </div>
-                                                <div class="row mb-2">
-                                                    <div class="col-md-3 col-sm-3">
-                                                        <label for="">Nama Pengguna</label>
-                                                    </div>
-                                                    <div class="col-md-9 col-sm-9">
-                                                        <label for="name" class="text-uppercase">{{ $user->name }}</label>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-2">
-                                                    <div class="col-md-3 col-sm-3">
-                                                        <label for="">No. Kad Pengenalan</label>
-                                                    </div>
-                                                    <div class="col-md-3 col-sm-3">
-                                                        <label for="name">{{ $user->ic }}</label>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-2">
-                                                    <div class="col-md-3 col-sm-3">
-                                                        <label for="">Agama</label>
-                                                    </div>
-                                                    <div class="col-md-3 col-sm-3">
-                                                        <label for="">{{ $user->religion }}</label>
-                                                    </div>
-                                                    <div class="col-md-3 col-sm-3">
-                                                        <label for="">Bangsa</label>
-                                                    </div>
-                                                    <div class="col-md-3 col-sm-3">
-                                                        <label for="">{{ $user->nation }}</label>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-2">
-                                                    <div class="col-md-3 col-sm-3">
-                                                        <label for="">Jantina</label>
-                                                    </div>
-                                                    <div class="col-md-3 col-sm-3">
-                                                        <label for="">{{ $user->sex }}</label>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-2">
-                                                    <div class="col-md-3 col-sm-3">
-                                                        <label for="">No. Telefon</label>
-                                                    </div>
-                                                    <div class="col-md-3 col-sm-3">
-                                                        <input type="text" name="phone" id="phone" class="form-control form-control-sm" value="{{ $user->phone }}" required>
-                                                    </div>
-                                                    <div class="col-md-3 col-sm-3">
-                                                        <label for="">Email</label>
-                                                    </div>
-                                                    <div class="col-md-3 col-sm-3">
-                                                        <label for="name">{{ $user->email }}</label>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-2">
-                                                    <div class="col-md-3 col-sm-3">
-                                                        <label for="">No. Akaun Bank</label>
-                                                    </div>
-                                                    <div class="col-md-3 col-sm-3">
-                                                        <input type="text" name="bank_account" id="bank_account" class="form-control form-control-sm" value="{{ $user->bank_account }}" required>
-                                                    </div>
-                                                    <div class="col-md-3 col-sm-3">
-                                                        <label for="">Bank</label>
-                                                    </div>
-                                                    <div class="col-md-3 col-sm-3">
-                                                        <select name="bank" id="bank" class="form-control form-control-sm">
-                                                        <option value="{{ $user->bank_id }}">{{ $user->bank }}</option>
-                                                        @foreach ($banks as $bank )
-                                                            <option value="{{ $bank->id }}">{{ $bank->name }}</option>
-                                                        @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-2">
-                                                    <div class="col-md-3 col-sm-3">
-                                                        <label for="">Jawatan</label>
-                                                    </div>
-                                                    <div class="col-md-3 col-sm-3">
-                                                        <select name="position" id="position" class="form-control form-control-sm" required>
-                                                            @if ($user->position === "AFFILIATE UNITI")
-                                                                <option value="AFFILIATE UNITI">AFFILIATE UNITI</option>
-                                                                <option value="MANAGER">MANAGER</option>
-                                                                <option value="EDUCATION ADVISOR">EDUCATION ADVISOR</option>
-                                                            @elseif ($user->position === "MANAGER")
-                                                                <option value="MANAGER">MANAGER</option>
-                                                                <option value="AFFILIATE UNITI">AFFILIATE UNITI</option>
-                                                                <option value="EDUCATION ADVISOR">EDUCATION ADVISOR</option>
-                                                            @elseif ($user->position === "EDUCATION ADVISOR")
-                                                                <option value="EDUCATION ADVISOR">EDUCATION ADVISOR</option>
-                                                                <option value="AFFILIATE UNITI">AFFILIATE UNITI</option>
-                                                                <option value="MANAGER">MANAGER</option>
-                                                            @endif
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-md-3 col-sm-3">
-                                                        <label for="">Status</label>
-                                                    </div>
-                                                    <div class="col-md-3 col-sm-3">
-                                                        <select name="status" id="status" class="form-control form-control-sm" required>
-                                                            @if ($user->status === "AKTIF")
-                                                                <option value="AKTIF">AKTIF</option>
-                                                                <option value="TIDAK AKTIF">TIDAK AKTIF</option>
-                                                            @elseif ($user->status === "TIDAK AKTIF")
-                                                                <option value="TIDAK AKTIF">TIDAK AKTIF</option>
-                                                                <option value="AKTIF">AKTIF</option>
-                                                            @endif
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12 col-sm-12 mb-3 mt-3">
-                                                    <label for="" class="fw-bold">Alamat Pengguna</label>
-                                                </div>
-                                                <div class="row mb-2">
-                                                    <div class="col-md-3 col-sm-3">
-                                                        <label for="">Alamat 1</label>
-                                                    </div>
-                                                    <div class="col-md-9 col-sm-9">
-                                                        <label for="" class="text-uppercase">{{ $user->address1 }}</label>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-2">
-                                                    <div class="col-md-3 col-sm-3">
-                                                        <label for="">Alamat 2</label>
-                                                    </div>
-                                                    <div class="col-md-9 col-sm-9">
-                                                        <label for="" class="text-uppercase">{{ $user->address2 }}</label>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-2">
-                                                    <div class="col-md-3 col-sm-3">
-                                                        <label for="">Poskod</label>
-                                                    </div>
-                                                    <div class="col-md-3 col-sm-3">
-                                                        <label for="">{{ $user->postcode }}</label>
-                                                    </div>
-                                                    <div class="col-md-3 col-sm-3">
-                                                        <label for="">Bandar</label>
-                                                    </div>
-                                                    <div class="col-md-3 col-sm-3">
-                                                        <label for="" class="text-uppercase">{{ $user->city }}</label>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-2">
-                                                    <div class="col-md-3 col-sm-3">
-                                                        <label for="">Negeri</label>
-                                                    </div>
-                                                    <div class="col-md-6 col-sm-6">
-                                                        <label for="">{{ $user->state }}</label>
-                                                    </div>
-                                                </div>
+                                            <div class="col-md-9 col-sm-9">
+                                                <label for="name" class="text-uppercase">{{ $user->name }}</label>
                                             </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                <button type="submit" class="btn btn-sm btn-primary">Save</button>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <div class="col-md-3 col-sm-3">
+                                                <label for="">No. Kad Pengenalan</label>
                                             </div>
-                                            </form>
+                                            <div class="col-md-3 col-sm-3">
+                                                <label for="name">{{ $user->ic }}</label>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <div class="col-md-3 col-sm-3">
+                                                <label for="">Agama</label>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3">
+                                                <label for="">{{ $user->religion }}</label>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3">
+                                                <label for="">Bangsa</label>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3">
+                                                <label for="">{{ $user->nation }}</label>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <div class="col-md-3 col-sm-3">
+                                                <label for="">Jantina</label>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3">
+                                                <label for="">{{ $user->sex }}</label>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <div class="col-md-3 col-sm-3">
+                                                <label for="">No. Telefon</label>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3">
+                                                <input type="text" name="phone" id="phone" class="form-control form-control-sm" value="{{ $user->phone }}" required>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3">
+                                                <label for="">Email</label>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3">
+                                                <label for="name">{{ $user->email }}</label>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <div class="col-md-3 col-sm-3">
+                                                <label for="">No. Akaun Bank</label>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3">
+                                                <input type="text" name="bank_account" id="bank_account" class="form-control form-control-sm" value="{{ $user->bank_account }}" required>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3">
+                                                <label for="">Bank</label>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3">
+                                                <select name="bank" id="bank" class="form-control form-control-sm">
+                                                <option value="{{ $user->bank_id }}">{{ $user->bank }}</option>
+                                                @foreach ($banks as $bank )
+                                                    <option value="{{ $bank->id }}">{{ $bank->name }}</option>
+                                                @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <div class="col-md-3 col-sm-3">
+                                                <label for="">Jawatan</label>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3">
+                                                <select name="position" id="position" class="form-control form-control-sm" required>
+                                                    @if ($user->position === "AFFILIATE UNITI")
+                                                        <option value="AFFILIATE UNITI">AFFILIATE UNITI</option>
+                                                        <option value="MANAGER">MANAGER</option>
+                                                        <option value="EDUCATION ADVISOR">EDUCATION ADVISOR</option>
+                                                    @elseif ($user->position === "MANAGER")
+                                                        <option value="MANAGER">MANAGER</option>
+                                                        <option value="AFFILIATE UNITI">AFFILIATE UNITI</option>
+                                                        <option value="EDUCATION ADVISOR">EDUCATION ADVISOR</option>
+                                                    @elseif ($user->position === "EDUCATION ADVISOR")
+                                                        <option value="EDUCATION ADVISOR">EDUCATION ADVISOR</option>
+                                                        <option value="AFFILIATE UNITI">AFFILIATE UNITI</option>
+                                                        <option value="MANAGER">MANAGER</option>
+                                                    @endif
+                                                </select>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3">
+                                                <label for="">Status</label>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3">
+                                                <select name="status" id="status" class="form-control form-control-sm" required>
+                                                    @if ($user->status === "AKTIF")
+                                                        <option value="AKTIF">AKTIF</option>
+                                                        <option value="TIDAK AKTIF">TIDAK AKTIF</option>
+                                                    @elseif ($user->status === "TIDAK AKTIF")
+                                                        <option value="TIDAK AKTIF">TIDAK AKTIF</option>
+                                                        <option value="AKTIF">AKTIF</option>
+                                                    @endif
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 mb-3 mt-3">
+                                            <label for="" class="fw-bold">Alamat Pengguna</label>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <div class="col-md-3 col-sm-3">
+                                                <label for="">Alamat 1</label>
+                                            </div>
+                                            <div class="col-md-9 col-sm-9">
+                                                <label for="" class="text-uppercase">{{ $user->address1 }}</label>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <div class="col-md-3 col-sm-3">
+                                                <label for="">Alamat 2</label>
+                                            </div>
+                                            <div class="col-md-9 col-sm-9">
+                                                <label for="" class="text-uppercase">{{ $user->address2 }}</label>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <div class="col-md-3 col-sm-3">
+                                                <label for="">Poskod</label>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3">
+                                                <label for="">{{ $user->postcode }}</label>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3">
+                                                <label for="">Bandar</label>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3">
+                                                <label for="" class="text-uppercase">{{ $user->city }}</label>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <div class="col-md-3 col-sm-3">
+                                                <label for="">Negeri</label>
+                                            </div>
+                                            <div class="col-md-6 col-sm-6">
+                                                <label for="">{{ $user->state }}</label>
+                                            </div>
                                         </div>
                                     </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-sm btn-primary">Save</button>
+                                    </div>
+                                    </form>
                                 </div>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                            </div>
+                        </div>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
