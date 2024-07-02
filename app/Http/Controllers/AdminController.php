@@ -196,6 +196,13 @@ class AdminController extends Controller
     public function update(Request $request, $id)
     {
         $pic = $request->input('pic');
+        $register_at = $request->input('register_at');
+
+        if ($register_at !== null) {
+            $studentRegDate = DB::table('students')
+                    ->where('students.id', $id)
+                    ->update(['register_at'=>$register_at, 'commission'=>'300']);
+        }
 
         $studentPIC = DB::table('students')
                     ->where('students.id', $id)
