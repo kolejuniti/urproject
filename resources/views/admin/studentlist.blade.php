@@ -10,59 +10,54 @@
                     {{ $success }}
                 </div>
             @endif
-            <div class="card">
-                <div class="card-header">{{ __('Senarai Pelajar')}}</div>
-
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table id="myTable" class="table table-bordered small table-sm text-center">
-                            <thead class="table-dark">
-                                <tr>
-                                    <th>#</th>
-                                    <th>Nama Pelajar</th>
-                                    <th>No. Kad Pengenalan</th>
-                                    <th>No. Telefon</th>
-                                    <th>Email</th>
-                                    <th>Tarikh Permohonan</th>
-                                    <th>Affiliate</th>
-                                    <th>Tarikh Agihan</th>
-                                    <th>Education Advisor</th>
-                                    <th>Status</th>
-                                    <th>Tarikh Daftar</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($students as $student )
-                                <tr>
-                                    <td>&nbsp;</td>
-                                    <td class="text-uppercase">{{ $student->name }}</td>
-                                    <td class="text-center">{{ $student->ic }}</td>
-                                    <td class="text-center">{{ $student->phone }}</td>
-                                    <td>{{ $student->email }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($student->created_at)->format('d-m-Y') }}</td>
-                                    <td class="text-uppercase">
-                                        @if( $student->referral_code !== null)
-                                            @foreach ($affiliates[$student->id] as $affiliate)
-                                                {{ $affiliate->name }}
-                                            @endforeach
-                                        @else
-                                            {{__('TIADA AFFILIATE')}}
-                                        @endif
-                                    </td>
-                                    <td>{{ $student->updated_at ? \Carbon\Carbon::parse($student->updated_at)->format('d-m-Y') : '' }}</td>
-                                    <td class="text-uppercase">
-                                        @foreach ($advisors[$student->id] as $advisor)
-                                            {{ $advisor->name }}
-                                        @endforeach
-                                    </td>
-                                    <td class="text-uppercase">{{ $student->status }}</td>
-                                    <td>{{ $student->register_at ? \Carbon\Carbon::parse($student->register_at)->format('d-m-Y') : '' }}</td>
-                                </tr>
+            <div class="table-responsive">
+                <h2>Senarai Permohonan Pelajar</h2>
+                <table id="myTable" class="table table-bordered small table-sm text-center">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>#</th>
+                            <th>Nama Pelajar</th>
+                            <th>No. Kad Pengenalan</th>
+                            <th>No. Telefon</th>
+                            <th>Email</th>
+                            <th>Tarikh Permohonan</th>
+                            <th>Affiliate</th>
+                            <th>Tarikh Agihan</th>
+                            <th>Education Advisor</th>
+                            <th>Status</th>
+                            <th>Tarikh Daftar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($students as $student )
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td class="text-uppercase">{{ $student->name }}</td>
+                            <td class="text-center">{{ $student->ic }}</td>
+                            <td class="text-center">{{ $student->phone }}</td>
+                            <td>{{ $student->email }}</td>
+                            <td>{{ \Carbon\Carbon::parse($student->created_at)->format('d-m-Y') }}</td>
+                            <td class="text-uppercase">
+                                @if( $student->referral_code !== null)
+                                    @foreach ($affiliates[$student->id] as $affiliate)
+                                        {{ $affiliate->name }}
+                                    @endforeach
+                                @else
+                                    {{__('TIADA AFFILIATE')}}
+                                @endif
+                            </td>
+                            <td>{{ $student->updated_at ? \Carbon\Carbon::parse($student->updated_at)->format('d-m-Y') : '' }}</td>
+                            <td class="text-uppercase">
+                                @foreach ($advisors[$student->id] as $advisor)
+                                    {{ $advisor->name }}
                                 @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                            </td>
+                            <td class="text-uppercase">{{ $student->status }}</td>
+                            <td>{{ $student->register_at ? \Carbon\Carbon::parse($student->register_at)->format('d-m-Y') : '' }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
