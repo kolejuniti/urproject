@@ -47,12 +47,12 @@
                             <label for="email">Email</label>
                         </div>
                     </div>
-                    <div class="row g-2 mb-2 row-cols-1">
-                        <div class="col-md-12 col-sm-12 form-floating">
+                    <div class="row g-2 mb-2 row-cols-2">
+                        <div class="col-12 col-md-6 col-sm-6 form-floating">
                             <input type="text" name="address1" id="address1" class="form-control form-control-sm" placeholder="" required>
                             <label for="address1">Alamat 1</label>
                         </div>
-                        <div class="col-md-12 col-sm-12 form-floating">
+                        <div class="col-12 col-md-6 col-sm-6 form-floating">
                             <input type="text" name="address2" id="address2" class="form-control" placeholder="" required>
                             <label for="address2">Alamat 2</label>
                         </div>
