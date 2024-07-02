@@ -169,7 +169,22 @@
                                     @endif
                                     <form action="{{ route('admin.application.update', ['id' => $data['applicant']->id]) }}" method="POST">
                                     @csrf
-                                    @method('PUT')   
+                                    @method('PUT')
+                                    @if ($data['applicant']->register_at == NULL)
+                                    <div class="mb-2">
+                                        <div class="col-md-6 col-sm-6 form-floating">
+                                            <input type="date" name="register_at" id="register_at" class="form-control" placeholder="">
+                                            <label for="register_at" class="fw-bold">Tarikh Daftar Kolej</label>
+                                        </div>
+                                    </div>
+                                    @else
+                                    <div class="mb-2">
+                                        <div class="col-md-6 col-sm-6 form-floating">
+                                            <input type="text" name="register_at" id="register_at" class="form-control" placeholder="" value="{{ \Carbon\Carbon::parse($data['applicant']->register_at)->format('d-m-Y') }}" disabled>
+                                            <label for="register_at" class="fw-bold">Tarikh Daftar Kolej</label>
+                                        </div>
+                                    </div>
+                                    @endif 
                                     <div class="mt-3">
                                         <div class="col-sm-3 col-md-3">
                                             <label for="" class="fw-bold">Pegawai Perhubungan</label>
