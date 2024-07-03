@@ -40,7 +40,7 @@
                         </td>
                         <td class="text-center">{{ $data['applicant']->ic }}</td>
                         <td class="text-center">{{ $data['applicant']->phone }}</td>
-                        <td>{{ $data['applicant']->email }}</td>
+                        <td class="text-center">{{ $data['applicant']->email }}</td>
                         <td>{{ \Carbon\Carbon::parse($data['applicant']->created_at)->format('d-m-Y') }}</td>
                         <td>{{$data['applicant']->updated_at ? \Carbon\Carbon::parse($data['applicant']->updated_at)->format('d-m-Y') : '' }}</td>
                         <td class="text-uppercase">{{ $data['applicant']->user }}</td>
@@ -89,11 +89,11 @@
                                             <input type="text" name="postcode" id="postcode" class="form-control" value="{{ $data['applicant']->postcode }}" readonly disabled>
                                             <label for="postcode" class="labels fw-bold">Poskod</label>
                                         </div>
-                                        <div class="col-md-3 form-floating">
+                                        <div class="col-md-4 form-floating">
                                             <input type="text" name="city" id="city" class="form-control" value="{{ $data['applicant']->city }}" readonly disabled>
                                             <label for="city" class="labels fw-bold">Bandar</label>
                                         </div>
-                                        <div class="col-12 col-md-6 form-floating">
+                                        <div class="col-12 col-md-5 form-floating">
                                             <input type="text" name="state" id="state" class="form-control" value="{{ $data['applicant']->state }}" readonly disabled>
                                             <label for="state" class="labels fw-bold">Negeri</label>
                                         </div>
