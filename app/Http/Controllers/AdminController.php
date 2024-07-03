@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Cache;
 
 class AdminController extends Controller
 {
@@ -139,14 +140,40 @@ class AdminController extends Controller
      */
      public function applications()
     {
-        $applicants = DB::table('students')
-                    ->join('state', 'students.state_id', '=', 'state.id')
-                    ->leftjoin('users', 'students.user_id', '=', 'users.id')
-                    ->join('location', 'students.location_id', '=', 'location.id')
-                    ->leftjoin('status', 'students.status_id', '=', 'status.id')
-                    ->select('students.*', 'state.name AS state', 'users.name AS user', 'location.name AS location', 'status.name AS status')
-                    ->orderBy('students.created_at', 'desc')
-                    ->get();
+        // $applicants = DB::table('students')
+        //             ->join('state', 'students.state_id', '=', 'state.id')
+        //             ->leftjoin('users', 'students.user_id', '=', 'users.id')
+        //             ->join('location', 'students.location_id', '=', 'location.id')
+        //             ->leftjoin('status', 'students.status_id', '=', 'status.id')
+        //             ->select('students.id',
+        //             'students.name',
+        //             'students.ic',
+        //             'students.phone',
+        //             'students.email',
+        //             'students.address1',
+        //             'students.address2',
+        //             'students.postcode',
+        //             'students.city',
+        //             'students.spm_year',
+        //             'students.user_id',
+        //             'students.created_at',
+        //             'students.updated_at',
+        //             'students.register_at',
+        //             'state.name AS state', 'users.name AS user', 'location.name AS location', 'status.name AS status')
+        //             ->orderBy('students.created_at', 'desc')
+        //             ->limit(10)
+        //             ->get();
+
+        $applicants = Cache::remember('applicants', 60, function() {
+            return DB::table('students')
+                ->join('state', 'students.state_id', '=', 'state.id')
+                ->leftJoin('users', 'students.user_id', '=', 'users.id')
+                ->join('location', 'students.location_id', '=', 'location.id')
+                ->leftJoin('status', 'students.status_id', '=', 'status.id')
+                ->select('students.id', 'students.name', 'students.ic', 'students.phone', 'students.email', 'students.address1', 'students.address2', 'students.postcode', 'students.city', 'students.spm_year', 'students.user_id', 'students.created_at', 'students.updated_at', 'students.register_at', 'state.name AS state', 'users.name AS user', 'location.name AS location', 'status.name AS status')
+                ->orderBy('students.created_at', 'desc')
+                ->get();
+        });
 
         $users = User::where('type', 1)->orderBy('id')->get();
 
@@ -154,26 +181,14 @@ class AdminController extends Controller
 
         foreach ($applicants as $applicant) {
 
-            $jpgFilePath = 'urproject/student/resultspm/' . $applicant->ic . '.jpg';
-            $jpegFilePath = 'urproject/student/resultspm/' . $applicant->ic . '.jpeg';
-            $pngFilePath = 'urproject/student/resultspm/' . $applicant->ic . '.png';
-            $pdfFilePath = 'urproject/student/resultspm/' . $applicant->ic . '.pdf';
-
-            if (Storage::disk('linode')->exists($jpgFilePath)) {
-                // If the .jpg file exists, use its URL
-                $fileUrl = Storage::disk('linode')->url($jpgFilePath);
-            } elseif (Storage::disk('linode')->exists($jpegFilePath)) {
-                // If the .jpeg file exists, use its URL
-                $fileUrl = Storage::disk('linode')->url($jpegFilePath);
-            } elseif (Storage::disk('linode')->exists($pngFilePath)) {
-                // If the .png file exists, use its URL
-                $fileUrl = Storage::disk('linode')->url($pngFilePath);
-            } elseif (Storage::disk('linode')->exists($pdfFilePath)) {
-                // If the .png file exists, use its URL
-                $fileUrl = Storage::disk('linode')->url($pdfFilePath);
-            } else {
-                // If neither file exists, set $fileUrl to null or a default value
-                $fileUrl = null; // You can customize this to any default value you prefer
+            $fileUrl = null;
+            $fileExtensions = ['jpg', 'jpeg', 'png', 'pdf'];
+            foreach ($fileExtensions as $extension) {
+                $filePath = 'urproject/student/resultspm/' . $applicant->ic . '.' . $extension;
+                if (Storage::disk('linode')->exists($filePath)) {
+                    $fileUrl = Storage::disk('linode')->url($filePath);
+                    break;
+                }
             }
 
             $programs = DB::table('student_programs')
