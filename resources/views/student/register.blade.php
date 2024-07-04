@@ -50,11 +50,11 @@
                     <div class="row g-2 mb-2 row-cols-2">
                         <div class="col-12 col-md-6 col-sm-6 form-floating">
                             <input type="text" name="address1" id="address1" class="form-control form-control-sm" placeholder="" required>
-                            <label for="address1">Alamat 1</label>
+                            <label for="address1">Alamat 1 (No. Rumah / Lot / Unit)</label>
                         </div>
                         <div class="col-12 col-md-6 col-sm-6 form-floating">
                             <input type="text" name="address2" id="address2" class="form-control" placeholder="" required>
-                            <label for="address2">Alamat 2</label>
+                            <label for="address2">Alamat 2 (Nama Jalan / Lorong / Taman / Kampung)</label>
                         </div>
                     </div>
                     <div class="row g-2 mb-2 row-cols-2">
