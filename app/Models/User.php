@@ -28,6 +28,7 @@ class User extends Authenticatable
         'position',
         'bank_account',
         'bank_id',
+        'staff',
         'profession',  
         'password',
         'type',

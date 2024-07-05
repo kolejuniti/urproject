@@ -133,6 +133,7 @@ class RegisterController extends Controller
             'position' => ('AFFILIATE UNITI'),
             'bank_account' => $data['bank_account'],
             'bank_id' => $data['bank'],
+            'staff' => $data['staff'],
             'profession' => strtoupper($data['profession']),
             'password' => Hash::make('12345678'),
             'referral_code' => Str::random(8),
