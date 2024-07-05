@@ -12,7 +12,7 @@
             @endif
             <div class="table-responsive">
                 <h2>Senarai Permohonan</h2>
-                <table class="table table-bordered small table-sm text-center">
+                <table id="myTable" class="table table-bordered small table-sm text-center">
                 <thead class="table-dark">
                     <tr>
                         <th>#</th>
@@ -155,30 +155,7 @@
                             <div id="pic-container">
                                 <!-- Advisor will be loaded here -->
                             </div>
-                            {{-- <div class="mt-3">
-                                @if ($data['applicant']->user_id == NULL)
-                                <div class="col-sm-12 col-md-12 form-floating">
-                                    <select name="pic" id="pic" class="form-control text-uppercase">
-                                        <option value=""></option>
-                                        @foreach ($users as $user )
-                                            <option value="{{ $user->id }}">{{ $loop->iteration }}.&nbsp;{{ $user->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    <label for="pic" class="fw-bold">Nama Pegawai</label>
-                                </div>
-                                @else
-                                <div class="col-sm-12 col-md-12 form-floating">
-                                    <select name="pic" id="pic" class="form-control text-uppercase">
-                                        <option value="{{ $data['applicant']->user_id }}">{{ $data['applicant']->user }}</option>
-                                        <option value="">TIADA PEGAWAI</option>
-                                        @foreach ($users as $user )
-                                            <option value="{{ $user->id }}">{{ $loop->iteration }}.&nbsp;{{ $user->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    <label for="pic" class="fw-bold">Nama Pegawai</label>
-                                </div>
-                            </div>
-                        </div> --}}
+                        </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-sm btn-primary">Save</button>
@@ -193,6 +170,7 @@
 <script src="https://cdn.datatables.net/v/bs5/jq-3.7.0/dt-2.0.7/datatables.min.js"></script>
 <script>
     $(document).ready(function() {
+        // Initialize DataTables
         var t = $('#myTable').DataTable({
             columnDefs: [
                 {
@@ -201,18 +179,17 @@
                 }
             ]
         });
+
+        // Add row numbering
         t.on('order.dt search.dt', function () {
             let i = 1;
-        
             t.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
                 this.data(i++);
             });
         }).draw();
-    });
-</script>
-<script>
-    $(document).ready(function() {
-        $('.open-modal').on('click', function() {
+
+        // Event delegation for dynamically added elements
+        $(document).on('click', '.open-modal', function() {
             var ic = $(this).data('ic');
 
             $.ajax({
@@ -224,7 +201,7 @@
                 },
                 success: function(response) {
                     console.log(response); // Debugging: log the response
-                    
+
                     if (response.applicants) {
                         $('#application-form').attr('action', "{{ url('admin/application') }}/" + response.applicants.id);
                         // Populate the modal with the returned data
@@ -240,7 +217,6 @@
                         $('#applicant-spm_year').val(response.applicants.spm_year);
                         $('#applicant-created_at').val(response.applicants.created_at);
                         $('#applicant-location').val(response.applicants.location);
-                        // Populate other fields as necessary
 
                         // Handle applicant status
                         if (response.applicants.status) {
@@ -274,6 +250,7 @@
                             $('#file-container').html('<label for="">Tiada keputusan peperiksaan SPM</label>');
                         }
 
+                        // Handle programs
                         if (response.programs) {
                             var programsHtml = '';
                             $.each(response.programs, function(index, program) {
@@ -307,12 +284,13 @@
                             $('#programs-container').html('<label for="">Tiada program ditemukan</label>');
                         }
 
+                        // Handle register date
                         if (response.applicants.register_at) {
                             $('#register_at-container').html(`
                                 <div class="mb-2">
                                     <div class="col-md-6 col-sm-6 form-floating">
-                                    <input type="text" name="register_at" id="applicant-register_at" class="form-control" value="${response.applicants.register_at}" readonly disabled>
-                                    <label for="register_at" class="labels fw-bold">Tarikh Daftar Kolej</label>
+                                        <input type="text" name="register_at" id="applicant-register_at" class="form-control" value="${response.applicants.register_at}" readonly disabled>
+                                        <label for="register_at" class="labels fw-bold">Tarikh Daftar Kolej</label>
                                     </div>
                                 </div>
                             `);
@@ -327,8 +305,9 @@
                             `);
                         }
 
+                        // Handle users
+                        let usersOptions = response.users.map((user, index) => `<option value="${user.id}">${index + 1}. ${user.name}</option>`).join('');
                         if (response.applicants.user_id) {
-                            let usersOptions = response.users.map((user, index) => `<option value="${user.id}">${index + 1}. ${user.name}</option>`).join('');
                             $('#pic-container').html(`
                                 <div class="mt-3">
                                     <div class="col-sm-12 col-md-12 form-floating">
@@ -341,7 +320,6 @@
                                     </div>
                                 </div>
                             `);
-                            
                         } else {
                             $('#pic-container').html(`
                                 <div class="mt-3">
@@ -354,7 +332,7 @@
                                     </div>
                                 </div>
                             `);
-                        }                        
+                        }
 
                         // Show the modal
                         $('#applicationModal').modal('show');
@@ -369,4 +347,5 @@
         });
     });
 </script>
+
 @endsection
