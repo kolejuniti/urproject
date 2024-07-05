@@ -81,8 +81,15 @@
                             <label for="bank">Bank</label>
                         </div>
                     </div>
-                    <div class="mb-2">
-                        <div class="col-md-12 col-sm-12 form-floating">
+                    <div class="row g-2 mb-2 row-cols-1">
+                        <div class="col-md-3 col-sm-3 form-floating">
+                            <select name="staff" id="staff" class="form-control" required>
+                                <option value="0">Tidak</option>
+                                <option value="1">Ya</option>
+                            </select>
+                            <label for="staff">Adakah anda staf UNITI?</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9 form-floating">
                             <input list="professions" name="profession" id="profession" class="form-control" placeholder="" required>
                             <datalist id="professions">
                                 @foreach ($professions as $profession)
