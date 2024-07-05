@@ -160,41 +160,100 @@ class AdminController extends Controller
                     'students.register_at',
                     'state.name AS state', 'users.name AS user', 'location.name AS location', 'status.name AS status')
                     ->orderBy('students.created_at', 'desc')
-                    ->limit(10)
                     ->get();
+
+        // $users = User::where('type', 1)->orderBy('id')->get();
+
+        // $applicantsWithPrograms = [];
+
+        // foreach ($applicants as $applicant) {
+
+            // $fileUrl = null;
+            // $fileExtensions = ['jpg', 'jpeg', 'png', 'pdf'];
+            // foreach ($fileExtensions as $extension) {
+            //     $filePath = 'urproject/student/resultspm/' . $applicant->ic . '.' . $extension;
+            //     if (Storage::disk('linode')->exists($filePath)) {
+            //         $fileUrl = Storage::disk('linode')->url($filePath);
+            //         break;
+            //     }
+            // }
+
+            // $programs = DB::table('student_programs')
+            //             ->join('program', 'student_programs.program_id', '=', 'program.id')
+            //             ->select('program.name', 'student_programs.status', 'student_programs.notes')
+            //             ->where('student_programs.student_ic', $applicant->ic)
+            //             ->get();
+
+            // $applicantsWithPrograms[] = [
+            //     'applicant' => $applicant,
+            //     // 'programs' => $programs,
+            //     // 'file_url' => $fileUrl
+            // ];
+
+        // }
+
+        return view('admin.application', compact('applicants'));
+    }
+
+    public function applicationDetail(Request $request)
+    {
+        $ic = $request->input('ic');
+
+        $applicants = DB::table('students')
+                    ->join('state', 'students.state_id', '=', 'state.id')
+                    ->leftJoin('users', 'students.user_id', '=', 'users.id')
+                    ->join('location', 'students.location_id', '=', 'location.id')
+                    ->leftJoin('status', 'students.status_id', '=', 'status.id')
+                    ->select(
+                        'students.id',
+                        'students.name',
+                        'students.ic',
+                        'students.phone',
+                        'students.email',
+                        'students.address1',
+                        'students.address2',
+                        'students.postcode',
+                        'students.city',
+                        'students.spm_year',
+                        'students.user_id',
+                        DB::raw("DATE_FORMAT(students.created_at, '%d-%m-%Y') as created_at"),
+                        'students.updated_at',
+                        DB::raw("DATE_FORMAT(students.register_at, '%d-%m-%Y') as register_at"),
+                        'state.name AS state',
+                        'users.name AS user',
+                        'location.name AS location',
+                        'status.name AS status'
+                    )
+                    ->where('students.ic', 'LIKE', "{$ic}")
+                    ->first();
 
         $users = User::where('type', 1)->orderBy('id')->get();
 
-        $applicantsWithPrograms = [];
-
-        foreach ($applicants as $applicant) {
-
-            $fileUrl = null;
+        $fileUrl = null;
+        if ($applicants) {
             $fileExtensions = ['jpg', 'jpeg', 'png', 'pdf'];
             foreach ($fileExtensions as $extension) {
-                $filePath = 'urproject/student/resultspm/' . $applicant->ic . '.' . $extension;
+                $filePath = 'urproject/student/resultspm/' . $applicants->ic . '.' . $extension;
                 if (Storage::disk('linode')->exists($filePath)) {
                     $fileUrl = Storage::disk('linode')->url($filePath);
                     break;
                 }
             }
-
-            $programs = DB::table('student_programs')
-                        ->join('program', 'student_programs.program_id', '=', 'program.id')
-                        ->select('program.name', 'student_programs.status', 'student_programs.notes')
-                        ->where('student_programs.student_ic', $applicant->ic)
-                        ->get();
-
-            $applicantsWithPrograms[] = [
-                'applicant' => $applicant,
-                'programs' => $programs,
-                'file_url' => $fileUrl
-            ];
-
         }
 
-        return view('admin.application', ['applicantsWithPrograms' => $applicantsWithPrograms], ['users' => $users]);
+        $programs = DB::table('student_programs')
+                    ->join('program', 'student_programs.program_id', '=', 'program.id')
+                    ->select('program.name', 'student_programs.status', 'student_programs.notes')
+                    ->where('student_programs.student_ic', 'LIKE', "{$ic}")
+                    ->get();
+
+        if ($request->ajax()) {
+            return response()->json(['applicants' => $applicants, 'fileUrl' => $fileUrl, 'programs' => $programs, 'users' => $users]);
+        }
+
+        return view('admin.application', compact('applicants', 'fileUrl', 'programs', 'users'));
     }
+
 
     public function update(Request $request, $id)
     {
@@ -258,7 +317,7 @@ class AdminController extends Controller
     {
         $students = DB::table('students')
                     ->leftjoin('status', 'students.status_id', '=', 'status.id')
-                    ->select('students.*', 'status.name AS status')
+                    ->select('students.id', 'students.name', 'students.ic', 'students.phone', 'students.email', 'students.created_at', 'students.updated_at', 'status.name AS status', 'students.register_at', 'students.referral_code', 'students.user_id')
                     ->orderBy('created_at', 'desc')
                     ->get();
         
