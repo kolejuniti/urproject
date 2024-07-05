@@ -70,6 +70,7 @@ Route::middleware(['auth', 'user-access:user'])->group(function() {
     Route::get('/user/profile', [UserController::class, 'profile'])->name('user.profile');
     Route::put('/user/update/profile', [UserController::class, 'update'])->name('user.profile.update');
     Route::put('/user/update/password', [UserController::class, 'password'])->name('user.profile.password');
+    Route::get('/user/affiliate', [UserController::class, 'affiliate'])->name('user.affiliate');
 });
 
 // student route

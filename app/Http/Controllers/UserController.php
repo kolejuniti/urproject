@@ -128,4 +128,11 @@ class UserController extends Controller
 
         return redirect()->route('user.profile')->with('success', 'Katalaluan anda berjaya dikemaskini.');;
     }
+
+    public function affiliate()
+    {        
+        $affiliates = User::where('leader_id', Auth::id())->orderBy('name')->get();
+
+        return view('user.affiliate', compact('affiliates'));
+    }
 }
