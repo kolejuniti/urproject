@@ -144,6 +144,7 @@ class AdminController extends Controller
                     ->leftjoin('users', 'students.user_id', '=', 'users.id')
                     ->join('location', 'students.location_id', '=', 'location.id')
                     ->leftjoin('status', 'students.status_id', '=', 'status.id')
+                    ->leftjoin('student_foundations', 'students.ic', '=', 'student_foundations.student_ic')
                     ->select('students.id',
                     'students.name',
                     'students.ic',
@@ -158,39 +159,9 @@ class AdminController extends Controller
                     'students.created_at',
                     'students.updated_at',
                     'students.register_at',
-                    'state.name AS state', 'users.name AS user', 'location.name AS location', 'status.name AS status')
+                    'state.name AS state', 'users.name AS user', 'location.name AS location', 'status.name AS status', 'student_foundations.foundation AS note')
                     ->orderBy('students.created_at', 'desc')
                     ->get();
-
-        // $users = User::where('type', 1)->orderBy('id')->get();
-
-        // $applicantsWithPrograms = [];
-
-        // foreach ($applicants as $applicant) {
-
-            // $fileUrl = null;
-            // $fileExtensions = ['jpg', 'jpeg', 'png', 'pdf'];
-            // foreach ($fileExtensions as $extension) {
-            //     $filePath = 'urproject/student/resultspm/' . $applicant->ic . '.' . $extension;
-            //     if (Storage::disk('linode')->exists($filePath)) {
-            //         $fileUrl = Storage::disk('linode')->url($filePath);
-            //         break;
-            //     }
-            // }
-
-            // $programs = DB::table('student_programs')
-            //             ->join('program', 'student_programs.program_id', '=', 'program.id')
-            //             ->select('program.name', 'student_programs.status', 'student_programs.notes')
-            //             ->where('student_programs.student_ic', $applicant->ic)
-            //             ->get();
-
-            // $applicantsWithPrograms[] = [
-            //     'applicant' => $applicant,
-            //     // 'programs' => $programs,
-            //     // 'file_url' => $fileUrl
-            // ];
-
-        // }
 
         return view('admin.application', compact('applicants'));
     }
