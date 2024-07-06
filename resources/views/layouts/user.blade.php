@@ -31,25 +31,23 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{{ route('user.dashboard') }}">Home</a>
+                            <a class="nav-link active" aria-current="page" href="{{ route('user.dashboard') }}"><i class="bi bi-house"></i>&nbsp;Home</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Pelajar
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-search"></i>&nbsp;Cari Pelajar
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a class="dropdown-item" href="{{ route('user.application') }}">Senarai Permohonan</a>
+                                    <a class="dropdown-item" href="{{ route('user.application') }}"><i class="bi bi-list-ol"></i>&nbsp;Senarai Permohonan</a>
                                 </li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Affiliates
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-search"></i>&nbsp;Cari Affiliate
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a class="dropdown-item" href="{{ route('user.affiliate') }}">Senarai Affiliates</a>
+                                    <a class="dropdown-item" href="{{ route('user.affiliate') }}"><i class="bi bi-list-ol"></i>&nbsp;Senarai Affiliates</a>
                                 </li>
                             </ul>
                         </li>
@@ -98,7 +96,7 @@
                             @endif --}}
                         @else
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-uppercase" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <a class="nav-link dropdown-toggle text-uppercase" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person-circle"></i>&nbsp;
                                     {{ Auth::user()->name }}
                                 </a>
                                 <ul class="dropdown-menu">
