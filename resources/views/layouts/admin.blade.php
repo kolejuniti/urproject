@@ -31,11 +31,10 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{{ route('admin.dashboard') }}">Home</a>
+                            <a class="nav-link active" aria-current="page" href="{{ route('admin.dashboard') }}"><i class="bi bi-house"></i>&nbsp;Home</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Pengguna
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person-square"></i>&nbsp;Pengguna
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
@@ -47,8 +46,7 @@
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Pelajar
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person-lines-fill"></i>&nbsp;Pelajar
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
@@ -57,8 +55,7 @@
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Laporan
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-list-ol"></i>&nbsp;Laporan
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
@@ -111,7 +108,7 @@
                             @endif --}}
                         @else
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-uppercase" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <a class="nav-link dropdown-toggle text-uppercase" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person-circle"></i>&nbsp;
                                     {{ Auth::user()->name }}
                                 </a>
                                 <ul class="dropdown-menu">
