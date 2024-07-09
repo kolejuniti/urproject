@@ -225,7 +225,7 @@
                             $('#status-container').html(`
                                 <div class="mb-2">
                                     <div class="col-md-12 form-floating">
-                                        <input type="text" name="status" id="applicant-status" class="form-control text-uppercase" value="${response.applicants.status}" readonly disabled>
+                                        <textarea name="status" id="applicant-status" class="form-control text-uppercase" style="height: 80px" readonly disabled>${response.applicants.status}</textarea>
                                         <label for="status" class="labels fw-bold">Status Permohonan</label>
                                     </div>
                                 </div>
