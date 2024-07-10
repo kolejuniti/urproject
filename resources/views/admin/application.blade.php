@@ -59,10 +59,12 @@
                                 <label for="" class="fw-bold">Maklumat Pemohon</label>
                             </div>
                             <div class="row g-2 mb-2">
-                                <div class="col-md-6 form-floating">
+                                <div class="col-md-12 form-floating">
                                     <input type="text" name="name" id="applicant-name" class="form-control" value="applicant-name" readonly disabled>
                                     <label for="applicant-name" class="labels fw-bold">Nama Penuh</label>
                                 </div>
+                            </div>
+                            <div class="row g-2 mb-2">
                                 <div class="col-md-6 form-floating">
                                     <input type="text" name="ic" id="applicant-ic" class="form-control" value="applicant-ic" readonly disabled>
                                     <label for="applicant-ic" class="labels fw-bold">No. Kad Pengenalan</label>
