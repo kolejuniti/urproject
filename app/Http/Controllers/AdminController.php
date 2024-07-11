@@ -193,7 +193,8 @@ class AdminController extends Controller
                         'state.name AS state',
                         'users.name AS user',
                         'location.name AS location',
-                        'status.name AS status'
+                        'status.name AS status',
+                        'students.reason'
                     )
                     ->where('students.ic', 'LIKE', "{$ic}")
                     ->first();
