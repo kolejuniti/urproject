@@ -231,6 +231,12 @@
                                         <label for="status" class="labels fw-bold">Status Permohonan</label>
                                     </div>
                                 </div>
+                                <div class="mb-2">
+                                    <div class="col-md-12 form-floating">
+                                        <textarea name="status" id="applicant-status" class="form-control text-uppercase" style="height: 80px" readonly disabled>${response.applicants.reason}</textarea>
+                                        <label for="status" class="labels fw-bold">Sebab Menolak Tawaran</label>
+                                    </div>
+                                </div>
                             `);
                         } else {
                             $('#status-container').html('');
