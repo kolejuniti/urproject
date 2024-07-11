@@ -38,7 +38,7 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a class="dropdown-item" href="{{ route('advisor.application') }}">Senarai Permohonan</a>
+                                    <a class="dropdown-item" href="{{ route('advisor.application') }}"><i class="bi bi-list-ol"></i>&nbsp;Senarai Permohonan</a>
                                 </li>
                             </ul>
                         </li>
@@ -46,7 +46,7 @@
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-search"></i>&nbsp;Cari Affiliate</a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a class="dropdown-item" href="{{ route('advisor.affiliate') }}">Senarai Affiliates</a>
+                                    <a class="dropdown-item" href="{{ route('advisor.affiliate') }}"><i class="bi bi-list-ol"></i>&nbsp;Senarai Affiliates</a>
                                 </li>
                             </ul>
                         </li>
