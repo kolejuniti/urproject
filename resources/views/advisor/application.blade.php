@@ -250,6 +250,14 @@
                                                     </select>
                                                 </div>
                                             </div>
+                                            <div class="row mb-2">
+                                                <div class="col-md-3 col-sm-3">
+                                                    <label for="">Sebab Menolak Tawaran</label>
+                                                </div>
+                                                <div class="col-sm-9 col-md-9">
+                                                    <textarea name="reason" id="reason" rows="3" class="form-control">{{ $data['applicant']->reason }}</textarea>
+                                                </div>
+                                            </div>
                                             <div class="col-md-12 col-sm-12 mb-3 mt-3">
                                                 <label for="" class="fw-bold">Surat Tawaran</label>
                                             </div>
