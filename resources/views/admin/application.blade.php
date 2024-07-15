@@ -260,7 +260,21 @@
 
                         // Handle applicant status
                         if (response.applicants.status) {
-                            let reason = response.applicants.reason ? response.applicants.reason.replace(/\n/g, '<br>') : '';
+                            let reasonHtml = '';
+                            if (response.applicants.reason) {
+                                let reason = response.applicants.reason.replace(/\n/g, '<br>');
+                                reasonHtml = `
+                                    <div class="mb-2">
+                                        <div class="col-md-12">
+                                            <label for="reason" class="labels fw-bold">Sebab Menolak Tawaran</label>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label id="applicant-reason" class="text-uppercase">${reason}</label>
+                                        </div>
+                                    </div>
+                                `;
+                            }
+
                             $('#status-container').html(`
                                 <div class="mb-2">
                                     <div class="col-md-12">
@@ -270,19 +284,11 @@
                                         <label id="applicant-status" class="text-uppercase">${response.applicants.status}</label>
                                     </div>
                                 </div>
-                                <div class="mb-2">
-                                    <div class="col-md-12">
-                                        <label for="reason" class="labels fw-bold">Sebab Menolak Tawaran</label>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <label id="applicant-reason" class="text-uppercase">${reason}</label>
-                                    </div>
-                                </div>
+                                ${reasonHtml}
                             `);
                         } else {
                             $('#status-container').html('');
                         }
-
 
                         // Handle file URL
                         if (response.fileUrl) {
