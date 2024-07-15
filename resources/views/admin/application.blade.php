@@ -58,62 +58,96 @@
                             <div class="col-md-12 col-sm-12 mb-3">
                                 <label for="" class="fw-bold">Maklumat Pemohon</label>
                             </div>
-                            <div class="row g-2 mb-2">
-                                <div class="col-md-12 form-floating">
-                                    <input type="text" name="name" id="applicant-name" class="form-control" value="applicant-name" readonly disabled>
-                                    <label for="applicant-name" class="labels fw-bold">Nama Penuh</label>
+                            <div class="row mb-2">
+                                <div class="col-md-12">
+                                    <label for="applicant-name" class="fw-bold">Nama Penuh</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <label id="applicant-name"></label>
                                 </div>
                             </div>
-                            <div class="row g-2 mb-2">
-                                <div class="col-md-12 form-floating">
-                                    <input type="text" name="ic" id="applicant-ic" class="form-control" value="applicant-ic" readonly disabled>
-                                    <label for="applicant-ic" class="labels fw-bold">No. Kad Pengenalan</label>
+                            <div class="row mb-2">
+                                <div class="col-md-12">
+                                    <label for="applicant-ic" class="fw-bold">No. Kad Pengenalan / Passport</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <label id="applicant-ic"></label>
                                 </div>
                             </div>
-                            <div class="row g-2 mb-2">
-                                <div class="col-md-6 form-floating">
-                                    <input type="text" name="phone" id="applicant-phone" class="form-control" value="applicant-phone" readonly disabled>
-                                    <label for="applicant-phone" class="labels fw-bold">No. Telefon</label>
+                            <div class="row mb-2">
+                                <div class="col-md-6 mb-2 mb-md-0">
+                                    <div class="col-md-12">
+                                        <label for="applicant-phone" class="fw-bold">No. Telefon</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label id="applicant-phone"></label>
+                                    </div>
                                 </div>
-                                <div class="col-md-6 form-floating">
-                                    <input type="text" name="email" id="applicant-email" class="form-control" value="applicant-email" readonly disabled>
-                                    <label for="applicant-email" class="labels fw-bold">Emel</label>
-                                </div>
-                            </div>
-                            <div class="mb-2">
-                                <div class="col-md-12 form-floating">
-                                    <input type="text" name="address1" id="applicant-address1" class="form-control" value="applicant-address1" readonly disabled>
-                                    <label for="applicant-address1" class="labels fw-bold">Alamat 1</label>
-                                </div>
-                            </div>
-                            <div class="mb-2">
-                                <div class="col-md-12 form-floating">
-                                    <input type="text" name="address2" id="applicant-address2" class="form-control" value="applicant-address2" readonly disabled>
-                                    <label for="applicant-address2" class="labels fw-bold">Alamat 2</label>
+                                <div class="col-md-6">
+                                    <div class="col-md-12">
+                                        <label for="applicant-email" class="fw-bold">Emel</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label id="applicant-email"></label>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="row g-2 mb-2 row-cols-2">
-                                <div class="col-md-3 form-floating">
-                                    <input type="text" name="postcode" id="applicant-postcode" class="form-control" value="applicant-postcode" readonly disabled>
-                                    <label for="applicant-postcode" class="labels fw-bold">Poskod</label>
+                            <div class="row mb-2">
+                                <div class="col-md-12">
+                                    <label for="applicant-address1" class="fw-bold">Alamat 1</label>
                                 </div>
-                                <div class="col-md-4 form-floating">
-                                    <input type="text" name="city" id="applicant-city" class="form-control" value="applicant-city" readonly disabled>
-                                    <label for="applicant-city" class="labels fw-bold">Bandar</label>
-                                </div>
-                                <div class="col-12 col-md-5 form-floating">
-                                    <input type="text" name="state" id="applicant-state" class="form-control" value="applicant-state" readonly disabled>
-                                    <label for="applicant-state" class="labels fw-bold">Negeri</label>
+                                <div class="col-md-12">
+                                    <label id="applicant-address1"></label>
                                 </div>
                             </div>
-                            <div class="row g-2 mb-2">
-                                <div class="col-md-6 form-floating">
-                                    <input type="text" name="spm_year" id="applicant-spm_year" class="form-control" value="applicant-spm_year" readonly disabled>
-                                    <label for="applicant-spm_year" class="labels fw-bold">Tahun SPM</label>
+                            <div class="row mb-2">
+                                <div class="col-md-12">
+                                    <label for="applicant-address2" class="fw-bold">Alamat 2</label>
                                 </div>
-                                <div class="col-md-6 form-floating">
-                                    <input type="text" name="created_at" id="applicant-created_at" class="form-control" value="applicant-created_at" readonly disabled>
-                                    <label for="applicant-created_at" class="labels fw-bold">Tarikh Permohonan</label>
+                                <div class="col-md-12">
+                                    <label id="applicant-address2"></label>
+                                </div>
+                            </div>
+                            <div class="row mb-2 row-cols-2">
+                                <div class="col-md-3">
+                                    <div class="col-md-12">
+                                        <label for="applicant-postcode" class="fw-bold">Poskod</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label id="applicant-postcode"></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-2 mb-md-0">
+                                    <div class="col-md-12">
+                                        <label for="applicant-city" class="fw-bold">Bandar</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label id="applicant-city"></label>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-5">
+                                    <div class="col-12 col-md-12">
+                                        <label for="applicant-state" class="fw-bold">Negeri</label>
+                                    </div>
+                                    <div class="col-12 col-md-12">
+                                        <label id="applicant-state"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-12">
+                                    <label for="applicant-spm_year" class="fw-bold">Tahun SPM</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <label id="applicant-spm_year"></label>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-12">
+                                    <label for="applicant-created_at" class="fw-bold">Tarikh Permohonan</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <label id="applicant-created_at"></label>
                                 </div>
                             </div>
                             <div class="row mb-2">
@@ -134,9 +168,11 @@
                                 <label for="" class="fw-bold">Program Yang Dipohon</label>
                             </div>
                             <div class="mb-2">
-                                <div class="col-md-6 form-floating">
-                                    <input type="text" name="location" id="applicant-location" class="form-control" value="applicant-location" readonly disabled>
-                                    <label for="applicant-location" class="labels fw-bold">Lokasi Pilihan</label>
+                                <div class="col-md-12">
+                                    <label for="applicant-location" class="fw-bold">Lokasi Pilihan</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <label id="applicant-location"></label>
                                 </div>
                             </div>
                             <div id="programs-container">
@@ -209,38 +245,44 @@
                     if (response.applicants) {
                         $('#application-form').attr('action', "{{ url('admin/application') }}/" + response.applicants.id);
                         // Populate the modal with the returned data
-                        $('#applicant-name').val(response.applicants.name);
-                        $('#applicant-ic').val(response.applicants.ic);
-                        $('#applicant-phone').val(response.applicants.phone);
-                        $('#applicant-email').val(response.applicants.email);
-                        $('#applicant-address1').val(response.applicants.address1);
-                        $('#applicant-address2').val(response.applicants.address2);
-                        $('#applicant-postcode').val(response.applicants.postcode);
-                        $('#applicant-city').val(response.applicants.city);
-                        $('#applicant-state').val(response.applicants.state);
-                        $('#applicant-spm_year').val(response.applicants.spm_year);
-                        $('#applicant-created_at').val(response.applicants.created_at);
-                        $('#applicant-location').val(response.applicants.location);
+                        $('#applicant-name').text(response.applicants.name);
+                        $('#applicant-ic').text(response.applicants.ic);
+                        $('#applicant-phone').text(response.applicants.phone);
+                        $('#applicant-email').text(response.applicants.email);
+                        $('#applicant-address1').text(response.applicants.address1);
+                        $('#applicant-address2').text(response.applicants.address2);
+                        $('#applicant-postcode').text(response.applicants.postcode);
+                        $('#applicant-city').text(response.applicants.city);
+                        $('#applicant-state').text(response.applicants.state);
+                        $('#applicant-spm_year').text(response.applicants.spm_year);
+                        $('#applicant-created_at').text(response.applicants.created_at);
+                        $('#applicant-location').text(response.applicants.location);
 
                         // Handle applicant status
                         if (response.applicants.status) {
+                            let reason = response.applicants.reason ? response.applicants.reason.replace(/\n/g, '<br>') : '';
                             $('#status-container').html(`
                                 <div class="mb-2">
-                                    <div class="col-md-12 form-floating">
-                                        <textarea name="status" id="applicant-status" class="form-control text-uppercase" style="height: 80px" readonly disabled>${response.applicants.status}</textarea>
+                                    <div class="col-md-12">
                                         <label for="status" class="labels fw-bold">Status Permohonan</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label id="applicant-status" class="text-uppercase">${response.applicants.status}</label>
                                     </div>
                                 </div>
                                 <div class="mb-2">
-                                    <div class="col-md-12 form-floating">
-                                        <textarea name="status" id="applicant-status" class="form-control text-uppercase" style="height: 80px" readonly disabled>${response.applicants.reason}</textarea>
-                                        <label for="status" class="labels fw-bold">Sebab Menolak Tawaran</label>
+                                    <div class="col-md-12">
+                                        <label for="reason" class="labels fw-bold">Sebab Menolak Tawaran</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label id="applicant-reason" class="text-uppercase">${reason}</label>
                                     </div>
                                 </div>
                             `);
                         } else {
                             $('#status-container').html('');
                         }
+
 
                         // Handle file URL
                         if (response.fileUrl) {
@@ -265,14 +307,22 @@
                             var programsHtml = '';
                             $.each(response.programs, function(index, program) {
                                 programsHtml += `
-                                    <div class="row g-2 mb-2 row-cols-1">
-                                        <div class="col-md-6 form-floating">
-                                            <input type="text" name="program${index + 1}" id="program${index + 1}" class="form-control" value="${program.name}" readonly disabled>
-                                            <label for="program${index + 1}" class="fw-bold">Program Pilihan ${index + 1}</label>
+                                    <div class="row mb-2">
+                                        <div class="col-md-8 mb-2 mb-md-0">
+                                            <div class-"col-md-12">
+                                                <label for="program${index + 1}" class="fw-bold">Program Pilihan ${index + 1}</label>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <label id="program${index + 1}">${program.name}</label>
+                                            </div>
                                         </div>
-                                        <div class="col-md-6 form-floating">
-                                            <input type="text" name="status${index + 1}" id="status${index + 1}" class="form-control text-uppercase" value="${program.status}" readonly disabled>
-                                            <label for="status${index + 1}" class="labels fw-bold">Status</label>
+                                        <div class="col-md-4">
+                                            <div class-"col-md-12">
+                                                <label for="status${index + 1}" class="fw-bold">Status</label>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <label id="status${index + 1}" class="text-uppercase">${program.status}</label>
+                                            </div>
                                         </div>
                                     </div>
                                 `;
@@ -280,9 +330,11 @@
                                 if (program.status !== 'baru' && program.status !== 'layak') {
                                     programsHtml += `
                                         <div class="mb-2">
-                                            <div class="col-md-12 col-sm-12 form-floating">
-                                                <textarea name="notes${index + 1}" id="notes${index + 1}" rows="2" class="form-control text-uppercase" disabled>${program.notes}</textarea>
+                                            <div class="col-md-12">
                                                 <label for="notes${index + 1}" class="fw-bold">Catatan</label>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <label id="notes${index + 1}" class="text-uppercase">${program.notes}</label>
                                             </div>
                                         </div>
                                     `;
@@ -298,9 +350,11 @@
                         if (response.applicants.register_at) {
                             $('#register_at-container').html(`
                                 <div class="mb-2">
-                                    <div class="col-md-6 col-sm-6 form-floating">
-                                        <input type="text" name="register_at" id="applicant-register_at" class="form-control" value="${response.applicants.register_at}" readonly disabled>
+                                    <div class="col-md-12">
                                         <label for="register_at" class="labels fw-bold">Tarikh Daftar Kolej</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label for="register_at">${response.applicants.register_at}</label>
                                     </div>
                                 </div>
                             `);
