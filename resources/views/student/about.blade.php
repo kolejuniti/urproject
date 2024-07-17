@@ -104,7 +104,7 @@
         </div>
         <div class="feature col text-center">
             <p class="fs-6">Anda telah mendaftar? Semak permohonan anda sekarang.</p>
-            <a href="{{ route('student.search') }}" class="btn btn-warning">Semak Permohonan</a>
+            <a href="{{ route('student.search', ['ref' => old('ref', $ref)]) }}" class="btn btn-warning">Semak Permohonan</a>
         </div>
     </div>
   </div>
@@ -366,7 +366,7 @@
         </div>
         <div class="feature col text-center">
             <p class="fs-6">Anda telah mendaftar? Semak permohonan anda sekarang.</p>
-            <a href="{{ route('student.search') }}" class="btn btn-warning">Semak Permohonan</a>
+            <a href="{{ route('student.search', ['ref' => old('ref', $ref)]) }}" class="btn btn-warning">Semak Permohonan</a>
         </div>
       </div>
     </div>
@@ -484,7 +484,7 @@
         </div>
         <div class="feature col text-center">
             <p class="fs-6 text-wrap">Anda telah mendaftar? Semak permohonan anda sekarang.</p>
-            <a href="{{ route('student.search') }}" class="btn btn-warning">Semak Permohonan</a>
+            <a href="{{ route('student.search', ['ref' => old('ref', $ref)]) }}" class="btn btn-warning">Semak Permohonan</a>
         </div>
     </div>
   </div>
@@ -517,7 +517,7 @@
         </div>
         <div class="feature col text-center">
             <p class="fs-6">Anda telah mendaftar? Semak permohonan anda sekarang.</p>
-            <a href="{{ route('student.search') }}" class="btn btn-warning">Semak Permohonan</a>
+            <a href="{{ route('student.search', ['ref' => old('ref', $ref)]) }}" class="btn btn-warning">Semak Permohonan</a>
         </div>
     </div>
   </div>

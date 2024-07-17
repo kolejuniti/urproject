@@ -45,7 +45,7 @@
         
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm sticky-top">
           <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand" href="{{ url('/') . (isset($ref) ? '?ref=' . $ref : '') }}">
                     <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/logo/edaftar.png" alt="...." class="img-fluid" style="width: 150px; height: auto;">
                 </a>
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -62,7 +62,7 @@
                       <!-- Authentication Links -->
                       @guest
                           <li class="nav-item dropdown">
-                              <a href="{{ route('student.about') }}" class="btn btn-success">Jom Masuk UNITI!</a>
+                              <a href="{{ route('student.about') . (isset($ref) ? '?ref=' . $ref : '') }}" class="btn btn-success">Jom Masuk UNITI!</a>
                           </li>
                       @else
                           <li class="nav-item dropdown">
@@ -100,7 +100,7 @@
                     <div class="col-md-2 offset-md-5 mb-3">
                       <h5>Pautan Segera</h5>
                       <ul class="nav flex-column">
-                        <li class="nav-item mb-2"><a href="{{ route('student.about') }}" class="nav-link p-0 text-body-secondary">Daftar Kemasukan</a></li>
+                        <li class="nav-item mb-2"><a href="{{ route('student.about') . (isset($ref) ? '?ref=' . $ref : '') }}" class="nav-link p-0 text-body-secondary">Daftar Kemasukan</a></li>
                       </ul>
                     </div>
                     
