@@ -6,8 +6,9 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdvisorController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\RegisterController;
+use Illuminate\Http\Request;
 
-Route::get('/', function () {
+Route::get('/', function (Request $request) {
     if (auth()->check()) {
         switch (auth()->user()->type) {
             case 'user':
@@ -19,7 +20,8 @@ Route::get('/', function () {
         }
     }
 
-    return view('welcome'); // Or any other public view
+    $ref = $request->query('ref');
+    return view('welcome', compact('ref')); // Or any other public view
 });
 
 // Route::get('/example', function () {
@@ -45,6 +47,7 @@ Route::middleware(['auth', 'user-access:admin'])->group(function() {
     Route::post('/admin/application/detail', [AdminController::class, 'applicationDetail'])->name('admin.application.detail');
     Route::put('/admin/application/{id}', [AdminController::class, 'update'])->name('admin.application.update');
     Route::get('/admin/userlist', [AdminController::class, 'userlist'])->name('admin.userlist');
+    Route::post('/admin/userlist/detail', [AdminController::class, 'userDetail'])->name('admin.userlist.detail');
     Route::put('/admin/userlist/{id}', [AdminController::class, 'updateUser'])->name('admin.userlist.update');
     Route::get('/admin/studentlist', [AdminController::class, 'studentlist'])->name('admin.studentlist');
     Route::get('/admin/profile', [AdminController::class, 'profile'])->name('admin.profile');
