@@ -99,11 +99,8 @@
                             </div>
                             <div class="row mb-2">
                                 <div class="col-md-4 mb-2 mb-md-0">
-                                    <div class="col-md-12">
-                                        <label for="user-phone" class="fw-bold">No. Telefon</label>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <label id="user-phone"></label>
+                                    <div id="phone-container">
+                                        <!--Phone will display here-->
                                     </div>
                                 </div>
                                 <div class="col-md-8">
@@ -269,11 +266,35 @@
                         $('#user-ic').text(response.users.ic);     
                         $('#user-religion').text(response.users.religion);   
                         $('#user-nation').text(response.users.nation);     
-                        $('#user-sex').text(response.users.sex);           
-                        $('#user-phone').text(response.users.phone);         
+                        $('#user-sex').text(response.users.sex);             
                         $('#user-email').text(response.users.email);
+
+                        // Handle phone
+                        if (response.users.phone) {
+                            $('#phone-container').html(`
+                                <div class="mb-2">
+                                    <div class="col-md-12">
+                                        <label for="user-phone" class="fw-bold">No. Telefon</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <input type="text" name="phone" id="user-phone" class="form-control form-control-sm" value="${response.users.phone}" required>    
+                                    </div>
+                                </div>
+                            `);
+                        } else {
+                            $('#phone-container').html(`
+                                <div class="mb-2">
+                                    <div class="col-md-12">
+                                        <label for="user-phone" class="fw-bold">No. Telefon</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <input type="text" name="phone" id="user-phone" class="form-control form-control-sm" required>    
+                                    </div>
+                                </div>
+                            `);
+                        }
                         
-                        // Handle register date
+                        // Handle bank account
                         if (response.users.bank_account) {
                             $('#bank_account-container').html(`
                                 <div class="mb-2">
@@ -286,9 +307,19 @@
                                 </div>
                             `);
                         } else {
-                            $('#bank_account-container').html(``);
+                            $('#bank_account-container').html(`
+                                <div class="mb-2">
+                                    <div class="col-md-12">
+                                        <label for="user-bank_account" class="fw-bold">No. Akaun Bank</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <input type="text" name="bank_account" id="user-bank_account" class="form-control form-control-sm" required>    
+                                    </div>
+                                </div>
+                            `);
                         }
 
+                        // Handle bank option
                         let bankOptions = response.banks.map((bank) => `<option value="${bank.id}">${bank.name}</option>`).join('');
                         if (response.users.bank_id) {
                             $('#bank-container').html(`
@@ -306,6 +337,64 @@
                             `);
                         } else {
                             $('#bank-container').html(``);
+                        }
+
+                        // Handle position
+                        if (response.users.position) {
+                            let positionOptions = '';
+
+                            if (response.users.position === "AFFILIATE UNITI") {
+                                positionOptions = `
+                                            <option value="EDUCATION ADVISOR">EDUCATION ADVISOR</option>`;
+                            } else if (response.users.position === "EDUCATION ADVISOR") {
+                                positionOptions =  `
+                                            <option value="AFFILIATE UNITI">AFFILIATE UNITI</option>`;
+                            }
+
+                            $('#position-container').html(`
+                                <div class="mb-2">
+                                    <div class="col-md-12">
+                                        <label for="user-position" class="fw-bold">Jawatan</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <select name="position" id="user-position" class="form-control form-control-sm text-uppercase" required>
+                                            <option value="${response.users.position}">${response.users.position}</option>
+                                            ${positionOptions}
+                                        </select>    
+                                    </div>
+                                </div>
+                            `);
+                        } else {
+                            $('#position-container').html(``);
+                        }
+
+                        // Handle status
+                        if (response.users.status) {
+                            let statusOptions = '';
+
+                            if (response.users.status === "AKTIF") {
+                                statusOptions = `
+                                            <option value="TIDAK AKTIF">TIDAK AKTIF</option>`;
+                            } else if (response.users.status === "TIDAK AKTIF") {
+                                statusOptions =  `
+                                            <option value="AKTIF">AKTIF</option>`;
+                            }
+
+                            $('#status-container').html(`
+                                <div class="mb-2">
+                                    <div class="col-md-12">
+                                        <label for="user-status" class="fw-bold">Status</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <select name="status" id="user-status" class="form-control form-control-sm text-uppercase" required>
+                                            <option value="${response.users.status}">${response.users.status}</option>
+                                            ${statusOptions}
+                                        </select>    
+                                    </div>
+                                </div>
+                            `);
+                        } else {
+                            $('#status-container').html(``);
                         }
 
                         // Show the modal
