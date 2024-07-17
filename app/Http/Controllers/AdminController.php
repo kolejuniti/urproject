@@ -263,6 +263,30 @@ class AdminController extends Controller
         return view('admin.userlist', compact('users', 'banks'));
     }
 
+    public function userDetail(Request $request)
+    {
+        $ic = $request->input('ic');
+
+        $banks = DB::table('bank')->get();
+
+        $users = User::whereIn('type', [0, 1])
+                ->join('religion', 'users.religion_id', '=', 'religion.id')
+                ->join('nation', 'users.nation_id', '=', 'nation.id')
+                ->join('sex', 'users.sex_id', '=', 'sex.id')
+                ->join('bank', 'users.bank_id', '=', 'bank.id')
+                ->leftjoin('user_address', 'users.ic', '=', 'user_address.user_ic' )
+                ->join('state', 'user_address.state_id', '=', 'state.id')
+                ->select('users.*', 'religion.name AS religion', 'nation.name AS nation', 'sex.name AS sex', 'bank.name AS bank', 'user_address.address1', 'user_address.address2','user_address.postcode','user_address.city', 'state.name AS state')
+                ->where('users.ic', 'LIKE', "{$ic}")
+                ->first();
+
+        if ($request->ajax()) {
+            return response()->json(['banks' => $banks, 'users' => $users]);
+        }
+
+        return view('admin.userlist', compact('users', 'banks'));
+    }
+
     public function updateUser(Request $request, $id)
     {
         $phone = $request->input('phone');
