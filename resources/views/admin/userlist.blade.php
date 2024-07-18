@@ -124,7 +124,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row mb-2">
+                            <div class="row mb-2 row-cols-2">
                                 <div class="col-md-4">
                                     <div id="position-container">
                                         <!--Position account will display here-->
@@ -136,43 +136,7 @@
                                     </div>
                                 </div>
                             </div>
-                            {{-- <div class="row mb-2">
-                                <div class="col-md-3 col-sm-3">
-                                    <label for="">Jawatan</label>
-                                </div>
-                                <div class="col-md-3 col-sm-3">
-                                    <select name="position" id="position" class="form-control form-control-sm" required>
-                                        @if ($user->position === "AFFILIATE UNITI")
-                                            <option value="AFFILIATE UNITI">AFFILIATE UNITI</option>
-                                            <option value="MANAGER">MANAGER</option>
-                                            <option value="EDUCATION ADVISOR">EDUCATION ADVISOR</option>
-                                        @elseif ($user->position === "MANAGER")
-                                            <option value="MANAGER">MANAGER</option>
-                                            <option value="AFFILIATE UNITI">AFFILIATE UNITI</option>
-                                            <option value="EDUCATION ADVISOR">EDUCATION ADVISOR</option>
-                                        @elseif ($user->position === "EDUCATION ADVISOR")
-                                            <option value="EDUCATION ADVISOR">EDUCATION ADVISOR</option>
-                                            <option value="AFFILIATE UNITI">AFFILIATE UNITI</option>
-                                            <option value="MANAGER">MANAGER</option>
-                                        @endif
-                                    </select>
-                                </div>
-                                <div class="col-md-3 col-sm-3">
-                                    <label for="">Status</label>
-                                </div>
-                                <div class="col-md-3 col-sm-3">
-                                    <select name="status" id="status" class="form-control form-control-sm" required>
-                                        @if ($user->status === "AKTIF")
-                                            <option value="AKTIF">AKTIF</option>
-                                            <option value="TIDAK AKTIF">TIDAK AKTIF</option>
-                                        @elseif ($user->status === "TIDAK AKTIF")
-                                            <option value="TIDAK AKTIF">TIDAK AKTIF</option>
-                                            <option value="AKTIF">AKTIF</option>
-                                        @endif
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-12 col-sm-12 mb-3 mt-3">
+                            {{-- <div class="col-md-12 col-sm-12 mb-3 mt-3">
                                 <label for="" class="fw-bold">Alamat Pengguna</label>
                             </div>
                             <div class="row mb-2">

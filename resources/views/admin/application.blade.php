@@ -21,6 +21,7 @@
                         <th>No. Telefon</th>
                         <th>Email</th>
                         <th>Tarikh Permohonan</th>
+                        <th>Affiliate</th>
                         <th>Tarikh Agihan</th>
                         <th>Education Advisor</th>
                         <th>Catatan</th>
@@ -43,6 +44,15 @@
                         <td class="text-center">{{ $data->phone }}</td>
                         <td class="text-center">{{ $data->email }}</td>
                         <td>{{ \Carbon\Carbon::parse($data->created_at)->format('d-m-Y') }}</td>
+                        <td class="text-uppercase">
+                            @if( $data->referral_code !== null)
+                                @foreach ($affiliates[$data->id] as $affiliate)
+                                    {{ $affiliate->name }}
+                                @endforeach
+                            @else
+                                {{__('TIADA AFFILIATE')}}
+                            @endif
+                        </td>
                         <td>{{$data->updated_at ? \Carbon\Carbon::parse($data->updated_at)->format('d-m-Y') : '' }}</td>
                         <td class="text-uppercase">{{ $data->user }}</td>
                         <td>{{ $data->note }}</td>
