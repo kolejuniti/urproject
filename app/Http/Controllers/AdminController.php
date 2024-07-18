@@ -159,11 +159,25 @@ class AdminController extends Controller
                     'students.created_at',
                     'students.updated_at',
                     'students.register_at',
+                    'students.referral_code',
                     'state.name AS state', 'users.name AS user', 'location.name AS location', 'status.name AS status', 'student_foundations.foundation AS note')
                     ->orderBy('students.created_at', 'desc')
                     ->get();
 
-        return view('admin.application', compact('applicants'));
+        $affiliates = [];
+
+        foreach ($applicants as $applicant) {
+            // Find the affiliate(s) associated with the current student's referral code
+            $affiliate = User::where('referral_code', $applicant->referral_code)
+                        ->whereIn('type', [0,1])
+                        ->get();
+        
+            // Store the affiliate(s) in the $affiliates array, using student ID as key
+            $affiliates[$applicant->id] = $affiliate;
+            
+        }
+
+        return view('admin.application', compact('applicants', 'affiliates'));
     }
 
     public function applicationDetail(Request $request)
