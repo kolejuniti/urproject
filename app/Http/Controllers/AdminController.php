@@ -303,6 +303,7 @@ class AdminController extends Controller
 
     public function updateUser(Request $request, $id)
     {
+        $name = $request->input('name');
         $phone = $request->input('phone');
         $bank_account = $request->input('bank_account');
         $bank = $request->input('bank');
@@ -318,7 +319,7 @@ class AdminController extends Controller
 
         $user = DB::table('users')
                 ->where('users.id', $id)
-                ->update(['phone'=>$phone, 'bank_account'=>$bank_account, 'bank_id'=>$bank, 'type'=>$type, 'position'=>$position, 'status'=>$status]);
+                ->update(['name'=>$name, 'phone'=>$phone, 'bank_account'=>$bank_account, 'bank_id'=>$bank, 'type'=>$type, 'position'=>$position, 'status'=>$status]);
 
         return redirect()->route('admin.userlist')->with('success', 'Maklumat pengguna berjaya dikemaskini.');
     }
