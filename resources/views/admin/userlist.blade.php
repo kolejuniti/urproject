@@ -56,12 +56,15 @@
                                 <label for="" class="fw-bold">Maklumat Pengguna</label>
                             </div>
                             <div class="row mb-2">
-                                <div class="col-md-12">
+                                {{-- <div class="col-md-12">
                                     <label for="user-name" class="fw-bold">Nama Penuh</label>
                                 </div>
                                 <div class="col-md-12">
-                                    <label id="user-name"></label>
-                                </div>
+                                    <label id="user-name"></label>                                   
+                                </div> --}}
+                                <div id="name-container">
+                                    <!--Name will display here-->
+                                </div> 
                             </div>
                             <div class="row mb-2">
                                 <div class="col-md-12">
@@ -226,7 +229,32 @@
                     if (response.users) {
                         $('#user-form').attr('action', "{{ url('admin/userlist') }}/" + response.users.id);
                         // Populate the modal with the returned data
-                        $('#user-name').text(response.users.name);  
+                        // $('#user-name').text(response.users.name);
+
+                        if (response.users.name) {
+                            $('#name-container').html(`
+                                <div class="mb-2">
+                                    <div class="col-md-12">
+                                        <label for="user-name" class="fw-bold">Nama Penuh</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="text" name="name" id="user-name" class="form-control form-control-sm" value="${response.users.name}" required>    
+                                    </div>
+                                </div>
+                            `);
+                        } else {
+                            $('#phone-container').html(`
+                                <div class="mb-2">
+                                    <div class="col-md-12">
+                                        <label for="user-name" class="fw-bold">Nama Penuh</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="text" name="name" id="user-name" class="form-control form-control-sm" required>    
+                                    </div>
+                                </div>
+                            `);
+                        }
+
                         $('#user-ic').text(response.users.ic);     
                         $('#user-religion').text(response.users.religion);   
                         $('#user-nation').text(response.users.nation);     
