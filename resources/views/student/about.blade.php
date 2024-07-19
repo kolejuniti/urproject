@@ -4,6 +4,7 @@
 <div class="album py-4">
   <div class="container">
     <h2 class="pb-2 border-bottom">Kenapa Pilih UNITI?</h2>
+    <input type="text" name="source" value="{{ $source }} readonly">
     <div class="row row-cols-1 row-cols-md-3 g-4 mb-3">
       <div class="col">
         <div class="card">
