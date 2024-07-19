@@ -20,7 +20,31 @@ class StudentController extends Controller
         $currentYear = date('Y');
         $years = range($currentYear, $currentYear - 10);
 
-        return view('student.register', compact('ref', 'states', 'locations', 'years'));
+        $referrer = $request->headers->get('referer', 'unknown');
+
+        \Log::info('Referrer: ' . $referrer);
+
+        $source = $this->determineSource($referrer);
+
+        return view('student.register', compact('ref', 'states', 'locations', 'years', 'source'));
+    }
+
+    private function determineSource($referrer)
+    {
+        if ($referrer === 'unknown') {
+            return 'unknown';
+        }
+
+        $referrer = strtolower($referrer); // Ensure case-insensitivity
+        if (strpos($referrer, 'facebook.com') !== false) {
+            return 'facebook';
+        } elseif (strpos($referrer, 'whatsapp.com') !== false) {
+            return 'whatsapp';
+        } elseif (strpos($referrer, 'tiktok.com') !== false) {
+            return 'tiktok';
+        }
+
+        return 'unknown';
     }
 
     public function location($id)
