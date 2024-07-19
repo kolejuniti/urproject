@@ -251,6 +251,8 @@ class StudentController extends Controller
             return 'facebook';
         } elseif (strpos($referrer, 'whatsapp.com') !== false) {
             return 'whatsapp';
+        } elseif (strpos($referrer, 'web.whatsapp.com') !== false) {
+            return 'whatsapp';
         } elseif (strpos($referrer, 'tiktok.com') !== false) {
             return 'tiktok';
         } elseif (strpos($referrer, 'instagram.com') !== false) {
