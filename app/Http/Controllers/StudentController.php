@@ -253,6 +253,8 @@ class StudentController extends Controller
             return 'whatsapp';
         } elseif (strpos($referrer, 'tiktok.com') !== false) {
             return 'tiktok';
+        } elseif (strpos($referrer, 'instagram.com') !== false) {
+            return 'instagram';
         } elseif (strpos($referrer, 'edaftarkolej.uniticms.edu.my') !== false) {
             return 'website';
         }
