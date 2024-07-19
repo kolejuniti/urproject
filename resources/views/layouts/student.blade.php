@@ -46,7 +46,7 @@
 
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm sticky-top">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') . (request()->has('ref') ? '?ref=' . request('ref') : '') . (request()->has('source') ? (request()->has('ref') ? '&' : '?') . 'source=' . request('source') : '') }}">
+                <a class="navbar-brand" href="{{ url('/') . (request()->has('source') ? '?source=' . request('source') : '') . (request()->has('ref') ? (request()->has('source') ? '&' : '?') . 'ref=' . request('ref') : '') }}">
                 {{-- <a class="navbar-brand" href="#"> --}}
                     <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/logo/edaftar.png" alt="...." class="img-fluid" style="width: 150px; height: auto;">
                 </a>
