@@ -233,7 +233,7 @@ class StudentController extends Controller
     {
         $ref = $request->query('ref');
 
-        $referrer = $request->headers->get('referer', 'unknown');
+        $referrer = $request->headers->get('referer', 'other');
 
         $source = $this->determineSource($referrer);
 
@@ -242,8 +242,8 @@ class StudentController extends Controller
 
     private function determineSource($referrer)
     {
-        if ($referrer === 'unknown') {
-            return 'unknown';
+        if ($referrer === 'other') {
+            return 'other';
         }
 
         $referrer = strtolower($referrer); // Ensure case-insensitivity
@@ -261,6 +261,6 @@ class StudentController extends Controller
             return 'website';
         }
 
-        return 'unknown';
+        return 'other';
     }
 }
