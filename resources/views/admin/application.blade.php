@@ -387,7 +387,7 @@
                         }
 
                         // Handle users
-                        let usersOptions = response.users.map((user, index) => `<option value="${user.id}">${index + 1}. ${user.name}</option>`).join('');
+                        let usersOptions = response.users.map((user) => `<option value="${user.id}">${user.name}</option>`).join('');
                         if (response.applicants.user_id) {
                             $('#pic-container').html(`
                                 <div class="mt-3">
