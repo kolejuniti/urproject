@@ -16,11 +16,12 @@ class StudentController extends Controller
         $states = DB::table('state')->get();
         $locations = DB::table('location')->get();
         $ref = $request->query('ref');
+        $source = $request->query('source');
 
         $currentYear = date('Y');
         $years = range($currentYear, $currentYear - 10);
 
-        return view('student.register', compact('ref', 'states', 'locations', 'years'));
+        return view('student.register', compact('ref', 'states', 'locations', 'years', 'source'));
     }
 
     public function location($id)
@@ -87,6 +88,7 @@ class StudentController extends Controller
                 $state = $request->input('state');
                 $year = $request->input('year');
                 $location = $request->input('location');
+                $source = $request->input('source');
                 $programA = $request->input('programA');
                 $programB = $request->input('programB');
 
@@ -104,6 +106,7 @@ class StudentController extends Controller
                     'location_id'=>$location,
                     'referral_code'=>$ref,
                     'user_id'=>$userID,
+                    'source'=>$source,
                     'updated_at'=> $update
                 ]);
 
@@ -230,9 +233,7 @@ class StudentController extends Controller
     {
         $ref = $request->query('ref');
 
-        $referrer = $request->headers->get('referer', 'unknown');
-
-        \Log::info('Referrer: ' . $referrer);
+        $referrer = $request->headers->get('referer', 'edaftar');
 
         $source = $this->determineSource($referrer);
 
@@ -241,8 +242,8 @@ class StudentController extends Controller
 
     private function determineSource($referrer)
     {
-        if ($referrer === 'unknown') {
-            return 'unknown';
+        if ($referrer === 'edaftar') {
+            return 'edaftar';
         }
 
         $referrer = strtolower($referrer); // Ensure case-insensitivity
@@ -254,6 +255,6 @@ class StudentController extends Controller
             return 'tiktok';
         }
 
-        return 'unknown';
+        return 'edaftar';
     }
 }
