@@ -135,7 +135,6 @@
                 </div>
                 <div class="card-footer">
                     <div class="col-sm-12 text-center">
-                        <input type="text" name="source" value="{{ $source }}" disabled>
                         <button class="btn btn-primary" type="submit">Daftar</button>
                     </div>
                 </div>
