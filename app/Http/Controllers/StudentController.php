@@ -248,6 +248,8 @@ class StudentController extends Controller
             return 'other';
         }
 
+        dd($referrer);
+
         $referrer = strtolower($referrer); // Ensure case-insensitivity
         if (strpos($referrer, 'facebook.com') !== false) {
             return 'facebook';
