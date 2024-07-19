@@ -101,7 +101,7 @@
         <div class="feature col text-center">
             <p class="fs-6">Adakah anda berminat untuk belajar di Kolej UNITI?</p>
             {{-- <input type="hidden" name="source" value="{{ $source }}"> --}}
-            <a href="{{ route('student.register') . (request()->has('source') ? '?source=' . request('source') : '') . (request()->has('ref') ? (request()->has('source') ? '&' : '?') . 'ref=' . request('ref') : '') }}" class="btn btn-danger">Daftar Sekarang</a>
+            <a href="{{ route('student.register', ['source' => old('source', $source), 'ref' => old('ref', $ref)]) }}" class="btn btn-danger">Daftar Sekarang</a>
         </div>
         <div class="feature col text-center">
             <p class="fs-6">Anda telah mendaftar? Semak permohonan anda sekarang.</p>
@@ -364,7 +364,7 @@
         <div class="feature col text-center">
             <p class="fs-6">Adakah anda berminat untuk belajar di Kolej UNITI?</p>
             {{-- <input type="hidden" name="source" value="{{ $source }}"> --}}
-            <a href="{{ route('student.register') . (request()->has('source') ? '?source=' . request('source') : '') . (request()->has('ref') ? (request()->has('source') ? '&' : '?') . 'ref=' . request('ref') : '') }}" class="btn btn-danger">Daftar Sekarang</a>
+            <a href="{{ route('student.register', ['source' => old('source', $source), 'ref' => old('ref', $ref)]) }}" class="btn btn-danger">Daftar Sekarang</a>
         </div>
         <div class="feature col text-center">
             <p class="fs-6">Anda telah mendaftar? Semak permohonan anda sekarang.</p>
@@ -483,7 +483,7 @@
         <div class="feature col text-center">
             <p class="fs-6 text-wrap">Adakah anda berminat untuk belajar di Kolej UNITI?</p>
             {{-- <input type="hidden" name="source" value="{{ $source }}"> --}}
-            <a href="{{ route('student.register') . (request()->has('source') ? '?source=' . request('source') : '') . (request()->has('ref') ? (request()->has('source') ? '&' : '?') . 'ref=' . request('ref') : '') }}" class="btn btn-danger">Daftar Sekarang</a>
+            <a href="{{ route('student.register', ['source' => old('source', $source), 'ref' => old('ref', $ref)]) }}" class="btn btn-danger">Daftar Sekarang</a>
         </div>
         <div class="feature col text-center">
             <p class="fs-6 text-wrap">Anda telah mendaftar? Semak permohonan anda sekarang.</p>
@@ -517,7 +517,7 @@
         <div class="feature col text-center">
           <p class="fs-6 text-wrap">Adakah anda berminat untuk belajar di Kolej UNITI?</p>
             {{-- <input type="hidden" name="source" value="{{ $source }}"> --}}
-            <a href="{{ route('student.register') . (request()->has('source') ? '?source=' . request('source') : '') . (request()->has('ref') ? (request()->has('source') ? '&' : '?') . 'ref=' . request('ref') : '') }}" class="btn btn-danger">Daftar Sekarang</a>
+            <a href="{{ route('student.register', ['source' => old('source', $source), 'ref' => old('ref', $ref)]) }}" class="btn btn-danger">Daftar Sekarang</a>
         </div>
         <div class="feature col text-center">
             <p class="fs-6">Anda telah mendaftar? Semak permohonan anda sekarang.</p>
