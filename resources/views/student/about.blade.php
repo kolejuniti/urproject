@@ -100,7 +100,7 @@
     <div class="row g-4 py-1 row-cols-sm-2">
         <div class="feature col text-center">
             <p class="fs-6">Adakah anda berminat untuk belajar di Kolej UNITI?</p>
-            <input type="hidden" name="source" value="{{ $source }}">
+            {{-- <input type="hidden" name="source" value="{{ $source }}"> --}}
             <a href="{{ route('student.register', ['source' => old('source', $source), 'ref' => old('ref', $ref)]) }}" class="btn btn-danger">Daftar Sekarang</a>
         </div>
         <div class="feature col text-center">
@@ -363,7 +363,7 @@
       <div class="row g-4 py-1 row-cols-sm-2">
         <div class="feature col text-center">
             <p class="fs-6">Adakah anda berminat untuk belajar di Kolej UNITI?</p>
-            <input type="hidden" name="source" value="{{ $source }}">
+            {{-- <input type="hidden" name="source" value="{{ $source }}"> --}}
             <a href="{{ route('student.register', ['source' => old('source', $source), 'ref' => old('ref', $ref)]) }}" class="btn btn-danger">Daftar Sekarang</a>
         </div>
         <div class="feature col text-center">
@@ -482,7 +482,7 @@
     <div class="row g-4 py-1 row-cols-sm-2">
         <div class="feature col text-center">
             <p class="fs-6 text-wrap">Adakah anda berminat untuk belajar di Kolej UNITI?</p>
-            <input type="hidden" name="source" value="{{ $source }}">
+            {{-- <input type="hidden" name="source" value="{{ $source }}"> --}}
             <a href="{{ route('student.register', ['source' => old('source', $source), 'ref' => old('ref', $ref)]) }}" class="btn btn-danger">Daftar Sekarang</a>
         </div>
         <div class="feature col text-center">
@@ -516,7 +516,7 @@
     <div class="row g-4 py-1 row-cols-sm-2">
         <div class="feature col text-center">
           <p class="fs-6 text-wrap">Adakah anda berminat untuk belajar di Kolej UNITI?</p>
-            <input type="hidden" name="source" value="{{ $source }}">
+            {{-- <input type="hidden" name="source" value="{{ $source }}"> --}}
             <a href="{{ route('student.register', ['source' => old('source', $source), 'ref' => old('ref', $ref)]) }}" class="btn btn-danger">Daftar Sekarang</a>
         </div>
         <div class="feature col text-center">
