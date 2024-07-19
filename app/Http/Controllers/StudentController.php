@@ -17,9 +17,7 @@ class StudentController extends Controller
         $locations = DB::table('location')->get();
         $ref = $request->query('ref');
 
-        $referrer = $request->headers->get('referer', 'other');
-
-        $source = $this->determineSource($referrer);
+        $source = $request->session()->get('source', 'other');
 
         $currentYear = date('Y');
         $years = range($currentYear, $currentYear - 10);
@@ -239,6 +237,9 @@ class StudentController extends Controller
         $referrer = $request->headers->get('referer', 'other');
 
         $source = $this->determineSource($referrer);
+
+        // Store source in session
+        $request->session()->put('source', $source);
 
         return view('student.about', compact('ref', 'source'));
     }
