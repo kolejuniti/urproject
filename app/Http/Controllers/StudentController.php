@@ -233,7 +233,7 @@ class StudentController extends Controller
     {
         $ref = $request->query('ref');
 
-        $referrer = $request->headers->get('referer', 'edaftar');
+        $referrer = $request->headers->get('referer', 'unknown');
 
         $source = $this->determineSource($referrer);
 
@@ -242,8 +242,8 @@ class StudentController extends Controller
 
     private function determineSource($referrer)
     {
-        if ($referrer === 'edaftar') {
-            return 'edaftar';
+        if ($referrer === 'unknown') {
+            return 'unknown';
         }
 
         $referrer = strtolower($referrer); // Ensure case-insensitivity
@@ -253,8 +253,10 @@ class StudentController extends Controller
             return 'whatsapp';
         } elseif (strpos($referrer, 'tiktok.com') !== false) {
             return 'tiktok';
+        } elseif (strpos($referrer, 'edaftarkolej.uniticms.edu.my') !== false) {
+            return 'website';
         }
 
-        return 'edaftar';
+        return 'unknown';
     }
 }
