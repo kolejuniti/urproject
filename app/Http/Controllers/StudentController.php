@@ -20,22 +20,7 @@ class StudentController extends Controller
         $currentYear = date('Y');
         $years = range($currentYear, $currentYear - 10);
 
-        $referrer = $request->headers->get('referer', 'unknown');
-        $source = $this->determineSource($referrer);
-
-        return view('student.register', compact('ref', 'states', 'locations', 'years', 'source'));
-    }
-
-    private function determineSource($referrer)
-    {
-        if (strpos($referrer, 'facebook.com') !== false) {
-            return 'facebook';
-        } elseif (strpos($referrer, 'whatsapp.com') !== false) {
-            return 'whatsapp';
-        } elseif (strpos($referrer, 'tiktok.com') !== false) {
-            return 'tiktok';
-        }
-        return 'unknown';
+        return view('student.register', compact('ref', 'states', 'locations', 'years'));
     }
 
     public function location($id)
