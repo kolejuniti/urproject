@@ -64,7 +64,7 @@
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item dropdown">
-                                <a href="{{ route('student.about', ['ref' => old('ref', $ref), 'source' => $source]) }}" class="btn btn-success">Jom Masuk UNITI!</a>
+                                <a href="{{ route('student.about') . (request()->has('source') ? '?source=' . request('source') : '') . (request()->has('ref') ? (request()->has('source') ? '&' : '?') . 'ref=' . request('ref') : '') }}" class="btn btn-success">Jom Masuk UNITI!</a>
 
                                 {{-- <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{__('Pelajar')}}
@@ -136,7 +136,7 @@
                 <div class="col-md-2 offset-md-5 mb-3">
                   <h5>Pautan Segera</h5>
                   <ul class="nav flex-column">
-                    <li class="nav-item mb-2"><a href="{{ route('student.about', ['ref' => old('ref', $ref), 'source' => $source]) }}" class="nav-link p-0 text-body-secondary">Daftar Kemasukan</a>
+                    <li class="nav-item mb-2"><a href="{{ route('student.about') . (request()->has('source') ? '?source=' . request('source') : '') . (request()->has('ref') ? (request()->has('source') ? '&' : '?') . 'ref=' . request('ref') : '') }}" class="nav-link p-0 text-body-secondary">Daftar Kemasukan</a>
                     </li>
                   </ul>
                 </div>
