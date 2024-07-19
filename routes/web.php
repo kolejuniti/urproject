@@ -21,7 +21,8 @@ Route::get('/', function (Request $request) {
     }
 
     $ref = $request->query('ref');
-    return view('welcome', compact('ref')); // Or any other public view
+    $source = $request->query('source');
+    return view('welcome', compact('ref', 'source')); // Or any other public view
 });
 
 // Route::get('/example', function () {
