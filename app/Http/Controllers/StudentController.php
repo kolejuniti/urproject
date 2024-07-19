@@ -237,6 +237,9 @@ class StudentController extends Controller
 
         $source = $this->determineSource($referrer);
 
+        // Store source in session
+        $request->session()->put('source', $source);
+
         return view('student.about', compact('ref', 'source'));
     }
 
