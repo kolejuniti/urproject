@@ -213,7 +213,7 @@ class AdminController extends Controller
                     ->where('students.ic', 'LIKE', "{$ic}")
                     ->first();
 
-        $users = User::where('type', 1)->orderBy('id')->get();
+        $users = User::where('type', 1)->orderBy('name')->get();
 
         $fileUrl = null;
         if ($applicants) {
