@@ -101,7 +101,8 @@
         <div class="feature col text-center">
             <p class="fs-6">Adakah anda berminat untuk belajar di Kolej UNITI?</p>
             {{-- <input type="hidden" name="source" value="{{ $source }}"> --}}
-            <a href="{{ route('student.register', ['source' => old('source', $source), 'ref' => old('ref', $ref)]) }}" class="btn btn-danger">Daftar Sekarang</a>
+            {{-- <a href="{{ route('student.register', ['source' => old('source', $source), 'ref' => old('ref', $ref)]) }}" class="btn btn-danger">Daftar Sekarang</a> --}}
+            <a href="{{ route('student.register', ['ref' => old('ref', $ref)]) }}" class="btn btn-success">Daftar Sekarang</a>
         </div>
         <div class="feature col text-center">
             <p class="fs-6">Anda telah mendaftar? Semak permohonan anda sekarang.</p>
