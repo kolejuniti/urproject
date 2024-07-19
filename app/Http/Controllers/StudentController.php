@@ -16,7 +16,7 @@ class StudentController extends Controller
         $states = DB::table('state')->get();
         $locations = DB::table('location')->get();
         $ref = $request->query('ref');
-        $source = $request->query('source');
+        $source = $request->session()->get('source', 'other');
 
         $currentYear = date('Y');
         $years = range($currentYear, $currentYear - 10);
