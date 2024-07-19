@@ -135,6 +135,7 @@
                 </div>
                 <div class="card-footer">
                     <div class="col-sm-12 text-center">
+                        <input type="hidden" name="source" id="source" value="{{ $source }}">
                         <button class="btn btn-primary" type="submit">Daftar</button>
                     </div>
                 </div>

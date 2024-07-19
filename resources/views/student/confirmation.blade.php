@@ -128,13 +128,13 @@
                             <label for="name" class="text-uppercase">{{ $data->status }}</label>
                         </div>
                     </div>
+                    @endforeach
                     <div class="col-md-12 col-sm-12 mt-3 mb-3">
                         <label for="" class="fw-bold">Pegawai Perhubungan</label>
                     </div>
                     <div class="col-md-12 col-sm-12">
                         <label for="">Pegawai yang dilantik akan menghubungi anda dalam masa terdekat.</label>
                     </div>
-                    @endforeach
                 </div>
             </div>
         </div>

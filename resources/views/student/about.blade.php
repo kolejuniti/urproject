@@ -4,7 +4,6 @@
 <div class="album py-4">
   <div class="container">
     <h2 class="pb-2 border-bottom">Kenapa Pilih UNITI?</h2>
-    <input type="text" name="source" value="{{ $source }} readonly">
     <div class="row row-cols-1 row-cols-md-3 g-4 mb-3">
       <div class="col">
         <div class="card">
@@ -101,7 +100,8 @@
     <div class="row g-4 py-1 row-cols-sm-2">
         <div class="feature col text-center">
             <p class="fs-6">Adakah anda berminat untuk belajar di Kolej UNITI?</p>
-            <a href="{{ route('student.register', ['ref' => old('ref', $ref)]) }}" class="btn btn-danger">Daftar Sekarang</a>
+            <input type="hidden" name="source" value="{{ $source }}">
+            <a href="{{ route('student.register', ['source' => $source, 'ref' => old('ref', $ref)]) }}" class="btn btn-danger">Daftar Sekarang</a>
         </div>
         <div class="feature col text-center">
             <p class="fs-6">Anda telah mendaftar? Semak permohonan anda sekarang.</p>
@@ -363,7 +363,8 @@
       <div class="row g-4 py-1 row-cols-sm-2">
         <div class="feature col text-center">
             <p class="fs-6">Adakah anda berminat untuk belajar di Kolej UNITI?</p>
-            <a href="{{ route('student.register', ['ref' => old('ref', $ref)]) }}" class="btn btn-danger">Daftar Sekarang</a>
+            <input type="hidden" name="source" value="{{ $source }}">
+            <a href="{{ route('student.register', ['source' => $source, 'ref' => old('ref', $ref)]) }}" class="btn btn-danger">Daftar Sekarang</a>
         </div>
         <div class="feature col text-center">
             <p class="fs-6">Anda telah mendaftar? Semak permohonan anda sekarang.</p>
@@ -481,7 +482,8 @@
     <div class="row g-4 py-1 row-cols-sm-2">
         <div class="feature col text-center">
             <p class="fs-6 text-wrap">Adakah anda berminat untuk belajar di Kolej UNITI?</p>
-            <a href="{{ route('student.register', ['ref' => old('ref', $ref)]) }}" class="btn btn-danger">Daftar Sekarang</a>
+            <input type="hidden" name="source" value="{{ $source }}">
+            <a href="{{ route('student.register', ['source' => $source, 'ref' => old('ref', $ref)]) }}" class="btn btn-danger">Daftar Sekarang</a>
         </div>
         <div class="feature col text-center">
             <p class="fs-6 text-wrap">Anda telah mendaftar? Semak permohonan anda sekarang.</p>
@@ -513,8 +515,8 @@
     </div>
     <div class="row g-4 py-1 row-cols-sm-2">
         <div class="feature col text-center">
-            <p class="fs-6">Adakah anda berminat untuk belajar di Kolej UNITI?</p>
-            <a href="{{ route('student.register', ['ref' => old('ref', $ref)]) }}" class="btn btn-danger">Daftar Sekarang</a>
+          <input type="hidden" name="source" value="{{ $source }}">
+          <a href="{{ route('student.register', ['source' => $source, 'ref' => old('ref', $ref)]) }}" class="btn btn-danger">Daftar Sekarang</a>
         </div>
         <div class="feature col text-center">
             <p class="fs-6">Anda telah mendaftar? Semak permohonan anda sekarang.</p>
