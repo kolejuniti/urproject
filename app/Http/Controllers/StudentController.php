@@ -251,6 +251,10 @@ class StudentController extends Controller
         $referrer = strtolower($referrer); // Ensure case-insensitivity
         if (strpos($referrer, 'https://l.facebook.com') !== false) {
             return 'facebook';
+        } elseif (strpos($referrer, 'https://lm.facebook.com/') !== false) {
+            return 'facebook';
+        } elseif (strpos($referrer, 'https://m.facebook.com/') !== false) {
+            return 'facebook';
         } elseif (strpos($referrer, 'https://www.facebook.com/') !== false) {
             return 'facebook';
         } elseif (strpos($referrer, 'https://www.whatsapp.com/') !== false) {
