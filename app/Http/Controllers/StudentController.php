@@ -93,6 +93,8 @@ class StudentController extends Controller
                 $programA = $request->input('programA');
                 $programB = $request->input('programB');
 
+                dd($source);
+
                 DB::table('students')->insert([
                     'name'=>$name,
                     'ic'=>$ic,
