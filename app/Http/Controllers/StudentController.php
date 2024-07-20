@@ -33,6 +33,7 @@ class StudentController extends Controller
     public function register(Request $request)
     {
         $ref = $request->query('ref');
+        $source = $request->input('source');
         
         $request->validate([
             'file' => 'required|file|mimes:jpg,png,pdf|max:5120', // max 5MB
