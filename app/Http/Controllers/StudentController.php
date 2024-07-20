@@ -249,15 +249,19 @@ class StudentController extends Controller
         }
 
         $referrer = strtolower($referrer); // Ensure case-insensitivity
-        if (strpos($referrer, 'facebook.com') !== false) {
+        if (strpos($referrer, 'https://l.facebook.com') !== false) {
             return 'facebook';
-        } elseif (strpos($referrer, 'whatsapp.com') !== false) {
+        } elseif (strpos($referrer, 'https://www.facebook.com/') !== false) {
+            return 'facebook';
+        } elseif (strpos($referrer, 'https://www.whatsapp.com/') !== false) {
             return 'whatsapp';
-        } elseif (strpos($referrer, 'tiktok.com') !== false) {
+        } elseif (strpos($referrer, 'https://web.whatsapp.com/') !== false) {
+            return 'whatsapp';
+        } elseif (strpos($referrer, 'https://www.tiktok.com/') !== false) {
             return 'tiktok';
-        } elseif (strpos($referrer, 'instagram.com') !== false) {
+        } elseif (strpos($referrer, 'https://www.instagram.com/') !== false) {
             return 'instagram';
-        } elseif (strpos($referrer, 'edaftarkolej.uniticms.edu.my') !== false) {
+        } elseif (strpos($referrer, 'https://edaftarkolej.uniticms.edu.my/') !== false) {
             return 'website';
         }
 
