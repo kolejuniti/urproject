@@ -1,7 +1,8 @@
 @extends('layouts.admin')
 
 @section('content')
-<link href="https://cdn.datatables.net/v/bs5/jq-3.7.0/dt-2.0.7/datatables.min.css" rel="stylesheet">
+{{-- <link href="https://cdn.datatables.net/v/bs5/jq-3.7.0/dt-2.0.7/datatables.min.css" rel="stylesheet"> --}}
+<link href="https://cdn.datatables.net/v/bs5/jq-3.7.0/jszip-3.10.1/dt-2.1.0/b-3.1.0/b-colvis-3.1.0/b-html5-3.1.0/b-print-3.1.0/cr-2.0.3/datatables.min.css" rel="stylesheet">
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
@@ -11,7 +12,6 @@
                 </div>
             @endif
             <div class="table-responsive">
-                <h2>Senarai Permohonan</h2>
                 <table id="myTable" class="table table-bordered small table-sm text-center">
                 <thead class="table-dark">
                     <tr>
@@ -217,17 +217,51 @@
         </div>
     </div>
 </div>
-<script src="https://cdn.datatables.net/v/bs5/jq-3.7.0/dt-2.0.7/datatables.min.js"></script>
+{{-- <script src="https://cdn.datatables.net/v/bs5/jq-3.7.0/dt-2.0.7/datatables.min.js"></script> --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/v/bs5/jq-3.7.0/jszip-3.10.1/dt-2.1.0/b-3.1.0/b-colvis-3.1.0/b-html5-3.1.0/b-print-3.1.0/cr-2.0.3/datatables.min.js"></script>
 <script>
     $(document).ready(function() {
         // Initialize DataTables
         var t = $('#myTable').DataTable({
-            columnDefs: [
-                {
-                    targets: ['_all'],
-                    className: 'dt-head-center'
-                }
-            ]
+        columnDefs: [
+            {
+                targets: ['_all'],
+                className: 'dt-head-center'
+            }
+        ],
+        layout: {
+                top1Start: {
+                    div: {
+                        html: '<h2>Senarai Permohonan</h2>'
+                    }
+                },
+                top1End: {
+                    buttons: [
+                        {
+                            extend: 'copy',
+                            title: 'Senarai Permohonan'
+                        },
+                        {
+                            extend: 'excelHtml5',
+                            title: 'Senarai Permohonan'
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            title: 'Senarai Permohonan'
+                        },
+                        {
+                            extend: 'print',
+                            title: 'Senarai Permohonan'
+                        }
+                    ]
+                },
+                topStart: 'pageLength',
+                topEnd: 'search',
+                bottomStart: 'info',
+                bottomEnd: 'paging'
+            }
         });
 
         // Add row numbering
