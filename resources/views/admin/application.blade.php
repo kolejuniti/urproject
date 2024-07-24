@@ -21,6 +21,7 @@
                         <th>No. Telefon</th>
                         <th>Email</th>
                         <th>Tarikh Permohonan</th>
+                        <th>Lokasi</th>
                         <th>Affiliate</th>
                         <th>Tarikh Agihan</th>
                         <th>Education Advisor</th>
@@ -44,6 +45,7 @@
                         <td class="text-center">{{ $data->phone }}</td>
                         <td class="text-center">{{ $data->email }}</td>
                         <td>{{ \Carbon\Carbon::parse($data->created_at)->format('d-m-Y') }}</td>
+                        <td class="text-center">{{ $data->location }}</td>
                         <td class="text-uppercase">
                             @if( $data->referral_code !== null)
                                 @foreach ($affiliates[$data->id] as $affiliate)
