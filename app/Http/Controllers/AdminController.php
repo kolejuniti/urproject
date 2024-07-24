@@ -160,7 +160,7 @@ class AdminController extends Controller
                     'students.updated_at',
                     'students.register_at',
                     'students.referral_code',
-                    'state.name AS state', 'users.name AS user', 'location.name AS location', 'status.name AS status', 'student_foundations.foundation AS note')
+                    'state.name AS state', 'users.name AS user', 'location.code AS location', 'status.name AS status', 'student_foundations.foundation AS note')
                     ->orderBy('students.created_at', 'desc')
                     ->get();
 
