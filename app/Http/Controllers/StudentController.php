@@ -234,13 +234,9 @@ class StudentController extends Controller
     {
         $ref = $request->query('ref');
 
-        // $referrer = $request->headers->get('referer', 'other');
+        $referrer = $request->headers->get('referer', 'other');
 
-        // \Log::info('Referrer: ' . $referrer);
-
-        $referrer = request()->headers->get('referer');
-
-        echo $referrer;
+        \Log::info('Referrer: ' . $referrer);
 
         $source = $this->determineSource($referrer);
 
