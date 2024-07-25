@@ -143,30 +143,26 @@ class AdminController extends Controller
                     ->join('state', 'students.state_id', '=', 'state.id')
                     ->leftjoin('users', 'students.user_id', '=', 'users.id')
                     ->join('location', 'students.location_id', '=', 'location.id')
-                    ->leftjoin('status', 'students.status_id', '=', 'status.id')
                     ->leftjoin('student_foundations', 'students.ic', '=', 'student_foundations.student_ic')
                     ->select('students.id',
                     'students.name',
                     'students.ic',
                     'students.phone',
                     'students.email',
-                    'students.address1',
-                    'students.address2',
-                    'students.postcode',
-                    'students.city',
-                    'students.spm_year',
                     'students.user_id',
                     'students.created_at',
                     'students.updated_at',
                     'students.register_at',
                     'students.referral_code',
-                    'state.name AS state', 'users.name AS user', 'location.code AS location', 'status.name AS status', 'student_foundations.foundation AS note')
+                    'students.status_id',
+                    'state.name AS state', 'users.name AS user', 'location.code AS location', 'student_foundations.foundation AS note')
                     ->orderBy('students.created_at', 'desc')
                     ->get();
 
         $affiliates = [];
 
         foreach ($applicants as $applicant) {
+
             // Find the affiliate(s) associated with the current student's referral code
             $affiliate = User::where('referral_code', $applicant->referral_code)
                         ->whereIn('type', [0,1])
