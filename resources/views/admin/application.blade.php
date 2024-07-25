@@ -19,7 +19,6 @@
                         <th>Nama Pemohon</th>
                         <th>No. Kad Pengenalan</th>
                         <th>No. Telefon</th>
-                        <th>Email</th>
                         <th>Tarikh Permohonan</th>
                         <th>Lokasi</th>
                         <th>Affiliate</th>
@@ -30,12 +29,14 @@
                 </thead>
                 <tbody>
                     @foreach ($applicants as $data)
-                    @if ($data->user_id !== null && $data->register_at === null)
-                    <tr class="table-warning">
+                    @if ($data->user_id !== null && $data->register_at === null && in_array($data->status_id, [1, 2, 3, 5]))
+                        <tr class="table-danger">
+                    @elseif ($data->user_id !== null && $data->register_at === null)
+                        <tr class="table-warning">
                     @elseif ($data->user_id !== null && $data->register_at !== null)
-                    <tr class="table-success">
+                        <tr class="table-success">
                     @else
-                    <tr>
+                        <tr>
                     @endif
                         <td>&nbsp;</td>
                         <td>
@@ -43,7 +44,6 @@
                         </td>
                         <td class="text-center">{{ $data->ic }}</td>
                         <td class="text-center">{{ $data->phone }}</td>
-                        <td class="text-center">{{ $data->email }}</td>
                         <td>{{ \Carbon\Carbon::parse($data->created_at)->format('d-m-Y') }}</td>
                         <td class="text-center">{{ $data->location }}</td>
                         <td class="text-uppercase">
