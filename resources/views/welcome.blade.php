@@ -91,7 +91,7 @@
         <main class="py-3" style="max-height: 90vh;">
             {{-- @yield('content') --}}
             <div class="container mb-3">
-                    <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/banner-web-kupd-jom-masuk-uniti-1.jpg" alt="" class="img-fluid">
+                    <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/banner-samsung-tab.jpg" alt="" class="img-fluid">
             </div>
         
             <div class="container">

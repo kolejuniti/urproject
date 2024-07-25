@@ -20,7 +20,7 @@
           <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/elaun.jpg" loading="lazy" class="card-img-top" alt="...">
           <div class="card-body">
             <h5 class="card-title">Elaun Semester</h5>
-            <p class="card-text">Pelajar menerima elaun sebanyak RM500 selama 5 semester.</p>
+            <p class="card-text">Pelajar menerima elaun sebanyak RM750 selama 5 semester.</p>
             <p class="card-text fst-italic" style="font-size: 10px;">* Tertakluk kepada terma dan syarat.</p>
           </div>
         </div>
