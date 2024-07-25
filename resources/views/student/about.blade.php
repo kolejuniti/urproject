@@ -3,6 +3,25 @@
 @section('content')
 <div class="album py-4">
   <div class="container">
+    <div class="mb-3">
+        <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/banner-samsung-tab.jpg" alt="" class="img-fluid">
+    </div>
+    <div class="row g-4 py-1 row-cols-sm-2">
+      <div class="feature col text-center">
+          <p class="fs-6">Adakah anda berminat untuk belajar di Kolej UNITI?</p>
+          <input type="hidden" name="source" value="{{ $source }}">
+          <a href="{{ route('student.register', ['source' => old('source', $source), 'ref' => old('ref', $ref)]) }}" class="btn btn-danger">Daftar Sekarang</a>
+      </div>
+      <div class="feature col text-center">
+          <p class="fs-6">Anda telah mendaftar? Semak permohonan anda sekarang.</p>
+          <a href="{{ route('student.search', ['ref' => old('ref', $ref)]) }}" class="btn btn-warning">Semak Permohonan</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="album py-4">
+  <div class="container">
     <h2 class="pb-2 border-bottom">Kenapa Pilih UNITI?</h2>
     <div class="row row-cols-1 row-cols-md-3 g-4 mb-3">
       <div class="col">
