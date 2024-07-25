@@ -328,7 +328,8 @@ class AdminController extends Controller
     {
         $students = DB::table('students')
                     ->leftjoin('status', 'students.status_id', '=', 'status.id')
-                    ->select('students.id', 'students.name', 'students.ic', 'students.phone', 'students.email', 'students.created_at', 'students.updated_at', 'status.name AS status', 'students.register_at', 'students.referral_code', 'students.user_id')
+                    ->join('location', 'students.location_id', '=', 'location.id')
+                    ->select('students.id', 'students.name', 'students.ic', 'students.phone', 'students.email', 'students.created_at', 'students.updated_at', 'status.name AS status', 'students.register_at', 'students.referral_code', 'students.user_id', 'location.code AS location')
                     ->orderBy('created_at', 'desc')
                     ->get();
         
