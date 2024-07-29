@@ -27,6 +27,14 @@
                             </tr>
                             @endforeach
                         </tbody>
+                        <tfoot class="table-danger">
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td>{{ $totalStudents }}</td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
                 <div class="col-md-6">
