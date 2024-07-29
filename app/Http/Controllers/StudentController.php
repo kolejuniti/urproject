@@ -232,6 +232,11 @@ class StudentController extends Controller
 
     public function about(Request $request)
     {
+        // Check if we need to reset the session for a new visit
+        if ($this->shouldResetSession($request)) {
+            $request->session()->forget('initial_referrer');
+        }
+
         // Check if the referrer is already stored in the session
         if (!$request->session()->has('initial_referrer')) {
             // Get the referrer from the headers or set to 'other' if not present
@@ -295,5 +300,14 @@ class StudentController extends Controller
         }
 
         return 'other';
+    }
+
+    protected function shouldResetSession(Request $request)
+    {
+        // Add your logic to determine if the session should be reset
+        // For example, reset based on a specific query parameter or URL path
+        // return true if you want to reset the session for the first visit
+
+        return $request->has('reset_session');
     }
 }
