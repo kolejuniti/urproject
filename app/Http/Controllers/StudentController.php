@@ -237,8 +237,13 @@ class StudentController extends Controller
         // Log the referrer
         \Log::info('Referrer: ' . $referrer);
 
-        // Determine the source based on the referrer
-        $source = $this->determineSource($referrer);
+        // Check if source is provided in the query string
+        $source = $request->query('source', $this->determineSource($referrer));
+
+        // If no source, set default as "website"
+        if (empty($source)) {
+            $source = 'website';
+        }
 
         $ref = $request->query('ref');
 
