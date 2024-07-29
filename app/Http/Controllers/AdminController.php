@@ -413,7 +413,7 @@ class AdminController extends Controller
     {
         $studentStatus = DB::table('students')
                     ->join('status', 'students.status_id', '=', 'status.id')
-                    ->select(DB::raw('count(students.status_id) AS total'), 'status.name AS status')
+                    ->select(DB::raw('count(students.id) AS total'), 'status.name AS status')
                     ->groupBy('status.name')
                     ->orderBY('status.id');
 
@@ -425,7 +425,7 @@ class AdminController extends Controller
 
         $locations = DB::table('students')
                     ->join('location', 'students.location_id', '=', 'location.id')
-                    ->select(DB::raw('count(students.location_id) AS total'), 'location.name AS location')
+                    ->select(DB::raw('count(students.id) AS total'), 'location.name AS location')
                     ->groupBy('location.name')
                     ->get();
 
