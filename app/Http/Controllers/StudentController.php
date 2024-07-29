@@ -233,22 +233,30 @@ class StudentController extends Controller
     public function about(Request $request)
     {
         // Check if the referrer is already stored in the session
-        if (!$request->session()->has('initial_referrer')) {
-            // Get the referrer from the headers or set to 'other' if not present
-            $referrer = $request->headers->get('referer', 'other');
+        // if (!$request->session()->has('initial_referrer')) {
+        //     // Get the referrer from the headers or set to 'other' if not present
+        //     $referrer = $request->headers->get('referer', 'other');
 
-            // Log the referrer
-            \Log::info('Referrer: ' . $referrer);
+        //     // Log the referrer
+        //     \Log::info('Referrer: ' . $referrer);
 
-            // Determine the source based on the referrer
-            $source = $this->determineSource($referrer);
+        //     // Determine the source based on the referrer
+        //     $source = $this->determineSource($referrer);
 
-            // Store the initial referrer in the session
-            $request->session()->put('initial_referrer', $source);
-        } else {
-            // Retrieve the stored initial referrer from the session
-            $source = $request->session()->get('initial_referrer');
-        }
+        //     // Store the initial referrer in the session
+        //     $request->session()->put('initial_referrer', $source);
+        // } else {
+        //     // Retrieve the stored initial referrer from the session
+        //     $source = $request->session()->get('initial_referrer');
+        // }
+
+        $referrer = $request->headers->get('referer', 'other');
+
+        // Log the referrer
+        \Log::info('Referrer: ' . $referrer);
+
+        // Determine the source based on the referrer
+        $source = $this->determineSource($referrer);
 
         $ref = $request->query('ref');
 
@@ -279,10 +287,6 @@ class StudentController extends Controller
         } elseif (strpos($referrer, 'https://www.instagram.com/') !== false) {
             return 'instagram';
         } elseif (strpos($referrer, 'https://l.instagram.com/') !== false) {
-            return 'instagram';
-        } elseif (stripos($referrer, 'https://www.instagram.com/') !== false) {
-            return 'instagram';
-        } elseif (stripos($referrer, 'https://l.instagram.com/') !== false) {
             return 'instagram';
         } elseif (strpos($referrer, 'https://edaftarkolej.uniticms.edu.my/') !== false) {
             return 'website';
