@@ -280,6 +280,10 @@ class StudentController extends Controller
             return 'instagram';
         } elseif (strpos($referrer, 'https://l.instagram.com/') !== false) {
             return 'instagram';
+        } elseif (stripos($referrer, 'https://www.instagram.com/') !== false) {
+            return 'instagram';
+        } elseif (stripos($referrer, 'https://l.instagram.com/') !== false) {
+            return 'instagram';
         } elseif (strpos($referrer, 'https://edaftarkolej.uniticms.edu.my/') !== false) {
             return 'website';
         } elseif (strpos($referrer, 'https://uniti.edu.my/') !== false) {
