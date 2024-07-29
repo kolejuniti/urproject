@@ -441,6 +441,11 @@ class AdminController extends Controller
             return $location;
         });
 
-        return view('admin.summary', compact('totalStudents', 'statusWithPercentage', 'locationsWithPercentage'));
+        $sources = DB::table('students')
+                    ->select(DB::raw('count(students.id) AS total'), 'students.source')
+                    ->groupBy('students.source')
+                    ->get();
+
+        return view('admin.summary', compact('totalStudents', 'statusWithPercentage', 'locationsWithPercentage', 'sources'));
     }
 }
