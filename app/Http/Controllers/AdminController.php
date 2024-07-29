@@ -411,6 +411,8 @@ class AdminController extends Controller
 
     public function summary()
     {
+        $totalStudents = DB::table('students')->count();
+
         $studentStatus = DB::table('students')
                     ->join('status', 'students.status_id', '=', 'status.id')
                     ->select(DB::raw('count(students.id) AS total'), 'status.name AS status')
@@ -423,12 +425,22 @@ class AdminController extends Controller
 
         $status = $studentStatus->union($studentNoStatus)->get();
 
+        $statusWithPercentage = $status->map(function ($status) use ($totalStudents) {
+            $status->percentage = ($status->total / $totalStudents) * 100;
+            return $status;
+        });
+
         $locations = DB::table('students')
                     ->join('location', 'students.location_id', '=', 'location.id')
                     ->select(DB::raw('count(students.id) AS total'), 'location.name AS location')
                     ->groupBy('location.name')
                     ->get();
 
-        return view('admin.summary', compact('status', 'locations'));
+        $locationsWithPercentage = $locations->map(function ($location) use ($totalStudents) {
+            $location->percentage = ($location->total / $totalStudents) * 100;
+            return $location;
+        });
+
+        return view('admin.summary', compact('statusWithPercentage', 'locationsWithPercentage'));
     }
 }
