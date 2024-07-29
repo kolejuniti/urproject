@@ -18,12 +18,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($status as $data)
+                            @foreach ($statusWithPercentage as $data)
                             <tr>
                                 <td></td>
                                 <td class="text-uppercase">{{ $data->status }}</td>
                                 <td class="text-center">{{ $data->total }}</td>
-                                <td></td>
+                                <td class="text-center">{{ number_format($data->percentage, 2) }}%</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -40,12 +40,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($locations as $data2)
+                            @foreach ($locationsWithPercentage as $data2)
                             <tr>
                                 <td></td>
                                 <td class="text-uppercase">{{ $data2->location }}</td>
                                 <td class="text-center">{{ $data2->total }}</td>
-                                <td></td>
+                                <td class="text-center">{{ number_format($data2->percentage, 2) }}%</td>
                             </tr>
                             @endforeach
                         </tbody>
