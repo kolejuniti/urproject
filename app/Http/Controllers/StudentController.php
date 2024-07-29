@@ -232,31 +232,36 @@ class StudentController extends Controller
 
     public function about(Request $request)
     {
-        // Check if the referrer is already stored in the session
-        // if (!$request->session()->has('initial_referrer')) {
-        //     // Get the referrer from the headers or set to 'other' if not present
-        //     $referrer = $request->headers->get('referer', 'other');
+        // Check if we need to reset the session for a new visit
+        if ($this->shouldResetSession($request)) {
+            $request->session()->forget('initial_referrer');
+        }
 
-        //     // Log the referrer
-        //     \Log::info('Referrer: ' . $referrer);
+        // Check if the session has the initial_referrer
+        if (!$request->session()->has('initial_referrer')) {
+            // Get the referrer from the headers or set to 'other' if not present
+            $referrer = $request->headers->get('referer', 'other');
 
-        //     // Determine the source based on the referrer
-        //     $source = $this->determineSource($referrer);
+            // Log the referrer
+            \Log::info('Referrer: ' . $referrer);
 
-        //     // Store the initial referrer in the session
-        //     $request->session()->put('initial_referrer', $source);
-        // } else {
-        //     // Retrieve the stored initial referrer from the session
-        //     $source = $request->session()->get('initial_referrer');
-        // }
+            // Determine the source based on the referrer
+            $source = $this->determineSource($referrer);
 
-        $referrer = $request->headers->get('referer', 'other');
+            // Store the initial referrer in the session
+            $request->session()->put('initial_referrer', $source);
+        } else {
+            // Retrieve the stored initial referrer from the session
+            $source = $request->session()->get('initial_referrer');
+        }
 
-        // Log the referrer
-        \Log::info('Referrer: ' . $referrer);
+        // $referrer = $request->headers->get('referer', 'other');
 
-        // Determine the source based on the referrer
-        $source = $this->determineSource($referrer);
+        // // Log the referrer
+        // \Log::info('Referrer: ' . $referrer);
+
+        // // Determine the source based on the referrer
+        // $source = $this->determineSource($referrer);
 
         $ref = $request->query('ref');
 
@@ -282,7 +287,7 @@ class StudentController extends Controller
             return 'whatsapp';
         } elseif (strpos($referrer, 'https://web.whatsapp.com/') !== false) {
             return 'whatsapp';
-        } elseif (stripos($referrer, 'https://www.tiktok.com/') !== false || stripos($referrer, 'https://tiktok.com/') !== false) {
+        } elseif (strpos($referrer, 'https://www.tiktok.com/') !== false) {
             return 'tiktok';
         } elseif (strpos($referrer, 'https://www.instagram.com/') !== false) {
             return 'instagram';
