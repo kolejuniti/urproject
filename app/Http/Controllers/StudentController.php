@@ -232,12 +232,7 @@ class StudentController extends Controller
 
     public function about(Request $request)
     {
-        // Check if we need to reset the session for a new visit
-        if ($this->shouldResetSession($request)) {
-            $request->session()->forget('initial_referrer');
-        }
-
-        // Check if the session has the initial_referrer
+        // Check if the referrer is already stored in the session
         if (!$request->session()->has('initial_referrer')) {
             // Get the referrer from the headers or set to 'other' if not present
             $referrer = $request->headers->get('referer', 'other');
