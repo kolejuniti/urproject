@@ -408,4 +408,27 @@ class AdminController extends Controller
 
         return redirect()->route('admin.profile')->with('success', 'Katalaluan anda berjaya dikemaskini.');;
     }
+
+    public function summary()
+    {
+        $studentStatus = DB::table('students')
+                    ->join('status', 'students.status_id', '=', 'status.id')
+                    ->select(DB::raw('count(students.status_id) AS total'), 'status.name AS status')
+                    ->groupBy('status.name')
+                    ->orderBY('status.id');
+
+        $studentNoStatus = DB::table('students')
+                    ->select(DB::raw('COUNT(students.id) AS total'), DB::raw('"TIADA STATUS" AS status'))
+                    ->whereNull('students.status_id');
+
+        $status = $studentStatus->union($studentNoStatus)->get();
+
+        $locations = DB::table('students')
+                    ->join('location', 'students.location_id', '=', 'location.id')
+                    ->select(DB::raw('count(students.location_id) AS total'), 'location.name AS location')
+                    ->groupBy('location.name')
+                    ->get();
+
+        return view('admin.summary', compact('status', 'locations'));
+    }
 }
