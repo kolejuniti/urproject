@@ -284,7 +284,7 @@ class StudentController extends Controller
             return 'whatsapp';
         } elseif (strpos($referrer, 'https://www.tiktok.com/') !== false) {
             return 'tiktok';
-        } elseif (strpos($referrer, 'https://www.tiktok.com/link/v2') !== false) {
+        } elseif (strpos($referrer, 'https://tiktok.com/') !== false) {
             return 'tiktok';
         } elseif (strpos($referrer, 'https://www.instagram.com/') !== false) {
             return 'instagram';
