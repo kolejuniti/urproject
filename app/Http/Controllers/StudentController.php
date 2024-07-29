@@ -232,36 +232,31 @@ class StudentController extends Controller
 
     public function about(Request $request)
     {
-        // Check if we need to reset the session for a new visit
-        if ($this->shouldResetSession($request)) {
-            $request->session()->forget('initial_referrer');
-        }
-
         // Check if the referrer is already stored in the session
-        if (!$request->session()->has('initial_referrer')) {
-            // Get the referrer from the headers or set to 'other' if not present
-            $referrer = $request->headers->get('referer', 'other');
+        // if (!$request->session()->has('initial_referrer')) {
+        //     // Get the referrer from the headers or set to 'other' if not present
+        //     $referrer = $request->headers->get('referer', 'other');
 
-            // Log the referrer
-            \Log::info('Referrer: ' . $referrer);
+        //     // Log the referrer
+        //     \Log::info('Referrer: ' . $referrer);
 
-            // Determine the source based on the referrer
-            $source = $this->determineSource($referrer);
+        //     // Determine the source based on the referrer
+        //     $source = $this->determineSource($referrer);
 
-            // Store the initial referrer in the session
-            $request->session()->put('initial_referrer', $source);
-        } else {
-            // Retrieve the stored initial referrer from the session
-            $source = $request->session()->get('initial_referrer');
-        }
+        //     // Store the initial referrer in the session
+        //     $request->session()->put('initial_referrer', $source);
+        // } else {
+        //     // Retrieve the stored initial referrer from the session
+        //     $source = $request->session()->get('initial_referrer');
+        // }
 
-        // $referrer = $request->headers->get('referer', 'other');
+        $referrer = $request->headers->get('referer', 'other');
 
-        // // Log the referrer
-        // \Log::info('Referrer: ' . $referrer);
+        // Log the referrer
+        \Log::info('Referrer: ' . $referrer);
 
-        // // Determine the source based on the referrer
-        // $source = $this->determineSource($referrer);
+        // Determine the source based on the referrer
+        $source = $this->determineSource($referrer);
 
         $ref = $request->query('ref');
 
@@ -300,14 +295,5 @@ class StudentController extends Controller
         }
 
         return 'other';
-    }
-
-    protected function shouldResetSession(Request $request)
-    {
-        // Add your logic to determine if the session should be reset
-        // For example, reset based on a specific query parameter or URL path
-        // return true if you want to reset the session for the first visit
-
-        return $request->has('reset_session');
     }
 }
