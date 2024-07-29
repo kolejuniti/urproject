@@ -58,6 +58,26 @@
                             @endforeach
                         </tbody>
                     </table>
+                    <table id="myTable3" class="table table-bordered table-sm text-center">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>#</th>
+                                <th>Sumber</th>
+                                <th>Jumlah</th>
+                                <th>%</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($sources as $data3)
+                            <tr>
+                                <td></td>
+                                <td class="text-uppercase">{{ $data3->source }}</td>
+                                <td class="text-center">{{ $data3->total }}</td>
+                                <td class="text-center"></td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -130,6 +150,56 @@
                 top1Start: {
                     div: {
                         html: '<h2>Lokasi</h2>'
+                    }
+                },
+                top1End: {
+                    buttons: [
+                        {
+                            extend: 'copy',
+                            title: 'Ringkasan Bilangan Permohonan'
+                        },
+                        {
+                            extend: 'excelHtml5',
+                            title: 'Ringkasan Bilangan Permohonan'
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            title: 'Ringkasan Bilangan Permohonan'
+                        },
+                        {
+                            extend: 'print',
+                            title: 'Ringkasan Bilangan Permohonan'
+                        }
+                    ]
+                },
+                topStart: 'pageLength',
+                topEnd: 'search',
+                bottomStart: 'info',
+                bottomEnd: 'paging'
+            }
+        });
+        t.on('order.dt search.dt', function () {
+            let i = 1;
+        
+            t.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
+                this.data(i++);
+            });
+        }).draw();
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        var t = $('#myTable3').DataTable({
+        columnDefs: [
+            {
+                targets: ['_all'],
+                className: 'dt-head-center'
+            }
+        ],
+        layout: {
+                top1Start: {
+                    div: {
+                        html: '<h2>Iklan</h2>'
                     }
                 },
                 top1End: {

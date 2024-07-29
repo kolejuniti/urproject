@@ -240,11 +240,6 @@ class StudentController extends Controller
         // Determine the source based on the referrer
         $source = $this->determineSource($referrer);
 
-        // If no source, set default as "website"
-        if (empty($source)) {
-            $source = 'website';
-        }
-
         $ref = $request->query('ref');
 
         return view('student.about', compact('ref', 'source'));
