@@ -441,6 +441,6 @@ class AdminController extends Controller
             return $location;
         });
 
-        return view('admin.summary', compact('statusWithPercentage', 'locationsWithPercentage'));
+        return view('admin.summary', compact('totalStudents', 'statusWithPercentage', 'locationsWithPercentage'));
     }
 }
