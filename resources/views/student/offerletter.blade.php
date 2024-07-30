@@ -108,6 +108,7 @@
             <div class="mb-3">
                 <label for="">Sila hadir bagi sesi pendaftaran di:</label>
             </div>
+            @if ($student->location_id === 1)
             <div class="row">
                 <div class="col-sm-3">
                     <label for="">Kampus</label>
@@ -140,6 +141,40 @@
                     <label for="">:&nbsp;<strong>Pejabat Pentadbiran Kolej UNITI</strong></label>
                 </div>
             </div>
+            @else
+            <div class="row">
+                <div class="col-sm-3">
+                    <label for="">Kampus</label>
+                </div>
+                <div class="col-sm-9">
+                    <label for="">:&nbsp;<strong>Lot 1911, Kampus Kijang</strong></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <label for="">&nbsp;</label>
+                </div>
+                <div class="col-sm-9">
+                    <label for="">&nbsp;&nbsp;<strong>Jalan Pantai Cahaya Bulan</strong></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <label for="">&nbsp;</label>
+                </div>
+                <div class="col-sm-9">
+                    <label for="">&nbsp;&nbsp;<strong>15350, Kota Bharu, Kelantan</strong></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <label for="">Tempat</label>
+                </div>
+                <div class="col-sm-9">
+                    <label for="">:&nbsp;<strong>Pejabat Pentadbiran Kolej UNITI</strong></label>
+                </div>
+            </div>
+            @endif
             <div class="row">
                 <div class="col-sm-3">
                     <label for="">Tarikh</label>
