@@ -446,6 +446,11 @@ class AdminController extends Controller
                     ->groupBy('students.source')
                     ->get();
 
-        return view('admin.summary', compact('totalStudents', 'statusWithPercentage', 'locationsWithPercentage', 'sources'));
+        $sourcessWithPercentage = $sources->map(function ($source) use ($totalStudents) {
+            $source->percentage = ($source->total / $totalStudents) * 100;
+            return $source;
+        });
+
+        return view('admin.summary', compact('totalStudents', 'statusWithPercentage', 'locationsWithPercentage', 'sourcessWithPercentage'));
     }
 }
