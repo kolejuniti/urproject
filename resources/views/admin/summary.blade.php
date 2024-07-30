@@ -57,6 +57,14 @@
                             </tr>
                             @endforeach
                         </tbody>
+                        <tfoot class="table-danger">
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td>{{ $totalStudents }}</td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
                     </table>
                     <table id="myTable3" class="table table-bordered table-sm text-center">
                         <thead class="table-dark">
@@ -68,15 +76,23 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($sources as $data3)
+                            @foreach ($sourcessWithPercentage as $data3)
                             <tr>
                                 <td></td>
                                 <td class="text-uppercase">{{ $data3->source }}</td>
                                 <td class="text-center">{{ $data3->total }}</td>
-                                <td class="text-center"></td>
+                                <td class="text-center">{{ number_format($data3->percentage, 2) }}%</td>
                             </tr>
                             @endforeach
                         </tbody>
+                        <tfoot class="table-danger">
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td>{{ $totalStudents }}</td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>
