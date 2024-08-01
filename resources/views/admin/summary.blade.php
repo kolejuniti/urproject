@@ -6,6 +6,29 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <h2 class="mb-3">Statistik Permohonan</h2>
+            <div>
+                <div class="col-md-12">
+                    <table id="myTable4" class="table table-bordered table-sm text-center">
+                        <thead class="table-dark">
+                            <tr>
+                                <th rowspan="2" class="text-align-middle">Tahun</th>
+                                <th colspan="12" class="text-center">Bulan</th>
+                            </tr>
+                            <tr>
+                                @foreach ($monthlyData as $data)
+                                    <th class="text-center">{{ $data['month'] }}</th>
+                                @endforeach
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <td class="text-center">{{ $currentYear }}</td>
+                            @foreach ($monthlyData as $data)
+                                <td class="text-center">{{ $data['total'] }}</td>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-md-6">
                     <table id="myTable" class="table table-bordered table-sm text-center">
@@ -251,6 +274,57 @@
                 this.data(i++);
             });
         }).draw();
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        var t = $('#myTable4').DataTable({
+        ordering: false,
+        columnDefs: [
+            {
+                targets: ['_all'],
+                className: 'dt-head-center'
+            }
+        ],
+        layout: {
+                top1Start: {
+                    div: {
+                        html: '<h2>Bulan</h2>'
+                    }
+                },
+                top1End: {
+                    buttons: [
+                        {
+                            extend: 'copy',
+                            title: 'Ringkasan Bilangan Permohonan'
+                        },
+                        {
+                            extend: 'excelHtml5',
+                            title: 'Ringkasan Bilangan Permohonan'
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            title: 'Ringkasan Bilangan Permohonan'
+                        },
+                        {
+                            extend: 'print',
+                            title: 'Ringkasan Bilangan Permohonan'
+                        }
+                    ]
+                },
+                topStart: null,
+                topEnd: null,
+                bottomStart: null,
+                bottomEnd: null
+            }
+        });
+        // t.on('order.dt search.dt', function () {
+        //     let i = 1;
+        
+        //     t.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
+        //         this.data(i++);
+        //     });
+        // }).draw();
     });
 </script>
 @endsection
