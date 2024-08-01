@@ -145,19 +145,19 @@
                     buttons: [
                         {
                             extend: 'copy',
-                            title: 'Ringkasan Bilangan Permohonan'
+                            title: 'Statistik Permohonan'
                         },
                         {
                             extend: 'excelHtml5',
-                            title: 'Ringkasan Bilangan Permohonan'
+                            title: 'Statistik Permohonan'
                         },
                         {
                             extend: 'pdfHtml5',
-                            title: 'Ringkasan Bilangan Permohonan'
+                            title: 'Statistik Permohonan'
                         },
                         {
                             extend: 'print',
-                            title: 'Ringkasan Bilangan Permohonan'
+                            title: 'Statistik Permohonan'
                         }
                     ]
                 },
@@ -195,19 +195,19 @@
                     buttons: [
                         {
                             extend: 'copy',
-                            title: 'Ringkasan Bilangan Permohonan'
+                            title: 'Statistik Permohonan'
                         },
                         {
                             extend: 'excelHtml5',
-                            title: 'Ringkasan Bilangan Permohonan'
+                            title: 'Statistik Permohonan'
                         },
                         {
                             extend: 'pdfHtml5',
-                            title: 'Ringkasan Bilangan Permohonan'
+                            title: 'Statistik Permohonan'
                         },
                         {
                             extend: 'print',
-                            title: 'Ringkasan Bilangan Permohonan'
+                            title: 'Statistik Permohonan'
                         }
                     ]
                 },
@@ -245,19 +245,19 @@
                     buttons: [
                         {
                             extend: 'copy',
-                            title: 'Ringkasan Bilangan Permohonan'
+                            title: 'Statistik Permohonan'
                         },
                         {
                             extend: 'excelHtml5',
-                            title: 'Ringkasan Bilangan Permohonan'
+                            title: 'Statistik Permohonan'
                         },
                         {
                             extend: 'pdfHtml5',
-                            title: 'Ringkasan Bilangan Permohonan'
+                            title: 'Statistik Permohonan'
                         },
                         {
                             extend: 'print',
-                            title: 'Ringkasan Bilangan Permohonan'
+                            title: 'Statistik Permohonan'
                         }
                     ]
                 },
@@ -296,19 +296,19 @@
                     buttons: [
                         {
                             extend: 'copy',
-                            title: 'Ringkasan Bilangan Permohonan'
+                            title: 'Statistik Permohonan'
                         },
                         {
                             extend: 'excelHtml5',
-                            title: 'Ringkasan Bilangan Permohonan'
+                            title: 'Statistik Permohonan'
                         },
                         {
                             extend: 'pdfHtml5',
-                            title: 'Ringkasan Bilangan Permohonan'
+                            title: 'Statistik Permohonan'
                         },
                         {
                             extend: 'print',
-                            title: 'Ringkasan Bilangan Permohonan'
+                            title: 'Statistik Permohonan'
                         }
                     ]
                 },
