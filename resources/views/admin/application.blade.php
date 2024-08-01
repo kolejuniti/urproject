@@ -31,6 +31,8 @@
                     @foreach ($applicants as $data)
                     @if ($data->user_id !== null && $data->register_at === null && in_array($data->status_id, [1, 2, 4, 5]))
                         <tr class="table-danger">
+                    @elseif ($data->user_id !== null && $data->register_at === null && $data->status_id === 19)
+                        <tr class="table-info">
                     @elseif ($data->user_id !== null && $data->register_at === null)
                         <tr class="table-warning">
                     @elseif ($data->user_id !== null && $data->register_at !== null)
