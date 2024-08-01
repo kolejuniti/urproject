@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 class AdminController extends Controller
 {
@@ -451,6 +452,32 @@ class AdminController extends Controller
             return $source;
         });
 
-        return view('admin.summary', compact('totalStudents', 'statusWithPercentage', 'locationsWithPercentage', 'sourcessWithPercentage'));
+        // Get the current year
+        $currentYear = Carbon::now()->year;
+
+        // Get the student count for each month of the current year
+        $students = DB::table('students')
+            ->select(DB::raw('COUNT(id) as total, MONTH(created_at) as month'))
+            ->whereYear('created_at', $currentYear)
+            ->groupBy(DB::raw('MONTH(created_at)'))
+            ->pluck('total', 'month');
+
+        // Initialize an array with all months set to zero
+        $monthlyData = array_fill(1, 12, 0);
+
+        // Merge the query results with the initialized array
+        foreach ($students as $month => $total) {
+            $monthlyData[$month] = $total;
+        }
+
+        // Convert the result to a collection
+        $monthlyData = collect($monthlyData)->map(function ($total, $month) {
+            return [
+                'month' => $month,
+                'total' => $total,
+            ];
+        })->values();
+
+        return view('admin.summary', compact('totalStudents', 'statusWithPercentage', 'locationsWithPercentage', 'sourcessWithPercentage', 'currentYear', 'monthlyData'));
     }
 }
