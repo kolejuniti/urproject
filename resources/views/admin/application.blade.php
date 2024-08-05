@@ -29,7 +29,7 @@
                 </thead>
                 <tbody>
                     @foreach ($applicants as $data)
-                    @if ($data->user_id !== null && $data->register_at === null && in_array($data->status_id, [1, 2, 4, 5]))
+                    @if ($data->user_id !== null && $data->register_at === null && in_array($data->status_id, [1, 2, 3, 4, 5]))
                         <tr class="table-danger">
                     @elseif ($data->user_id !== null && $data->register_at === null && $data->status_id === 19)
                         <tr class="table-info">
