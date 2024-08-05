@@ -145,19 +145,19 @@
                     buttons: [
                         {
                             extend: 'copy',
-                            title: 'Statistik Permohonan'
+                            title: 'Statistik Permohonan - Status'
                         },
                         {
                             extend: 'excelHtml5',
-                            title: 'Statistik Permohonan'
+                            title: 'Statistik Permohonan - Status'
                         },
                         {
                             extend: 'pdfHtml5',
-                            title: 'Statistik Permohonan'
+                            title: 'Statistik Permohonan - Status'
                         },
                         {
                             extend: 'print',
-                            title: 'Statistik Permohonan'
+                            title: 'Statistik Permohonan - Status'
                         }
                     ]
                 },
@@ -195,19 +195,19 @@
                     buttons: [
                         {
                             extend: 'copy',
-                            title: 'Statistik Permohonan'
+                            title: 'Statistik Permohonan - Lokasi'
                         },
                         {
                             extend: 'excelHtml5',
-                            title: 'Statistik Permohonan'
+                            title: 'Statistik Permohonan - Lokasi'
                         },
                         {
                             extend: 'pdfHtml5',
-                            title: 'Statistik Permohonan'
+                            title: 'Statistik Permohonan - Lokasi'
                         },
                         {
                             extend: 'print',
-                            title: 'Statistik Permohonan'
+                            title: 'Statistik Permohonan - Lokasi'
                         }
                     ]
                 },
@@ -245,19 +245,19 @@
                     buttons: [
                         {
                             extend: 'copy',
-                            title: 'Statistik Permohonan'
+                            title: 'Statistik Permohonan - Iklan'
                         },
                         {
                             extend: 'excelHtml5',
-                            title: 'Statistik Permohonan'
+                            title: 'Statistik Permohonan - Iklan'
                         },
                         {
                             extend: 'pdfHtml5',
-                            title: 'Statistik Permohonan'
+                            title: 'Statistik Permohonan - Iklan'
                         },
                         {
                             extend: 'print',
-                            title: 'Statistik Permohonan'
+                            title: 'Statistik Permohonan - Iklan'
                         }
                     ]
                 },
@@ -289,26 +289,26 @@
         layout: {
                 top1Start: {
                     div: {
-                        html: '<h2>Bulan</h2>'
+                        html: '<h2>Tahun & Bulan</h2>'
                     }
                 },
                 top1End: {
                     buttons: [
                         {
                             extend: 'copy',
-                            title: 'Statistik Permohonan'
+                            title: 'Statistik Permohonan - Tahun & Bulan'
                         },
                         {
                             extend: 'excelHtml5',
-                            title: 'Statistik Permohonan'
+                            title: 'Statistik Permohonan - Tahun & Bulan'
                         },
                         {
                             extend: 'pdfHtml5',
-                            title: 'Statistik Permohonan'
+                            title: 'Statistik Permohonan - Tahun & Bulan'
                         },
                         {
                             extend: 'print',
-                            title: 'Statistik Permohonan'
+                            title: 'Statistik Permohonan - Tahun & Bulan'
                         }
                     ]
                 },
