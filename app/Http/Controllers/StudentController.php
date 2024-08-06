@@ -238,7 +238,7 @@ class StudentController extends Controller
         \Log::info('Referrer: ' . $referrer);
 
         // Check if source is provided in the query string
-        $source = $request->query('source', $this->determineSource($referrer));
+        $source = $request->query('source', $this->determineSource($referrer, $request->fullUrl()));
 
         // If no source, set default as "website"
         if (empty($source)) {
@@ -250,39 +250,47 @@ class StudentController extends Controller
         return view('student.about', compact('ref', 'source'));
     }
 
-    private function determineSource($referrer)
+    private function determineSource($referrer, $url)
     {
         if ($referrer === 'other') {
             return 'other';
         }
 
         $referrer = strtolower($referrer); // Ensure case-insensitivity
+        $url = strtolower($url); // Ensure case-insensitivity
 
         \Log::info('Determining source for referrer: ' . $referrer);
+        \Log::info('Full URL: ' . $url);
 
-        if (strpos($referrer, 'https://l.facebook.com') !== false) {
-            return 'facebook';
-        } elseif (strpos($referrer, 'https://lm.facebook.com/') !== false) {
-            return 'facebook';
-        } elseif (strpos($referrer, 'https://m.facebook.com/') !== false) {
-            return 'facebook';
-        } elseif (strpos($referrer, 'https://www.facebook.com/') !== false) {
-            return 'facebook';
-        } elseif (strpos($referrer, 'https://www.whatsapp.com/') !== false) {
-            return 'whatsapp';
-        } elseif (strpos($referrer, 'https://web.whatsapp.com/') !== false) {
-            return 'whatsapp';
-        } elseif (strpos($referrer, 'https://www.tiktok.com/') !== false) {
+        // Check if ttclid is present in the URL
+        if (strpos($url, 'ttclid') !== false) {
+            \Log::info('URL contains ttclid, returning tiktok');
             return 'tiktok';
-        } elseif (strpos($referrer, 'ttclid') !== false) {
+        }
+
+        if (strpos($referrer, 'https://l.facebook.com') !== false ||
+            strpos($referrer, 'https://lm.facebook.com/') !== false ||
+            strpos($referrer, 'https://m.facebook.com/') !== false ||
+            strpos($referrer, 'https://www.facebook.com/') !== false) {
+            return 'facebook';
+        }
+
+        if (strpos($referrer, 'https://www.whatsapp.com/') !== false ||
+            strpos($referrer, 'https://web.whatsapp.com/') !== false) {
+            return 'whatsapp';
+        }
+
+        if (strpos($referrer, 'https://www.tiktok.com/') !== false) {
             return 'tiktok';
-        } elseif (strpos($referrer, 'https://www.instagram.com/') !== false) {
+        }
+
+        if (strpos($referrer, 'https://www.instagram.com/') !== false ||
+            strpos($referrer, 'https://l.instagram.com/') !== false) {
             return 'instagram';
-        } elseif (strpos($referrer, 'https://l.instagram.com/') !== false) {
-            return 'instagram';
-        } elseif (strpos($referrer, 'https://edaftarkolej.uniticms.edu.my/') !== false) {
-            return 'website';
-        } elseif (strpos($referrer, 'https://uniti.edu.my/') !== false) {
+        }
+
+        if (strpos($referrer, 'https://edaftarkolej.uniticms.edu.my/') !== false ||
+            strpos($referrer, 'https://uniti.edu.my/') !== false) {
             return 'website';
         }
 
