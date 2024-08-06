@@ -237,17 +237,12 @@ class StudentController extends Controller
         // Log the referrer
         \Log::info('Referrer: ' . $referrer);
 
-        // Check if referrer contains "ttclid" and set source to "tiktok" if true
-        if (strpos($referrer, 'ttclid') !== false) {
-            $source = 'tiktok';
-        } else {
-            // Check if source is provided in the query string
-            $source = $request->query('source', $this->determineSource($referrer));
+        // Check if source is provided in the query string
+        $source = $request->query('source', $this->determineSource($referrer));
 
-            // If no source, set default as "website"
-            if (empty($source)) {
-                $source = 'website2';
-            }
+        // If no source, set default as "website"
+        if (empty($source)) {
+            $source = 'website';
         }
 
         $ref = $request->query('ref');
@@ -263,7 +258,9 @@ class StudentController extends Controller
 
         $referrer = strtolower($referrer); // Ensure case-insensitivity
 
-        if (strpos($referrer, 'https://l.facebook.com') !== false) {
+        if (strpos($referrer, 'ttclid') !== false) {
+            return 'tiktok';
+        } elseif (strpos($referrer, 'https://l.facebook.com') !== false) {
             return 'facebook';
         } elseif (strpos($referrer, 'https://lm.facebook.com/') !== false) {
             return 'facebook';
@@ -289,4 +286,5 @@ class StudentController extends Controller
 
         return 'other';
     }
+
 }
