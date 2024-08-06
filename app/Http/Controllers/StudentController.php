@@ -257,6 +257,11 @@ class StudentController extends Controller
         }
 
         $referrer = strtolower($referrer); // Ensure case-insensitivity
+    
+        if (strpos($referrer, 'ttclid') !== false) {
+            return 'tiktok';
+        }
+
         if (strpos($referrer, 'https://l.facebook.com') !== false) {
             return 'facebook';
         } elseif (strpos($referrer, 'https://lm.facebook.com/') !== false) {
