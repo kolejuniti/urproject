@@ -257,6 +257,8 @@ class StudentController extends Controller
         }
 
         $referrer = strtolower($referrer); // Ensure case-insensitivity
+
+        \Log::info('Determining source for referrer: ' . $referrer);
     
         if (strpos($referrer, 'ttclid') !== false) {
             return 'tiktok';
