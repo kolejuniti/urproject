@@ -247,13 +247,17 @@ class AdminController extends Controller
             $studentRegDate = DB::table('students')
                     ->where('students.id', $id)
                     ->update(['register_at'=>$register_at, 'commission'=>'300']);
+
+            return redirect()->route('admin.application')->with('success', 'Tarikh pendaftaran berjaya dikemaskini.');
         }
+        else 
+        {
+            $studentPIC = DB::table('students')
+                        ->where('students.id', $id)
+                        ->update(['user_id'=>$pic, 'updated_at'=>date('Y-m-d H:i:s')]);
 
-        $studentPIC = DB::table('students')
-                    ->where('students.id', $id)
-                    ->update(['user_id'=>$pic, 'updated_at'=>date('Y-m-d H:i:s')]);
-
-        return redirect()->route('admin.application')->with('success', 'Agihan pegawai perhubungan kepada pelajar telah berjaya.');;
+            return redirect()->route('admin.application')->with('success', 'Agihan pegawai perhubungan kepada pelajar telah berjaya.');
+        }
     }
 
     public function userlist()
