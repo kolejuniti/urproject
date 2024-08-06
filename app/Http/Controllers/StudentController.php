@@ -259,10 +259,6 @@ class StudentController extends Controller
         $referrer = strtolower($referrer); // Ensure case-insensitivity
 
         \Log::info('Determining source for referrer: ' . $referrer);
-    
-        if (strpos($referrer, 'ttclid') !== false) {
-            return 'tiktok';
-        }
 
         if (strpos($referrer, 'https://l.facebook.com') !== false) {
             return 'facebook';
@@ -277,6 +273,8 @@ class StudentController extends Controller
         } elseif (strpos($referrer, 'https://web.whatsapp.com/') !== false) {
             return 'whatsapp';
         } elseif (strpos($referrer, 'https://www.tiktok.com/') !== false) {
+            return 'tiktok';
+        } elseif (strpos($referrer, 'ttclid') !== false) {
             return 'tiktok';
         } elseif (strpos($referrer, 'https://www.instagram.com/') !== false) {
             return 'instagram';
