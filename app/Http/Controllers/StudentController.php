@@ -241,9 +241,9 @@ class StudentController extends Controller
         $source = $request->query('source', $this->determineSource($referrer));
 
         // If no source, set default as "website"
-        if (empty($source)) {
-            $source = 'website';
-        }
+        // if (empty($source)) {
+        //     $source = 'website';
+        // }
 
         $ref = $request->query('ref');
 
