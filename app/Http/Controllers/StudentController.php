@@ -241,13 +241,11 @@ class StudentController extends Controller
         $source = $request->query('source', $this->determineSource($referrer));
 
         // If no source, set default as "website"
-        // if (empty($source)) {
-        //     $source = 'website';
-        // }
+        if (empty($source)) {
+            $source = 'website';
+        }
 
         $ref = $request->query('ref');
-
-        \Log::info('Source: ' . $source); // Log the source
 
         return view('student.about', compact('ref', 'source'));
     }
@@ -285,5 +283,4 @@ class StudentController extends Controller
 
         return 'other';
     }
-
 }
