@@ -252,9 +252,9 @@ class StudentController extends Controller
 
     private function determineSource($referrer)
     {
-        if ($referrer === 'other') {
-            return 'other';
-        }
+        // if ($referrer === 'other') {
+        //     return 'other';
+        // }
 
         $referrer = strtolower($referrer); // Ensure case-insensitivity
         
