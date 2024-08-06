@@ -247,6 +247,8 @@ class StudentController extends Controller
 
         $ref = $request->query('ref');
 
+        \Log::info('Source: ' . $source); // Log the source
+
         return view('student.about', compact('ref', 'source'));
     }
 
@@ -283,4 +285,5 @@ class StudentController extends Controller
 
         return 'other';
     }
+
 }
