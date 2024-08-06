@@ -246,7 +246,7 @@ class StudentController extends Controller
 
             // If no source, set default as "website"
             if (empty($source)) {
-                $source = 'website';
+                $source = 'website.';
             }
         }
 
@@ -262,6 +262,7 @@ class StudentController extends Controller
         }
 
         $referrer = strtolower($referrer); // Ensure case-insensitivity
+
         if (strpos($referrer, 'https://l.facebook.com') !== false) {
             return 'facebook';
         } elseif (strpos($referrer, 'https://lm.facebook.com/') !== false) {
