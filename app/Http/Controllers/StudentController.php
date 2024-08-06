@@ -256,37 +256,32 @@ class StudentController extends Controller
             return 'other';
         }
 
-        // Mapping of referrer patterns to sources
+        // Mapping of referrer patterns to sources using regular expressions
         $sources = [
             'facebook' => [
-                'https://l.facebook.com', 
-                'https://lm.facebook.com', 
-                'https://m.facebook.com', 
-                'https://www.facebook.com'
+                '/https:\/\/(l|lm|m|www)\.facebook\.com/'
             ],
             'whatsapp' => [
-                'https://www.whatsapp.com', 
-                'https://web.whatsapp.com'
+                '/https:\/\/(www|web)\.whatsapp\.com/'
             ],
             'tiktok' => [
-                'https://www.tiktok.com'
+                '/https:\/\/www\.tiktok\.com/'
             ],
             'instagram' => [
-                'https://www.instagram.com', 
-                'https://l.instagram.com'
+                '/https:\/\/(www|l)\.instagram\.com/'
             ],
             'website' => [
-                'https://edaftarkolej.uniticms.edu.my', 
-                'https://uniti.edu.my'
+                '/https:\/\/edaftarkolej\.uniticms\.edu\.my/',
+                '/https:\/\/uniti\.edu\.my/'
             ]
         ];
 
         $referrer = strtolower($referrer); // Ensure case-insensitivity
 
-        // Determine the source based on the referrer
+        // Determine the source based on the referrer using regular expressions
         foreach ($sources as $source => $patterns) {
             foreach ($patterns as $pattern) {
-                if (Str::contains($referrer, $pattern)) {
+                if (preg_match($pattern, $referrer)) {
                     return $source;
                 }
             }
