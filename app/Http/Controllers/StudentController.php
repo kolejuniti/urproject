@@ -256,29 +256,40 @@ class StudentController extends Controller
             return 'other';
         }
 
+        // Mapping of referrer patterns to sources
+        $sources = [
+            'facebook' => [
+                'https://l.facebook.com', 
+                'https://lm.facebook.com', 
+                'https://m.facebook.com', 
+                'https://www.facebook.com'
+            ],
+            'whatsapp' => [
+                'https://www.whatsapp.com', 
+                'https://web.whatsapp.com'
+            ],
+            'tiktok' => [
+                'https://www.tiktok.com'
+            ],
+            'instagram' => [
+                'https://www.instagram.com', 
+                'https://l.instagram.com'
+            ],
+            'website' => [
+                'https://edaftarkolej.uniticms.edu.my', 
+                'https://uniti.edu.my'
+            ]
+        ];
+
         $referrer = strtolower($referrer); // Ensure case-insensitivity
-        if (strpos($referrer, 'https://l.facebook.com') !== false) {
-            return 'facebook';
-        } elseif (strpos($referrer, 'https://lm.facebook.com/') !== false) {
-            return 'facebook';
-        } elseif (strpos($referrer, 'https://m.facebook.com/') !== false) {
-            return 'facebook';
-        } elseif (strpos($referrer, 'https://www.facebook.com/') !== false) {
-            return 'facebook';
-        } elseif (strpos($referrer, 'https://www.whatsapp.com/') !== false) {
-            return 'whatsapp';
-        } elseif (strpos($referrer, 'https://web.whatsapp.com/') !== false) {
-            return 'whatsapp';
-        } elseif (strpos($referrer, 'https://www.tiktok.com/') !== false) {
-            return 'tiktok';
-        } elseif (strpos($referrer, 'https://www.instagram.com/') !== false) {
-            return 'instagram';
-        } elseif (strpos($referrer, 'https://l.instagram.com/') !== false) {
-            return 'instagram';
-        } elseif (strpos($referrer, 'https://edaftarkolej.uniticms.edu.my/') !== false) {
-            return 'website';
-        } elseif (strpos($referrer, 'https://uniti.edu.my/') !== false) {
-            return 'website';
+
+        // Determine the source based on the referrer
+        foreach ($sources as $source => $patterns) {
+            foreach ($patterns as $pattern) {
+                if (Str::contains($referrer, $pattern)) {
+                    return $source;
+                }
+            }
         }
 
         return 'other';
