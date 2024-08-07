@@ -113,7 +113,14 @@
                     <!-- WebP Format -->
                     <source srcset="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/banner-samsung-tab.webp" type="image/webp">
                     <!-- Fallback for non-WebP browsers -->
-                    <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/banner-samsung-tab.jpg" alt="Banner" class="img-fluid" loading="lazy">
+                    <img 
+                        src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/banner-samsung-tab.jpg" 
+                        alt="Banner" 
+                        class="img-fluid" 
+                        loading="lazy" 
+                        width="1200" 
+                        height="600"
+                    >
                 </picture>
             </div>
         
