@@ -136,7 +136,7 @@
           </picture>
           <div class="card-body">
             <h5 class="card-title">Pinjaman PTPTN</h5>
-            <p class="card-text">Pakej tajaan penuh yuran pengajian dan penginapan.</p>
+            <p class="card-text">Pakej tajaan penuh yuran pengajian dan penginapan disediakan.</p>
             <p class="card-text fst-italic" style="font-size: 10px;">* Tertakluk kepada terma dan syarat.</p>
           </div>
         </div>
