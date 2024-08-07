@@ -232,15 +232,17 @@ class StudentController extends Controller
 
     public function about(Request $request)
     {
-        $referrer = $request->headers->get('referer', 'other');
+        // Prioritize the source query parameter over the referrer header
+        $source = $request->query('source');
+        
+        if (empty($source)) {
+            $referrer = $request->headers->get('referer', 'other');
+            // Log the referrer
+            \Log::info('Referrer: ' . $referrer);
+            $source = $this->determineSource($referrer);
+        }
 
-        // Log the referrer
-        \Log::info('Referrer: ' . $referrer);
-
-        // Check if source is provided in the query string
-        $source = $request->query('source', $this->determineSource($referrer));
-
-        // If no source, set default as "website"
+        // If no source is determined, set default as "website"
         if (empty($source)) {
             $source = 'website';
         }
@@ -257,7 +259,7 @@ class StudentController extends Controller
         }
 
         $referrer = strtolower($referrer); // Ensure case-insensitivity
-        
+
         if (strpos($referrer, 'https://l.facebook.com') !== false) {
             return 'facebook';
         } elseif (strpos($referrer, 'https://lm.facebook.com/') !== false) {
@@ -284,4 +286,5 @@ class StudentController extends Controller
 
         return 'other';
     }
+
 }
