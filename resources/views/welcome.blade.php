@@ -117,7 +117,6 @@
                         src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/banner-samsung-tab.jpg" 
                         alt="Banner" 
                         class="img-fluid" 
-                        loading="lazy" 
                         width="1200" 
                         height="600"
                     >

@@ -5,11 +5,17 @@
   <div class="container">
     <div class="container mb-3">
       <!-- Use the <picture> element for WebP support -->
-      <picture>
+        <picture>
           <!-- WebP Format -->
           <source srcset="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/banner-samsung-tab.webp" type="image/webp">
           <!-- Fallback for non-WebP browsers -->
-          <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/banner-samsung-tab.jpg" alt="Banner" class="img-fluid" loading="lazy">
+          <img 
+              src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/banner-samsung-tab.jpg" 
+              alt="Banner" 
+              class="img-fluid" 
+              width="1200" 
+              height="600"
+          >
       </picture>
     </div>
     <div class="row g-4 py-1 row-cols-sm-2">
