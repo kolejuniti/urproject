@@ -24,6 +24,7 @@
                             <th>Jawatan</th>
                             <th>Status</th>
                             <th>Tarikh Daftar</th>
+                            <th>Rujukan Oleh</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -39,6 +40,7 @@
                             <td>{{ $user->position }}</td>
                             <td>{{ $user->status }}</td>
                             <td class="text-center">{{ \Carbon\Carbon::parse($user->created_at)->format('d-m-Y') }}</td>
+                            <td>{{ isset($leaders[$user->leader_id]) ? $leaders[$user->leader_id]->name : '' }}</td>
                         </tr>
                         @endforeach
                     </tbody>
