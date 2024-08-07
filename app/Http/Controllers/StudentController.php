@@ -252,10 +252,9 @@ class StudentController extends Controller
 
     private function determineSource($referrer)
     {
-        // if ($referrer === 'other') {
-        //     return 'other';
-        // }
-        \Log::info('Source: ' . $referrer);
+        if ($referrer === 'other') {
+            return 'other';
+        }
 
         $referrer = strtolower($referrer); // Ensure case-insensitivity
         
@@ -272,8 +271,6 @@ class StudentController extends Controller
         } elseif (strpos($referrer, 'https://web.whatsapp.com/') !== false) {
             return 'whatsapp';
         } elseif (strpos($referrer, 'https://www.tiktok.com/') !== false) {
-            return 'tiktok';
-        } elseif (strpos($referrer, 'https://www.tiktok.com/link/v2?aid=1988&lang=en&scene=bio_url&target=https%3A%2F%2Fedaftarkolej.uniticms.edu.my%2Fstudent%2Fabout') !== false) {
             return 'tiktok';
         } elseif (strpos($referrer, 'https://www.instagram.com/') !== false) {
             return 'instagram';
