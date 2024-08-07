@@ -40,7 +40,7 @@
                             <td>{{ $user->position }}</td>
                             <td>{{ $user->status }}</td>
                             <td class="text-center">{{ \Carbon\Carbon::parse($user->created_at)->format('d-m-Y') }}</td>
-                            <td>{{ isset($leaders[$user->leader_id]) ? $leaders[$user->leader_id]->name : 'TIADA' }}</td>
+                            <td>{{ isset($leaders[$user->leader_id]) ? $leaders[$user->leader_id]->name : '' }}</td>
                         </tr>
                         @endforeach
                     </tbody>
