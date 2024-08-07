@@ -188,7 +188,10 @@
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 mb-4">
         <div class="col">
             <div class="card shadow-sm">
-              <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/fppm.jpeg" class="card-img-top" alt="...">
+              <picture>
+                <source srcset="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/fppm.webp" type="image/webp">
+                <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/fppm.jpg" loading="lazy" class="card-img-top" alt="...">
+              </picture>
               <div class="card-body" style="height: 480px">
                   <p class="card-text"><h4 class="text-center">FAKULTI PENDIDIKAN & PEMBANGUNAN MANUSIA</h4></p>
                   <ul class="small nav flex-column">
@@ -239,7 +242,10 @@
           </div>
         <div class="col">
             <div class="card shadow-sm">
-            <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/ftk.jpg" class="card-img-top" alt="...">
+              <picture>
+                <source srcset="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/ftk.webp" type="image/webp">
+                <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/ftk.jpg" loading="lazy" class="card-img-top" alt="...">
+              </picture>
             <div class="card-body" style="height: 480px">
                 <p class="card-text text-center"><h4 class="text-center">FAKULTI TEKNOLOGI & KEJURUTERAAN</h4></p>
                 <ul class="small nav flex-column">
@@ -292,7 +298,10 @@
           </div>
         <div class="col">
             <div class="card shadow-sm">
-            <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/fpih.jpg" class="card-img-top" alt="...">
+              <picture>
+                <source srcset="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/fpih.webp" type="image/webp">
+                <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/fpih.jpg" loading="lazy" class="card-img-top" alt="...">
+              </picture>
             <div class="card-body" style="height: 480px">
                 <p class="card-text"><h4 class="text-center">FAKULTI PENGURUSAN & INDUSTRI HALAL</h4></p>
                 <ul class="small nav flex-column">
