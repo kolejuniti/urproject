@@ -6,30 +6,26 @@
     <div class="container mb-3">
       <!-- Use the <picture> element for WebP support -->
         <!-- Use the <picture> element for WebP support -->
-          <picture>
-            <!-- WebP Format -->
-            <source 
-                srcset="
-                    https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/banner-samsung-tab-480.webp 480w,
-                    https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/banner-samsung-tab-768.webp 768w,
-                    https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/banner-samsung-tab-1200.webp 1200w"
-                sizes="(max-width: 480px) 480px, (max-width: 768px) 768px, 1200px"
-                type="image/webp"
-            >
-            <!-- Fallback for non-WebP browsers -->
-            <img 
-                srcset="
-                    https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/banner-samsung-tab-480.jpg 480w,
-                    https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/banner-samsung-tab-768.jpg 768w,
-                    https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/banner-samsung-tab-1200.jpg 1200w"
-                sizes="(max-width: 480px) 480px, (max-width: 768px) 768px, 1200px"
-                src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/banner-samsung-tab-1200.jpg"
-                alt="Banner" 
-                class="img-fluid"
-                width="1200" 
-                height="600"
-            >
-        </picture>
+        <picture>
+          <source 
+            srcset="
+              https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/banner-samsung-tab-480.webp 480w,
+              https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/banner-samsung-tab-768.webp 768w,
+              https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/banner-samsung-tab-1200.webp 1200w"
+            sizes="(max-width: 480px) 480px, (max-width: 768px) 768px, 1200px"
+            type="image/webp">
+          <img 
+            srcset="
+              https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/banner-samsung-tab-480.jpg 480w,
+              https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/banner-samsung-tab-768.jpg 768w,
+              https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/banner-samsung-tab-1200.jpg 1200w"
+            sizes="(max-width: 480px) 480px, (max-width: 768px) 768px, 1200px"
+            src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/banner-samsung-tab-1200.jpg"
+            alt="Banner" 
+            class="img-fluid"
+            width="1200" 
+            height="600">
+        </picture>          
     </div>
     <div class="row g-4 py-1 row-cols-sm-2">
       <div class="feature col text-center">
