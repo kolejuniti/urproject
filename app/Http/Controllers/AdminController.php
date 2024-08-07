@@ -275,7 +275,13 @@ class AdminController extends Controller
                 ->orderBy('users.name')
                 ->get();
 
-        return view('admin.userlist', compact('users', 'banks'));
+                // Collect leader IDs
+        $leaderIds = $users->pluck('leader_id')->unique();
+
+        // Fetch leaders
+        $leaders = User::whereIn('id', $leaderIds)->get()->keyBy('id');
+
+        return view('admin.userlist', compact('users', 'banks', 'leaders'));
     }
 
     public function userDetail(Request $request)
