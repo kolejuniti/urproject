@@ -41,23 +41,34 @@ class AdvisorController extends Controller
 
         $applicants = DB::table('students')
                 ->join('state', 'students.state_id', '=', 'state.id')
-                ->leftjoin('users', 'students.user_id', '=', 'users.id')
+                ->leftJoin('users', 'students.user_id', '=', 'users.id')
                 ->join('location', 'students.location_id', '=', 'location.id')
-                ->leftjoin('status', 'students.status_id', '=', 'status.id')
+                ->leftJoin('status', 'students.status_id', '=', 'status.id')
                 ->select('students.*', 'state.name AS state', 'users.name AS user', 'location.name AS location', 'status.name AS status')
                 ->where(function($query) use ($ref, $id) {
                     $query->where('students.referral_code', $ref)
-                          ->orWhere('students.user_id', $id);
+                        ->orWhere('students.user_id', $id);
                 })
                 ->orderBy('students.created_at', 'desc')
                 ->get();
-                
+
+        $affiliates = [];
+
+        foreach ($applicants as $applicant) {
+            // Find the affiliate(s) associated with the current student's referral code
+            $affiliate = User::where('referral_code', $applicant->referral_code)
+                        ->whereIn('type', [0, 1])
+                        ->get();
+
+            // Store the affiliate(s) in the $affiliates array, using student ID as key
+            $affiliates[$applicant->id] = $affiliate;
+        }
+
         $statusApplications = DB::table('status')->get();
 
         $applicantsWithPrograms = [];
 
         foreach ($applicants as $applicant) {
-
             $jpgFilePath = 'urproject/student/resultspm/' . $applicant->ic . '.jpg';
             $jpegFilePath = 'urproject/student/resultspm/' . $applicant->ic . '.jpeg';
             $pngFilePath = 'urproject/student/resultspm/' . $applicant->ic . '.png';
@@ -73,7 +84,7 @@ class AdvisorController extends Controller
                 // If the .png file exists, use its URL
                 $fileUrl = Storage::disk('linode')->url($pngFilePath);
             } elseif (Storage::disk('linode')->exists($pdfFilePath)) {
-                // If the .png file exists, use its URL
+                // If the .pdf file exists, use its URL
                 $fileUrl = Storage::disk('linode')->url($pdfFilePath);
             } else {
                 // If neither file exists, set $fileUrl to null or a default value
@@ -91,11 +102,15 @@ class AdvisorController extends Controller
                 'programs' => $programs,
                 'file_url' => $fileUrl
             ];
-
         }
 
-        return view('advisor.application', ['applicantsWithPrograms' => $applicantsWithPrograms], ['statusApplications' => $statusApplications]);
+        return view('advisor.application', [
+            'applicantsWithPrograms' => $applicantsWithPrograms,
+            'statusApplications' => $statusApplications,
+            'affiliates' => $affiliates
+        ]);
     }
+
 
     public function update(Request $request, $id)
     {
