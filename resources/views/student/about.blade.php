@@ -51,7 +51,10 @@
     <div class="row row-cols-1 row-cols-md-3 g-4 mb-3">
       <div class="col">
         <div class="card">
-          <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/daftar.jpg" loading="lazy" class="card-img-top" alt="...">
+          <picture>
+            <source srcset="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/daftar.webp" type="image/webp">
+            <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/daftar.jpg" loading="lazy" class="card-img-top" alt="...">
+          </picture>
           <div class="card-body">
             <h5 class="card-title">Pendaftaran</h5>
             <p class="card-text">Yuran pendaftaran RM250 bagi semua program yang ditawarkan.</p>
@@ -61,7 +64,10 @@
       </div>
       <div class="col">
         <div class="card">
-          <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/elaun.jpg" loading="lazy" class="card-img-top" alt="...">
+          <picture>
+            <source srcset="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/elaun.webp" type="image/webp">
+            <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/elaun.jpg" loading="lazy" class="card-img-top" alt="...">
+          </picture>
           <div class="card-body">
             <h5 class="card-title">Elaun Semester</h5>
             <p class="card-text">Pelajar menerima elaun sebanyak RM750 selama 5 semester.</p>
@@ -71,7 +77,10 @@
       </div>
       <div class="col">
         <div class="card">
-          <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/insentif.jpg" loading="lazy" class="card-img-top" alt="...">
+          <picture>
+            <source srcset="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/insentif.webp" type="image/webp">
+            <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/insentif.jpg" loading="lazy" class="card-img-top" alt="...">
+          </picture>
           <div class="card-body">
             <h5 class="card-title">Insentif</h5>
             <p class="card-text">Diskaun insentif minima RM5000 akan diberikan kepada pelajar sepanjang tempoh pengajian.</p>
@@ -83,7 +92,10 @@
     <div class="row row-cols-1 row-cols-md-3 g-4 mb-3">
       <div class="col">
         <div class="card">
-          <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/konvo.jpg" loading="lazy" class="card-img-top" alt="...">
+          <picture>
+            <source srcset="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/konvo.webp" type="image/webp">
+            <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/konvo.jpg" loading="lazy" class="card-img-top" alt="...">
+          </picture>
           <div class="card-body">
             <h5 class="card-title">Program Diploma</h5>
             <p class="card-text">Diploma berkualiti, diiktiraf dan memenuhi keperluan industri.</p>
@@ -92,7 +104,10 @@
       </div>
       <div class="col">
         <div class="card">
-          <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/asrama.jpg" loading="lazy" class="card-img-top" alt="...">
+          <picture>
+            <source srcset="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/asrama.webp" type="image/webp">
+            <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/asrama.jpg" loading="lazy" class="card-img-top" alt="...">
+          </picture>
           <div class="card-body">
             <h5 class="card-title">Penginapan</h5>
             <p class="card-text">Jaminan penginapan selama 3 tahun di dalam kawasan kolej.</p>
@@ -101,7 +116,10 @@
       </div>
       <div class="col">
         <div class="card">
-          <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/unitifarm.jpg" loading="lazy" class="card-img-top" alt="...">
+          <picture>
+            <source srcset="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/unitifarm.webp" type="image/webp">
+            <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/unitifarm.jpg" loading="lazy" class="card-img-top" alt="...">
+          </picture>
           <div class="card-body">
             <h5 class="card-title">Program Keusahawanan</h5>
             <p class="card-text">Jana pendapatan menerusi aktiviti keusahawanan dan bekerja sambil belajar.</p>
@@ -112,7 +130,10 @@
     <div class="row row-cols-1 row-cols-md-3 g-4 mb-3">
       <div class="col">
         <div class="card">
-          <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/ptptn.jpg" loading="lazy" class="card-img-top" alt="...">
+          <picture>
+            <source srcset="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/ptptn.webp" type="image/webp">
+            <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/ptptn.jpg" loading="lazy" class="card-img-top" alt="...">
+          </picture>
           <div class="card-body">
             <h5 class="card-title">Pinjaman PTPTN</h5>
             <p class="card-text">Pakej tajaan penuh yuran pengajian dan penginapan.</p>
@@ -122,7 +143,10 @@
       </div>
       <div class="col">
         <div class="card">
-          <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/yu.jpg" loading="lazy" class="card-img-top" alt="...">
+          <picture>
+            <source srcset="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/yu.webp" type="image/webp">
+            <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/yu.jpg" loading="lazy" class="card-img-top" alt="...">
+          </picture>
           <div class="card-body">
             <h5 class="card-title">Yayasan UNITI</h5>
             <p class="card-text">Permohonan dana Yayasan UNITI disediakan bagi golongan B40.</p>
@@ -132,7 +156,10 @@
       </div>
       <div class="col">
         <div class="card">
-          <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/myquest.jpg" loading="lazy" class="card-img-top" alt="...">
+          <picture>
+            <source srcset="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/myquest.webp" type="image/webp">
+            <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/myquest.jpg" loading="lazy" class="card-img-top" alt="...">
+          </picture>
           <div class="card-body">
             <h5 class="card-title">MyQUEST</h5>
             <p class="card-text">Beroperasi 27 tahun sebagai institusi pendidikan dan telah mendapat pengiktirafan MyQUEST.</p>
