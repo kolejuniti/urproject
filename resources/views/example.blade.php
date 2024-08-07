@@ -12,8 +12,25 @@
     <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 
     <!-- Fonts -->
+    {{-- <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" /> --}}
+
+    <!-- Inline Critical CSS -->
+    <style>
+        body {
+            font-family: 'Figtree', sans-serif;
+            /* Add other critical styles here */
+        }
+    </style>
+    
+    <!-- Preconnect to Font Provider -->
     <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+    
+    <!-- Preload Fonts and Load Asynchronously -->
+    <link rel="preload" href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" as="style" onload="this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap">
+    </noscript>
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])

@@ -10,8 +10,25 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+    {{-- <link rel="dns-prefetch" href="//fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet"> --}}
+
+     <!-- Inline Critical CSS -->
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            /* Add other critical styles here */
+        }
+    </style>
+    
+    <!-- Preconnect to Font Provider -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    
+    <!-- Preload Fonts and Load Asynchronously -->
+    <link rel="preload" href="https://fonts.bunny.net/css?family=Nunito" as="style" onload="this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="https://fonts.bunny.net/css?family=Nunito">
+    </noscript>
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
