@@ -108,7 +108,7 @@
         <main class="py-3" style="max-height: 90vh;">
             {{-- @yield('content') --}}
             <div class="container mb-3">
-                    <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/z" alt="" class="img-fluid" loading="lazy">
+                    <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/banner-samsung-tab.jpg" alt="" class="img-fluid" loading="lazy">
             </div>
         
             <div class="container">
