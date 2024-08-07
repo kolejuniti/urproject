@@ -108,7 +108,13 @@
         <main class="py-3" style="max-height: 90vh;">
             {{-- @yield('content') --}}
             <div class="container mb-3">
-                    <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/banner-samsung-tab.jpg" alt="" class="img-fluid" loading="lazy">
+                <!-- Use the <picture> element for WebP support -->
+                <picture>
+                    <!-- WebP Format -->
+                    <source srcset="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/banner-samsung-tab.webp" type="image/webp">
+                    <!-- Fallback for non-WebP browsers -->
+                    <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/banner-samsung-tab.jpg" alt="Banner" class="img-fluid" loading="lazy">
+                </picture>
             </div>
         
             <div class="container">
