@@ -232,6 +232,9 @@ class StudentController extends Controller
 
     public function about(Request $request)
     {
+        // Log the entire request for debugging
+        \Log::info('Request data: ', $request->all());
+
         // Prioritize the source query parameter over the referrer header
         $source = $request->query('source');
         
@@ -240,6 +243,9 @@ class StudentController extends Controller
             // Log the referrer
             \Log::info('Referrer: ' . $referrer);
             $source = $this->determineSource($referrer);
+        } else {
+            // Log the source query parameter
+            \Log::info('Source query parameter: ' . $source);
         }
 
         // If no source is determined, set default as "website"
@@ -248,6 +254,9 @@ class StudentController extends Controller
         }
 
         $ref = $request->query('ref');
+
+        // Log the final source
+        \Log::info('Final source: ' . $source);
 
         return view('student.about', compact('ref', 'source'));
     }
@@ -286,5 +295,6 @@ class StudentController extends Controller
 
         return 'other';
     }
+
 
 }
