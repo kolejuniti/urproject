@@ -35,6 +35,7 @@
                                     <th>No. Telefon</th>
                                     <th>Email</th>
                                     <th>Tarikh Permohonan</th>
+                                    <th>Affiliate</th>
                                     <th>Tarikh Agihan</th>
                                     <th>Status</th>
                                     <th>Tarikh Pendaftaran</th>
@@ -51,6 +52,17 @@
                                     <td class="text-center">{{ $data['applicant']->phone }}</td>
                                     <td>{{ $data['applicant']->email }}</td>
                                     <td>{{ \Carbon\Carbon::parse($data['applicant']->created_at)->format('d-m-Y') }}</td>
+                                    <td class="text-uppercase">
+                                        @if($data['applicant']->referral_code !== null)
+                                            @if(isset($affiliates[$data['applicant']->id]) && $affiliates[$data['applicant']->id]->isNotEmpty())
+                                                {{ $affiliates[$data['applicant']->id]->first()->name }}
+                                            @else
+                                                {{ __('TIADA AFFILIATE') }}
+                                            @endif
+                                        @else
+                                            {{ __('TIADA AFFILIATE') }}
+                                        @endif
+                                    </td>
                                     <td>{{$data['applicant']->updated_at ? \Carbon\Carbon::parse($data['applicant']->updated_at)->format('d-m-Y') : '' }}</td>
                                     <td class="text-uppercase">{{ $data['applicant']->status }}</td>
                                     <td>{{$data['applicant']->register_at ? \Carbon\Carbon::parse($data['applicant']->register_at)->format('d-m-Y') : '' }}</td>
