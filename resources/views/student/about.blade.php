@@ -4,7 +4,7 @@
 <div class="album py-4">
   <div class="container">
     <div class="mb-3">
-        <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/banner-samsung-tab.jpg" alt="" class="img-fluid">
+        <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/banner-samsung-tab.jpg" alt="" class="img-fluid" loading="lazy">
     </div>
     <div class="row g-4 py-1 row-cols-sm-2">
       <div class="feature col text-center">
