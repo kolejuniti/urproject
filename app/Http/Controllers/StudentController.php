@@ -255,6 +255,7 @@ class StudentController extends Controller
         // if ($referrer === 'other') {
         //     return 'other';
         // }
+        \Log::info('Source: ' . $referrer);
 
         $referrer = strtolower($referrer); // Ensure case-insensitivity
         
