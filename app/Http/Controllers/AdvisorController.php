@@ -64,53 +64,118 @@ class AdvisorController extends Controller
             $affiliates[$applicant->id] = $affiliate;
         }
 
-        $statusApplications = DB::table('status')->get();
+        // $statusApplications = DB::table('status')->get();
 
-        $applicantsWithPrograms = [];
+        // $applicantsWithPrograms = [];
 
-        foreach ($applicants as $applicant) {
-            $jpgFilePath = 'urproject/student/resultspm/' . $applicant->ic . '.jpg';
-            $jpegFilePath = 'urproject/student/resultspm/' . $applicant->ic . '.jpeg';
-            $pngFilePath = 'urproject/student/resultspm/' . $applicant->ic . '.png';
-            $pdfFilePath = 'urproject/student/resultspm/' . $applicant->ic . '.pdf';
+        // foreach ($applicants as $applicant) {
+        //     $jpgFilePath = 'urproject/student/resultspm/' . $applicant->ic . '.jpg';
+        //     $jpegFilePath = 'urproject/student/resultspm/' . $applicant->ic . '.jpeg';
+        //     $pngFilePath = 'urproject/student/resultspm/' . $applicant->ic . '.png';
+        //     $pdfFilePath = 'urproject/student/resultspm/' . $applicant->ic . '.pdf';
 
-            if (Storage::disk('linode')->exists($jpgFilePath)) {
-                // If the .jpg file exists, use its URL
-                $fileUrl = Storage::disk('linode')->url($jpgFilePath);
-            } elseif (Storage::disk('linode')->exists($jpegFilePath)) {
-                // If the .jpeg file exists, use its URL
-                $fileUrl = Storage::disk('linode')->url($jpegFilePath);
-            } elseif (Storage::disk('linode')->exists($pngFilePath)) {
-                // If the .png file exists, use its URL
-                $fileUrl = Storage::disk('linode')->url($pngFilePath);
-            } elseif (Storage::disk('linode')->exists($pdfFilePath)) {
-                // If the .pdf file exists, use its URL
-                $fileUrl = Storage::disk('linode')->url($pdfFilePath);
-            } else {
-                // If neither file exists, set $fileUrl to null or a default value
-                $fileUrl = null; // You can customize this to any default value you prefer
-            }
+        //     if (Storage::disk('linode')->exists($jpgFilePath)) {
+        //         // If the .jpg file exists, use its URL
+        //         $fileUrl = Storage::disk('linode')->url($jpgFilePath);
+        //     } elseif (Storage::disk('linode')->exists($jpegFilePath)) {
+        //         // If the .jpeg file exists, use its URL
+        //         $fileUrl = Storage::disk('linode')->url($jpegFilePath);
+        //     } elseif (Storage::disk('linode')->exists($pngFilePath)) {
+        //         // If the .png file exists, use its URL
+        //         $fileUrl = Storage::disk('linode')->url($pngFilePath);
+        //     } elseif (Storage::disk('linode')->exists($pdfFilePath)) {
+        //         // If the .pdf file exists, use its URL
+        //         $fileUrl = Storage::disk('linode')->url($pdfFilePath);
+        //     } else {
+        //         // If neither file exists, set $fileUrl to null or a default value
+        //         $fileUrl = null; // You can customize this to any default value you prefer
+        //     }
 
-            $programs = DB::table('student_programs')
-                        ->join('program', 'student_programs.program_id', '=', 'program.id')
-                        ->select('student_programs.id', 'program.name', 'student_programs.status', 'student_programs.notes')
-                        ->where('student_programs.student_ic', $applicant->ic)
-                        ->get();
+        //     $programs = DB::table('student_programs')
+        //                 ->join('program', 'student_programs.program_id', '=', 'program.id')
+        //                 ->select('student_programs.id', 'program.name', 'student_programs.status', 'student_programs.notes')
+        //                 ->where('student_programs.student_ic', $applicant->ic)
+        //                 ->get();
 
-            $applicantsWithPrograms[] = [
-                'applicant' => $applicant,
-                'programs' => $programs,
-                'file_url' => $fileUrl
-            ];
-        }
+        //     $applicantsWithPrograms[] = [
+        //         'applicant' => $applicant,
+        //         'programs' => $programs,
+        //         'file_url' => $fileUrl
+        //     ];
+        // }
 
-        return view('advisor.application', [
-            'applicantsWithPrograms' => $applicantsWithPrograms,
-            'statusApplications' => $statusApplications,
-            'affiliates' => $affiliates
-        ]);
+        return view('advisor.application', compact('applicants', 'affiliates'));
+
+        // return view('advisor.application', [
+        //     'applicantsWithPrograms' => $applicantsWithPrograms,
+        //     'statusApplications' => $statusApplications,
+        //     'affiliates' => $affiliates
+        // ]);
     }
 
+    public function applicationDetail(Request $request)
+    {
+        $ic = $request->input('ic');
+
+        $applicants = DB::table('students')
+                    ->join('state', 'students.state_id', '=', 'state.id')
+                    ->leftJoin('users', 'students.user_id', '=', 'users.id')
+                    ->join('location', 'students.location_id', '=', 'location.id')
+                    ->leftJoin('status', 'students.status_id', '=', 'status.id')
+                    ->select(
+                        'students.id',
+                        'students.name',
+                        'students.ic',
+                        'students.phone',
+                        'students.email',
+                        'students.address1',
+                        'students.address2',
+                        'students.postcode',
+                        'students.city',
+                        'students.spm_year',
+                        'students.user_id',
+                        'students.status_id',
+                        DB::raw("DATE_FORMAT(students.created_at, '%d-%m-%Y') as created_at"),
+                        'students.updated_at',
+                        DB::raw("DATE_FORMAT(students.register_at, '%d-%m-%Y') as register_at"),
+                        'state.name AS state',
+                        'users.name AS user',
+                        'location.name AS location',
+                        'status.name AS status',
+                        'students.reason',
+                        DB::raw("DATE_FORMAT(students.offer_letter_date, '%Y-%m-%d') as offer_letter_date"),
+                        DB::raw("DATE_FORMAT(students.register_letter_date, '%Y-%m-%d') as register_letter_date")
+                    )
+                    ->where('students.ic', 'LIKE', "{$ic}")
+                    ->first();
+
+        $fileUrl = null;
+        if ($applicants) {
+            $fileExtensions = ['jpg', 'jpeg', 'png', 'pdf'];
+            foreach ($fileExtensions as $extension) {
+                $filePath = 'urproject/student/resultspm/' . $applicants->ic . '.' . $extension;
+                if (Storage::disk('linode')->exists($filePath)) {
+                    $fileUrl = Storage::disk('linode')->url($filePath);
+                    break;
+                }
+            }
+        }
+
+        $programs = DB::table('student_programs')
+                    ->join('program', 'student_programs.program_id', '=', 'program.id')
+                    ->select('program.name', 'student_programs.status', 'student_programs.notes', 'student_programs.id')
+                    ->where('student_programs.student_ic', 'LIKE', "{$ic}")
+                    ->get();
+
+        $statusApplications = DB::table('status')->get();
+
+        if ($request->ajax()) {
+            return response()->json(['applicants' => $applicants, 'fileUrl' => $fileUrl, 'programs' => $programs, 'statusApplications' => $statusApplications]);
+        }
+
+        return view('advisor.application', compact('applicants', 'fileUrl', 'programs', 'statusApplications'));
+
+    }
 
     public function update(Request $request, $id)
     {
@@ -121,16 +186,13 @@ class AdvisorController extends Controller
         $register_letter_date = $request->input('register_letter_date');
 
         DB::table('students')
-            ->where('students.ic', $id)
-            ->update(['students.status_id' => $statusApplication, 'reason' => $reason, 'offer_letter_date' => $offer_letter_date, 'register_letter_date' => $register_letter_date]);        
+            ->where('students.id', $id)
+            ->update(['students.status_id' => $statusApplication, 'reason' => $reason, 'offer_letter_date' => $offer_letter_date, 'register_letter_date' => $register_letter_date]);     
 
         foreach ($programs as $program) {
             $status = $program['status'];
             $notes = $program['notes'];
             $idProgram = $program['id'];
-
-            // $data = request()->all();
-            //         dd($data);
 
             DB::table('student_programs')
                 ->where('student_programs.id', $idProgram)
