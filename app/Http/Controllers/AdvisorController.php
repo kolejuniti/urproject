@@ -64,53 +64,7 @@ class AdvisorController extends Controller
             $affiliates[$applicant->id] = $affiliate;
         }
 
-        // $statusApplications = DB::table('status')->get();
-
-        // $applicantsWithPrograms = [];
-
-        // foreach ($applicants as $applicant) {
-        //     $jpgFilePath = 'urproject/student/resultspm/' . $applicant->ic . '.jpg';
-        //     $jpegFilePath = 'urproject/student/resultspm/' . $applicant->ic . '.jpeg';
-        //     $pngFilePath = 'urproject/student/resultspm/' . $applicant->ic . '.png';
-        //     $pdfFilePath = 'urproject/student/resultspm/' . $applicant->ic . '.pdf';
-
-        //     if (Storage::disk('linode')->exists($jpgFilePath)) {
-        //         // If the .jpg file exists, use its URL
-        //         $fileUrl = Storage::disk('linode')->url($jpgFilePath);
-        //     } elseif (Storage::disk('linode')->exists($jpegFilePath)) {
-        //         // If the .jpeg file exists, use its URL
-        //         $fileUrl = Storage::disk('linode')->url($jpegFilePath);
-        //     } elseif (Storage::disk('linode')->exists($pngFilePath)) {
-        //         // If the .png file exists, use its URL
-        //         $fileUrl = Storage::disk('linode')->url($pngFilePath);
-        //     } elseif (Storage::disk('linode')->exists($pdfFilePath)) {
-        //         // If the .pdf file exists, use its URL
-        //         $fileUrl = Storage::disk('linode')->url($pdfFilePath);
-        //     } else {
-        //         // If neither file exists, set $fileUrl to null or a default value
-        //         $fileUrl = null; // You can customize this to any default value you prefer
-        //     }
-
-        //     $programs = DB::table('student_programs')
-        //                 ->join('program', 'student_programs.program_id', '=', 'program.id')
-        //                 ->select('student_programs.id', 'program.name', 'student_programs.status', 'student_programs.notes')
-        //                 ->where('student_programs.student_ic', $applicant->ic)
-        //                 ->get();
-
-        //     $applicantsWithPrograms[] = [
-        //         'applicant' => $applicant,
-        //         'programs' => $programs,
-        //         'file_url' => $fileUrl
-        //     ];
-        // }
-
         return view('advisor.application', compact('applicants', 'affiliates'));
-
-        // return view('advisor.application', [
-        //     'applicantsWithPrograms' => $applicantsWithPrograms,
-        //     'statusApplications' => $statusApplications,
-        //     'affiliates' => $affiliates
-        // ]);
     }
 
     public function applicationDetail(Request $request)
