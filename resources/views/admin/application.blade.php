@@ -13,56 +13,56 @@
             @endif
             <div class="table-responsive">
                 <table id="myTable" class="table table-bordered small table-sm text-center">
-                <thead class="table-dark">
-                    <tr>
-                        <th>#</th>
-                        <th>Nama Pemohon</th>
-                        <th>No. Kad Pengenalan</th>
-                        <th>No. Telefon</th>
-                        <th>Tarikh Permohonan</th>
-                        <th>Lokasi</th>
-                        <th>Affiliate</th>
-                        <th>Tarikh Agihan</th>
-                        <th>Education Advisor</th>
-                        <th>Catatan</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($applicants as $data)
-                    @if ($data->user_id !== null && $data->register_at === null && in_array($data->status_id, [1, 2, 3, 4, 5, 24, 26]))
-                        <tr class="table-danger">
-                    @elseif ($data->user_id !== null && $data->register_at === null && $data->status_id === 19)
-                        <tr class="table-info">
-                    @elseif ($data->user_id !== null && $data->register_at === null)
-                        <tr class="table-warning">
-                    @elseif ($data->user_id !== null && $data->register_at !== null)
-                        <tr class="table-success">
-                    @else
+                    <thead class="table-dark">
                         <tr>
-                    @endif
-                        <td>&nbsp;</td>
-                        <td>
-                            <button type="button" class="btn btn-sm btn-link text-uppercase open-modal" data-ic="{{ $data->ic }}">{{ $data->name }}</button>
-                        </td>
-                        <td class="text-center">{{ $data->ic }}</td>
-                        <td class="text-center">{{ $data->phone }}</td>
-                        <td>{{ \Carbon\Carbon::parse($data->created_at)->format('d-m-Y') }}</td>
-                        <td class="text-center">{{ $data->location }}</td>
-                        <td class="text-uppercase">
-                            @if( $data->referral_code !== null)
-                                @foreach ($affiliates[$data->id] as $affiliate)
-                                    {{ $affiliate->name }}
-                                @endforeach
-                            @else
-                                {{__('TIADA AFFILIATE')}}
-                            @endif
-                        </td>
-                        <td>{{$data->updated_at ? \Carbon\Carbon::parse($data->updated_at)->format('d-m-Y') : '' }}</td>
-                        <td class="text-uppercase">{{ $data->user }}</td>
-                        <td>{{ $data->note }}</td>
-                    </tr>
-                    @endforeach
-                </tbody>
+                            <th>#</th>
+                            <th>Nama Pemohon</th>
+                            <th>No. Kad Pengenalan</th>
+                            <th>No. Telefon</th>
+                            <th>Tarikh Permohonan</th>
+                            <th>Lokasi</th>
+                            <th>Affiliate</th>
+                            <th>Tarikh Agihan</th>
+                            <th>Education Advisor</th>
+                            <th>Catatan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($applicants as $data)
+                        @if ($data->user_id !== null && $data->register_at === null && in_array($data->status_id, [1, 2, 3, 4, 5, 24, 26]))
+                            <tr class="table-danger">
+                        @elseif ($data->user_id !== null && $data->register_at === null && $data->status_id === 19)
+                            <tr class="table-info">
+                        @elseif ($data->user_id !== null && $data->register_at === null)
+                            <tr class="table-warning">
+                        @elseif ($data->user_id !== null && $data->register_at !== null)
+                            <tr class="table-success">
+                        @else
+                            <tr>
+                        @endif
+                            <td>&nbsp;</td>
+                            <td>
+                                <button type="button" class="btn btn-sm btn-link text-uppercase open-modal" data-ic="{{ $data->ic }}">{{ $data->name }}</button>
+                            </td>
+                            <td class="text-center">{{ $data->ic }}</td>
+                            <td class="text-center">{{ $data->phone }}</td>
+                            <td>{{ \Carbon\Carbon::parse($data->created_at)->format('d-m-Y') }}</td>
+                            <td class="text-center">{{ $data->location }}</td>
+                            <td class="text-uppercase">
+                                @if( $data->referral_code !== null)
+                                    @foreach ($affiliates[$data->id] as $affiliate)
+                                        {{ $affiliate->name }}
+                                    @endforeach
+                                @else
+                                    {{__('TIADA AFFILIATE')}}
+                                @endif
+                            </td>
+                            <td>{{$data->updated_at ? \Carbon\Carbon::parse($data->updated_at)->format('d-m-Y') : '' }}</td>
+                            <td class="text-uppercase">{{ $data->user }}</td>
+                            <td>{{ $data->note }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
                 </table>
             </div>
             <div class="modal fade" id="applicationModal" tabindex="-1" aria-labelledby="applicationModalLabel" aria-hidden="true">
