@@ -61,6 +61,7 @@ Route::middleware(['auth', 'user-access:admin'])->group(function() {
 Route::middleware(['auth', 'user-access:advisor'])->group(function() {
     Route::get('/advisor/dashboard', [AdvisorController::class, 'dashboard'])->name('advisor.dashboard');
     Route::get('/advisor/application', [AdvisorController::class, 'applications'])->name('advisor.application');
+    Route::post('/advisor/application/detail', [AdvisorController::class, 'applicationDetail'])->name('advisor.application.detail');
     Route::put('/advisor/application/{id}', [AdvisorController::class, 'update'])->name('advisor.application.update');
     Route::get('/advisor/profile', [AdvisorController::class, 'profile'])->name('advisor.profile');
     Route::put('/advisor/update/profile', [AdvisorController::class, 'updateProfile'])->name('advisor.profile.update');
