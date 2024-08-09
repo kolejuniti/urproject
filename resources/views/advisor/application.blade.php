@@ -43,8 +43,18 @@
                             </thead>
                             <tbody>
                                 @foreach ($applicants as $data)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
+                                @if ($data->user_id !== null && $data->register_at === null && in_array($data->status_id, [1, 2, 3, 4, 5, 24, 26]))
+                                    <tr class="table-danger">
+                                @elseif ($data->user_id !== null && $data->register_at === null && $data->status_id === 19)
+                                    <tr class="table-info">
+                                @elseif ($data->user_id !== null && $data->register_at === null)
+                                    <tr class="table-warning">
+                                @elseif ($data->user_id !== null && $data->register_at !== null)
+                                    <tr class="table-success">
+                                @else
+                                    <tr>
+                                @endif
+                                    <td>&nbsp;</td>
                                     <td>
                                         <button type="button" class="btn btn-sm btn-link text-uppercase open-modal" data-ic="{{ $data->ic }}">{{ $data->name }}</button>
                                     </td>
@@ -213,20 +223,6 @@
                                     <div id="offer-letter-container">
                                         <!-- Offer letter date will be loaded here -->
                                     </div>
-                                    {{-- <div class="row mb-2">
-                                        <div class="col-md-3 col-sm-3">
-                                            <label for="">Tarikh Tawaran</label>
-                                        </div>
-                                        <div class="col-md-3 col-sm-3">
-                                            <input type="date" name="offer_letter_date" id="offer_letter_date" class="form-control form-control-sm" value="{{ $data['applicant']->offer_letter_date ? \Carbon\Carbon::parse($data['applicant']->offer_letter_date)->format('Y-m-d') : '' }}">
-                                        </div>
-                                        <div class="col-md-3 col-sm-3">
-                                            <label for="">Tarikh Pendaftaran</label>
-                                        </div>
-                                        <div class="col-md-3 col-sm-3">
-                                            <input type="date" name="register_letter_date" id="register_letter_date" class="form-control form-control-sm" value="{{ $data['applicant']->register_letter_date ? \Carbon\Carbon::parse($data['applicant']->register_letter_date)->format('Y-m-d') : '' }}">
-                                        </div>
-                                    </div> --}}
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
