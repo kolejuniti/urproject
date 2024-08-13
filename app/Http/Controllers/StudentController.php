@@ -230,26 +230,6 @@ class StudentController extends Controller
         return view('student.offerletter', compact('ref','students', 'studentprograms'));
     }
 
-    // public function about(Request $request)
-    // {
-    //     $referrer = $request->headers->get('referer', 'other');
-
-    //     // Log the referrer
-    //     \Log::info('Referrer: ' . $referrer);
-
-    //     // Check if source is provided in the query string
-    //     $source = $request->query('source', $this->determineSource($referrer));
-
-    //     // If no source, set default as "website"
-    //     if (empty($source)) {
-    //         $source = 'website';
-    //     }
-
-    //     $ref = $request->query('ref');
-
-    //     return view('student.about', compact('ref', 'source'));
-    // }
-
     public function about(Request $request)
     {
         $referrer = $request->headers->get('referer', 'other');
@@ -257,15 +237,8 @@ class StudentController extends Controller
         // Log the referrer
         \Log::info('Referrer: ' . $referrer);
 
-        // Check if ttclid is present in the query string
-        $ttclid = $request->query('ttclid');
-
-        if ($ttclid) {
-            $source = 'tiktok';
-        } else {
-            // Check if source is provided in the query string or determine it from the referrer
-            $source = $request->query('source', $this->determineSource($referrer));
-        }
+        // Check if source is provided in the query string
+        $source = $request->query('source', $this->determineSource($referrer));
 
         // If no source, set default as "website"
         if (empty($source)) {
@@ -281,8 +254,6 @@ class StudentController extends Controller
     {
         if ($referrer === 'other') {
             return 'other';
-        } elseif ($referrer === 'tiktok') {
-            return 'tiktok';
         }
 
         $referrer = strtolower($referrer); // Ensure case-insensitivity
