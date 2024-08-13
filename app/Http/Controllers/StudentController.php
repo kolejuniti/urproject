@@ -272,7 +272,7 @@ class StudentController extends Controller
 
         // If no source, set default as "website"
         if (empty($source)) {
-            $source = 'website e-Daftar';
+            $source = 'e-Daftar';
         }
 
         $ref = $request->query('ref');
@@ -310,7 +310,7 @@ class StudentController extends Controller
         } elseif (strpos($referrer, 'https://l.instagram.com/') !== false) {
             return 'instagram';
         } elseif (strpos($referrer, 'https://edaftarkolej.uniticms.edu.my/') !== false) {
-            return 'website e-Daftar';
+            return 'e-Daftar';
         } elseif (strpos($referrer, 'https://uniti.edu.my/') !== false) {
             return 'website Kolej UNITI';
         }
