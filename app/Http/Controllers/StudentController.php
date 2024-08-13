@@ -277,9 +277,9 @@ class StudentController extends Controller
         } elseif (strpos($referrer, 'https://l.instagram.com/') !== false) {
             return 'instagram';
         } elseif (strpos($referrer, 'https://edaftarkolej.uniticms.edu.my/') !== false) {
-            return 'website';
+            return 'website e-Daftar';
         } elseif (strpos($referrer, 'https://uniti.edu.my/') !== false) {
-            return 'website';
+            return 'website Kolej UNITI';
         }
 
         return 'other';
