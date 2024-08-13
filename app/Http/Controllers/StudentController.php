@@ -272,7 +272,7 @@ class StudentController extends Controller
 
         // If no source, set default as "website"
         if (empty($source)) {
-            $source = 'website';
+            $source = 'website e-Daftar';
         }
 
         $ref = $request->query('ref');
