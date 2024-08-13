@@ -259,6 +259,7 @@ class StudentController extends Controller
 
         // Check if ttclid is present in the query string
         $ttclid = $request->query('ttclid');
+
         if ($ttclid) {
             $source = 'tiktok';
         } else {
@@ -280,6 +281,8 @@ class StudentController extends Controller
     {
         if ($referrer === 'other') {
             return 'other';
+        } elseif ($referrer === 'tiktok') {
+            return 'tiktok';
         }
 
         $referrer = strtolower($referrer); // Ensure case-insensitivity
