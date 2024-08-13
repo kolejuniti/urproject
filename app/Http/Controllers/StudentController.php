@@ -260,6 +260,8 @@ class StudentController extends Controller
 
         if (strpos($referrer, 'ttclid') !== false) {
             $source = 'tiktok';
+        } elseif (strpos($referrer, 'tiktok.com') !== false) {
+            $source = 'tiktok';
         } else {
             // Log the referrer
             \Log::info('Referrer: ' . $referrer);
@@ -278,11 +280,14 @@ class StudentController extends Controller
         return view('student.about', compact('ref', 'source'));
     }
 
+
     private function determineSource($referrer)
     {
-        // if ($referrer === 'other') {
-        //     return 'other';
-        // }
+        if ($referrer === 'other') {
+            return 'other';
+        } elseif ($referrer === 'tiktok') {
+            return 'tiktok';
+        }
 
         $referrer = strtolower($referrer); // Ensure case-insensitivity
         
