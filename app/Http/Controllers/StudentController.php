@@ -230,15 +230,43 @@ class StudentController extends Controller
         return view('student.offerletter', compact('ref','students', 'studentprograms'));
     }
 
+    // public function about(Request $request)
+    // {
+    //     $referrer = $request->headers->get('referer', 'other');
+
+    //     if (strpos($referrer, 'ttclid') !== false) {
+    //         return 'tiktok';
+    //     } else {
+    //         // Log the referrer
+    //         \Log::info('Referrer: ' . $referrer);
+
+    //         // Check if source is provided in the query string
+    //         $source = $request->query('source', $this->determineSource($referrer));
+    //     }
+
+    //     // If no source, set default as "website"
+    //     if (empty($source)) {
+    //         $source = 'website';
+    //     }
+
+    //     $ref = $request->query('ref');
+
+    //     return view('student.about', compact('ref', 'source'));
+    // }
+
     public function about(Request $request)
     {
         $referrer = $request->headers->get('referer', 'other');
 
-        // Log the referrer
-        \Log::info('Referrer: ' . $referrer);
+        if (strpos($referrer, 'ttclid') !== false) {
+            $source = 'tiktok';
+        } else {
+            // Log the referrer
+            \Log::info('Referrer: ' . $referrer);
 
-        // Check if source is provided in the query string
-        $source = $request->query('source', $this->determineSource($referrer));
+            // Check if source is provided in the query string
+            $source = $request->query('source', $this->determineSource($referrer));
+        }
 
         // If no source, set default as "website"
         if (empty($source)) {
