@@ -35,7 +35,7 @@ Auth::routes();
 
 Route::prefix('affiliate')->group(function() {
     Route::get('/', [RegisterController::class, 'about'])->name('about');
-    Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+    Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('affiliate.register');
     Route::post('/register', [RegisterController::class, 'register']);
 });
 
