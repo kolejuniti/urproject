@@ -312,7 +312,7 @@ class StudentController extends Controller
         } elseif (strpos($referrer, 'https://edaftarkolej.uniticms.edu.my/') !== false) {
             return 'e-Daftar';
         } elseif (strpos($referrer, 'https://uniti.edu.my/') !== false) {
-            return 'website';
+            return 'web';
         }
 
         return 'other';
