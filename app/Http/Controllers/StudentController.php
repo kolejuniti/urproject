@@ -313,6 +313,8 @@ class StudentController extends Controller
             return 'e-Daftar';
         } elseif (strpos($referrer, 'https://uniti.edu.my/') !== false) {
             return 'web';
+        } elseif (strpos($referrer, 'https://www.google.com/') !== false) {
+            return 'web';
         }
 
         return 'other';
