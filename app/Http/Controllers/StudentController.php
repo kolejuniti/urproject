@@ -307,6 +307,8 @@ class StudentController extends Controller
             return 'tiktok';
         } elseif (strpos($referrer, 'https://www.pangleglobal.com/') !== false) {
             return 'tiktok';
+        } elseif (strpos($referrer, 'https://ether-pack-va.pangle.io/') !== false) {
+            return 'tiktok';
         } elseif (strpos($referrer, 'https://www.instagram.com/') !== false) {
             return 'instagram';
         } elseif (strpos($referrer, 'https://l.instagram.com/') !== false) {
@@ -319,6 +321,8 @@ class StudentController extends Controller
             return 'google';
         } elseif (strpos($referrer, 'https://www.google.com.my/') !== false) {
             return 'google';
+        } elseif (strpos($referrer, 'https://.youtube.com/') !== false) {
+            return 'youtube';
         }
 
         return 'other';
