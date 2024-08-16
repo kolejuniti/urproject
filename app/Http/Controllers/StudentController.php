@@ -261,6 +261,8 @@ class StudentController extends Controller
 
         if (strpos($referrer, 'ttclid') !== false || $request->query('ttclid')) {
             $source = 'tiktok';
+        } elseif (strpos($referrer, 'gclid') !== false || $request->query('gclid')) {
+            $source = 'google-ads';
         } elseif (strpos($referrer, 'tiktok.com') !== false) {
             $source = 'tiktok';
         } else {
