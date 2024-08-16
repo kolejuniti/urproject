@@ -271,12 +271,12 @@ class StudentController extends Controller
             \Log::info('Full Request URL: ' . $request->fullUrl());
             \Log::info('Request Query String: ' . json_encode($request->query()));
 
-            // Check if source is provided in the query string
+            // Check if source is provided in the query string or determine source
             $source = $request->query('source', $this->determineSource($referrer));
         }
 
-        // If no source, set default as "e-Daftar"
-        if (empty($source)) {
+        // Set default to "e-Daftar" if source is empty or still "other"
+        if (empty($source) || $source === 'other') {
             $source = 'e-Daftar';
         }
 
@@ -287,14 +287,15 @@ class StudentController extends Controller
 
     private function determineSource($referrer)
     {
+        $referrer = strtolower($referrer); // Ensure case-insensitivity
+
         if ($referrer === 'other') {
-            return 'other';
+            return 'e-Daftar'; // Default to e-Daftar if referrer is not recognized
         } elseif ($referrer === 'tiktok') {
             return 'tiktok';
         }
 
-        $referrer = strtolower($referrer); // Ensure case-insensitivity
-        
+        // Check for various referrer strings
         if (strpos($referrer, 'https://l.facebook.com') !== false) {
             return 'facebook';
         } elseif (strpos($referrer, 'https://lm.facebook.com/') !== false) {
@@ -329,6 +330,8 @@ class StudentController extends Controller
             return 'youtube';
         }
 
-        return 'other';
+        // Default to "e-Daftar" if no other source matches
+        return 'e-Daftar';
     }
+
 }
