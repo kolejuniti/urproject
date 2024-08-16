@@ -317,6 +317,8 @@ class StudentController extends Controller
             return 'website';
         } elseif (strpos($referrer, 'https://www.google.com/') !== false) {
             return 'google';
+        } elseif (strpos($referrer, 'https://www.google.com.my/') !== false) {
+            return 'google';
         }
 
         return 'other';
