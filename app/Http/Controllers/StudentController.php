@@ -256,6 +256,7 @@ class StudentController extends Controller
 
     public function about(Request $request)
     {
+        // Get the referrer from the headers, or 'other' if not available
         $referrer = $request->headers->get('referer', 'other');
 
         if (strpos($referrer, 'ttclid') !== false) {
@@ -263,8 +264,10 @@ class StudentController extends Controller
         } elseif (strpos($referrer, 'tiktok.com') !== false) {
             $source = 'tiktok';
         } else {
-            // Log the referrer
+            // Log the referrer and other relevant request data
             \Log::info('Referrer: ' . $referrer);
+            \Log::info('Full Request URL: ' . $request->fullUrl());
+            \Log::info('Request Query String: ' . json_encode($request->query()));
 
             // Check if source is provided in the query string
             $source = $request->query('source', $this->determineSource($referrer));
@@ -279,6 +282,7 @@ class StudentController extends Controller
 
         return view('student.about', compact('ref', 'source'));
     }
+
 
 
     private function determineSource($referrer)
