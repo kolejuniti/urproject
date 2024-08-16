@@ -259,7 +259,7 @@ class StudentController extends Controller
         // Get the referrer from the headers, or 'other' if not available
         $referrer = $request->headers->get('referer', 'other');
 
-        if (strpos($referrer, 'ttclid') !== false) {
+        if (strpos($referrer, 'ttclid') !== false || $request->query('ttclid')) {
             $source = 'tiktok';
         } elseif (strpos($referrer, 'tiktok.com') !== false) {
             $source = 'tiktok';
@@ -282,8 +282,6 @@ class StudentController extends Controller
 
         return view('student.about', compact('ref', 'source'));
     }
-
-
 
     private function determineSource($referrer)
     {
