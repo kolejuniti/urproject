@@ -265,6 +265,12 @@ class StudentController extends Controller
             $source = 'google-ads';
         } elseif (strpos($referrer, 'fbclid') !== false || $request->query('fbclid')) {
             $source = 'facebook-ads';
+        } elseif (strpos($referrer, 'msclkid') !== false || $request->query('msclkid')) {
+            $source = 'microsoft-ads';
+        } elseif (strpos($referrer, 'twclid') !== false || $request->query('twclid')) {
+            $source = 'twitter-ads';
+        } elseif (strpos($referrer, '_gl') !== false || $request->query('_gl')) {
+            $source = 'google-analytics';
         } elseif (strpos($referrer, 'tiktok.com') !== false) {
             $source = 'tiktok';
         } else {
@@ -286,7 +292,6 @@ class StudentController extends Controller
 
         return view('student.about', compact('ref', 'source'));
     }
-
 
     private function determineSource($referrer)
     {
