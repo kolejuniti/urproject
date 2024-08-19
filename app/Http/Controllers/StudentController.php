@@ -263,6 +263,8 @@ class StudentController extends Controller
             $source = 'tiktok';
         } elseif (strpos($referrer, 'gclid') !== false || $request->query('gclid')) {
             $source = 'google-ads';
+        } elseif (strpos($referrer, 'fbclid') !== false || $request->query('fbclid')) {
+            $source = 'facebook-ads';
         } elseif (strpos($referrer, 'tiktok.com') !== false) {
             $source = 'tiktok';
         } else {
@@ -284,6 +286,7 @@ class StudentController extends Controller
 
         return view('student.about', compact('ref', 'source'));
     }
+
 
     private function determineSource($referrer)
     {
