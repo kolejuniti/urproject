@@ -238,26 +238,26 @@
         layout: {
                 top1Start: {
                     div: {
-                        html: '<h2>Iklan</h2>'
+                        html: '<h2>Sumber</h2>'
                     }
                 },
                 top1End: {
                     buttons: [
                         {
                             extend: 'copy',
-                            title: 'Statistik Permohonan - Iklan'
+                            title: 'Statistik Permohonan - Sumber'
                         },
                         {
                             extend: 'excelHtml5',
-                            title: 'Statistik Permohonan - Iklan'
+                            title: 'Statistik Permohonan - Sumber'
                         },
                         {
                             extend: 'pdfHtml5',
-                            title: 'Statistik Permohonan - Iklan'
+                            title: 'Statistik Permohonan - Sumber'
                         },
                         {
                             extend: 'print',
-                            title: 'Statistik Permohonan - Iklan'
+                            title: 'Statistik Permohonan - Sumber'
                         }
                     ]
                 },
