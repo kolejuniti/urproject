@@ -260,7 +260,7 @@ class StudentController extends Controller
         $referrer = $request->headers->get('referer', 'other');
 
         if (strpos($referrer, 'ttclid') !== false || $request->query('ttclid')) {
-            $source = 'tiktok';
+            $source = 'tiktok-ads';
         } elseif (strpos($referrer, 'gclid') !== false || $request->query('gclid')) {
             $source = 'google-ads';
         } elseif (strpos($referrer, 'fbclid') !== false || $request->query('fbclid')) {
