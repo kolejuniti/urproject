@@ -193,7 +193,7 @@
                     className: 'dt-head-center'
                 }
             ],
-        layout: {
+            layout: {
                 top1Start: {
                     div: {
                         html: '<h2>Senarai Permohonan</h2>'
