@@ -260,15 +260,15 @@ class StudentController extends Controller
         $referrer = $request->headers->get('referer', 'other');
 
         if (strpos($referrer, 'ttclid') !== false || $request->query('ttclid')) {
-            $source = 'tiktok-ads';
+            $source = 'tiktok';
         } elseif (strpos($referrer, 'gclid') !== false || $request->query('gclid')) {
-            $source = 'google-ads';
+            $source = 'google';
         } elseif (strpos($referrer, 'fbclid') !== false || $request->query('fbclid')) {
-            $source = 'facebook-ads';
+            $source = 'facebook';
         } elseif (strpos($referrer, 'msclkid') !== false || $request->query('msclkid')) {
-            $source = 'microsoft-ads';
+            $source = 'microsoft';
         } elseif (strpos($referrer, 'twclid') !== false || $request->query('twclid')) {
-            $source = 'twitter-ads';
+            $source = 'twitter';
         } elseif (strpos($referrer, '_gl') !== false || $request->query('_gl')) {
             $source = 'google-analytics';
         } elseif (strpos($referrer, 'tiktok.com') !== false) {
