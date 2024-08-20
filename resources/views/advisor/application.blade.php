@@ -10,7 +10,7 @@
                     {{ session('success') }}
                 </div>
             @endif
-            <div class="card">
+            <div class="card mb-3">
                 <div class="card-header">{{ __('Senarai Permohonan') }}</div>
 
                 <div class="card-body">
@@ -27,7 +27,6 @@
                     @endauth
                 </div>
             </div>
-            
             <div class="table-responsive">
                 <table id="myTable" class="table table-bordered small table-sm text-center">
                     <thead class="table-dark">
