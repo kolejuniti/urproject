@@ -129,6 +129,7 @@
 <script>
     $(document).ready(function() {
         var t = $('#myTable').DataTable({
+        pageLength: 50,
         columnDefs: [
             {
                 targets: ['_all'],
