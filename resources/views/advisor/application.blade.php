@@ -11,7 +11,7 @@
                 </div>
             @endif
             <div class="card mb-3">
-                <div class="card-header">{{ __('Senarai Permohonan') }}</div>
+                <div class="card-header">{{ __('Pautan Rujukan') }}</div>
 
                 <div class="card-body">
                     @auth
