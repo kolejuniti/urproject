@@ -25,212 +25,213 @@
                         </div>
                     </div>
                     @endauth
-                    <div class="table-responsive">
-                        <table id="myTable" class="table table-bordered small table-sm text-center">
-                            <thead class="table-dark">
-                                <tr>
-                                    <th>#</th>
-                                    <th>Nama Pemohon</th>
-                                    <th>No. Kad Pengenalan</th>
-                                    <th>No. Telefon</th>
-                                    <th>Email</th>
-                                    <th>Tarikh Permohonan</th>
-                                    <th>Affiliate</th>
-                                    <th>Tarikh Agihan</th>
-                                    <th>Status</th>
-                                    <th>Tarikh Pendaftaran</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($applicants as $data)
-                                @if ($data->user_id !== null && $data->register_at === null && in_array($data->status_id, [1, 2, 3, 4, 5, 24, 26]))
-                                    <tr class="table-danger">
-                                @elseif ($data->user_id !== null && $data->register_at === null && $data->status_id === 19)
-                                    <tr class="table-info">
-                                @elseif ($data->user_id !== null && $data->register_at === null)
-                                    <tr class="table-warning">
-                                @elseif ($data->user_id !== null && $data->register_at !== null)
-                                    <tr class="table-success">
+                </div>
+            </div>
+            
+            <div class="table-responsive">
+                <table id="myTable" class="table table-bordered small table-sm text-center">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>#</th>
+                            <th>Nama Pemohon</th>
+                            <th>No. Kad Pengenalan</th>
+                            <th>No. Telefon</th>
+                            <th>Email</th>
+                            <th>Tarikh Permohonan</th>
+                            <th>Affiliate</th>
+                            <th>Tarikh Agihan</th>
+                            <th>Status</th>
+                            <th>Tarikh Pendaftaran</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($applicants as $data)
+                        @if ($data->user_id !== null && $data->register_at === null && in_array($data->status_id, [1, 2, 3, 4, 5, 24, 26]))
+                            <tr class="table-danger">
+                        @elseif ($data->user_id !== null && $data->register_at === null && $data->status_id === 19)
+                            <tr class="table-info">
+                        @elseif ($data->user_id !== null && $data->register_at === null)
+                            <tr class="table-warning">
+                        @elseif ($data->user_id !== null && $data->register_at !== null)
+                            <tr class="table-success">
+                        @else
+                            <tr>
+                        @endif
+                            <td>&nbsp;</td>
+                            <td>
+                                <button type="button" class="btn btn-sm btn-link text-uppercase open-modal" data-ic="{{ $data->ic }}">{{ $data->name }}</button>
+                            </td>
+                            <td class="text-center">{{ $data->ic }}</td>
+                            <td class="text-center">{{ $data->phone }}</td>
+                            <td>{{ $data->email }}</td>
+                            <td>{{ \Carbon\Carbon::parse($data->created_at)->format('d-m-Y') }}</td>
+                            <td class="text-uppercase">
+                                @if($data->referral_code !== null)
+                                    @if(isset($affiliates[$data->id]) && $affiliates[$data->id]->isNotEmpty())
+                                        {{ $affiliates[$data->id]->first()->name }}
+                                    @else
+                                        {{ __('TIADA AFFILIATE') }}
+                                    @endif
                                 @else
-                                    <tr>
+                                    {{ __('TIADA AFFILIATE') }}
                                 @endif
-                                    <td>&nbsp;</td>
-                                    <td>
-                                        <button type="button" class="btn btn-sm btn-link text-uppercase open-modal" data-ic="{{ $data->ic }}">{{ $data->name }}</button>
-                                    </td>
-                                    <td class="text-center">{{ $data->ic }}</td>
-                                    <td class="text-center">{{ $data->phone }}</td>
-                                    <td>{{ $data->email }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($data->created_at)->format('d-m-Y') }}</td>
-                                    <td class="text-uppercase">
-                                        @if($data->referral_code !== null)
-                                            @if(isset($affiliates[$data->id]) && $affiliates[$data->id]->isNotEmpty())
-                                                {{ $affiliates[$data->id]->first()->name }}
-                                            @else
-                                                {{ __('TIADA AFFILIATE') }}
-                                            @endif
-                                        @else
-                                            {{ __('TIADA AFFILIATE') }}
-                                        @endif
-                                    </td>
-                                    <td>{{$data->updated_at ? \Carbon\Carbon::parse($data->updated_at)->format('d-m-Y') : '' }}</td>
-                                    <td class="text-uppercase">{{ $data->status }}</td>
-                                    <td>{{$data->register_at ? \Carbon\Carbon::parse($data->register_at)->format('d-m-Y') : '' }}</td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="modal fade" id="applicationModal" tabindex="-1" aria-labelledby="applicationModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                            <div class="modal-content"> 
-                            <form id="application-form" action="" method="POST">
-                                @csrf
-                                @method('PUT')
-                                <div class="modal-body small">
-                                    <div class="col-md-12 col-sm-12 mb-3">
-                                        <label for="" class="fw-bold">Maklumat Pemohon</label>
+                            </td>
+                            <td>{{$data->updated_at ? \Carbon\Carbon::parse($data->updated_at)->format('d-m-Y') : '' }}</td>
+                            <td class="text-uppercase">{{ $data->status }}</td>
+                            <td>{{$data->register_at ? \Carbon\Carbon::parse($data->register_at)->format('d-m-Y') : '' }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal fade" id="applicationModal" tabindex="-1" aria-labelledby="applicationModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                    <div class="modal-content"> 
+                    <form id="application-form" action="" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <div class="modal-body small">
+                            <div class="col-md-12 col-sm-12 mb-3">
+                                <label for="" class="fw-bold">Maklumat Pemohon</label>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-12">
+                                    <label for="applicant-name" class="fw-bold">Nama Penuh</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <label id="applicant-name"></label>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-12">
+                                    <label for="applicant-ic" class="fw-bold">No. Kad Pengenalan / Passport</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <label id="applicant-ic"></label>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-6 mb-2 mb-md-0">
+                                    <div class="col-md-12">
+                                        <label for="applicant-phone" class="fw-bold">No. Telefon</label>
                                     </div>
-                                    <div class="row mb-2">
-                                        <div class="col-md-12">
-                                            <label for="applicant-name" class="fw-bold">Nama Penuh</label>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <label id="applicant-name"></label>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-2">
-                                        <div class="col-md-12">
-                                            <label for="applicant-ic" class="fw-bold">No. Kad Pengenalan / Passport</label>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <label id="applicant-ic"></label>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-2">
-                                        <div class="col-md-6 mb-2 mb-md-0">
-                                            <div class="col-md-12">
-                                                <label for="applicant-phone" class="fw-bold">No. Telefon</label>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <label id="applicant-phone"></label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="col-md-12">
-                                                <label for="applicant-email" class="fw-bold">Emel</label>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <label id="applicant-email"></label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-2">
-                                        <div class="col-md-12">
-                                            <label for="applicant-address1" class="fw-bold">Alamat 1</label>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <label id="applicant-address1"></label>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-2">
-                                        <div class="col-md-12">
-                                            <label for="applicant-address2" class="fw-bold">Alamat 2</label>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <label id="applicant-address2"></label>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-2 row-cols-2">
-                                        <div class="col-md-3">
-                                            <div class="col-md-12">
-                                                <label for="applicant-postcode" class="fw-bold">Poskod</label>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <label id="applicant-postcode"></label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4 mb-2 mb-md-0">
-                                            <div class="col-md-12">
-                                                <label for="applicant-city" class="fw-bold">Bandar</label>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <label id="applicant-city"></label>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-md-5">
-                                            <div class="col-12 col-md-12">
-                                                <label for="applicant-state" class="fw-bold">Negeri</label>
-                                            </div>
-                                            <div class="col-12 col-md-12">
-                                                <label id="applicant-state"></label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-2">
-                                        <div class="col-md-12">
-                                            <label for="applicant-spm_year" class="fw-bold">Tahun SPM</label>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <label id="applicant-spm_year"></label>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-2">
-                                        <div class="col-md-12">
-                                            <label for="applicant-created_at" class="fw-bold">Tarikh Permohonan</label>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <label id="applicant-created_at"></label>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-2">
-                                        <div class="col-md-12 col-sm-12">
-                                            <a class="btn btn-sm btn-warning" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">Keputusan SPM</a>
-                                        </div>
-                                    </div>
-                                    <div class="mb-2">
-                                        <div class="collapse" id="collapseExample">
-                                            <div class="card card-body">
-                                                <div id="file-container" class="form-group">
-                                                    <!-- File content will be injected here -->
-                                                </div>
-                                            </div>
-                                        </div> 
-                                    </div> 
-                                    <div class="col-md-12 col-sm-12 mb-3 mt-3">
-                                        <label for="" class="fw-bold">Program Yang Dipohon</label>
-                                    </div>
-                                    <div class="mb-2">
-                                        <div class="col-md-12">
-                                            <label for="applicant-location" class="fw-bold">Lokasi Pilihan</label>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <label id="applicant-location"></label>
-                                        </div>
-                                    </div>
-                                    <div id="programs-container">
-                                        <!-- Programs will be loaded here dynamically -->
-                                    </div> 
-                                    <div id="status-container">
-                                        <!-- Status will be loaded here -->
-                                    </div> 
-                                    <div id="reason-container">
-                                        <!-- Reason will be loaded here -->
-                                    </div>
-                                    <div class="col-md-12 col-sm-12 mb-3 mt-3">
-                                        <label for="" class="fw-bold">Surat Tawaran</label>
-                                    </div>
-                                    <div id="offer-letter-container">
-                                        <!-- Offer letter date will be loaded here -->
+                                    <div class="col-md-12">
+                                        <label id="applicant-phone"></label>
                                     </div>
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-sm btn-primary">Save</button>
+                                <div class="col-md-6">
+                                    <div class="col-md-12">
+                                        <label for="applicant-email" class="fw-bold">Emel</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label id="applicant-email"></label>
+                                    </div>
                                 </div>
-                            </form>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-12">
+                                    <label for="applicant-address1" class="fw-bold">Alamat 1</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <label id="applicant-address1"></label>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-12">
+                                    <label for="applicant-address2" class="fw-bold">Alamat 2</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <label id="applicant-address2"></label>
+                                </div>
+                            </div>
+                            <div class="row mb-2 row-cols-2">
+                                <div class="col-md-3">
+                                    <div class="col-md-12">
+                                        <label for="applicant-postcode" class="fw-bold">Poskod</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label id="applicant-postcode"></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-2 mb-md-0">
+                                    <div class="col-md-12">
+                                        <label for="applicant-city" class="fw-bold">Bandar</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label id="applicant-city"></label>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-5">
+                                    <div class="col-12 col-md-12">
+                                        <label for="applicant-state" class="fw-bold">Negeri</label>
+                                    </div>
+                                    <div class="col-12 col-md-12">
+                                        <label id="applicant-state"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-12">
+                                    <label for="applicant-spm_year" class="fw-bold">Tahun SPM</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <label id="applicant-spm_year"></label>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-12">
+                                    <label for="applicant-created_at" class="fw-bold">Tarikh Permohonan</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <label id="applicant-created_at"></label>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-12 col-sm-12">
+                                    <a class="btn btn-sm btn-warning" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">Keputusan SPM</a>
+                                </div>
+                            </div>
+                            <div class="mb-2">
+                                <div class="collapse" id="collapseExample">
+                                    <div class="card card-body">
+                                        <div id="file-container" class="form-group">
+                                            <!-- File content will be injected here -->
+                                        </div>
+                                    </div>
+                                </div> 
+                            </div> 
+                            <div class="col-md-12 col-sm-12 mb-3 mt-3">
+                                <label for="" class="fw-bold">Program Yang Dipohon</label>
+                            </div>
+                            <div class="mb-2">
+                                <div class="col-md-12">
+                                    <label for="applicant-location" class="fw-bold">Lokasi Pilihan</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <label id="applicant-location"></label>
+                                </div>
+                            </div>
+                            <div id="programs-container">
+                                <!-- Programs will be loaded here dynamically -->
+                            </div> 
+                            <div id="status-container">
+                                <!-- Status will be loaded here -->
+                            </div> 
+                            <div id="reason-container">
+                                <!-- Reason will be loaded here -->
+                            </div>
+                            <div class="col-md-12 col-sm-12 mb-3 mt-3">
+                                <label for="" class="fw-bold">Surat Tawaran</label>
+                            </div>
+                            <div id="offer-letter-container">
+                                <!-- Offer letter date will be loaded here -->
+                            </div>
                         </div>
-                    </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-sm btn-primary">Save</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
