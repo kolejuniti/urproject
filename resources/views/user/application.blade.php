@@ -35,10 +35,16 @@
                             </thead>
                             <tbody>
                                 @foreach ($applicantsWithPrograms as $data)
-                                @if ($data['applicant']->user_id !== null)
-                                <tr class="table-warning">
+                                @if ($data['applicant']->user_id !== null && $data['applicant']->register_at === null && in_array($data['applicant']->status_id, [1, 2, 3, 4, 5, 24, 26]))
+                                    <tr class="table-danger">
+                                @elseif ($data['applicant']->user_id !== null && $data['applicant']->register_at === null && $data['applicant']->status_id === 19)
+                                    <tr class="table-info">
+                                @elseif ($data['applicant']->user_id !== null && $data['applicant']->register_at === null)
+                                    <tr class="table-warning">
+                                @elseif ($data['applicant']->user_id !== null && $data['applicant']->register_at !== null)
+                                    <tr class="table-success">
                                 @else
-                                <tr>
+                                    <tr>
                                 @endif
                                     <td>&nbsp;</td>
                                     <td>
