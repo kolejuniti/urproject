@@ -192,7 +192,38 @@
                     targets: ['_all'],
                     className: 'dt-head-center'
                 }
-            ]
+            ],
+        layout: {
+                top1Start: {
+                    div: {
+                        html: '<h2>Senarai Permohonan</h2>'
+                    }
+                },
+                top1End: {
+                    buttons: [
+                        {
+                            extend: 'copy',
+                            title: 'Senarai Permohonan'
+                        },
+                        {
+                            extend: 'excelHtml5',
+                            title: 'Senarai Permohonan'
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            title: 'Senarai Permohonan'
+                        },
+                        {
+                            extend: 'print',
+                            title: 'Senarai Permohonan'
+                        }
+                    ]
+                },
+                topStart: 'pageLength',
+                topEnd: 'search',
+                bottomStart: 'info',
+                bottomEnd: 'paging'
+            }
         });
         t.on('order.dt search.dt', function () {
             let i = 1;
