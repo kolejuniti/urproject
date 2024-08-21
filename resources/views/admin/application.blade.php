@@ -11,6 +11,29 @@
                     {{ session('success') }}
                 </div>
             @endif
+            {{-- <div class="card mb-3">
+                <form method="POST" action="{{ route('admin.application') }}">
+                    @csrf
+                    <div class="card-header">{{ __('Carian Senarai Permohonan') }}</div>
+                    <div class="card-body">
+                        <div class="row g-2 row-cols-2">
+                            <div class="col-md-6 col-sm-6 form-floating">
+                                <input type="date" name="start_date" id="start_date" class="form-control" placeholder="">
+                                <label for="start_date" class="fw-bold">Tarikh Mula</label>
+                            </div>
+                            <div class="col-md-6 col-sm-6 form-floating">
+                                <input type="date" name="end_date" id="end_date" class="form-control" placeholder="">
+                                <label for="end_date" class="fw-bold">Tarikh Akhir</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="col-sm-12 text-center">
+                            <button class="btn btn-warning" type="submit">Cari</button>
+                        </div>
+                    </div>
+                </form>
+            </div> --}}
             <div class="table-responsive">
                 <table id="myTable" class="table table-bordered small table-sm text-center">
                     <thead class="table-dark">

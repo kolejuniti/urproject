@@ -141,9 +141,15 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-     public function applications()
+     public function applications(Request $request)
     {
-        $applicants = DB::table('students')
+
+        // Retrieve the start and end dates from the form input
+        $start_date = $request->input('start_date');
+        $end_date = $request->input('end_date');
+
+        // Build the query
+        $query = DB::table('students')
                     ->join('state', 'students.state_id', '=', 'state.id')
                     ->leftjoin('users', 'students.user_id', '=', 'users.id')
                     ->join('location', 'students.location_id', '=', 'location.id')
@@ -159,9 +165,21 @@ class AdminController extends Controller
                     'students.register_at',
                     'students.referral_code',
                     'students.status_id',
-                    'state.name AS state', 'users.name AS user', 'location.code AS location', 'student_foundations.foundation AS note')
-                    ->orderBy('students.created_at', 'desc')
-                    ->get();
+                    'state.name AS state', 'users.name AS user', 'location.code AS location', 'student_foundations.foundation AS note');
+                    // ->orderBy('students.created_at', 'desc')
+                    // ->get();
+        
+                    // Apply date filters if provided
+        if ($start_date) {
+            $query->whereDate('students.created_at', '>=', $start_date);
+        }
+
+        if ($end_date) {
+            $query->whereDate('students.created_at', '<=', $end_date);
+        }
+
+        // Complete the query
+        $applicants = $query->orderBy('students.created_at', 'desc')->get();
 
         $affiliates = [];
 
