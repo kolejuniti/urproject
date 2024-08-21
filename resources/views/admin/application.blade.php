@@ -356,7 +356,7 @@
                                         <label for="applicant-status" class="fw-bold">Status Permohonan</label>
                                     </div>
                                     <div class="col-md-12">
-                                        <select name="statusApplication" id="applicant-status" class="form-control form-control-sm text-uppercase" required>
+                                        <select name="statusApplication" id="applicant-status" class="form-control form-control-sm text-uppercase">
                                             <option value="" selected disabled></option>
                                             ${statusOptions}
                                         </select>    
