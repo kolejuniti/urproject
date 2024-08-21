@@ -201,6 +201,7 @@ class AdminController extends Controller
                         'students.city',
                         'students.spm_year',
                         'students.user_id',
+                        'students.status_id',
                         DB::raw("DATE_FORMAT(students.created_at, '%d-%m-%Y') as created_at"),
                         'students.updated_at',
                         DB::raw("DATE_FORMAT(students.register_at, '%d-%m-%Y') as register_at"),
@@ -233,11 +234,13 @@ class AdminController extends Controller
                     ->where('student_programs.student_ic', 'LIKE', "{$ic}")
                     ->get();
 
+        $statusApplications = DB::table('status')->get();
+
         if ($request->ajax()) {
-            return response()->json(['applicants' => $applicants, 'fileUrl' => $fileUrl, 'programs' => $programs, 'users' => $users]);
+            return response()->json(['applicants' => $applicants, 'fileUrl' => $fileUrl, 'programs' => $programs, 'users' => $users, 'statusApplications' => $statusApplications]);
         }
 
-        return view('admin.application', compact('applicants', 'fileUrl', 'programs', 'users'));
+        return view('admin.application', compact('applicants', 'fileUrl', 'programs', 'users', 'statusApplications'));
     }
 
 
@@ -245,13 +248,20 @@ class AdminController extends Controller
     {
         $pic = $request->input('pic');
         $register_at = $request->input('register_at');
+        $statusApplication = $request->input('statusApplication');
 
         if ($register_at !== null) {
             $studentRegDate = DB::table('students')
                     ->where('students.id', $id)
-                    ->update(['register_at'=>$register_at, 'commission'=>'300']);
+                    ->update(['register_at'=>$register_at, 'commission'=>'300', 'status_id' => $statusApplication]);
 
             return redirect()->route('admin.application')->with('success', 'Tarikh pendaftaran berjaya dikemaskini.');
+        }elseif ($statusApplication !== null) {
+            $studentStatus = DB::table('students')
+                    ->where('students.id', $id)
+                    ->update(['status_id' => $statusApplication]);
+
+            return redirect()->route('admin.application')->with('success', 'Status permohonan pelajar berjaya dikemaskini.');
         }
         else 
         {
