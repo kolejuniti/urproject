@@ -191,13 +191,13 @@
                             </div>
                             <div id="programs-container">
                                 <!-- Programs will be loaded here dynamically -->
-                            </div>  
-                            <div id="status-container">
-                                <!-- Status will be loaded here -->
                             </div>
                             <form id="application-form" action="" method="POST">
                             @csrf
-                            @method('PUT')
+                            @method('PUT')  
+                            <div id="status-container">
+                                <!-- Status will be loaded here -->
+                            </div>
                             <div id="register_at-container">
                                 <!-- Register at will be loaded here -->
                             </div>
@@ -308,35 +308,38 @@
                         $('#applicant-location').text(response.applicants.location);
 
                         // Handle applicant status
-                        if (response.applicants.status) {
-                            let reasonHtml = '';
-                            if (response.applicants.reason) {
-                                let reason = response.applicants.reason.replace(/\n/g, '<br>');
-                                reasonHtml = `
-                                    <div class="mb-2">
-                                        <div class="col-md-12">
-                                            <label for="reason" class="labels fw-bold">Sebab Menolak Tawaran</label>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <label id="applicant-reason" class="text-uppercase">${reason}</label>
-                                        </div>
-                                    </div>
-                                `;
-                            }
-
+                        let statusOptions = response.statusApplications.map((statusApplication) => 
+                            `<option value="${statusApplication.id}">${statusApplication.name}</option>`
+                        ).join('');
+                        
+                        if (response.applicants.status_id) {
                             $('#status-container').html(`
                                 <div class="mb-2">
                                     <div class="col-md-12">
-                                        <label for="status" class="labels fw-bold">Status Permohonan</label>
+                                        <label for="applicant-status" class="fw-bold">Status Permohonan</label>
                                     </div>
                                     <div class="col-md-12">
-                                        <label id="applicant-status" class="text-uppercase">${response.applicants.status}</label>
+                                        <select name="statusApplication" id="applicant-status" class="form-control form-control-sm text-uppercase" required>
+                                            <option value="${response.applicants.status_id}" selected>${response.applicants.status}</option>
+                                            ${statusOptions}
+                                        </select>    
                                     </div>
                                 </div>
-                                ${reasonHtml}
                             `);
                         } else {
-                            $('#status-container').html('');
+                            $('#status-container').html(`
+                                <div class="mb-2">
+                                    <div class="col-md-12">
+                                        <label for="applicant-status" class="fw-bold">Status Permohonan</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <select name="statusApplication" id="applicant-status" class="form-control form-control-sm text-uppercase" required>
+                                            <option value="" selected disabled></option>
+                                            ${statusOptions}
+                                        </select>    
+                                    </div>
+                                </div>
+                            `);
                         }
 
                         // Handle file URL
