@@ -117,7 +117,7 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a class="dropdown-item" href="{{ route('admin.studentlist') }}">Laporan Pelajar</a>
+                                    <a class="dropdown-item" href="{{ route('admin.studentlist') }}">Laporan Permohonan</a>
                                     <a class="dropdown-item" href="{{ route('admin.summary') }}">Statistik Permohonan</a>
                                 </li>
                             </ul>
