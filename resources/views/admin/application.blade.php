@@ -11,7 +11,7 @@
                     {{ session('success') }}
                 </div>
             @endif
-            {{-- <div class="card mb-3">
+            <div class="card mb-3">
                 <form method="POST" action="{{ route('admin.application') }}">
                     @csrf
                     <div class="card-header">{{ __('Carian Senarai Permohonan') }}</div>
@@ -33,7 +33,7 @@
                         </div>
                     </div>
                 </form>
-            </div> --}}
+            </div>
             <div class="table-responsive">
                 <table id="myTable" class="table table-bordered small table-sm text-center">
                     <thead class="table-dark">
