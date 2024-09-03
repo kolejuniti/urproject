@@ -146,8 +146,13 @@
                             <label class="fw-bold">Education Advisor</label>
                         </div>
                     </div>
-                    <div id="statusDetailsContainer">
+                    <div id="statusDetailsContainer" class="mb-2">
                         <!-- Records will be appended here by JavaScript -->
+                    </div>
+                    <div>
+                        <div class="col-md-12">
+                            <label><em>*Data pemohon yang dipaparkan adalah data yang berdaftar menggunakan link yang dikongsi oleh affiliate sahaja.</em></label>
+                        </div>
                     </div>                    
                 </div>
                 <div class="modal-footer">
