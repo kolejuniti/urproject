@@ -456,16 +456,18 @@ class AdminController extends Controller
         $totalStudents = DB::table('students')->count();
 
         $studentStatus = DB::table('students')
-                    ->join('status', 'students.status_id', '=', 'status.id')
-                    ->select(DB::raw('count(students.id) AS total'), 'status.name AS status')
-                    ->groupBy('status.name')
-                    ->orderBY('status.id');
+            ->join('status', 'students.status_id', '=', 'status.id')
+            ->select(DB::raw('COUNT(students.id) AS total'), 'status.name AS status', 'status.id AS status_id')
+            ->groupBy('status.name', 'status.id');
 
         $studentNoStatus = DB::table('students')
-                    ->select(DB::raw('COUNT(students.id) AS total'), DB::raw('"TIADA STATUS" AS status'))
-                    ->whereNull('students.status_id');
+            ->select(DB::raw('COUNT(students.id) AS total'), DB::raw('"TIADA STATUS" AS status'), DB::raw('NULL AS status_id'))
+            ->whereNull('students.status_id');
 
-        $status = $studentStatus->union($studentNoStatus)->get();
+        // Use unionAll to avoid sorting issues when combining
+        $status = $studentStatus->unionAll($studentNoStatus)
+            ->orderBy('status_id')
+            ->get();
 
         $statusWithPercentage = $status->map(function ($status) use ($totalStudents) {
             $status->percentage = ($status->total / $totalStudents) * 100;
@@ -521,4 +523,44 @@ class AdminController extends Controller
 
         return view('admin.summary', compact('totalStudents', 'statusWithPercentage', 'locationsWithPercentage', 'sourcessWithPercentage', 'currentYear', 'monthlyData'));
     }
+
+    public function summaryDetail(Request $request)
+    {
+        $status_id = $request->input('status_id');
+
+        // Fetch status information
+        $status = DB::table('status')
+            ->select('status.name AS status_name')
+            ->where('status.id', '=', $status_id)
+            ->first();
+
+        // Format status
+        $statusName = $status ? $status->status_name : 'Tiada Status';
+
+        // Handle the case where status_id is null (for "TIADA STATUS")
+        if (is_null($status_id)) {
+            $statusDetails = DB::table('students')
+                ->join('users AS affiliate', 'students.referral_code', '=', 'affiliate.referral_code')
+                ->join('users AS advisor', 'students.user_id', '=', 'advisor.id')
+                ->select('students.name AS student', 'students.ic', 'affiliate.name AS affiliate', 'advisor.name AS advisor')
+                ->where('affiliate.type', '=', 0)
+                ->whereNull('students.status_id')
+                ->get();
+        } else {
+            $statusDetails = DB::table('students')
+                ->join('users AS affiliate', 'students.referral_code', '=', 'affiliate.referral_code')
+                ->join('users AS advisor', 'students.user_id', '=', 'advisor.id')
+                ->select('students.name AS student', 'students.ic', 'affiliate.name AS affiliate', 'advisor.name AS advisor')
+                ->where('affiliate.type', '=', 0)
+                ->where('students.status_id', '=', $status_id)
+                ->get();
+        }
+
+        return response()->json([
+            'statusDetails' => $statusDetails,
+            'status' => $statusName
+        ]);
+    }
+
+
 }
