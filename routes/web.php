@@ -55,7 +55,8 @@ Route::middleware(['auth', 'user-access:admin'])->group(function() {
     Route::get('/admin/profile', [AdminController::class, 'profile'])->name('admin.profile');
     Route::put('/admin/update/profile', [AdminController::class, 'updateProfile'])->name('admin.profile.update');
     Route::put('/admin/update/password', [AdminController::class, 'password'])->name('admin.profile.password');
-    Route::get('/admin/summary', [AdminController::class, 'summary'])->name('admin.summary');
+    // Route::get('/admin/summary', [AdminController::class, 'summary'])->name('admin.summary');
+    Route::match(['get', 'post'], '/admin/summary', [AdminController::class, 'summary'])->name('admin.summary');
     Route::post('/admin/summary/detail', [AdminController::class, 'summaryDetail'])->name('admin.summary.detail');
 });
 

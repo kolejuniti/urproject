@@ -5,6 +5,29 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
+            <div class="card mb-3">
+                <form method="POST" action="{{ route('admin.summary') }}">
+                    @csrf
+                    <div class="card-header">{{ __('Carian Senarai Permohonan') }}</div>
+                    <div class="card-body">
+                        <div class="row g-2 row-cols-2">
+                            <div class="col-md-6 col-sm-6 form-floating">
+                                <input type="date" name="start_date" id="start_date" class="form-control" placeholder="">
+                                <label for="start_date" class="fw-bold">Tarikh Mula</label>
+                            </div>
+                            <div class="col-md-6 col-sm-6 form-floating">
+                                <input type="date" name="end_date" id="end_date" class="form-control" placeholder="">
+                                <label for="end_date" class="fw-bold">Tarikh Akhir</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="col-sm-12 text-center">
+                            <button class="btn btn-warning" type="submit">Cari</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
             <h2 class="mb-3">Statistik Permohonan</h2>
             <div>
                 <div class="col-md-12">
@@ -97,6 +120,8 @@
                             <tr>
                                 <th>#</th>
                                 <th>Sumber</th>
+                                <th>KUPD</th>
+                                <th>KUKB</th>
                                 <th>Jumlah</th>
                                 <th>%</th>
                             </tr>
@@ -106,6 +131,8 @@
                             <tr>
                                 <td></td>
                                 <td class="text-uppercase">{{ $data3->source }}</td>
+                                <td class="text-center">{{ $data3->total_kupd }}</td>
+                                <td class="text-center">{{ $data3->total_kukb }}</td>
                                 <td class="text-center">{{ $data3->total }}</td>
                                 <td class="text-center">{{ number_format($data3->percentage, 2) }}%</td>
                             </tr>
@@ -113,6 +140,8 @@
                         </tbody>
                         <tfoot class="table-danger">
                             <tr>
+                                <td></td>
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td>{{ $totalStudents }}</td>

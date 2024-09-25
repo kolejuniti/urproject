@@ -451,20 +451,49 @@ class AdminController extends Controller
         return redirect()->route('admin.profile')->with('success', 'Katalaluan anda berjaya dikemaskini.');;
     }
 
-    public function summary()
+    public function summary(Request $request)
     {
-        $totalStudents = DB::table('students')->count();
+        // Retrieve the start and end dates from the form input
+        $start_date = $request->input('start_date');
+        $end_date = $request->input('end_date');
 
+        // Total students with date range filter
+        $totalStudents = DB::table('students');
+        if ($start_date) {
+            $totalStudents->whereDate('students.created_at', '>=', $start_date);
+        }
+        if ($end_date) {
+            $totalStudents->whereDate('students.created_at', '<=', $end_date);
+        }
+        $totalStudents = $totalStudents->count();
+
+        // Student status summary with date range filter
         $studentStatus = DB::table('students')
             ->join('status', 'students.status_id', '=', 'status.id')
-            ->select(DB::raw('COUNT(students.id) AS total'), 'status.name AS status', 'status.id AS status_id')
-            ->groupBy('status.name', 'status.id');
+            ->select(DB::raw('COUNT(students.id) AS total'), 'status.name AS status', 'status.id AS status_id');
 
+        if ($start_date) {
+            $studentStatus->whereDate('students.created_at', '>=', $start_date);
+        }
+        if ($end_date) {
+            $studentStatus->whereDate('students.created_at', '<=', $end_date);
+        }
+
+        $studentStatus = $studentStatus->groupBy('status.name', 'status.id');
+
+        // Students with no status and date range filter
         $studentNoStatus = DB::table('students')
             ->select(DB::raw('COUNT(students.id) AS total'), DB::raw('"TIADA STATUS" AS status'), DB::raw('NULL AS status_id'))
             ->whereNull('students.status_id');
 
-        // Use unionAll to avoid sorting issues when combining
+        if ($start_date) {
+            $studentNoStatus->whereDate('students.created_at', '>=', $start_date);
+        }
+        if ($end_date) {
+            $studentNoStatus->whereDate('students.created_at', '<=', $end_date);
+        }
+
+        // Union and ordering results
         $status = $studentStatus->unionAll($studentNoStatus)
             ->orderBy('status_id')
             ->get();
@@ -474,26 +503,51 @@ class AdminController extends Controller
             return $status;
         });
 
+        // Summary of students by locations with date range filter
         $locations = DB::table('students')
-                    ->join('location', 'students.location_id', '=', 'location.id')
-                    ->select(DB::raw('count(students.id) AS total'), 'location.name AS location')
-                    ->groupBy('location.name')
-                    ->get();
+            ->join('location', 'students.location_id', '=', 'location.id')
+            ->select(DB::raw('count(students.id) AS total'), 'location.name AS location');
+
+        // Apply date range filter if start_date and/or end_date are provided
+        if ($start_date) {
+            $locations->whereDate('students.created_at', '>=', $start_date);
+        }
+        if ($end_date) {
+            $locations->whereDate('students.created_at', '<=', $end_date);
+        }
+
+        $locations = $locations->groupBy('location.name')->get();
 
         $locationsWithPercentage = $locations->map(function ($location) use ($totalStudents) {
             $location->percentage = ($location->total / $totalStudents) * 100;
             return $location;
         });
 
+        // Summary of students by sources with KUPD and KUKB, including date range filter
         $sources = DB::table('students')
-                    ->select(DB::raw('count(students.id) AS total'), 'students.source')
-                    ->groupBy('students.source')
-                    ->get();
+            ->select(
+                'students.source',
+                DB::raw('COUNT(students.id) AS total'),
+                DB::raw('SUM(CASE WHEN students.location_id = 1 THEN 1 ELSE 0 END) AS total_kupd'), // Count for KUPD (location_id = 1)
+                DB::raw('SUM(CASE WHEN students.location_id = 2 THEN 1 ELSE 0 END) AS total_kukb')  // Count for KUKB (location_id = 2)
+            );
 
+        // Apply date range filter if start_date and/or end_date are provided
+        if ($start_date) {
+            $sources->whereDate('students.created_at', '>=', $start_date);
+        }
+        if ($end_date) {
+            $sources->whereDate('students.created_at', '<=', $end_date);
+        }
+
+        $sources = $sources->groupBy('students.source')->get();
+
+        // Calculate percentage for each source
         $sourcessWithPercentage = $sources->map(function ($source) use ($totalStudents) {
             $source->percentage = ($source->total / $totalStudents) * 100;
             return $source;
         });
+
 
         // Get the current year
         $currentYear = Carbon::now()->year;
