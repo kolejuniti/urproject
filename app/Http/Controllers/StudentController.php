@@ -26,7 +26,10 @@ class StudentController extends Controller
 
     public function location($id)
     {
-        $programs = DB::table('program')->where('location_id', $id)->get();
+        $programs = DB::table('program')
+            ->where('location_id', $id)
+            ->where('program.offered', 1)
+            ->get();
         return response()->json($programs);
     }
 
