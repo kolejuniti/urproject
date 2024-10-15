@@ -42,9 +42,11 @@ Route::prefix('affiliate')->group(function() {
 // admin route
 Route::middleware(['auth', 'user-access:admin'])->group(function() {
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::match(['get', 'post'],'/admin/program', [AdminController::class, 'program'])->name('admin.program');
+    Route::post('/admin/program/add', [AdminController::class, 'addprogram'])->name('admin.program.submit');
+    Route::post('/admin/program/update/{id}', [AdminController::class, 'updateprogram'])->name('admin.program.update');
     Route::get('/admin/register', [AdminController::class, 'showRegistrationForm'])->name('admin.register');
     Route::post('/admin/register', [AdminController::class, 'register']);
-    // Route::get('/admin/application', [AdminController::class, 'applications'])->name('admin.application');
     Route::match(['get', 'post'], '/admin/application', [AdminController::class, 'applications'])->name('admin.application');
     Route::post('/admin/application/detail', [AdminController::class, 'applicationDetail'])->name('admin.application.detail');
     Route::put('/admin/application/{id}', [AdminController::class, 'update'])->name('admin.application.update');

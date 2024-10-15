@@ -54,6 +54,47 @@ class AdminController extends Controller
         return view('admin.dashboard');
     }
 
+    public function program()
+    {
+        $programs = DB::table('program')
+            ->join('location', 'program.location_id', '=', 'location.id')
+            ->select('program.id AS id', 'program.name AS program', 'location.name AS location', 'program.offered')
+            ->orderBy('program.location_id')
+            ->get();
+
+        $locations = DB::table('location')->get();
+        
+        return view('admin.program', compact('locations', 'programs'));
+    }
+
+    public function addprogram(Request $request)
+    {
+        $program = $request->input('program');
+        $location = $request->input('location');
+
+        $addProgram = DB::table('program')->insert([
+            'name' => strtoupper($program),
+            'location_id' => $location,
+            'offered' => 1
+        ]);
+        
+        return redirect()->back()->with('success', 'Program baru berjaya ditambah ke dalam sistem.');
+    }
+
+    public function updateprogram(Request $request, $id)
+    {  
+        // Validate the request (optional but recommended)
+        $request->validate([
+            'offered' => 'required|boolean', // Ensure it's a boolean (0 or 1)
+        ]);
+       
+        DB::table('program')
+        ->where('program.id', '=', $id)
+        ->update(['offered' => $request->input('offered')]);
+        
+        return redirect()->back()->with('success', 'Program berjaya dikemaskini.');
+    }
+
     public function showRegistrationForm()
     {
         $religions = DB::table('religion')->get();

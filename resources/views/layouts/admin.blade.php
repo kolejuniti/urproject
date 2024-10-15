@@ -92,6 +92,15 @@
                             <a class="nav-link active" aria-current="page" href="{{ route('admin.dashboard') }}"><i class="bi bi-house"></i>&nbsp;Home</a>
                         </li>
                         <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-database-add"></i>&nbsp;Data
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('admin.program') }}">Program</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person-square"></i>&nbsp;Pengguna
                             </a>
                             <ul class="dropdown-menu">
@@ -209,78 +218,6 @@
         </nav>
         <div class="container-fluid">
             <div class="row">
-                {{-- <div class="col-sm-2">
-                    <div class="flex-shrink-0 p-3 bg-white" style="width: 230px; height: 90vh;">
-                        <label class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
-                            <span class="fs-5 fw-semibold">Menu</span>
-                        </label>
-                        <ul class="list-unstyled ps-0">
-                        <li class="mb-1">
-                            <a href="{{ route('admin.dashboard') }}" class="btn btn-toggle align-items-center rounded collapsed" aria-expanded="true">Home</a>
-                        </li>
-                        <li class="mb-1">
-                            <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-pengguna" aria-expanded="false">Pengguna</button>
-                            <div class="collapse" id="dashboard-pengguna">
-                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                <li>
-                                    <a href="{{ route('admin.register') }}" class="btn btn-link">Daftar Pengguna</a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('admin.userlist') }}" class="btn btn-link">Senarai Pengguna</a>
-                                </li>
-                            </ul>
-                            </div>
-                        </li>
-                        <li class="mb-1">
-                            <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-permohonan" aria-expanded="false">
-                            Permohonan
-                            </button>
-                            <div class="collapse" id="dashboard-permohonan">
-                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                <li>
-                                    <a href="{{ route('admin.application') }}" class="btn btn-link">Senarai Permohonan</a>
-                                </li>
-                            </ul>
-                            </div>
-                        </li>
-                        <li class="mb-1">
-                            <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-Laporan" aria-expanded="false">
-                            Laporan
-                            </button>
-                            <div class="collapse" id="dashboard-Laporan">
-                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                <li>
-                                    <a href="{{ route('admin.studentlist') }}" class="btn btn-link">Laporan Pelajar</a>
-                                </li>
-                            </ul>
-                            </div>
-                        </li>
-                        <li class="border-top my-3"></li>
-                        <li class="mb-1">
-                            <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
-                            Akaun
-                            </button>
-                            <div class="collapse" id="account-collapse">
-                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                <li>
-                                    <a href="{{ route('admin.profile') }}" class="btn btn-link">Profil</a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('logout') }}" class="btn btn-link"
-                                           onclick="event.preventDefault();
-                                                         document.getElementById('logout-form').submit();">
-                                            {{ __('Logout') }}
-                                    </a>
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                </li>
-                            </ul>
-                            </div>
-                        </li>
-                        </ul>
-                    </div>
-                </div> --}}
                 <div class="col-sm-12">
                     <main class="py-4" style="max-height: 90vh; overflow-y: auto;">
                         @yield('content')
