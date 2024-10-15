@@ -59,7 +59,8 @@ class AdminController extends Controller
         $programs = DB::table('program')
             ->join('location', 'program.location_id', '=', 'location.id')
             ->select('program.id AS id', 'program.name AS program', 'location.name AS location', 'program.offered')
-            ->orderBy('program.location_id', 'program.id')
+            ->orderBy('program.location_id')
+            ->orderBy('program.id')
             ->get();
 
         $locations = DB::table('location')->get();
