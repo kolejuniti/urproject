@@ -15,37 +15,6 @@
                     {{ session('success') }}
                 </div>
             @endif
-            {{-- <div class="card">
-                <div class="card-header">{{ __('Daftar Program') }}</div>
-                <form method="POST" action="{{ route('admin.program.submit') }}" class="needs-validation" novalidate>
-                <div class="card-body">
-                    @csrf
-                    <div class="col-md-12 col-sm-12 mb-3">
-                        <label for="" class="fw-bold">Maklumat Program</label>
-                    </div>
-                    <div class="row g-2 mb-2 row-cols-1">
-                        <div class="col-md-6 col-sm-6 form-floating">
-                            <input type="text" name="program" id="program" class="form-control" placeholder="" required autofocus>
-                            <label for="name">Nama Program</label>
-                        </div>
-                        <div class="col-md-6 col-sm-6 form-floating">
-                            <select name="location" id="location" class="form-control" required>
-                                <option value="">Pilihan Lokasi</option>
-                                @foreach ($locations as $location)
-                                    <option value="{{ $location->id }}">{{ $location->name }}</option>
-                                @endforeach
-                            </select>
-                            <label for="location">Lokasi</label>
-                        </div>
-                    </div>
-                </div>    
-                <div class="card-footer">
-                    <div class="col-sm-12 text-center">
-                        <button class="btn btn-primary" type="submit">Daftar</button>
-                    </div>
-                </div>
-                </form>
-            </div> --}}
             <div class="col-md-12 col-sm-12">
                 <div style="display: flex; justify-content: right; align-items: right;">
                     <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Tambah Program</button>
