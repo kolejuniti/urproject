@@ -15,7 +15,7 @@
                     {{ session('success') }}
                 </div>
             @endif
-            <div class="card">
+            {{-- <div class="card">
                 <div class="card-header">{{ __('Daftar Program') }}</div>
                 <form method="POST" action="{{ route('admin.program.submit') }}" class="needs-validation" novalidate>
                 <div class="card-body">
@@ -45,6 +45,48 @@
                     </div>
                 </div>
                 </form>
+            </div> --}}
+            <div class="col-md-12 col-sm-12">
+                <div style="display: flex; justify-content: right; align-items: right;">
+                    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Tambah Program</button>
+                </div>
+            </div>
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h6 class="modal-title fw-bold" id="cancelModalLabel">Maklumat Program</h6>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form method="POST" action="{{ route('admin.program.submit') }}">
+                            @csrf
+                            <div class="modal-body">
+                                <div class="col-md-12 col-sm-12 mb-2">
+                                    <div class="form-floating">
+                                        <input type="text" name="program" id="program" class="form-control" placeholder="" required autofocus>
+                                        <label for="name">Nama Program</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="form-floating">
+                                        <select name="location" id="location" class="form-control" required>
+                                            <option value="">Pilihan Lokasi</option>
+                                            @foreach ($locations as $location)
+                                                <option value="{{ $location->id }}">{{ $location->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        <label for="location">Lokasi</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+                                <button class="btn btn-sm btn-primary" type="submit">Add</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
