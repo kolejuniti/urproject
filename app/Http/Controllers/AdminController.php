@@ -190,6 +190,11 @@ class AdminController extends Controller
         $start_date = $request->input('start_date');
         $end_date = $request->input('end_date');
 
+        // Set the default start date to 7 days ago if not provided
+        if (!$start_date) {
+            $start_date = Carbon::now()->subDays(7)->toDateString();
+        }
+
         // Build the query
         $query = DB::table('students')
                     ->join('state', 'students.state_id', '=', 'state.id')
@@ -212,9 +217,7 @@ class AdminController extends Controller
                     // ->get();
         
                     // Apply date filters if provided
-        if ($start_date) {
-            $query->whereDate('students.created_at', '>=', $start_date);
-        }
+        $query->whereDate('students.created_at', '>=', $start_date);
 
         if ($end_date) {
             $query->whereDate('students.created_at', '<=', $end_date);
@@ -237,7 +240,7 @@ class AdminController extends Controller
             
         }
 
-        return view('admin.application', compact('applicants', 'affiliates'));
+        return view('admin.application', compact('applicants', 'affiliates', 'start_date', 'end_date'));
     }
 
     public function applicationDetail(Request $request)

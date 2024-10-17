@@ -36,6 +36,7 @@
             </div>
             <div class="table-responsive">
                 <table id="myTable" class="table table-bordered small table-sm text-center">
+                    <caption>Senarai yang dipaparkan adalah dari tarikh {{ \Carbon\Carbon::parse($start_date)->format('d-m-Y') }} sehingga {{ \Carbon\Carbon::parse($end_date)->format('d-m-Y') }}</caption>
                     <thead class="table-dark">
                         <tr>
                             <th>#</th>
