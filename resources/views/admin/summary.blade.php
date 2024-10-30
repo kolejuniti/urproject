@@ -5,26 +5,15 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
-            <div class="card mb-3">
+            <div class="col-md-6 col-sm-6 col-6 ms-auto">
                 <form method="POST" action="{{ route('admin.summary') }}">
-                    @csrf
-                    <div class="card-header">{{ __('Carian Senarai Permohonan') }}</div>
-                    <div class="card-body">
-                        <div class="row g-2 row-cols-2">
-                            <div class="col-md-6 col-sm-6 form-floating">
-                                <input type="date" name="start_date" id="start_date" class="form-control" placeholder="">
-                                <label for="start_date" class="fw-bold">Tarikh Mula</label>
-                            </div>
-                            <div class="col-md-6 col-sm-6 form-floating">
-                                <input type="date" name="end_date" id="end_date" class="form-control" placeholder="">
-                                <label for="end_date" class="fw-bold">Tarikh Akhir</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <div class="col-sm-12 text-center">
-                            <button class="btn btn-warning" type="submit">Cari</button>
-                        </div>
+                @csrf
+                    <div class="input-group mb-3">
+                        <button class="btn btn-secondary" disabled>Tarikh</button>
+                        <input type="date" class="form-control" name="start_date">
+                        <button class="btn btn-secondary" disabled>-</button>
+                        <input type="date" class="form-control" name="end_date">
+                        <button class="btn btn-warning" type="submit">Cari</button>
                     </div>
                 </form>
             </div>
