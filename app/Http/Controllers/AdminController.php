@@ -601,7 +601,7 @@ class AdminController extends Controller
                 DB::raw('COUNT(students.id) AS total'),
                 DB::raw('SUM(CASE WHEN students.location_id = 1 THEN 1 ELSE 0 END) AS total_kupd'), // Count for KUPD (location_id = 1)
                 DB::raw('SUM(CASE WHEN students.location_id = 2 THEN 1 ELSE 0 END) AS total_kukb')  // Count for KUKB (location_id = 2)
-    );
+        );
 
         // Apply date range filter if start_date and/or end_date are provided
         if ($start_date) {
@@ -611,7 +611,7 @@ class AdminController extends Controller
             $states->whereDate('students.created_at', '<=', $end_date);
         }
         
-        $states = $states->orderBy('state.id')->groupBy('students.state_id')->get();
+        $states = $states->orderBy('state.id')->groupBy('state.id', 'state.name')->get();
 
         // Calculate percentage for each source
         $statesWithPercentage = $states->map(function ($state) use ($totalStudents) {
