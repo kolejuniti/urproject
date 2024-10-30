@@ -138,6 +138,41 @@
                             </tr>
                         </tfoot>
                     </table>
+                    
+                    <table id="myTable5" class="table table-bordered table-sm text-center">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>#</th>
+                                <th>Negeri</th>
+                                <th>KUPD</th>
+                                <th>KUKB</th>
+                                <th>Jumlah</th>
+                                <th>%</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($statesWithPercentage as $data4)
+                            <tr>
+                                <td></td>
+                                <td class="text-uppercase">{{ $data4->state }}</td>
+                                <td class="text-center">{{ $data4->total_kupd }}</td>
+                                <td class="text-center">{{ $data4->total_kukb }}</td>
+                                <td class="text-center">{{ $data4->total }}</td>
+                                <td class="text-center">{{ number_format($data4->percentage, 2) }}%</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                        <tfoot class="table-danger">
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>{{ $totalStudents }}</td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
+                    </table>
                 </div>
             </div>
         </div>
@@ -296,6 +331,7 @@
 
     });
 </script>
+
 <script>
     $(document).ready(function() {
         var t = $('#myTable2').DataTable({
@@ -346,6 +382,7 @@
         }).draw();
     });
 </script>
+
 <script>
     $(document).ready(function() {
         var t = $('#myTable3').DataTable({
@@ -396,6 +433,59 @@
         }).draw();
     });
 </script>
+
+<script>
+    $(document).ready(function() {
+        var t = $('#myTable5').DataTable({
+        pageLength: 20,
+        columnDefs: [
+            {
+                targets: ['_all'],
+                className: 'dt-head-center'
+            }
+        ],
+        layout: {
+                top1Start: {
+                    div: {
+                        html: '<h2>Negeri</h2>'
+                    }
+                },
+                top1End: {
+                    buttons: [
+                        {
+                            extend: 'copy',
+                            title: 'Statistik Permohonan - Negeri'
+                        },
+                        {
+                            extend: 'excelHtml5',
+                            title: 'Statistik Permohonan - Negeri'
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            title: 'Statistik Permohonan - Negeri'
+                        },
+                        {
+                            extend: 'print',
+                            title: 'Statistik Permohonan - Negeri'
+                        }
+                    ]
+                },
+                topStart: 'pageLength',
+                topEnd: 'search',
+                bottomStart: 'info',
+                bottomEnd: 'paging'
+            }
+        });
+        t.on('order.dt search.dt', function () {
+            let i = 1;
+        
+            t.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
+                this.data(i++);
+            });
+        }).draw();
+    });
+</script>
+
 <script>
     $(document).ready(function() {
         var t = $('#myTable4').DataTable({
