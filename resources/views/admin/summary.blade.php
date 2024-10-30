@@ -369,8 +369,8 @@
                 },
                 topStart: 'pageLength',
                 topEnd: 'search',
-                bottomStart: 'info',
-                bottomEnd: 'paging'
+                bottomStart: null,
+                bottomEnd: null
             }
         });
         t.on('order.dt search.dt', function () {
@@ -420,8 +420,8 @@
                 },
                 topStart: 'pageLength',
                 topEnd: 'search',
-                bottomStart: 'info',
-                bottomEnd: 'paging'
+                bottomStart: null,
+                bottomEnd: null
             }
         });
         t.on('order.dt search.dt', function () {
@@ -472,8 +472,8 @@
                 },
                 topStart: 'pageLength',
                 topEnd: 'search',
-                bottomStart: 'info',
-                bottomEnd: 'paging'
+                bottomStart: null,
+                bottomEnd: null
             }
         });
         t.on('order.dt search.dt', function () {
