@@ -11,7 +11,7 @@
                     {{ session('success') }}
                 </div>
             @endif
-            <div class="col-md-6 col-sm-6 col-6 ms-auto">
+            <div class="col-md-6 col-sm-6 col-12 ms-auto">
                 <form method="POST" action="{{ route('admin.application') }}">
                 @csrf
                     <div class="input-group mb-3">
