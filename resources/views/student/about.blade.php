@@ -3,7 +3,7 @@
 @section('content')
 <div class="album py-4">
   <div class="container">
-    <div class="container mb-3">
+    {{-- <div class="container mb-3">
       <!-- Use the <picture> element for WebP support -->
         <!-- Use the <picture> element for WebP support -->
         <picture>
@@ -26,7 +26,7 @@
             width="1200" 
             height="600">
         </picture>          
-    </div>
+    </div> --}}
     <div class="row g-4 py-1 row-cols-sm-2">
       <div class="feature col text-center">
           <p class="fs-6">Adakah anda berminat untuk belajar di Kolej UNITI?</p>

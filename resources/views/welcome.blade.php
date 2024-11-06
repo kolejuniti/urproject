@@ -110,7 +110,7 @@
 
         <main class="py-3" style="max-height: 90vh;">
             {{-- @yield('content') --}}
-            <div class="container mb-3">
+            {{-- <div class="container mb-3">
                 <!-- Use the <picture> element for WebP support -->
                 <picture>
                     <!-- WebP Format -->
@@ -136,7 +136,7 @@
                         height="600"
                     >
                 </picture>
-            </div>
+            </div> --}}
         
             <div class="container">
                 <footer>
