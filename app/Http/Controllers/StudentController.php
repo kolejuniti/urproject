@@ -18,12 +18,12 @@ class StudentController extends Controller
         $ref = $request->query('ref');
         $source = $request->query('source');
 
-        $embedMode = $request->query('embed', false); // Check if "embed" mode is enabled
+        $isEmbedded = $request->query('embed') === 'true';
 
         $currentYear = date('Y');
         $years = range($currentYear, $currentYear - 10);
 
-        return view('student.register', compact('ref', 'states', 'locations', 'years', 'source', 'embedMode'));
+        return view('student.register', compact('ref', 'states', 'locations', 'years', 'source', 'isEmbedded'));
     }
 
     public function location($id)
