@@ -1,4 +1,6 @@
-@extends('layouts.student')
+@if(!$embedMode)
+    @extends('layouts.student')
+@endif
 
 @section('content')
 <div class="container">
