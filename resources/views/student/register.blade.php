@@ -1,4 +1,4 @@
-@if(!$embedMode)
+@if(!$isEmbedded)
     @extends('layouts.student')
 @endif
 
