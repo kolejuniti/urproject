@@ -18,10 +18,12 @@ class StudentController extends Controller
         $ref = $request->query('ref');
         $source = $request->query('source');
 
+        $embedMode = $request->query('embed', false); // Check if "embed" mode is enabled
+
         $currentYear = date('Y');
         $years = range($currentYear, $currentYear - 10);
 
-        return view('student.register', compact('ref', 'states', 'locations', 'years', 'source'));
+        return view('student.register', compact('ref', 'states', 'locations', 'years', 'source', 'embedMode'));
     }
 
     public function location($id)
@@ -141,12 +143,10 @@ class StudentController extends Controller
                 // Upload file to Linode and set it as public
                 $filePath = 'urproject/student/resultspm/' . $ic . '.' . $file->getClientOriginalExtension();
 
+                Storage::disk('linode')->put($filePath, file_get_contents($file), 'public');
+
                 // Get the file URL from Linode
                 $fileUrl = Storage::disk('linode')->url($filePath);
-
-                // dd($filePath);
-
-                Storage::disk('linode')->put($filePath, file_get_contents($file), 'public');
 
                 return redirect()->route('student.confirmation')
                 ->with([
