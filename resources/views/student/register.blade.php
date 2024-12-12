@@ -1,6 +1,4 @@
-@if (!request()->has('embedded'))
-    @extends('layouts.student')
-@endif
+@extends('layouts.student')
 
 @section('content')
 <div class="container">
