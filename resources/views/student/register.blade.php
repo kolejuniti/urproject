@@ -1,6 +1,8 @@
-@if(!$isEmbedded)
+{{-- @if(!$isEmbedded)
     @extends('layouts.student')
-@endif
+@endif --}}
+
+@extends($isEmbedded ? 'layouts.embedded' : 'layouts.student')
 
 @section('content')
 <div class="container">
