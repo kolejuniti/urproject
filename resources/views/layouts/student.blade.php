@@ -24,15 +24,8 @@
     </style>
     
     <!-- Preconnect to Font Provider -->
-    <!-- Preconnect to Font Provider -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    
-    <!-- Preload Fonts and Load Asynchronously -->
-    {{-- <link rel="preload" href="https://fonts.bunny.net/css?family=Nunito" as="style" onload="this.rel='stylesheet'">
-    <noscript>
-        <link rel="stylesheet" href="https://fonts.bunny.net/css?family=Nunito">
-    </noscript> --}}
 
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" as="style" onload="this.rel='stylesheet'">
     <noscript>
