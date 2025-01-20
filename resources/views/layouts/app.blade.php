@@ -22,7 +22,8 @@
     </style>
     
     <!-- Preconnect to Font Provider -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     
     <!-- Preload Fonts and Load Asynchronously -->
     {{-- <link rel="preload" href="https://fonts.bunny.net/css?family=Nunito" as="style" onload="this.rel='stylesheet'">
