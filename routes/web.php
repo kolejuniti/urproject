@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdvisorController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StudentController;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Http\Request;
 
@@ -102,4 +103,5 @@ Route::prefix('campus')->group(function() {
 });
 
 // test route
-Route::post('/student/register_test', [App\Http\Controllers\StudentController::class, 'registerTest'])->name('student.register.test');
+Route::post('/student/register_test', [App\Http\Controllers\StudentController::class, 'registerTest'])
+->withoutMiddleware(VerifyCsrfToken::class);
