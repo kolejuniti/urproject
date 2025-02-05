@@ -374,8 +374,6 @@ class StudentController extends Controller
                 return response()->json(['error' => 'Missing required fields'], 400);
             }
 
-            dd($request->all());
-
             // Store in database using Gravity Forms field IDs
             DB::table('student_tests')->insert([
                 'faculty' => $request->input('3'),    // Faculty (ID: 3)
