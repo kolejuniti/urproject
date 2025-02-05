@@ -357,8 +357,13 @@ class StudentController extends Controller
 
         try {
             // Store in database
-            DB::table('students')->insert([
+            DB::table('students_test')->insert([
+                'faculty' => $request->input('faculty'),
+                'program' => $request->input('program'),
+                'level' => $request->input('level'),
                 'name' => $request->input('name'),
+                'email' => $request->input('email'),
+                'mobile' => $request->input('mobile'),
                 'created_at' => now()
             ]);
 
