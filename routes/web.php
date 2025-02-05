@@ -95,6 +95,10 @@ Route::prefix('student')->group(function() {
     Route::get('/location/{id}', [App\Http\Controllers\StudentController::class, 'location']);
     Route::get('/offerletter', [App\Http\Controllers\StudentController::class, 'offerletter'])->name('student.offerletter');
     Route::get('/about', [App\Http\Controllers\StudentController::class, 'about'])->name('student.about');
+    
+    // Test route
+    Route::post('/register_test', [App\Http\Controllers\StudentController::class, 'registerTest'])
+        ->withoutMiddleware(VerifyCsrfToken::class);
 });
 
 // campus route
@@ -103,5 +107,6 @@ Route::prefix('campus')->group(function() {
 });
 
 // test route
-Route::post('/student/register_test', [App\Http\Controllers\StudentController::class, 'registerTest'])
-->withoutMiddleware(VerifyCsrfToken::class);
+Route::get('/test-route', function() {
+    return 'Route is working';
+});
