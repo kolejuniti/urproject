@@ -345,4 +345,28 @@ class StudentController extends Controller
         return 'e-Daftar';
     }
 
+    public function kupd()
+    {
+        return view('student.kupd');
+    }
+
+    public function registerTest(Request $request)
+    {
+        // Log incoming data
+        \Log::info('Test registration received:', $request->all());
+
+        try {
+            // Store in database
+            DB::table('students')->insert([
+                'name' => $request->input('1'),
+                'created_at' => now()
+            ]);
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            \Log::error('Error storing data: ' . $e->getMessage());
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
 }
