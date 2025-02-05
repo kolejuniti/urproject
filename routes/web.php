@@ -94,3 +94,11 @@ Route::prefix('student')->group(function() {
     Route::get('/offerletter', [App\Http\Controllers\StudentController::class, 'offerletter'])->name('student.offerletter');
     Route::get('/about', [App\Http\Controllers\StudentController::class, 'about'])->name('student.about');
 });
+
+// campus route
+Route::prefix('campus')->group(function() {
+    Route::get('/port-dickson', [App\Http\Controllers\StudentController::class, 'kupd'])->name('student.kupd');
+});
+
+// test route
+Route::post('/student/register_test', 'StudentController@registerTest');
