@@ -352,24 +352,42 @@ class StudentController extends Controller
 
     public function registerTest(Request $request)
     {
-        // Log incoming data
-        \Log::info('Test registration received:', $request->all());
+        // Log incoming data for debugging
+        \Log::info('Gravity Form webhook data received:', $request->all());
 
         try {
-            // Store in database
+            // Get program value by checking all possible program field IDs
+            $program = $request->input('4') ?? 
+                      $request->input('5') ?? 
+                      $request->input('6') ?? null;
+
+            // Validate that required fields are present
+            if (!$request->input('3') || !$program || !$request->input('7') || 
+                !$request->input('8') || !$request->input('1')) {
+                \Log::warning('Missing required fields in form submission', [
+                    'faculty' => $request->input('3'),
+                    'program' => $program,
+                    'name' => $request->input('7'),
+                    'email' => $request->input('8'),
+                    'mobile' => $request->input('1')
+                ]);
+                return response()->json(['error' => 'Missing required fields'], 400);
+            }
+
+            // Store in database using Gravity Forms field IDs
             DB::table('student_tests')->insert([
-                'faculty' => $request->input('faculty'),
-                'program' => $request->input('program'),
-                'level' => $request->input('level'),
-                'name' => $request->input('name'),
-                'email' => $request->input('email'),
-                'mobile' => $request->input('mobile'),
+                'faculty' => $request->input('3'),    // Faculty (ID: 3)
+                'program' => $program,                // Program (IDs: 4,5,6)
+                'level' => $request->input('9'),      // Level (ID: 9)
+                'name' => $request->input('7'),       // Name (ID: 7)
+                'email' => $request->input('8'),      // Email (ID: 8)
+                'mobile' => $request->input('1'),     // Mobile (ID: 1)
                 'created_at' => now()
             ]);
 
-            return response()->json(['success' => true]);
+            return response()->json(['success' => true, 'message' => 'Data stored successfully']);
         } catch (\Exception $e) {
-            \Log::error('Error storing data: ' . $e->getMessage());
+            \Log::error('Error storing Gravity Form data: ' . $e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
