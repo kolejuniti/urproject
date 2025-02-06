@@ -394,8 +394,6 @@ class StudentController extends Controller
                 'message' => $message
             ]);
 
-            dd($response);
-
             \Log::info('uChat notification sent', ['response' => $response->json()]);
 
             return response()->json(['success' => true, 'message' => 'Data stored successfully']);
