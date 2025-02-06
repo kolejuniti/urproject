@@ -389,9 +389,9 @@ class StudentController extends Controller
             // Prepare message for uChat
             $message = "New Test Registration:\n"
                     . "Name: " . $request->input('7') . "\n"
-                    . "Faculty: " . $request->input('3') . "\n"
-                    . "Program: " . $program . "\n"
-                    . "Email: " . $request->input('8') . "\n"
+                    // . "Faculty: " . $request->input('3') . "\n"
+                    // . "Program: " . $program . "\n"
+                    // . "Email: " . $request->input('8') . "\n"
                     . "Mobile: " . $request->input('1');
 
             // Send to uChat
