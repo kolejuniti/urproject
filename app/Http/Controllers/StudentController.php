@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Http;
 
 class StudentController extends Controller
 {
@@ -384,6 +385,21 @@ class StudentController extends Controller
                 'mobile' => $request->input('1'),     // Mobile (ID: 1)
                 'created_at' => now()
             ]);
+
+            // Prepare message for uChat
+            $message = "New Test Registration:\n"
+                    . "Name: " . $request->input('7') . "\n"
+                    . "Faculty: " . $request->input('3') . "\n"
+                    . "Program: " . $program . "\n"
+                    . "Email: " . $request->input('8') . "\n"
+                    . "Mobile: " . $request->input('1');
+
+            // Send to uChat
+            $response = Http::post(env('UCHAT_WEBHOOK_URL'), [
+                'message' => $message
+            ]);
+
+            \Log::info('uChat notification sent', ['response' => $response->json()]);
 
             return response()->json(['success' => true, 'message' => 'Data stored successfully']);
         } catch (\Exception $e) {
