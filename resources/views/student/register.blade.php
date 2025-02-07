@@ -43,7 +43,7 @@
                     </div>
                     <div class="row g-2 mb-2 row-cols-1">
                         <div class="col-md-6 col-sm-6 form-floating">
-                            <input type="text" name="phone" id="phone" placeholder="" class="form-control" maxlength="11" required>
+                            <input type="tel" name="phone" id="phone" placeholder="" oninput="formatPhoneNumber(this)" class="form-control" maxlength="11" required>
                             <label for="phone">No. Telefon</label>
                         </div>
                         <div class="col-md-6 col-sm-6 form-floating">
@@ -197,4 +197,26 @@
         }, false);
     })();
 </script> 
+<script>
+    function formatPhoneNumber(input) {
+    // Get the input value and remove non-digits
+    let value = input.value.replace(/\D/g, '');
+    
+    // Remove leading '0' if present
+    if (value.startsWith('0')) {
+        value = value.substring(1);
+    }
+    
+    // Add '6' prefix if not present
+    if (!value.startsWith('6')) {
+        value = '6' + value;
+    }
+    
+    // Limit length to 11 digits
+    value = value.substring(0, 11);
+    
+    // Update the input value
+    input.value = value;
+}
+</script>
 @endsection
