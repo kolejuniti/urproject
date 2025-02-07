@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Http;
 
 class StudentController extends Controller
 {
@@ -147,6 +148,18 @@ class StudentController extends Controller
 
                 // Get the file URL from Linode
                 $fileUrl = Storage::disk('linode')->url($filePath);
+
+                // Send data to UChatWebhook
+                try {
+                    $webhook = Http::post(env('UCHAT_WEBHOOK_URL'), [
+                        'name' => $name,
+                        'phone' => $phone,
+                        'email' => $email
+                    ]);
+                    dd($webhook); // This will show the response structure
+                } catch (\Exception $e) {
+                    \Log::error('UChatWebhook Error: ' . $e->getMessage());
+                }
 
                 return redirect()->route('student.confirmation')
                 ->with([
@@ -401,7 +414,7 @@ class StudentController extends Controller
 
             // Store in database using Gravity Forms field IDs
             DB::table('students')->insert([
-                'name' => $request->input('1'),
+                'name' => strtoupper($request->input('1')),
                 'ic' => $request->input('3'),
                 'phone' => $request->input('19'),
                 'email' => $request->input('7'),
