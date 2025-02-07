@@ -97,8 +97,10 @@ Route::prefix('student')->group(function() {
     Route::get('/about', [App\Http\Controllers\StudentController::class, 'about'])->name('student.about');
     
     // Test route
-    Route::post('/register_test', [App\Http\Controllers\StudentController::class, 'registerTest'])
-        ->withoutMiddleware(VerifyCsrfToken::class);
+    Route::post('/register_test', [App\Http\Controllers\StudentController::class, 'registerTest'])->withoutMiddleware(VerifyCsrfToken::class);
+
+        // Test route
+    Route::post('/mini-form', [App\Http\Controllers\StudentController::class, 'miniForm'])->withoutMiddleware(VerifyCsrfToken::class);
 });
 
 // campus route
