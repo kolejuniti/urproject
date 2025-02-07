@@ -151,12 +151,24 @@ class StudentController extends Controller
 
                 // Send data to UChatWebhook
                 try {
-                    $webhook = Http::post(env('UCHAT_WEBHOOK_URL'), [
+                    $webhookUrl = env('UCHAT_WEBHOOK_URL');
+                    
+                    if (!$webhookUrl) {
+                        throw new \Exception('Webhook URL not configured');
+                    }
+                
+                    $webhook = Http::post($webhookUrl, [
                         'name' => $name,
                         'phone' => $phone,
                         'email' => $email
                     ]);
-                    dd($webhook); // This will show the response structure
+                    
+                    if (!$webhook->successful()) {
+                        throw new \Exception('Webhook request failed: ' . $webhook->status());
+                    }
+                    
+                    dd($webhook);
+                    
                 } catch (\Exception $e) {
                     \Log::error('UChatWebhook Error: ' . $e->getMessage());
                 }
