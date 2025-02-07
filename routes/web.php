@@ -99,7 +99,7 @@ Route::prefix('student')->group(function() {
     // Test route
     Route::post('/register_test', [App\Http\Controllers\StudentController::class, 'registerTest'])->withoutMiddleware(VerifyCsrfToken::class);
 
-        // Test route
+    // Test route
     Route::post('/mini-form', [App\Http\Controllers\StudentController::class, 'miniForm'])->withoutMiddleware(VerifyCsrfToken::class);
 });
 
