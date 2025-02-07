@@ -392,4 +392,31 @@ class StudentController extends Controller
         }
     }
 
+    public function miniForm(Request $request)
+    {
+        // Log incoming data for debugging
+        \Log::info('Mini form webhook data received:', $request->all());
+
+        try {
+
+            // Store in database using Gravity Forms field IDs
+            DB::table('students')->insert(
+                ['name' => $request->input('1'),
+                'ic' => $request->input('3'),
+                'phone' => $request->input('19'),
+                'email' => $request->input('7'),
+                'location_id' => 1,
+                'source' => 'website',
+                'created_at' => now()
+            ]);
+
+            return response()->json(['success' => true, 'message' => 'Data stored successfully']);
+            
+        } catch (\Exception $e) {
+            \Log::error('Error storing mini form data: ' . $e->getMessage());
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+
+    }
+
 }
