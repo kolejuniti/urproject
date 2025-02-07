@@ -430,8 +430,7 @@ class StudentController extends Controller
             if ($programA) {
                 DB::table('student_programs')->insert([
                     'student_ic' => $request->input('3'),
-                    'program_id' => $programA,
-                    'created_at' => now()
+                    'program_id' => $programA
                 ]);
             }
 
@@ -439,8 +438,7 @@ class StudentController extends Controller
             if ($programB) {
                 DB::table('student_programs')->insert([
                     'student_ic' => $request->input('3'),
-                    'program_id' => $programB,
-                    'created_at' => now()
+                    'program_id' => $programB
                 ]);
             }
 
