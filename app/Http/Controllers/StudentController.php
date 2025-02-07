@@ -400,14 +400,36 @@ class StudentController extends Controller
         try {
 
             // Store in database using Gravity Forms field IDs
-            DB::table('students')->insert(
-                ['name' => $request->input('1'),
+            DB::table('students')->insert([
+                'name' => $request->input('1'),
                 'ic' => $request->input('3'),
                 'phone' => $request->input('19'),
                 'email' => $request->input('7'),
                 'location_id' => 1,
                 'source' => 'website',
                 'created_at' => now()
+            ]);
+
+            // 1st program choice
+            $programA = $request->input('9') ?? 
+                      $request->input('10') ?? 
+                      $request->input('12') ?? null;
+
+            DB::table('student_programs')->insert([
+                'student_ic' => $request->input('3'),
+                'program_id' => $programA,
+                'status' => 'baru'
+            ]);
+
+            // 2nd program choice
+            $programB = $request->input('14') ?? 
+                      $request->input('15') ?? 
+                      $request->input('16') ?? null;
+
+            DB::table('student_programs')->insert([
+                'student_ic' => $request->input('3'),
+                'program_id' => $programB,
+                'status' => 'baru'
             ]);
 
             return response()->json(['success' => true, 'message' => 'Data stored successfully']);
