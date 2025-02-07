@@ -43,7 +43,7 @@
                     </div>
                     <div class="row g-2 mb-2 row-cols-1">
                         <div class="col-md-6 col-sm-6 form-floating">
-                            <input type="tel" name="phone" id="phone" placeholder="" oninput="formatPhoneNumber(this)" class="form-control" maxlength="11" required>
+                            <input type="tel" name="phone" id="phone" placeholder="" oninput="formatPhoneNumber(this)" class="form-control" maxlength="13" required>
                             <label for="phone">No. Telefon</label>
                         </div>
                         <div class="col-md-6 col-sm-6 form-floating">
@@ -208,12 +208,12 @@
     }
     
     // Add '6' prefix if not present
-    if (!value.startsWith('6')) {
-        value = '6' + value;
+    if (!value.startsWith('60')) {
+        value = '60' + value;
     }
     
-    // Limit length to 11 digits
-    value = value.substring(0, 11);
+    // Limit length to 13 digits
+    value = value.substring(0, 13);
     
     // Update the input value
     input.value = value;
