@@ -415,20 +415,36 @@ class StudentController extends Controller
                       $request->input('10') ?? 
                       $request->input('12') ?? null;
 
-            DB::table('student_programs')->insert([
-                'student_ic' => $request->input('3'),
-                'program_id' => $programA
-            ]);
+            if ($programA) {
+                $programA_id = DB::table('program')
+                    ->whereRaw('UPPER(name) LIKE ?', ['%' . strtoupper($programA) . '%'])
+                    ->value('id');
+
+                if ($programA_id) {
+                    DB::table('student_programs')->insert([
+                        'student_ic' => $request->input('3'),
+                        'program_id' => $programA_id
+                    ]);
+                }
+            }
 
             // 2nd program choice
             $programB = $request->input('14') ?? 
                       $request->input('15') ?? 
                       $request->input('16') ?? null;
 
-            DB::table('student_programs')->insert([
-                'student_ic' => $request->input('3'),
-                'program_id' => $programB
-            ]);
+            if ($programB) {
+                $programB_id = DB::table('program')
+                    ->whereRaw('UPPER(name) LIKE ?', ['%' . strtoupper($programB) . '%'])
+                    ->value('id');
+
+                if ($programB_id) {
+                    DB::table('student_programs')->insert([
+                        'student_ic' => $request->input('3'),
+                        'program_id' => $programB_id
+                    ]);
+                }
+            }
 
             return response()->json(['success' => true, 'message' => 'Data stored successfully']);
             
