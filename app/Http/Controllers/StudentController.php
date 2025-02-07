@@ -417,8 +417,7 @@ class StudentController extends Controller
 
             DB::table('student_programs')->insert([
                 'student_ic' => $request->input('3'),
-                'program_id' => $programA,
-                'status' => 'baru'
+                'program_id' => $programA
             ]);
 
             // 2nd program choice
@@ -428,8 +427,7 @@ class StudentController extends Controller
 
             DB::table('student_programs')->insert([
                 'student_ic' => $request->input('3'),
-                'program_id' => $programB,
-                'status' => 'baru'
+                'program_id' => $programB
             ]);
 
             return response()->json(['success' => true, 'message' => 'Data stored successfully']);
