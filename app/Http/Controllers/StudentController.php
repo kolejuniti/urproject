@@ -167,8 +167,6 @@ class StudentController extends Controller
                         throw new \Exception('Webhook request failed: ' . $webhook->status());
                     }
                     
-                    dd($webhook);
-                    
                 } catch (\Exception $e) {
                     \Log::error('UChatWebhook Error: ' . $e->getMessage());
                 }
