@@ -197,7 +197,7 @@ class AdminController extends Controller
 
         // Build the query
         $query = DB::table('students')
-                    ->join('state', 'students.state_id', '=', 'state.id')
+                    ->leftjoin('state', 'students.state_id', '=', 'state.id')
                     ->leftjoin('users', 'students.user_id', '=', 'users.id')
                     ->join('location', 'students.location_id', '=', 'location.id')
                     ->leftjoin('student_foundations', 'students.ic', '=', 'student_foundations.student_ic')
@@ -248,7 +248,7 @@ class AdminController extends Controller
         $ic = $request->input('ic');
 
         $applicants = DB::table('students')
-                    ->join('state', 'students.state_id', '=', 'state.id')
+                    ->leftjoin('state', 'students.state_id', '=', 'state.id')
                     ->leftJoin('users', 'students.user_id', '=', 'users.id')
                     ->join('location', 'students.location_id', '=', 'location.id')
                     ->leftJoin('status', 'students.status_id', '=', 'status.id')
@@ -595,7 +595,7 @@ class AdminController extends Controller
 
         // Summary of students by states with KUPD and KUKB, including date range filter
         $states = DB::table('students')
-            ->join('state', 'students.state_id', '=', 'state.id')
+            ->leftjoin('state', 'students.state_id', '=', 'state.id')
             ->select(
                 'state.name AS state',
                 DB::raw('COUNT(students.id) AS total'),
