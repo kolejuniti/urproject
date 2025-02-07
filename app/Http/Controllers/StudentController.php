@@ -397,9 +397,14 @@ class StudentController extends Controller
         // Log incoming data for debugging
         \Log::info('Mini form webhook data received:', $request->all());
 
+        DB::beginTransaction();
         try {
+            // Validate required fields
+            if (!$request->input('1') || !$request->input('3') || !$request->input('19') || !$request->input('7')) {
+                throw new \Exception('Missing required student information');
+            }
 
-            // Store in database using Gravity Forms field IDs
+            // First insert student data
             DB::table('students')->insert([
                 'name' => $request->input('1'),
                 'ic' => $request->input('3'),
@@ -410,33 +415,44 @@ class StudentController extends Controller
                 'created_at' => now()
             ]);
 
-            // 1st program choice
+            // Get and validate program choices
             $programA = $request->input('9') ?? 
-                      $request->input('10') ?? 
-                      $request->input('12') ?? null;
+                       $request->input('10') ?? 
+                       $request->input('12') ?? null;
 
-            DB::table('student_programs')->insert([
-                'student_ic' => $request->input('3'),
-                'program_id' => $programA
-            ]);
-
-            // 2nd program choice
             $programB = $request->input('14') ?? 
-                      $request->input('15') ?? 
-                      $request->input('16') ?? null;
+                       $request->input('15') ?? 
+                       $request->input('16') ?? null;
 
-            DB::table('student_programs')->insert([
-                'student_ic' => $request->input('3'),
-                'program_id' => $programB
-            ]);
+            \Log::info('Program choices:', ['programA' => $programA, 'programB' => $programB]);
 
+            // Insert first program choice if exists
+            if ($programA) {
+                DB::table('student_programs')->insert([
+                    'student_ic' => $request->input('3'),
+                    'program_id' => $programA,
+                    'created_at' => now()
+                ]);
+            }
+
+            // Insert second program choice if exists
+            if ($programB) {
+                DB::table('student_programs')->insert([
+                    'student_ic' => $request->input('3'),
+                    'program_id' => $programB,
+                    'created_at' => now()
+                ]);
+            }
+
+            DB::commit();
             return response()->json(['success' => true, 'message' => 'Data stored successfully']);
-            
+                
         } catch (\Exception $e) {
+            DB::rollBack();
             \Log::error('Error storing mini form data: ' . $e->getMessage());
+            \Log::error('Stack trace: ' . $e->getTraceAsString());
             return response()->json(['error' => $e->getMessage()], 500);
         }
-
     }
 
 }
