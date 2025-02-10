@@ -434,9 +434,7 @@ class StudentController extends Controller
             ]);
 
             // 1st program choice
-            $programA = $request->input('9') ?? 
-                      $request->input('10') ?? 
-                      $request->input('12') ?? null;
+            $programA = $request->input('9') ?? null;
 
             if ($programA) {
                 $programA_id = DB::table('program')
@@ -452,9 +450,7 @@ class StudentController extends Controller
             }
 
             // 2nd program choice
-            $programB = $request->input('14') ?? 
-                      $request->input('15') ?? 
-                      $request->input('16') ?? null;
+            $programB = $request->input('20') ?? null;
 
             if ($programB) {
                 $programB_id = DB::table('program')
