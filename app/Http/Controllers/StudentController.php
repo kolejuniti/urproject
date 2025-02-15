@@ -153,6 +153,7 @@ class StudentController extends Controller
                 try {
                     $webhookUrl = env('UCHAT_WEBHOOK_URL');
                     
+                    
                     if (!$webhookUrl) {
                         throw new \Exception('Webhook URL not configured');
                     }
