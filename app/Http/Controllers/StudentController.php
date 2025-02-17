@@ -125,7 +125,7 @@ class StudentController extends Controller
                 $state = $request->input('state');
                 $year = $request->input('year');
                 $location = $request->input('location');
-                $source = $request->input('source');
+                $source = $request->input('source') ?? 'e-Daftar';
                 $programA = $request->input('programA');
                 $programB = $request->input('programB');
 
@@ -294,7 +294,7 @@ class StudentController extends Controller
                 $state = $request->input('state');
                 $year = $request->input('year');
                 $location = '1';
-                $source = $request->input('source');
+                $source = $request->input('source') ?? 'e-Daftar';
                 $programA = $request->input('programA');
                 $programB = $request->input('programB');
 
@@ -458,7 +458,7 @@ class StudentController extends Controller
                 $state = $request->input('state');
                 $year = $request->input('year');
                 $location = '2';
-                $source = $request->input('source');
+                $source = $request->input('source') ?? 'e-Daftar';
                 $programA = $request->input('programA');
                 $programB = $request->input('programB');
 
@@ -620,30 +620,6 @@ class StudentController extends Controller
         return view('student.offerletter', compact('ref','students', 'studentprograms'));
     }
 
-    // public function about(Request $request)
-    // {
-    //     $referrer = $request->headers->get('referer', 'other');
-
-    //     if (strpos($referrer, 'ttclid') !== false) {
-    //         return 'tiktok';
-    //     } else {
-    //         // Log the referrer
-    //         \Log::info('Referrer: ' . $referrer);
-
-    //         // Check if source is provided in the query string
-    //         $source = $request->query('source', $this->determineSource($referrer));
-    //     }
-
-    //     // If no source, set default as "website"
-    //     if (empty($source)) {
-    //         $source = 'website';
-    //     }
-
-    //     $ref = $request->query('ref');
-
-    //     return view('student.about', compact('ref', 'source'));
-    // }
-
     public function about(Request $request)
     {
         // Get the referrer from the headers, or 'other' if not available
@@ -732,14 +708,82 @@ class StudentController extends Controller
         return 'e-Daftar';
     }
 
-    public function kupd()
+    public function kupd(Request $request)
     {
-        return view('student.kupd');
+        // Get the referrer from the headers, or 'other' if not available
+        $referrer = $request->headers->get('referer', 'other');
+
+        if (strpos($referrer, 'ttclid') !== false || $request->query('ttclid')) {
+            $source = 'tiktok';
+        } elseif (strpos($referrer, 'gclid') !== false || $request->query('gclid')) {
+            $source = 'google';
+        } elseif (strpos($referrer, 'fbclid') !== false || $request->query('fbclid')) {
+            $source = 'facebook';
+        } elseif (strpos($referrer, 'msclkid') !== false || $request->query('msclkid')) {
+            $source = 'microsoft';
+        } elseif (strpos($referrer, 'twclid') !== false || $request->query('twclid')) {
+            $source = 'twitter';
+        } elseif (strpos($referrer, '_gl') !== false || $request->query('_gl')) {
+            $source = 'google-analytics';
+        } elseif (strpos($referrer, 'tiktok.com') !== false) {
+            $source = 'tiktok';
+        } else {
+            // Log the referrer and other relevant request data
+            \Log::info('Referrer: ' . $referrer);
+            \Log::info('Full Request URL: ' . $request->fullUrl());
+            \Log::info('Request Query String: ' . json_encode($request->query()));
+
+            // Check if source is provided in the query string or determine source
+            $source = $request->query('source', $this->determineSource($referrer));
+        }
+
+        // Set default to "e-Daftar" if source is empty or still "other"
+        if (empty($source) || $source === 'other') {
+            $source = 'e-Daftar';
+        }
+
+        $ref = $request->query('ref');
+
+        return view('student.kupd', compact('ref', 'source'));
     }
 
-    public function kukb()
+    public function kukb(Request $request)
     {
-        return view('student.kukb');
+        // Get the referrer from the headers, or 'other' if not available
+        $referrer = $request->headers->get('referer', 'other');
+
+        if (strpos($referrer, 'ttclid') !== false || $request->query('ttclid')) {
+            $source = 'tiktok';
+        } elseif (strpos($referrer, 'gclid') !== false || $request->query('gclid')) {
+            $source = 'google';
+        } elseif (strpos($referrer, 'fbclid') !== false || $request->query('fbclid')) {
+            $source = 'facebook';
+        } elseif (strpos($referrer, 'msclkid') !== false || $request->query('msclkid')) {
+            $source = 'microsoft';
+        } elseif (strpos($referrer, 'twclid') !== false || $request->query('twclid')) {
+            $source = 'twitter';
+        } elseif (strpos($referrer, '_gl') !== false || $request->query('_gl')) {
+            $source = 'google-analytics';
+        } elseif (strpos($referrer, 'tiktok.com') !== false) {
+            $source = 'tiktok';
+        } else {
+            // Log the referrer and other relevant request data
+            \Log::info('Referrer: ' . $referrer);
+            \Log::info('Full Request URL: ' . $request->fullUrl());
+            \Log::info('Request Query String: ' . json_encode($request->query()));
+
+            // Check if source is provided in the query string or determine source
+            $source = $request->query('source', $this->determineSource($referrer));
+        }
+
+        // Set default to "e-Daftar" if source is empty or still "other"
+        if (empty($source) || $source === 'other') {
+            $source = 'e-Daftar';
+        }
+
+        $ref = $request->query('ref');
+
+        return view('student.kukb', compact('ref', 'source'));
     }
 
     public function registerTest(Request $request)
