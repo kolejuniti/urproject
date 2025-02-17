@@ -27,6 +27,36 @@ class StudentController extends Controller
         return view('student.register', compact('ref', 'states', 'locations', 'years', 'source', 'isEmbedded'));
     }
 
+    public function index_kupd(Request $request)
+    {   
+        $states = DB::table('state')->get();
+        $locations = DB::table('location')->where('location.id', 1)->get();
+        $ref = $request->query('ref');
+        $source = $request->query('source');
+
+        $isEmbedded = $request->query('embed') === 'true';
+
+        $currentYear = date('Y');
+        $years = range($currentYear, $currentYear - 10);
+
+        return view('student.register-kupd', compact('ref', 'states', 'locations', 'years', 'source', 'isEmbedded'));
+    }
+
+    public function index_kukb(Request $request)
+    {   
+        $states = DB::table('state')->get();
+        $locations = DB::table('location')->where('location.id', 2)->get();
+        $ref = $request->query('ref');
+        $source = $request->query('source');
+
+        $isEmbedded = $request->query('embed') === 'true';
+
+        $currentYear = date('Y');
+        $years = range($currentYear, $currentYear - 10);
+
+        return view('student.register-kukb', compact('ref', 'states', 'locations', 'years', 'source', 'isEmbedded'));
+    }
+
     public function location($id)
     {
         $programs = DB::table('program')
@@ -95,6 +125,339 @@ class StudentController extends Controller
                 $state = $request->input('state');
                 $year = $request->input('year');
                 $location = $request->input('location');
+                $source = $request->input('source');
+                $programA = $request->input('programA');
+                $programB = $request->input('programB');
+
+                DB::table('students')->insert([
+                    'name'=>$name,
+                    'ic'=>$ic,
+                    'phone'=>$phone,
+                    'email'=>$email,
+                    'address1'=>$address1,
+                    'address2'=>$address2,
+                    'postcode'=>$postcode,
+                    'city'=>$city,
+                    'state_id'=>$state,
+                    'spm_year'=>$year,
+                    'location_id'=>$location,
+                    'referral_code'=>$ref,
+                    'user_id'=>$userID,
+                    'source'=>$source,
+                    'updated_at'=> $update
+                ]);
+
+                $student = DB::table('students')->where('ic', $ic)->first();
+
+                DB::table('student_programs')->insert([
+                    'student_ic'=>$ic,
+                    'program_id'=>$programA
+                ]);
+
+                DB::table('student_programs')->insert([
+                    'student_ic'=>$ic,
+                    'program_id'=>$programB
+                ]);
+
+                $stateName = DB::table('state')->where('id', $state)->value('name');
+                
+                $locationName = DB::table('location')->where('id', $location)->value('name');
+
+                $programNames = DB::table('student_programs')
+                                ->join('program', 'student_programs.program_id', '=', 'program.id')
+                                ->select('program.name', 'student_programs.status')
+                                ->where('student_programs.student_ic', $ic)
+                                ->get();
+
+                $file = $request->file('file');
+
+                // Upload file to Linode and set it as public
+                $filePath = 'urproject/student/resultspm/' . $ic . '.' . $file->getClientOriginalExtension();
+
+                Storage::disk('linode')->put($filePath, file_get_contents($file), 'public');
+
+                // Get the file URL from Linode
+                $fileUrl = Storage::disk('linode')->url($filePath);
+
+                DB::table('student_url_path')->insert([
+                    'student_ic'=>$ic,
+                    'path'=>$fileUrl
+                ]);
+
+                // Send data to UChatWebhook
+                try {
+                    $webhookUrl = env('UCHAT_WEBHOOK_URL');
+                    
+                    
+                    if (!$webhookUrl) {
+                        throw new \Exception('Webhook URL not configured');
+                    }
+                
+                    $webhook = Http::post($webhookUrl, [
+                        'name' => $name,
+                        'phone' => $phone,
+                        'email' => $email
+                    ]);
+                    
+                    if (!$webhook->successful()) {
+                        throw new \Exception('Webhook request failed: ' . $webhook->status());
+                    }
+                    
+                } catch (\Exception $e) {
+                    \Log::error('UChatWebhook Error: ' . $e->getMessage());
+                }
+
+                return redirect()->route('student.confirmation')
+                ->with([
+                    'name'=>$name, 
+                    'ic'=>$ic,
+                    'phone'=>$phone,
+                    'email'=>$email,
+                    'address1'=>$address1,
+                    'address2'=>$address2,
+                    'postcode'=>$postcode,
+                    'city'=>$city,
+                    'state'=>$stateName,
+                    'year'=>$year,
+                    'location'=>$locationName,
+                    'program'=>$programNames,
+                    'created_at' => $student->created_at,
+                    'msg_reg' => 'Maklumat berjaya didaftarkan.'
+                ]);
+            }
+            else
+            {
+                return redirect()->back()->with('msg_error', 'No. kad pengenalan telah didaftar di dalam sistem.');
+            }
+        }
+        else {
+            return redirect()->back()->with('msg_error', 'No. kad pengenalan telah didaftar di dalam Sistem Maklumat Pelajar Kolej UNITI.');
+        }
+    }
+
+    public function register_kupd(Request $request)
+    {
+        $ref = $request->query('ref');
+        $source = $request->input('source');
+        
+        $request->validate([
+            'file' => 'required|file|mimes:jpg,png,pdf|max:5120', // max 5MB
+        ], [
+            'file.required' => 'Salinan SPM diperlukan.',
+            'file.mimes' => 'Salinan SPM mestilah dalam bentuk fail jpg, jpeg, png atau pdf.',
+            'file.max' => 'Saiz salinan SPM mestilah tidak melebihin 5MB.',
+        ]);
+
+        $referral_code = $request->input('referral_code');
+
+        $ref = null;
+        $userID = null;
+        $update = null;
+
+        if ($referral_code !== null) {
+            $user = User::where('referral_code', $referral_code)->first();
+
+            if ($user !== null) { // Check if user is found
+                $ref = $user->referral_code;
+
+                if ($user->type === 'advisor') { // Adjust the comparison based on actual returned value
+                    $userID = $user->id;
+                    $update = date('Y-m-d H:i:s');
+                }
+                else {
+                    $userID = $user->leader_id;
+                }
+            }
+        }
+
+        $ic = $request->input('ic');
+        $studentlists = DB::connection('mysql2')->table('students')->where('ic', $ic)
+        ->first();
+
+        if($studentlists === null)
+        {
+            $ic = $request->input('ic');
+            $students = DB::table('students')
+                        ->where('ic', $ic)
+                        ->first();
+                        
+            if ($students === null)
+            {
+                $name = strtoupper($request->input('name'));
+                $ic = $request->input('ic');
+                $phone = $request->input('phone');
+                $email = $request->input('email');
+                $address1 = strtoupper($request->input('address1'));
+                $address2 = strtoupper($request->input('address2'));
+                $postcode = $request->input('postcode');
+                $city = strtoupper($request->input('city'));
+                $state = $request->input('state');
+                $year = $request->input('year');
+                $location = '1';
+                $source = $request->input('source');
+                $programA = $request->input('programA');
+                $programB = $request->input('programB');
+
+                DB::table('students')->insert([
+                    'name'=>$name,
+                    'ic'=>$ic,
+                    'phone'=>$phone,
+                    'email'=>$email,
+                    'address1'=>$address1,
+                    'address2'=>$address2,
+                    'postcode'=>$postcode,
+                    'city'=>$city,
+                    'state_id'=>$state,
+                    'spm_year'=>$year,
+                    'location_id'=>$location,
+                    'referral_code'=>$ref,
+                    'user_id'=>$userID,
+                    'source'=>$source,
+                    'updated_at'=> $update
+                ]);
+
+                $student = DB::table('students')->where('ic', $ic)->first();
+
+                DB::table('student_programs')->insert([
+                    'student_ic'=>$ic,
+                    'program_id'=>$programA
+                ]);
+
+                DB::table('student_programs')->insert([
+                    'student_ic'=>$ic,
+                    'program_id'=>$programB
+                ]);
+
+                $stateName = DB::table('state')->where('id', $state)->value('name');
+                
+                $locationName = DB::table('location')->where('id', $location)->value('name');
+
+                $programNames = DB::table('student_programs')
+                                ->join('program', 'student_programs.program_id', '=', 'program.id')
+                                ->select('program.name', 'student_programs.status')
+                                ->where('student_programs.student_ic', $ic)
+                                ->get();
+
+                $file = $request->file('file');
+
+                // Upload file to Linode and set it as public
+                $filePath = 'urproject/student/resultspm/' . $ic . '.' . $file->getClientOriginalExtension();
+
+                Storage::disk('linode')->put($filePath, file_get_contents($file), 'public');
+
+                // Get the file URL from Linode
+                $fileUrl = Storage::disk('linode')->url($filePath);
+
+                // Send data to UChatWebhook
+                try {
+                    $webhookUrl = env('UCHAT_WEBHOOK_URL');
+                    
+                    
+                    if (!$webhookUrl) {
+                        throw new \Exception('Webhook URL not configured');
+                    }
+                
+                    $webhook = Http::post($webhookUrl, [
+                        'name' => $name,
+                        'phone' => $phone,
+                        'email' => $email
+                    ]);
+                    
+                    if (!$webhook->successful()) {
+                        throw new \Exception('Webhook request failed: ' . $webhook->status());
+                    }
+                    
+                } catch (\Exception $e) {
+                    \Log::error('UChatWebhook Error: ' . $e->getMessage());
+                }
+
+                return redirect()->route('student.confirmation')
+                ->with([
+                    'name'=>$name, 
+                    'ic'=>$ic,
+                    'phone'=>$phone,
+                    'email'=>$email,
+                    'address1'=>$address1,
+                    'address2'=>$address2,
+                    'postcode'=>$postcode,
+                    'city'=>$city,
+                    'state'=>$stateName,
+                    'year'=>$year,
+                    'location'=>$locationName,
+                    'program'=>$programNames,
+                    'created_at' => $student->created_at,
+                    'msg_reg' => 'Maklumat berjaya didaftarkan.'
+                ]);
+            }
+            else
+            {
+                return redirect()->back()->with('msg_error', 'No. kad pengenalan telah didaftar di dalam sistem.');
+            }
+        }
+        else {
+            return redirect()->back()->with('msg_error', 'No. kad pengenalan telah didaftar di dalam Sistem Maklumat Pelajar Kolej UNITI.');
+        }
+    }
+
+    public function register_kukb(Request $request)
+    {
+        $ref = $request->query('ref');
+        $source = $request->input('source');
+        
+        $request->validate([
+            'file' => 'required|file|mimes:jpg,png,pdf|max:5120', // max 5MB
+        ], [
+            'file.required' => 'Salinan SPM diperlukan.',
+            'file.mimes' => 'Salinan SPM mestilah dalam bentuk fail jpg, jpeg, png atau pdf.',
+            'file.max' => 'Saiz salinan SPM mestilah tidak melebihin 5MB.',
+        ]);
+
+        $referral_code = $request->input('referral_code');
+
+        $ref = null;
+        $userID = null;
+        $update = null;
+
+        if ($referral_code !== null) {
+            $user = User::where('referral_code', $referral_code)->first();
+
+            if ($user !== null) { // Check if user is found
+                $ref = $user->referral_code;
+
+                if ($user->type === 'advisor') { // Adjust the comparison based on actual returned value
+                    $userID = $user->id;
+                    $update = date('Y-m-d H:i:s');
+                }
+                else {
+                    $userID = $user->leader_id;
+                }
+            }
+        }
+
+        $ic = $request->input('ic');
+        $studentlists = DB::connection('mysql2')->table('students')->where('ic', $ic)
+        ->first();
+
+        if($studentlists === null)
+        {
+            $ic = $request->input('ic');
+            $students = DB::table('students')
+                        ->where('ic', $ic)
+                        ->first();
+                        
+            if ($students === null)
+            {
+                $name = strtoupper($request->input('name'));
+                $ic = $request->input('ic');
+                $phone = $request->input('phone');
+                $email = $request->input('email');
+                $address1 = strtoupper($request->input('address1'));
+                $address2 = strtoupper($request->input('address2'));
+                $postcode = $request->input('postcode');
+                $city = strtoupper($request->input('city'));
+                $state = $request->input('state');
+                $year = $request->input('year');
+                $location = '2';
                 $source = $request->input('source');
                 $programA = $request->input('programA');
                 $programB = $request->input('programB');
@@ -372,6 +735,11 @@ class StudentController extends Controller
     public function kupd()
     {
         return view('student.kupd');
+    }
+
+    public function kukb()
+    {
+        return view('student.kukb');
     }
 
     public function registerTest(Request $request)
