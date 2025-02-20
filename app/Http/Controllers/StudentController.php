@@ -579,8 +579,13 @@ class StudentController extends Controller
         $ref = $request->query('ref');
         $ic = $request->input('ic');
         
+        $states = DB::table('state')->get();
+
+        $currentYear = date('Y');
+        $years = range($currentYear, $currentYear - 10);
+        
         $students = DB::table('students')
-                    ->join('state', 'students.state_id', '=', 'state.id')
+                    ->leftjoin('state', 'students.state_id', '=', 'state.id')
                     ->leftjoin('users', 'students.user_id', '=', 'users.id')
                     ->join('location', 'students.location_id', '=', 'location.id')
                     ->select('students.*', 'state.name AS state', 'users.name AS user', 'users.phone AS user_phone', 'location.name AS location')
@@ -593,7 +598,7 @@ class StudentController extends Controller
                             ->where('student_programs.student_ic', 'LIKE', "{$ic}")
                             ->get();
 
-        return view('student.search', compact('ref', 'students', 'ic', 'studentPrograms'));
+        return view('student.search', compact('ref', 'students', 'states', 'years', 'ic', 'studentPrograms'));
     }
 
     public function offerletter(Request $request)
@@ -851,7 +856,7 @@ class StudentController extends Controller
 
             if ($programA) {
                 $programA_id = DB::table('program')
-                    ->whereRaw('UPPER(name) LIKE ?', ['%' . strtoupper($programA) . '%'])
+                    ->whereRaw('BINARY UPPER(TRIM(name)) = ?', [strtoupper(trim($programA))])
                     ->value('id');
 
                 if ($programA_id) {
@@ -867,7 +872,7 @@ class StudentController extends Controller
 
             if ($programB) {
                 $programB_id = DB::table('program')
-                    ->whereRaw('UPPER(name) LIKE ?', ['%' . strtoupper($programB) . '%'])
+                    ->whereRaw('BINARY UPPER(TRIM(name)) = ?', [strtoupper(trim($programB))])
                     ->value('id');
 
                 if ($programB_id) {
@@ -885,6 +890,33 @@ class StudentController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
 
+    }
+
+    public function semak_permohonan(Request $request)
+    {
+        $ref = $request->query('ref');
+        $ic = $request->input('ic');
+        
+        $states = DB::table('state')->get();
+
+        $currentYear = date('Y');
+        $years = range($currentYear, $currentYear - 10);
+        
+        $students = DB::table('students')
+                    ->leftjoin('state', 'students.state_id', '=', 'state.id')
+                    ->leftjoin('users', 'students.user_id', '=', 'users.id')
+                    ->join('location', 'students.location_id', '=', 'location.id')
+                    ->select('students.*', 'state.name AS state', 'users.name AS user', 'users.phone AS user_phone', 'location.name AS location')
+                    ->where('students.ic', 'LIKE', "{$ic}")
+                    ->get();
+
+        $studentPrograms = DB::table('student_programs')
+                            ->join('program', 'student_programs.program_id', '=', 'program.id')
+                            ->select('program.name AS program', 'student_programs.status AS status', 'student_programs.notes')
+                            ->where('student_programs.student_ic', 'LIKE', "{$ic}")
+                            ->get();
+
+        return view('student.search', compact('ref', 'students', 'states', 'years', 'ic', 'studentPrograms'));
     }
 
 }
