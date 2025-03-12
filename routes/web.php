@@ -118,6 +118,7 @@ Route::prefix('semak-permohonan')->group(function() {
     Route::get('/kota-bharu', [App\Http\Controllers\StudentController::class, 'semak_permohonan_kukb'])->name('semak.permohonan.kukb');
     Route::put('/kemaskini/kupd/{id}/{email}', [App\Http\Controllers\StudentController::class, 'kemaskini_permohonan_kupd'])->name('kemaskini.permohonan.kupd');
     Route::put('/kemaskini/kukb/{id}/{email}', [App\Http\Controllers\StudentController::class, 'kemaskini_permohonan_kukb'])->name('kemaskini.permohonan.kukb');
+    Route::get('/surat-tawaran', [App\Http\Controllers\StudentController::class, 'offerletter'])->name('student.offerletter');
 });
 
 // campus route
