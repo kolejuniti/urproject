@@ -89,13 +89,13 @@ Route::middleware(['auth', 'user-access:user'])->group(function() {
 
 // student route
 Route::prefix('student')->group(function() {
-    Route::get('/register', [App\Http\Controllers\StudentController::class, 'index'])->name('student.register');
-    Route::post('/register', [App\Http\Controllers\StudentController::class, 'register'])->name('student.register.post');
-    Route::get('/confirmation', [App\Http\Controllers\StudentController::class, 'confirmation'])->name('student.confirmation');
-    Route::get('/search', [App\Http\Controllers\StudentController::class, 'search'])->name('student.search');
-    Route::get('/location/{id}', [App\Http\Controllers\StudentController::class, 'location']);
+    // Route::get('/register', [App\Http\Controllers\StudentController::class, 'index'])->name('student.register');
+    // Route::post('/register', [App\Http\Controllers\StudentController::class, 'register'])->name('student.register.post');
+    // Route::get('/confirmation', [App\Http\Controllers\StudentController::class, 'confirmation'])->name('student.confirmation');
+    // Route::get('/search', [App\Http\Controllers\StudentController::class, 'search'])->name('student.search');
+    // Route::get('/location/{id}', [App\Http\Controllers\StudentController::class, 'location']);
     Route::get('/offerletter', [App\Http\Controllers\StudentController::class, 'offerletter'])->name('student.offerletter');
-    Route::get('/about', [App\Http\Controllers\StudentController::class, 'about'])->name('student.about');
+    // Route::get('/about', [App\Http\Controllers\StudentController::class, 'about'])->name('student.about');
     
     // Test route
     Route::post('/register_test', [App\Http\Controllers\StudentController::class, 'registerTest'])->withoutMiddleware(VerifyCsrfToken::class);
