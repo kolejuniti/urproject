@@ -86,7 +86,7 @@ class StudentController extends Controller
         ], [
             'file.required' => 'Salinan SPM diperlukan.',
             'file.mimes' => 'Salinan SPM mestilah dalam bentuk fail jpg, jpeg, png atau pdf.',
-            'file.max' => 'Saiz salinan SPM mestilah tidak melebihin 5MB.',
+            'file.max' => 'Saiz salinan SPM mestilah tidak melebihi 5MB.',
         ]);
 
         $referral_code = $request->input('referral_code');
