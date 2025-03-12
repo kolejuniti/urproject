@@ -210,6 +210,14 @@
                                         <input type="file" class="form-control form-control-sm is-invalid" name="file" id="file" required>
                                     </div>
                                 </div>
+                                <div class="mb-2">
+                                    <div class="col-md-6 col-sm-6 form-floating">
+                                        <small class="text-danger">* Salinan SPM mestilah dalam format jpg, jpeg, png atau pdf.</small>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 form-floating">
+                                        <small class="text-danger">* Saiz salinan SPM mestilah tidak melebihi 5MB.</small>
+                                    </div>
+                                </div>
                             @endif
                             @if ($foundFile === null)
                             <div class="mb-3">

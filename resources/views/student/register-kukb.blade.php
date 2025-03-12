@@ -124,6 +124,14 @@
                             <label for="file">Keputusan SPM</label>
                         </div>
                     </div>
+                    <div class="mb-2">
+                        <div class="col-md-6 col-sm-6 form-floating">
+                            <small class="text-danger">* Salinan SPM mestilah dalam format jpg, jpeg, png atau pdf.</small>
+                        </div>
+                        <div class="col-md-6 col-sm-6 form-floating">
+                            <small class="text-danger">* Saiz salinan SPM mestilah tidak melebihi 5MB.</small>
+                        </div>
+                    </div>
                     @if ($ref !== null)
                     <div class="col-sm-12">
                         <hr>
