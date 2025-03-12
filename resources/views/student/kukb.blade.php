@@ -27,6 +27,16 @@
 
   <link rel="icon" type="image/png" href="{{ env('IMAGE_BASE_URL') }}/img/ku1.png">
   <title>Kolej UNITI Kota Bharu</title>
+  
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-B4BRS3VJS0"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-B4BRS3VJS0');
+  </script>
 </head>
 
 <body>
