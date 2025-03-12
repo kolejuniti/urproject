@@ -24,6 +24,7 @@ Route::get('/', function (Request $request) {
 
     $ref = $request->query('ref');
     $source = $request->query('source');
+    
     return view('welcome', compact('ref', 'source')); // Or any other public view
 });
 
@@ -99,16 +100,38 @@ Route::prefix('student')->group(function() {
     // Test route
     Route::post('/register_test', [App\Http\Controllers\StudentController::class, 'registerTest'])->withoutMiddleware(VerifyCsrfToken::class);
 
-    // Test route
+    // mini form route
     Route::post('/mini-form', [App\Http\Controllers\StudentController::class, 'miniForm'])->withoutMiddleware(VerifyCsrfToken::class);
 });
 
+// register route
+Route::prefix('daftar')->group(function() {
+    Route::get('/port-dickson', [App\Http\Controllers\StudentController::class, 'index_kupd'])->name('student.register-kupd');
+    Route::post('/port-dickson', [App\Http\Controllers\StudentController::class, 'register_kupd'])->name('student.register-kupd.post');
+    Route::get('/kota-bharu', [App\Http\Controllers\StudentController::class, 'index_kukb'])->name('student.register-kukb');
+    Route::post('/kota-bharu', [App\Http\Controllers\StudentController::class, 'register_kukb'])->name('student.register-kukb.post');
+});
+
+// semak permohonan route
+Route::prefix('semak-permohonan')->group(function() {
+    Route::get('/port-dickson', [App\Http\Controllers\StudentController::class, 'semak_permohonan_kupd'])->name('semak.permohonan.kupd');
+    Route::get('/kota-bharu', [App\Http\Controllers\StudentController::class, 'semak_permohonan_kukb'])->name('semak.permohonan.kukb');
+    Route::put('/kemaskini/kupd/{id}/{email}', [App\Http\Controllers\StudentController::class, 'kemaskini_permohonan_kupd'])->name('kemaskini.permohonan.kupd');
+    Route::put('/kemaskini/kukb/{id}/{email}', [App\Http\Controllers\StudentController::class, 'kemaskini_permohonan_kukb'])->name('kemaskini.permohonan.kukb');
+});
+
 // campus route
-Route::prefix('campus')->group(function() {
+Route::prefix('kampus')->group(function() {
     Route::get('/port-dickson', [App\Http\Controllers\StudentController::class, 'kupd'])->name('student.kupd');
+    Route::get('/kota-bharu', [App\Http\Controllers\StudentController::class, 'kukb'])->name('student.kukb');
 });
 
 // test route
 Route::get('/test-route', function() {
     return 'Route is working';
+});
+
+// logout route
+Route::get('/logout', function () {
+    return redirect('/');
 });

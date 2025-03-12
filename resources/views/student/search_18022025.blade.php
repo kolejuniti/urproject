@@ -1,23 +1,4 @@
-@php
-    $route = Route::current()->getName();
-    $layout = session('layout', 'layouts.student-kupd'); // default layout
-
-    if (str_contains($route, 'kupd')) {
-        $layout = 'layouts.student-kupd';
-        $search_route = 'port-dickson';
-        $title = 'Semakan | Kolej UNITI Port Dickson';
-    } elseif (str_contains($route, 'kukb')) {
-        $layout = 'layouts.student-kukb';
-        $search_route = 'kota-bharu';
-        $title = 'Semakan | Kolej UNITI Kota Bharu';
-    }
-
-    session(['layout' => $layout]); // store layout in session
-@endphp
-
-@extends($layout)
-
-{{-- @section('title', $title)   --}}
+@extends('layouts.student')
 
 @section('content')
 <style>
@@ -49,7 +30,7 @@
             @if(isset($ic))
             @else
                 <div class="card mb-3">
-                    <form action="{{ $search_route }}" method="GET">
+                    <form action="{{ route('student.search') }}" method="GET">
                     <div class="card-header">{{ __('Carian Permohonan') }}</div>
 
                     <div class="card-body">
@@ -79,7 +60,7 @@
             @if(isset($ic))
                 @if($students->isEmpty())
                     <p>No students found.</p>
-                    <a href="{{ url()->previous() }}"  class="btn btn-danger">Back</a>
+                    <a href="{{ route('student.search')}}"  class="btn btn-danger">Back</a>
                 @else
                     @foreach($students as $student)
                     <div class="card printableArea">
@@ -118,135 +99,52 @@
                                     <label for="name">{{ $student->email }}</label>
                                 </div>
                             </div>
-                            <form action="{{ route('kemaskini.permohonan', [$student->ic, $student->email]) }}" id="form-{{ $student->ic }}" date-email="form-{{ $student->email }}" method="POST" enctype="multipart/form-data">
-                            @csrf
-                            @method('PUT')  
                             <div class="row mb-2">
-                                @if ($student->address1 === null)
-                                    <div class="col-md-3 col-sm-3">
-                                        <label for="">Alamat 1</label>
-                                    </div>
-                                    <div class="col-12 col-md-6 col-sm-6">
-                                        <input type="text" name="address1" id="address1" class="form-control form-control-sm is-invalid" required>
-                                    </div>
-                                    @else
-                                    <div class="col-md-3 col-sm-3">
-                                        <label for="">Alamat 1</label>
-                                    </div>
-                                    <div class="col-md-9 col-sm-9">
-                                        <label for="name">{{ $student->address1 }}</label>
-                                    </div>
-                                @endif
-                            </div>
-                            <div class="row mb-2">
-                                @if ($student->address2 === null)
-                                    <div class="col-md-3 col-sm-3">
-                                        <label for="">Alamat 2</label>
-                                    </div>
-                                    <div class="col-12 col-md-6 col-sm-6">
-                                        <input type="text" name="address2" id="address2" class="form-control form-control-sm is-invalid" required>
-                                    </div>
-                                    @else
-                                    <div class="col-md-3 col-sm-3">
-                                        <label for="">Alamat 2</label>
-                                    </div>
-                                    <div class="col-md-9 col-sm-9">
-                                        <label for="name">{{ $student->address2 }}</label>
-                                    </div>
-                                @endif
-                            </div>
-                            <div class="row mb-2">
-                                @if ($student->postcode === null)
-                                    <div class="col-md-3 col-sm-3">
-                                        <label for="">Poskod</label>
-                                    </div>
-                                    <div class="col-md-3 col-sm-3">
-                                        <input type="text" name="postcode" id="postcode" class="form-control form-control-sm is-invalid" required>
-                                    </div>
-                                @else
-                                    <div class="col-md-3 col-sm-3">
-                                        <label for="">Poskod</label>
-                                    </div>
-                                    <div class="col-md-3 col-sm-3">
-                                        <label for="name">{{ $student->postcode }}</label>
-                                    </div>
-                                @endif
-                                @if ($student->city === null)
-                                    <div class="col-md-3 col-sm-3">
-                                        <label for="">Bandar</label>
-                                    </div>
-                                    <div class="col-md-3 col-sm-3">
-                                        <input type="text" name="city" id="city" class="form-control form-control-sm is-invalid" required>
-                                    </div>
-                                @else
-                                    <div class="col-md-3 col-sm-3">
-                                        <label for="">Bandar</label>
-                                    </div>
-                                    <div class="col-md-3 col-sm-3">
-                                        <label for="name">{{ $student->city }}</label>
-                                    </div>
-                                @endif
-                            </div>
-                            <div class="row mb-2">
-                                @if ($student->state === null)
-                                    <div class="col-md-3 col-sm-3">
-                                        <label for="">Negeri</label>
-                                    </div>
-                                    <div class="col-md-3 col-sm-3">
-                                        <select name="state" id="state" class="form-control form-control-sm  is-invalid" required>
-                                            <option value="">Pilihan Negeri</option>
-                                            @foreach ($states as $state)
-                                                <option value="{{ $state->id }}">{{ $state->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>  
-                                @else
-                                    <div class="col-md-3 col-sm-3">
-                                        <label for="">Negeri</label>
-                                    </div>
-                                    <div class="col-md-9 col-sm-9">
-                                        <label for="name">{{ $student->state }}</label>
-                                    </div>                                   
-                                @endif
-                            </div>
-                            <div class="row mb-2">
-                                @if ($student->spm_year === null)
-                                    <div class="col-md-3 col-sm-3">
-                                        <label for="">Tahun SPM</label>
-                                    </div>
-                                    <div class="col-md-3 col-sm-3">
-                                        <select name="year" id="year" class="form-control form-control-sm is-invalid" required>
-                                            <option value="">Pilihan Tahun</option>
-                                            @foreach ($years as $year)
-                                                <option value="{{ $year }}">{{ $year }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                @else
-                                    <div class="col-md-3 col-sm-3">
-                                        <label for="">Tahun SPM</label>
-                                    </div>
-                                    <div class="col-md-3 col-sm-3">
-                                        <label for="name">{{ $student->spm_year }}</label>
-                                    </div>                                    
-                                @endif
-                            </div>
-                            @if ($foundFile === null)
-                                <div class="row mb-2">
-                                    <div class="col-md-3 col-sm-3">
-                                        <label for="">Keputusan SPM</label>
-                                    </div>
-                                    <div class="col-12 col-md-6 col-sm-6">
-                                        <input type="file" class="form-control form-control-sm is-invalid" name="file" id="file" required>
-                                    </div>
+                                <div class="col-md-3 col-sm-3">
+                                    <label for="">Alamat 1</label>
                                 </div>
-                            @endif
-                            <div class="mb-3">
-                                <div class="col-md-12 text-start">
-                                    <button type="submit" class="btn btn-sm btn-primary">Save</button>
+                                <div class="col-md-9 col-sm-9">
+                                    <label for="name">{{ $student->address1 }}</label>
                                 </div>
                             </div>
-                            </form>
+                            <div class="row mb-2">
+                                <div class="col-md-3 col-sm-3">
+                                    <label for="">Alamat 2</label>
+                                </div>
+                                <div class="col-md-9 col-sm-9">
+                                    <label for="name">{{ $student->address2 }}</label>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-3 col-sm-3">
+                                    <label for="">Poskod</label>
+                                </div>
+                                <div class="col-md-3 col-sm-3">
+                                    <label for="name">{{ $student->postcode }}</label>
+                                </div>
+                                <div class="col-md-3 col-sm-3">
+                                    <label for="">Bandar</label>
+                                </div>
+                                <div class="col-md-3 col-sm-3">
+                                    <label for="name">{{ $student->city }}</label>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-3 col-sm-3">
+                                    <label for="">Negeri</label>
+                                </div>
+                                <div class="col-md-9 col-sm-9">
+                                    <label for="name">{{ $student->state }}</label>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-3 col-sm-3">
+                                    <label for="">Tahun SPM</label>
+                                </div>
+                                <div class="col-md-3 col-sm-3">
+                                    <label for="name">{{ $student->spm_year }}</label>
+                                </div>
+                            </div>
                             <div class="row mb-2">
                                 <div class="col-md-3 col-sm-3">
                                     <label for="">Tarikh Permohonan</label>

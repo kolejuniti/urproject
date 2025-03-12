@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class AdvisorController extends Controller
 {
@@ -39,6 +40,16 @@ class AdvisorController extends Controller
         $ref = $user->referral_code;
         $id = $user->id;
 
+        $url = url('/').'?ref='.$ref; // Generates the referral URL
+
+        // Generate and return the QR code as an SVG string for use in Blade
+        $qrCode = QrCode::size(200)->generate($url);
+
+        // Generate and save QR code as a PNG file in the public folder
+        QrCode::size(200)
+            ->format('svg')
+            ->generate($url, public_path('qrcode.svg'));
+
         $applicants = DB::table('students')
                 ->join('state', 'students.state_id', '=', 'state.id')
                 ->leftJoin('users', 'students.user_id', '=', 'users.id')
@@ -64,7 +75,7 @@ class AdvisorController extends Controller
             $affiliates[$applicant->id] = $affiliate;
         }
 
-        return view('advisor.application', compact('applicants', 'affiliates'));
+        return view('advisor.application', compact('applicants', 'affiliates', 'url', 'qrCode'));
     }
 
     public function applicationDetail(Request $request)
@@ -212,9 +223,22 @@ class AdvisorController extends Controller
     }
 
     public function affiliate()
-    {        
+    {     
+        $user = Auth::user();
+
+        $ref = $user->referral_code;
+        $url = url('/affiliate').'?ref='.$ref; // Generates the referral URL
+
+        // Generate and return the QR code as an SVG string for use in Blade
+        $qrCode = QrCode::size(200)->generate($url);
+
+        // Generate and save QR code as a PNG file in the public folder
+        QrCode::size(200)
+            ->format('svg')
+            ->generate($url, public_path('qrcode.svg'));
+        
         $affiliates = User::where('leader_id', Auth::id())->orderBy('name')->get();
 
-        return view('advisor.affiliate', compact('affiliates'));
+        return view('advisor.affiliate', compact('affiliates', 'url', 'qrCode'));
     }
 }

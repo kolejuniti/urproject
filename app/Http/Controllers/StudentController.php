@@ -39,7 +39,12 @@ class StudentController extends Controller
         $currentYear = date('Y');
         $years = range($currentYear, $currentYear - 10);
 
-        return view('student.register-kupd', compact('ref', 'states', 'locations', 'years', 'source', 'isEmbedded'));
+        $programs = DB::table('program')
+            ->where('location_id', '1')
+            ->where('program.offered', 1)
+            ->get();
+
+        return view('student.register-kupd', compact('ref', 'states', 'locations', 'years', 'source', 'isEmbedded', 'programs'));
     }
 
     public function index_kukb(Request $request)
@@ -54,7 +59,12 @@ class StudentController extends Controller
         $currentYear = date('Y');
         $years = range($currentYear, $currentYear - 10);
 
-        return view('student.register-kukb', compact('ref', 'states', 'locations', 'years', 'source', 'isEmbedded'));
+        $programs = DB::table('program')
+            ->where('location_id', '2')
+            ->where('program.offered', 1)
+            ->get();
+
+        return view('student.register-kukb', compact('ref', 'states', 'locations', 'years', 'source', 'isEmbedded', 'programs'));
     }
 
     public function location($id)
@@ -124,7 +134,7 @@ class StudentController extends Controller
                 $city = strtoupper($request->input('city'));
                 $state = $request->input('state');
                 $year = $request->input('year');
-                $location = $request->input('location');
+                $location = 1;
                 $source = $request->input('source') ?? 'e-Daftar';
                 $programA = $request->input('programA');
                 $programB = $request->input('programB');
@@ -181,6 +191,7 @@ class StudentController extends Controller
 
                 DB::table('student_url_path')->insert([
                     'student_ic'=>$ic,
+                    'email'=>$email,
                     'path'=>$fileUrl
                 ]);
 
@@ -348,6 +359,12 @@ class StudentController extends Controller
                 // Get the file URL from Linode
                 $fileUrl = Storage::disk('linode')->url($filePath);
 
+                DB::table('student_url_path')->insert([
+                    'student_ic'=>$ic,
+                    'email'=>$email,
+                    'path'=>$fileUrl
+                ]);
+
                 // Send data to UChatWebhook
                 try {
                     $webhookUrl = env('UCHAT_WEBHOOK_URL');
@@ -512,6 +529,12 @@ class StudentController extends Controller
                 // Get the file URL from Linode
                 $fileUrl = Storage::disk('linode')->url($filePath);
 
+                DB::table('student_url_path')->insert([
+                    'student_ic'=>$ic,
+                    'email'=>$email,
+                    'path'=>$fileUrl
+                ]);
+
                 // Send data to UChatWebhook
                 try {
                     $webhookUrl = env('UCHAT_WEBHOOK_URL');
@@ -664,55 +687,6 @@ class StudentController extends Controller
         return view('student.about', compact('ref', 'source'));
     }
 
-    private function determineSource($referrer)
-    {
-        $referrer = strtolower($referrer); // Ensure case-insensitivity
-
-        if ($referrer === 'other') {
-            return 'e-Daftar'; // Default to e-Daftar if referrer is not recognized
-        } elseif ($referrer === 'tiktok') {
-            return 'tiktok';
-        }
-
-        // Check for various referrer strings
-        if (strpos($referrer, 'https://l.facebook.com') !== false) {
-            return 'facebook';
-        } elseif (strpos($referrer, 'https://lm.facebook.com/') !== false) {
-            return 'facebook';
-        } elseif (strpos($referrer, 'https://m.facebook.com/') !== false) {
-            return 'facebook';
-        } elseif (strpos($referrer, 'https://www.facebook.com/') !== false) {
-            return 'facebook';
-        } elseif (strpos($referrer, 'https://www.whatsapp.com/') !== false) {
-            return 'whatsapp';
-        } elseif (strpos($referrer, 'https://web.whatsapp.com/') !== false) {
-            return 'whatsapp';
-        } elseif (strpos($referrer, 'https://www.tiktok.com/') !== false) {
-            return 'tiktok';
-        } elseif (strpos($referrer, 'https://www.pangleglobal.com/') !== false) {
-            return 'tiktok';
-        } elseif (strpos($referrer, 'https://ether-pack-va.pangle.io/') !== false) {
-            return 'tiktok';
-        } elseif (strpos($referrer, 'https://www.instagram.com/') !== false) {
-            return 'instagram';
-        } elseif (strpos($referrer, 'https://l.instagram.com/') !== false) {
-            return 'instagram';
-        } elseif (strpos($referrer, 'https://edaftarkolej.uniticms.edu.my/') !== false) {
-            return 'e-Daftar';
-        } elseif (strpos($referrer, 'https://uniti.edu.my/') !== false) {
-            return 'website';
-        } elseif (strpos($referrer, 'https://www.google.com/') !== false) {
-            return 'google';
-        } elseif (strpos($referrer, 'https://www.google.com.my/') !== false) {
-            return 'google';
-        } elseif (strpos($referrer, 'https://.youtube.com/') !== false) {
-            return 'youtube';
-        }
-
-        // Default to "e-Daftar" if no other source matches
-        return 'e-Daftar';
-    }
-
     public function kupd(Request $request)
     {
         // Get the referrer from the headers, or 'other' if not available
@@ -789,6 +763,55 @@ class StudentController extends Controller
         $ref = $request->query('ref');
 
         return view('student.kukb', compact('ref', 'source'));
+    }
+
+    private function determineSource($referrer)
+    {
+        $referrer = strtolower($referrer); // Ensure case-insensitivity
+
+        if ($referrer === 'other') {
+            return 'e-Daftar'; // Default to e-Daftar if referrer is not recognized
+        } elseif ($referrer === 'tiktok') {
+            return 'tiktok';
+        }
+
+        // Check for various referrer strings
+        if (strpos($referrer, 'https://l.facebook.com') !== false) {
+            return 'facebook';
+        } elseif (strpos($referrer, 'https://lm.facebook.com/') !== false) {
+            return 'facebook';
+        } elseif (strpos($referrer, 'https://m.facebook.com/') !== false) {
+            return 'facebook';
+        } elseif (strpos($referrer, 'https://www.facebook.com/') !== false) {
+            return 'facebook';
+        } elseif (strpos($referrer, 'https://www.whatsapp.com/') !== false) {
+            return 'whatsapp';
+        } elseif (strpos($referrer, 'https://web.whatsapp.com/') !== false) {
+            return 'whatsapp';
+        } elseif (strpos($referrer, 'https://www.tiktok.com/') !== false) {
+            return 'tiktok';
+        } elseif (strpos($referrer, 'https://www.pangleglobal.com/') !== false) {
+            return 'tiktok';
+        } elseif (strpos($referrer, 'https://ether-pack-va.pangle.io/') !== false) {
+            return 'tiktok';
+        } elseif (strpos($referrer, 'https://www.instagram.com/') !== false) {
+            return 'instagram';
+        } elseif (strpos($referrer, 'https://l.instagram.com/') !== false) {
+            return 'instagram';
+        } elseif (strpos($referrer, 'https://edaftarkolej.uniticms.edu.my/') !== false) {
+            return 'e-Daftar';
+        } elseif (strpos($referrer, 'https://uniti.edu.my/') !== false) {
+            return 'website';
+        } elseif (strpos($referrer, 'https://www.google.com/') !== false) {
+            return 'google';
+        } elseif (strpos($referrer, 'https://www.google.com.my/') !== false) {
+            return 'google';
+        } elseif (strpos($referrer, 'https://.youtube.com/') !== false) {
+            return 'youtube';
+        }
+
+        // Default to "e-Daftar" if no other source matches
+        return 'e-Daftar';
     }
 
     public function registerTest(Request $request)
@@ -915,8 +938,168 @@ class StudentController extends Controller
                             ->select('program.name AS program', 'student_programs.status AS status', 'student_programs.notes')
                             ->where('student_programs.student_ic', 'LIKE', "{$ic}")
                             ->get();
+                            
+        $extensions = ['jpg', 'jpeg', 'png', 'pdf'];
+        $foundFile = null;
+        
+        foreach ($extensions as $ext) {
+            $filePath = 'urproject/student/resultspm/' . $ic . '.' . $ext; // Path without disk URL
+        
+            if (Storage::disk('linode')->exists($filePath)) {
+                $foundFile = Storage::disk('linode')->url($filePath); // Get the actual URL
+                break;
+            }
+        }                            
 
-        return view('student.search', compact('ref', 'students', 'states', 'years', 'ic', 'studentPrograms'));
+        return view('student.search', compact('ref', 'students', 'states', 'years', 'ic', 'studentPrograms', 'foundFile'));
+    }
+
+    public function semak_permohonan_kupd(Request $request)
+    {
+        $ref = $request->query('ref');
+        $ic = $request->input('ic');
+        
+        $states = DB::table('state')->get();
+
+        $currentYear = date('Y');
+        $years = range($currentYear, $currentYear - 10);
+        
+        $students = DB::table('students')
+                    ->leftjoin('state', 'students.state_id', '=', 'state.id')
+                    ->leftjoin('users', 'students.user_id', '=', 'users.id')
+                    ->join('location', 'students.location_id', '=', 'location.id')
+                    ->select('students.*', 'state.name AS state', 'users.name AS user', 'users.phone AS user_phone', 'location.name AS location')
+                    ->where('students.ic', 'LIKE', "{$ic}")
+                    ->where('location.id', '=', 1)
+                    ->get();
+
+        $studentPrograms = DB::table('student_programs')
+                            ->join('program', 'student_programs.program_id', '=', 'program.id')
+                            ->select('program.name AS program', 'student_programs.status AS status', 'student_programs.notes')
+                            ->where('student_programs.student_ic', 'LIKE', "{$ic}")
+                            ->get();
+                            
+        $extensions = ['jpg', 'jpeg', 'png', 'pdf'];
+        $foundFile = null;
+        
+        foreach ($extensions as $ext) {
+            $filePath = 'urproject/student/resultspm/' . $ic . '.' . $ext; // Path without disk URL
+        
+            if (Storage::disk('linode')->exists($filePath)) {
+                $foundFile = Storage::disk('linode')->url($filePath); // Get the actual URL
+                break;
+            }
+        }                            
+
+        return view('student.search-kupd', compact('ref', 'students', 'states', 'years', 'ic', 'studentPrograms', 'foundFile'));
+    }
+
+    public function kemaskini_permohonan_kupd($id, $email, Request $request)
+    {   
+        $address1 = $request->input('address1');
+        $address2 = $request->input('address2');
+        $postcode = $request->input('postcode');
+        $city = $request->input('city');
+        $state = $request->input('state');
+        $year = $request->input('year');
+
+        $update_student = DB::table('students')
+                            ->where('students.ic', $id)
+                            ->update(['address1'=>$address1, 'address2'=>$address2, 'postcode'=>$postcode, 'city'=>$city, 'state_id'=>$state, 'spm_year'=>$year]);
+
+        
+
+        $file = $request->file('file');
+
+        // Upload file to Linode and set it as public
+        $filePath = 'urproject/student/resultspm/' . $id . '.' . $file->getClientOriginalExtension();
+
+        Storage::disk('linode')->put($filePath, file_get_contents($file), 'public');
+
+        // Get the file URL from Linode
+        $fileUrl = Storage::disk('linode')->url($filePath);
+
+        DB::table('student_url_path')->insert([
+            'student_ic'=>$id,
+            'email'=>$email,
+            'path'=>$fileUrl
+        ]);
+
+        return redirect()->route('semak.permohonan.kupd');
+    }
+
+    public function semak_permohonan_kukb(Request $request)
+    {
+        $ref = $request->query('ref');
+        $ic = $request->input('ic');
+        
+        $states = DB::table('state')->get();
+
+        $currentYear = date('Y');
+        $years = range($currentYear, $currentYear - 10);
+        
+        $students = DB::table('students')
+                    ->leftjoin('state', 'students.state_id', '=', 'state.id')
+                    ->leftjoin('users', 'students.user_id', '=', 'users.id')
+                    ->join('location', 'students.location_id', '=', 'location.id')
+                    ->select('students.*', 'state.name AS state', 'users.name AS user', 'users.phone AS user_phone', 'location.name AS location')
+                    ->where('students.ic', 'LIKE', "{$ic}")
+                    ->where('location.id', '=', 2)
+                    ->get();
+
+        $studentPrograms = DB::table('student_programs')
+                            ->join('program', 'student_programs.program_id', '=', 'program.id')
+                            ->select('program.name AS program', 'student_programs.status AS status', 'student_programs.notes')
+                            ->where('student_programs.student_ic', 'LIKE', "{$ic}")
+                            ->get();
+                            
+        $extensions = ['jpg', 'jpeg', 'png', 'pdf'];
+        $foundFile = null;
+        
+        foreach ($extensions as $ext) {
+            $filePath = 'urproject/student/resultspm/' . $ic . '.' . $ext; // Path without disk URL
+        
+            if (Storage::disk('linode')->exists($filePath)) {
+                $foundFile = Storage::disk('linode')->url($filePath); // Get the actual URL
+                break;
+            }
+        }                            
+
+        return view('student.search-kukb', compact('ref', 'students', 'states', 'years', 'ic', 'studentPrograms', 'foundFile'));
+    }
+
+    public function kemaskini_permohonan_kukb($id, $email, Request $request)
+    {   
+        $address1 = $request->input('address1');
+        $address2 = $request->input('address2');
+        $postcode = $request->input('postcode');
+        $city = $request->input('city');
+        $state = $request->input('state');
+        $year = $request->input('year');
+
+        $update_student = DB::table('students')
+                            ->where('students.ic', $id)
+                            ->update(['address1'=>$address1, 'address2'=>$address2, 'postcode'=>$postcode, 'city'=>$city, 'state_id'=>$state, 'spm_year'=>$year]);
+
+        
+
+        $file = $request->file('file');
+
+        // Upload file to Linode and set it as public
+        $filePath = 'urproject/student/resultspm/' . $id . '.' . $file->getClientOriginalExtension();
+
+        Storage::disk('linode')->put($filePath, file_get_contents($file), 'public');
+
+        // Get the file URL from Linode
+        $fileUrl = Storage::disk('linode')->url($filePath);
+
+        DB::table('student_url_path')->insert([
+            'student_ic'=>$id,
+            'email'=>$email,
+            'path'=>$fileUrl
+        ]);
+
+        return redirect()->route('semak.permohonan.kukb');
     }
 
 }

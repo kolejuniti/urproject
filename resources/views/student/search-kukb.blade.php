@@ -1,23 +1,6 @@
-@php
-    $route = Route::current()->getName();
-    $layout = session('layout', 'layouts.student-kupd'); // default layout
+@extends('layouts.student-kukb')
 
-    if (str_contains($route, 'kupd')) {
-        $layout = 'layouts.student-kupd';
-        $search_route = 'port-dickson';
-        $title = 'Semakan | Kolej UNITI Port Dickson';
-    } elseif (str_contains($route, 'kukb')) {
-        $layout = 'layouts.student-kukb';
-        $search_route = 'kota-bharu';
-        $title = 'Semakan | Kolej UNITI Kota Bharu';
-    }
-
-    session(['layout' => $layout]); // store layout in session
-@endphp
-
-@extends($layout)
-
-{{-- @section('title', $title)   --}}
+@section('title', 'Semakan | Kolej UNITI Kota Bharu')  
 
 @section('content')
 <style>
@@ -49,7 +32,7 @@
             @if(isset($ic))
             @else
                 <div class="card mb-3">
-                    <form action="{{ $search_route }}" method="GET">
+                    <form action="{{ route('semak.permohonan.kukb') }}" method="GET">
                     <div class="card-header">{{ __('Carian Permohonan') }}</div>
 
                     <div class="card-body">
@@ -68,7 +51,7 @@
                         </div> --}}
                         <div class="col-12 col-md-6 col-sm-6 offset-md-3">
                             <div class="input-group mb-3">
-                                <input type="text" name="ic" id="ic" class="form-control" placeholder="No. Kad Pengenalan" aria-label="No. Kad Pengenalan" aria-describedby="button-addon2">
+                                <input type="text" name="ic" id="ic" class="form-control" placeholder="No. Kad Pengenalan" maxlength="12" aria-label="No. Kad Pengenalan" aria-describedby="button-addon2" oninput="this.value = this.value.replace(/[-\s]/g, '')">
                                 <button class="btn btn-warning" type="button" id="button-addon2"><i class="bi bi-search"></i></button>
                             </div>
                         </div>
@@ -78,8 +61,8 @@
             @endif
             @if(isset($ic))
                 @if($students->isEmpty())
-                    <p>No students found.</p>
-                    <a href="{{ url()->previous() }}"  class="btn btn-danger">Back</a>
+                    <p>Tiada maklumat permohonan dijumpai.</p>
+                    <a href="{{ route('semak.permohonan.kukb') }}"  class="btn btn-danger">Back</a>
                 @else
                     @foreach($students as $student)
                     <div class="card printableArea">
@@ -118,7 +101,7 @@
                                     <label for="name">{{ $student->email }}</label>
                                 </div>
                             </div>
-                            <form action="{{ route('kemaskini.permohonan', [$student->ic, $student->email]) }}" id="form-{{ $student->ic }}" date-email="form-{{ $student->email }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('kemaskini.permohonan.kukb', [$student->ic, $student->email]) }}" id="form-{{ $student->ic }}" date-email="form-{{ $student->email }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')  
                             <div class="row mb-2">
@@ -242,8 +225,8 @@
                                 </div>
                             @endif
                             <div class="mb-3">
-                                <div class="col-md-12 text-start">
-                                    <button type="submit" class="btn btn-sm btn-primary">Save</button>
+                                <div class="col-md-12 text-center">
+                                    <button type="submit" class="btn btn-sm btn-primary">Simpan</button>
                                 </div>
                             </div>
                             </form>

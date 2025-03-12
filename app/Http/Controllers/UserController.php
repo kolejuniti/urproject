@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class UserController extends Controller
 {
@@ -41,6 +42,15 @@ class UserController extends Controller
         $user = Auth::user();
 
         $ref = $user->referral_code;
+        $url = url('/').'?ref='.$ref; // Generates the referral URL
+
+        // Generate and return the QR code as an SVG string for use in Blade
+        $qrCode = QrCode::size(200)->generate($url);
+
+        // Generate and save QR code as a PNG file in the public folder
+        QrCode::size(200)
+            ->format('svg')
+            ->generate($url, public_path('qrcode.svg'));
 
         $applicants = DB::table('students')
                     ->join('state', 'students.state_id', '=', 'state.id')
@@ -69,7 +79,7 @@ class UserController extends Controller
 
         }
 
-        return view('user.application', ['applicantsWithPrograms' => $applicantsWithPrograms]);
+        return view('user.application', ['applicantsWithPrograms' => $applicantsWithPrograms, 'url' => $url, 'qrCode' => $qrCode]);
     }
 
     public function profile()
@@ -131,8 +141,21 @@ class UserController extends Controller
 
     public function affiliate()
     {        
+        $user = Auth::user();
+
+        $ref = $user->referral_code;
+        $url = url('/affiliate').'?ref='.$ref; // Generates the referral URL
+
+        // Generate and return the QR code as an SVG string for use in Blade
+        $qrCode = QrCode::size(200)->generate($url);
+
+        // Generate and save QR code as a PNG file in the public folder
+        QrCode::size(200)
+            ->format('svg')
+            ->generate($url, public_path('qrcode.svg'));
+
         $affiliates = User::where('leader_id', Auth::id())->orderBy('name')->get();
 
-        return view('user.affiliate', compact('affiliates'));
+        return view('user.affiliate', compact('affiliates', 'url', 'qrCode'));
     }
 }
