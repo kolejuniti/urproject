@@ -9,6 +9,8 @@ use App\Http\Controllers\StudentController;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\TestMail;
 
 Route::get('/', function (Request $request) {
     if (auth()->check()) {
@@ -136,3 +138,16 @@ Route::get('/test-route', function() {
 Route::get('/logout', function () {
     return redirect('/');
 });
+
+// Route::get('/test-email', function () {
+//     $data = [
+//         'message' => 'This is a test message sent at ' . now()->format('Y-m-d H:i:s')
+//     ];
+    
+//     try {
+//         Mail::to('faizulsoknan@gmail.com')->send(new TestMail($data));
+//         return 'Email sent successfully! Check your inbox.';
+//     } catch (\Exception $e) {
+//         return 'Email sending failed: ' . $e->getMessage();
+//     }
+// });

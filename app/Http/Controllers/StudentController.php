@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\StudentRegistrationNotification;
 
 class StudentController extends Controller
 {
@@ -364,6 +366,27 @@ class StudentController extends Controller
                     'email'=>$email,
                     'path'=>$fileUrl
                 ]);
+                
+                // Prepare student data for the email
+                $studentData = [
+                    'name' => $name,
+                    'ic' => $ic,
+                    'email' => $email,
+                    'phone' => $phone,
+                    'programA' => $programA,
+                    'programB' => $programB,
+                    'source' => $source
+                ];
+
+                // Send the email notification
+                try {
+                    Mail::to('faizulsoknan@gmail.com')->send(new \App\Mail\StudentRegistrationNotification($studentData));
+                    // Optional: log success or set a session variable
+                    // Log::info('Registration notification email sent successfully');
+                } catch (\Exception $e) {
+                    // Optional: log the error
+                    // Log::error('Failed to send registration notification email: ' . $e->getMessage());
+                }
 
                 // Send data to UChatWebhook
                 try {
@@ -534,6 +557,27 @@ class StudentController extends Controller
                     'email'=>$email,
                     'path'=>$fileUrl
                 ]);
+
+                // Prepare student data for the email
+                $studentData = [
+                    'name' => $name,
+                    'ic' => $ic,
+                    'email' => $email,
+                    'phone' => $phone,
+                    'programA' => $programA,
+                    'programB' => $programB,
+                    'source' => $source
+                ];
+
+                // Send the email notification
+                try {
+                    Mail::to('faizulsoknan@gmail.com')->send(new \App\Mail\StudentRegistrationNotification($studentData));
+                    // Optional: log success or set a session variable
+                    // Log::info('Registration notification email sent successfully');
+                } catch (\Exception $e) {
+                    // Optional: log the error
+                    // Log::error('Failed to send registration notification email: ' . $e->getMessage());
+                }
 
                 // Send data to UChatWebhook
                 try {
