@@ -961,7 +961,7 @@ class StudentController extends Controller
             }
 
             // 2nd program choice
-            $programB = $request->input('20') ?? null;
+            $programB = $request->input('21') ?? null;
 
             if ($programB) {
                 $programB_id = DB::table('program')
