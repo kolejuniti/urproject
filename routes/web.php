@@ -104,6 +104,7 @@ Route::prefix('student')->group(function() {
 
     // mini form route
     Route::post('/mini-form', [App\Http\Controllers\StudentController::class, 'miniForm'])->withoutMiddleware(VerifyCsrfToken::class);
+    Route::post('/mini-form-kukb', [App\Http\Controllers\StudentController::class, 'miniForm_kukb'])->withoutMiddleware(VerifyCsrfToken::class);
 });
 
 // register route
