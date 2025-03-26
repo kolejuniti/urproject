@@ -93,7 +93,7 @@ Route::middleware(['auth', 'user-access:user'])->group(function() {
 Route::prefix('student')->group(function() {
     // Route::get('/register', [App\Http\Controllers\StudentController::class, 'index'])->name('student.register');
     // Route::post('/register', [App\Http\Controllers\StudentController::class, 'register'])->name('student.register.post');
-    Route::get('/confirmation', [App\Http\Controllers\StudentController::class, 'confirmation'])->name('student.confirmation');
+    // Route::get('/confirmation', [App\Http\Controllers\StudentController::class, 'confirmation'])->name('student.confirmation');
     // Route::get('/search', [App\Http\Controllers\StudentController::class, 'search'])->name('student.search');
     // Route::get('/location/{id}', [App\Http\Controllers\StudentController::class, 'location']);
     // Route::get('/offerletter', [App\Http\Controllers\StudentController::class, 'offerletter'])->name('student.offerletter');
@@ -110,8 +110,10 @@ Route::prefix('student')->group(function() {
 Route::prefix('daftar')->group(function() {
     Route::get('/port-dickson', [App\Http\Controllers\StudentController::class, 'index_kupd'])->name('student.register-kupd');
     Route::post('/port-dickson', [App\Http\Controllers\StudentController::class, 'register_kupd'])->name('student.register-kupd.post');
+    Route::get('/port-dickson/pengesahan', [App\Http\Controllers\StudentController::class, 'pengesahan_kupd'])->name('student.confirmation-kupd');
     Route::get('/kota-bharu', [App\Http\Controllers\StudentController::class, 'index_kukb'])->name('student.register-kukb');
     Route::post('/kota-bharu', [App\Http\Controllers\StudentController::class, 'register_kukb'])->name('student.register-kukb.post');
+    Route::get('/kota-bharu/pengesahan', [App\Http\Controllers\StudentController::class, 'pengesahan_kukb'])->name('student.confirmation-kukb');
 });
 
 // semak permohonan route
