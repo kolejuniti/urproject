@@ -1,4 +1,4 @@
-@extends('layouts.student-kukb')
+@extends($isEmbedded ? 'layouts.embedded' : 'layouts.student-kukb')
 
 @section('title', 'Pengesahan Permohonan | Kolej UNITI Kota Bharu')  
 
