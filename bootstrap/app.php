@@ -11,6 +11,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
+        // Register CORS middleware globally
+        $middleware->append(\App\Http\Middleware\CorsMiddleware::class);
+        // Add any alias middleware if needed
         $middleware->alias([
             'user-access' => \App\Http\Middleware\MultiAuthUser::class,           
         ]);
