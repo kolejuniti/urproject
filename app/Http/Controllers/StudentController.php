@@ -411,7 +411,7 @@ class StudentController extends Controller
                     \Log::error('UChatWebhook Error: ' . $e->getMessage());
                 }
 
-                return redirect()->route('student.confirmation-kupd')
+                return redirect()->route('student.confirmation-kupd', ['embed' => 'true'])
                 ->with([
                     'name'=>$name, 
                     'ic'=>$ic,
@@ -602,7 +602,7 @@ class StudentController extends Controller
                     \Log::error('UChatWebhook Error: ' . $e->getMessage());
                 }
 
-                return redirect()->route('student.confirmation-kukb')
+                return redirect()->route('student.confirmation-kukb', ['embed' => 'true'])
                 ->with([
                     'name'=>$name, 
                     'ic'=>$ic,
