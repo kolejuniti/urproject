@@ -25,7 +25,7 @@
   <!-- Animation CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 
-  <link rel="icon" type="image/png" href="{{ env('IMAGE_BASE_URL') }}/img/ku1.png">
+  <link rel="icon" type="image/png" href="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/img/ku1.png">
   <title>Kolej UNITI Kota Bharu</title>
   
   <!-- Google tag (gtag.js) -->
@@ -55,7 +55,7 @@
     <div class="container">
       <!-- Logo -->
       <a class="navbar-brand ms-0 me-auto" href="#">
-        <img src="{{ env('IMAGE_BASE_URL') }}/img/kukbonly.png" alt="Logo" style="max-width: 100%; height: 50px;">
+        <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/img/kukbonly.png" alt="Logo" style="max-width: 100%; height: 50px;">
       </a>
 
       <!-- Hamburger Toggler -->
@@ -90,13 +90,13 @@
     <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
       <div class="carousel-inner">
         <div class="carousel-item active">
-          <img src="{{ env('IMAGE_BASE_URL') }}/img/ban1.png" class="d-block w-100" alt="...">
+          <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/img/ban1.png" class="d-block w-100" alt="...">
         </div>
         <div class="carousel-item">
-          <img src="{{ env('IMAGE_BASE_URL') }}/img/ban2.png" class="d-block w-100" alt="...">
+          <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/img/ban2.png" class="d-block w-100" alt="...">
         </div>
         <div class="carousel-item">
-          <img src="{{ env('IMAGE_BASE_URL') }}/img/ban3.png" class="d-block w-100" alt="...">
+          <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/img/ban3.png" class="d-block w-100" alt="...">
         </div>
       </div>
       <button class="carousel-control-prev custom-control-prev" type="button"
@@ -125,10 +125,10 @@
     </div>
     <div class="row justify-content-center">
       <div class="col-auto">
-        <img src="{{ env('IMAGE_BASE_URL') }}/img/mqa-01.png" alt="" style="max-width: 100%; height: 170px;">
+        <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/img/mqa-01.png" alt="" style="max-width: 100%; height: 170px;">
       </div>
       <div class="col-auto">
-        <img src="{{ env('IMAGE_BASE_URL') }}/img/myquest22-01.png" alt="" style="max-width: 100%; height: 170px;">
+        <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/img/myquest22-01.png" alt="" style="max-width: 100%; height: 170px;">
       </div>
 
     </div>
@@ -143,7 +143,7 @@
 
         <div
           class="col-12 col-md-5 d-flex flex-column justify-content-center align-items-center py-3 py-md-5 position-relative">
-          <img src="{{ env('IMAGE_BASE_URL') }}/img/kukbmain.jpg" alt="Kenapa Pilih Kolej UNITI?" class="img-fluid services-img" />
+          <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/img/kukbmain.jpg" alt="Kenapa Pilih Kolej UNITI?" class="img-fluid services-img" />
         </div>
 
         <div class="col-12 col-md-7">
@@ -279,7 +279,7 @@
         <!-- Tab Content -->
         <div class="tab-content mt-4">
           <div class="text-center mb-4">
-            <img src="{{ env('IMAGE_BASE_URL') }}/img/fkukb.png" alt="Fakulti Teknologi Dan Kejuruteraan" class="img-fluid">
+            <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/img/fkukb.png" alt="Fakulti Teknologi Dan Kejuruteraan" class="img-fluid">
           </div>
 
           <div class="row justify-content-center">
@@ -291,7 +291,7 @@
                 </div>
                 <div class="faculty-content" style="display: none;">
                   <ul>
-                    <li><a href="{{ env('IMAGE_BASE_URL') }}/img/DPAKK- KUKB.jpg" class="faculty-link text-decoration-none popupimage">Infografik
+                    <li><a href="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/img/DPAKK- KUKB.jpg" class="faculty-link text-decoration-none popupimage">Infografik
                         Program</a></li>
                     <li><a href="https://drive.google.com/file/d/1YiZgKuj1jnIJ6v7ErH4RXf3CuJtsHLMQ/preview"
                         class="faculty-link text-decoration-none popup-pdf">Buku Program</a></li>
@@ -308,7 +308,7 @@
                 </div>
                 <div class="faculty-content" style="display: none;">
                   <ul>
-                    <li><a href="{{ env('IMAGE_BASE_URL') }}/img/DPIH-KUKB.jpg" class="faculty-link text-decoration-none popupimage">Infografik
+                    <li><a href="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/img/DPIH-KUKB.jpg" class="faculty-link text-decoration-none popupimage">Infografik
                         Program</a></li>
                     <li><a href="https://drive.google.com/file/d/1tfvhQlNGaHMIGtljHse2grnPDn76eTab/preview"
                         class="faculty-link text-decoration-none popup-pdf">Buku Program</a></li>
@@ -325,7 +325,7 @@
                 </div>
                 <div class="faculty-content" style="display: none;">
                   <ul>
-                    <li><a href="{{ env('IMAGE_BASE_URL') }}/img/DPI-KUKB-update.jpg"
+                    <li><a href="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/img/DPI-KUKB-update.jpg"
                         class="faculty-link text-decoration-none popupimage">Infografik
                         Program</a></li>
                     <li><a href="https://drive.google.com/file/d/124rO7XVW3Og0ZlpBengplMACG_TSqyRM/preview"
@@ -343,7 +343,7 @@
                 </div>
                 <div class="faculty-content" style="display: none;">
                   <ul>
-                    <li><a href="{{ env('IMAGE_BASE_URL') }}/img/DPAH-KUKB.jpg" class="faculty-link text-decoration-none popupimage">Infografik
+                    <li><a href="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/img/DPAH-KUKB.jpg" class="faculty-link text-decoration-none popupimage">Infografik
                         Program</a></li>
                     <li><a href="https://drive.google.com/file/d/1qihW0pigAXj-3l4X16VZFiJ5ANDUR9UV/preview"
                         class="faculty-link text-decoration-none popup-pdf">Buku Program</a></li>
@@ -360,7 +360,7 @@
                 </div>
                 <div class="faculty-content" style="display: none;">
                   <ul>
-                    <li><a href="{{ env('IMAGE_BASE_URL') }}/img/DPM-KUKB.jpg" class="faculty-link text-decoration-none popupimage">Infografik
+                    <li><a href="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/img/DPM-KUKB.jpg" class="faculty-link text-decoration-none popupimage">Infografik
                         Program</a></li>
                     <li><a href="https://drive.google.com/file/d/1nYXl45rPrJeX3qmtxIX4eLzkZ6ZQPT35/preview"
                         class="faculty-link text-decoration-none popup-pdf">Buku Program</a></li>
@@ -377,7 +377,7 @@
                 </div>
                 <div class="faculty-content" style="display: none;">
                   <ul>
-                    <li><a href="{{ env('IMAGE_BASE_URL') }}/img/DP-KUKB-update.jpg" class="faculty-link text-decoration-none popupimage">Infografik
+                    <li><a href="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/img/DP-KUKB-update.jpg" class="faculty-link text-decoration-none popupimage">Infografik
                         Program</a></li>
                     <li><a href="https://drive.google.com/file/d/1qSAQHrGmQxhTu5LrWc2wf5XHSk6BN307/preview"
                         class="faculty-link text-decoration-none popup-pdf">Buku Program</a></li>
@@ -394,7 +394,7 @@
                 </div>
                 <div class="faculty-content" style="display: none;">
                   <ul>
-                    <li><a href="{{ env('IMAGE_BASE_URL') }}/img/DPengurusan-KUKB.jpg"
+                    <li><a href="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/img/DPengurusan-KUKB.jpg"
                         class="faculty-link text-decoration-none popupimage">Infografik
                         Program</a></li>
                     <li><a href="https://drive.google.com/file/d/1ylPoqripsFAxgGGwXLrCJnDgjD-qgoxJ/preview"
@@ -486,35 +486,35 @@
     </div>
     <div id="projects-slider" class="owl-carousel owl-theme py-3 justify-content-center">
       <div class="project">
-        <img src="{{ env('IMAGE_BASE_URL') }}/img/kukb4.png" alt="Alumni 1">
+        <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/img/kukb4.png" alt="Alumni 1">
         <div class="content">
           <h5 class="fw-bold mt-3">Fatihah Othman</h5>
           <p>Guru Tadika <br> </p>
         </div>
       </div>
       <div class="project">
-        <img src="{{ env('IMAGE_BASE_URL') }}/img/kukb3.png" alt="Alumni 2">
+        <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/img/kukb3.png" alt="Alumni 2">
         <div class="content">
           <h5 class="fw-bold mt-3">Haniff Mohd Zalani</h5>
           <p>Pegawai Ladang<br>KPF Plantation Sdn.Bhd.</p>
         </div>
       </div>
       <div class="project">
-        <img src="{{ env('IMAGE_BASE_URL') }}/img/kukb2.png" alt="Alumni 3">
+        <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/img/kukb2.png" alt="Alumni 3">
         <div class="content">
           <h5 class="fw-bold mt-3">Nurin Athirah</h5>
           <p>Sambung Ijazah<br>Di UPSI</p>
         </div>
       </div>
       <div class="project">
-        <img src="{{ env('IMAGE_BASE_URL') }}/img/kukb5.png" alt="Alumni 4">
+        <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/img/kukb5.png" alt="Alumni 4">
         <div class="content">
           <h5 class="fw-bold mt-3">Aiman Abd Razak</h5>
           <p>Pramugrara<br>AirAsia Berhad</p>
         </div>
       </div>
       <div class="project">
-        <img src="{{ env('IMAGE_BASE_URL') }}/img/kukb1.png" alt="Alumni 5">
+        <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/img/kukb1.png" alt="Alumni 5">
         <div class="content">
           <h5 class="fw-bold mt-3">Wan Nor Aisah</h5>
           <p>Ustazah<br>Fardhu Ain</p>
@@ -550,7 +550,7 @@
       <div class="row">
 
         <div class="col-md-9 d-flex gap-3">
-          <img src="{{ env('IMAGE_BASE_URL') }}/img/ku1.png" alt="Logo Kolej UNITI" class="me-3 mb-3 mb-md-0"
+          <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/img/ku1.png" alt="Logo Kolej UNITI" class="me-3 mb-3 mb-md-0"
             style="max-width: 100px; height: auto;">
           <div>
             <h5 class="fw-bold mb-1 text-light">Kolej UNITI Kota Bharu</h5>

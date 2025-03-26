@@ -78,8 +78,8 @@
         <div class="container">
             <a class="navbar-brand" href="{{ url('/') . (isset($source) ? '?source=' . $source : '') . (isset($ref) ? (isset($source) ? '&' : '?') . 'ref=' . $ref : '') }}">
                 <picture>
-                    <source srcset="{{ env('IMAGE_BASE_URL') }}/logo/edaftar.webp" type="image/webp">
-                    <img src="{{ env('IMAGE_BASE_URL') }}/logo/edaftar.png" alt="Logo" class="img-fluid" style="width: 150px; height: auto;">
+                    <source srcset="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/logo/edaftar.webp" type="image/webp">
+                    <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/logo/edaftar.png" alt="Logo" class="img-fluid" style="width: 150px; height: auto;">
                 </picture>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -143,7 +143,7 @@
                 </div>
                 <!-- Right Column -->
                 <div class="col-lg-6">
-                    <img src="{{ env('IMAGE_BASE_URL') }}/banners/kupd.jpg" alt="Kolej UNITI Port Dickson" class="img-fluid rounded-4 shadow-lg">
+                    <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/banners/kupd.jpg" alt="Kolej UNITI Port Dickson" class="img-fluid rounded-4 shadow-lg">
                 </div>
             </div>
         </div>

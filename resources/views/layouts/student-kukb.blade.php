@@ -75,7 +75,7 @@
           <div class="container">
             <!-- Logo -->
             <a class="navbar-brand ms-0 me-auto" href="#">
-              <img src="{{ env('IMAGE_BASE_URL') }}/img/kukbonly.png" alt="Logo" style="max-width: 100%; height: 50px;">
+              <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/img/kukbonly.png" alt="Logo" style="max-width: 100%; height: 50px;">
             </a>
 
             <!-- Hamburger Toggler -->
@@ -108,7 +108,7 @@
             <div class="row">
       
               <div class="col-md-9 d-flex gap-3">
-                <img src="{{ env('IMAGE_BASE_URL') }}/img/ku1.png" alt="Logo Kolej UNITI" class="me-3 mb-3 mb-md-0"
+                <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/img/ku1.png" alt="Logo Kolej UNITI" class="me-3 mb-3 mb-md-0"
                   style="max-width: 100px; height: auto;">
                 <div>
                   <h5 class="fw-bold mb-1 text-light">Kolej UNITI Kota Bharu</h5>

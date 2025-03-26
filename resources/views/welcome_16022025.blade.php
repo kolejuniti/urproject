@@ -60,8 +60,8 @@
           <div class="container">
                 <a class="navbar-brand" href="{{ url('/') . (isset($source) ? '?source=' . $source : '') . (isset($ref) ? (isset($source) ? '&' : '?') . 'ref=' . $ref : '') }}">
                     <picture>
-                        <source srcset="{{ env('IMAGE_BASE_URL') }}/logo/edaftar.webp" type="image/webp">
-                        <img src="{{ env('IMAGE_BASE_URL') }}/logo/edaftar.png" alt="Logo" class="img-fluid" style="width: 150px; height: auto;">
+                        <source srcset="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/logo/edaftar.webp" type="image/webp">
+                        <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/logo/edaftar.png" alt="Logo" class="img-fluid" style="width: 150px; height: auto;">
                     </picture>
                 </a>
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -117,7 +117,7 @@
                 <div class="col-lg-6">
                     <div class="position-relative">
                         <div class="position-absolute top-0 start-0 w-100 h-100 bg-primary rounded-4" style="transform: rotate(-3deg); opacity: 0.1;"></div>
-                        <img src="{{ env('IMAGE_BASE_URL') }}/banners/hero_konvo.JPG" alt="Kolej UNITI Port Dickson" class="img-fluid rounded-4 shadow-lg" style="transform: rotate(2deg);">
+                        <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/banners/hero_konvo.JPG" alt="Kolej UNITI Port Dickson" class="img-fluid rounded-4 shadow-lg" style="transform: rotate(2deg);">
                     </div>
                 </div>
             </div>
@@ -133,7 +133,7 @@
             <div class="row row-cols-1 row-cols-md-2 g-4 g-xl-5">
                 <div class="col">
                     <div class="card text-start shadow hover-shadow h-100 border-0 rounded-3 transition" style="transition: all 0.3s ease;">
-                        <img class="card-img-top rounded-top" src="{{ env('IMAGE_BASE_URL') }}/banners/kupd.jpg" alt="Title" />
+                        <img class="card-img-top rounded-top" src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/banners/kupd.jpg" alt="Title" />
                         <div class="card-body p-4">
                             <h4 class="card-title fw-bold mb-3">Kolej UNITI Port Dickson</h4>
                             <p class="card-text text-muted mb-4">Kolej UNITI Port Dickson merupakan sebuah institusi pendidikan tinggi swasta yang terletak di Port Dickson, Negeri Sembilan. Kolej ini menawarkan pelbagai program pengajian di peringkat diploma di dalam bidang perniagaan, pendidikan awal kanak-kanak, teknologi maklumat dan industri halal. Dengan lokasi strategik berhampiran pantai dan kemudahan pembelajaran yang lengkap, Kolej UNITI Port Dickson komited dalam melahirkan graduan berkualiti untuk memenuhi keperluan industri.</p>
@@ -146,7 +146,7 @@
                 </div>
                 <div class="col">
                     <div class="card text-start shadow hover-shadow h-100 border-0 rounded-3 transition" style="transition: all 0.3s ease;">
-                    <img class="card-img-top rounded-top" src="{{ env('IMAGE_BASE_URL') }}/banners/kupd.jpg" alt="Title" />
+                    <img class="card-img-top rounded-top" src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/banners/kupd.jpg" alt="Title" />
                         <div class="card-body p-4">
                             <h4 class="card-title fw-bold mb-3">Kolej UNITI Kota Bharu</h4>
                             <p class="card-text text-muted mb-4">Kolej UNITI Kota Bharu merupakan sebuah institusi pendidikan tinggi swasta yang terletak di Kota Bharu, Kelantan. Kolej ini menawarkan pelbagai program pengajian di peringkat diploma di alam bidang pengajian islam, pendidikan awal kanak-kanak, muamalat dan industri halal. Dengan lokasi strategik di pusat bandar dan dilengkapi dengan kemudahan pembelajaran moden, Kolej UNITI Kota Bharu bertekad untuk melahirkan graduan berkemahiran tinggi yang memenuhi kehendak pasaran kerja semasa.</p>
