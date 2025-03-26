@@ -985,6 +985,64 @@ class StudentController extends Controller
 
     }
 
+    public function miniForm_kukb(Request $request)
+    {
+        // Log incoming data for debugging
+        \Log::info('Mini form webhook data received:', $request->all());
+
+        try {
+
+            // Store in database using Gravity Forms field IDs
+            DB::table('students')->insert([
+                'name' => strtoupper($request->input('1')),
+                'ic' => $request->input('3'),
+                'phone' => $request->input('6'),
+                'email' => $request->input('5'),
+                'location_id' => 2,
+                'source' => 'website',
+                'created_at' => now()
+            ]);
+
+            // 1st program choice
+            $programA = $request->input('7') ?? null;
+
+            if ($programA) {
+                $programA_id = DB::table('program')
+                    ->whereRaw('BINARY UPPER(TRIM(name)) = ?', [strtoupper(trim($programA))])
+                    ->value('id');
+
+                if ($programA_id) {
+                    DB::table('student_programs')->insert([
+                        'student_ic' => $request->input('3'),
+                        'program_id' => $programA_id
+                    ]);
+                }
+            }
+
+            // 2nd program choice
+            $programB = $request->input('9') ?? null;
+
+            if ($programB) {
+                $programB_id = DB::table('program')
+                    ->whereRaw('BINARY UPPER(TRIM(name)) = ?', [strtoupper(trim($programB))])
+                    ->value('id');
+
+                if ($programB_id) {
+                    DB::table('student_programs')->insert([
+                        'student_ic' => $request->input('3'),
+                        'program_id' => $programB_id
+                    ]);
+                }
+            }
+
+            return response()->json(['success' => true, 'message' => 'Data stored successfully']);
+            
+        } catch (\Exception $e) {
+            \Log::error('Error storing mini form data: ' . $e->getMessage());
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+
+    }
     public function semak_permohonan(Request $request)
     {
         $ref = $request->query('ref');
