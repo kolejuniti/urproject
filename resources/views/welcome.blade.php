@@ -49,7 +49,7 @@
         <div class="col-md-3 col-sm-6 py-3">
           <div class="card border-0 h-100">
             <div class="position-relative">
-              <img src="{{ env('IMAGE_BASE_URL') }}/img/sd1.png" class="card-img-top rounded-top" alt="Kolej UNITI Port Dickson">
+              <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/img/sd1.png" class="card-img-top rounded-top" alt="Kolej UNITI Port Dickson">
             </div>
             <div class="card-body d-flex flex-column text-center">
               <h6 class="fw-bold mb-3">KOLEJ UNITI PORT DICKSON</h6>
