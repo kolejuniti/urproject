@@ -645,22 +645,26 @@ class StudentController extends Controller
     {
         $ref = $request->query('ref');
         
+        $isEmbedded = $request->query('embed') === 'true';
+        
         if (!$request->session()->has('ic')) {
             return redirect()->route('student.register-kupd')->with('msg_error', 'Tiada data pelajar. Sila daftar terlebih dahulu.');
         }
 
-        return view('student.confirmation-kupd', compact('ref'));
+        return view('student.confirmation-kupd', compact('ref', 'isEmbedded'));
     }
 
     public function pengesahan_kukb(Request $request)
     {
         $ref = $request->query('ref');
         
+        $isEmbedded = $request->query('embed') === 'true';
+        
         if (!$request->session()->has('ic')) {
             return redirect()->route('student.register-kukb')->with('msg_error', 'Tiada data pelajar. Sila daftar terlebih dahulu.');
         }
 
-        return view('student.confirmation', compact('ref'));
+        return view('student.confirmation-kukb', compact('ref', 'isEmbedded'));
     }
 
     public function search(Request $request)
