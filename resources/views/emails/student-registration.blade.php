@@ -10,19 +10,19 @@
     
     <table border="0" cellpadding="5">
         <tr>
-            <td><strong>Name:</strong></td>
+            <td><strong>Name Penuh:</strong></td>
             <td>{{ $studentData['name'] }}</td>
         </tr>
         <tr>
-            <td><strong>IC:</strong></td>
+            <td><strong>No. Kad Pengenalan:</strong></td>
             <td>{{ $studentData['ic'] }}</td>
         </tr>
         <tr>
-            <td><strong>Email:</strong></td>
+            <td><strong>Emel:</strong></td>
             <td>{{ $studentData['email'] }}</td>
         </tr>
-        <tr>
-            <td><strong>Phone:</strong></td>
+        {{-- <tr>
+            <td><strong>No. Telefon:</strong></td>
             <td>{{ $studentData['phone'] }}</td>
         </tr>
         <tr>
@@ -36,7 +36,7 @@
         <tr>
             <td><strong>Registration Source:</strong></td>
             <td>{{ $studentData['source'] }}</td>
-        </tr>
+        </tr> --}}
     </table>
 </body>
 </html>
