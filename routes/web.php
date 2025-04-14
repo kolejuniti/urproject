@@ -142,15 +142,16 @@ Route::get('/logout', function () {
     return redirect('/');
 });
 
-Route::get('/test-email', function () {
-    $data = [
-        'message' => 'This is a test message sent at ' . now()->format('Y-m-d H:i:s')
-    ];
+// Email testing route
+// Route::get('/test-email', function () {
+//     $data = [
+//         'message' => 'This is a test message sent at ' . now()->format('Y-m-d H:i:s')
+//     ];
     
-    try {
-        Mail::to('faizulsoknan@gmail.com')->send(new TestMail($data));
-        return 'Email sent successfully! Check your inbox.';
-    } catch (\Exception $e) {
-        return 'Email sending failed: ' . $e->getMessage();
-    }
-});
+//     try {
+//         Mail::to('faizulsoknan@gmail.com')->send(new TestMail($data));
+//         return 'Email sent successfully! Check your inbox.';
+//     } catch (\Exception $e) {
+//         return 'Email sending failed: ' . $e->getMessage();
+//     }
+// });
