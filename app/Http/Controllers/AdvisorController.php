@@ -51,7 +51,7 @@ class AdvisorController extends Controller
             ->generate($url, public_path('qrcode.svg'));
 
         $applicants = DB::table('students')
-                ->join('state', 'students.state_id', '=', 'state.id')
+                ->leftjoin('state', 'students.state_id', '=', 'state.id')
                 ->leftJoin('users', 'students.user_id', '=', 'users.id')
                 ->join('location', 'students.location_id', '=', 'location.id')
                 ->leftJoin('status', 'students.status_id', '=', 'status.id')
@@ -83,7 +83,7 @@ class AdvisorController extends Controller
         $ic = $request->input('ic');
 
         $applicants = DB::table('students')
-                    ->join('state', 'students.state_id', '=', 'state.id')
+                    ->leftJoin('state', 'students.state_id', '=', 'state.id')
                     ->leftJoin('users', 'students.user_id', '=', 'users.id')
                     ->join('location', 'students.location_id', '=', 'location.id')
                     ->leftJoin('status', 'students.status_id', '=', 'status.id')

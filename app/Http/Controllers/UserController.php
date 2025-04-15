@@ -53,7 +53,7 @@ class UserController extends Controller
             ->generate($url, public_path('qrcode.svg'));
 
         $applicants = DB::table('students')
-                    ->join('state', 'students.state_id', '=', 'state.id')
+                    ->leftjoin('state', 'students.state_id', '=', 'state.id')
                     ->leftjoin('users', 'students.user_id', '=', 'users.id')
                     ->join('location', 'students.location_id', '=', 'location.id')
                     ->leftjoin('status', 'students.status_id', '=', 'status.id')
