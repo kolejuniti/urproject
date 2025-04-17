@@ -366,16 +366,18 @@ class StudentController extends Controller
                     'email'=>$email,
                     'path'=>$fileUrl
                 ]);
-                
+
+                $programA_name = DB::table('program')->where('id', $programA)->value('name');
+                $programB_name = DB::table('program')->where('id', $programB)->value('name');
+
                 // Prepare student data for the email
                 $studentData = [
                     'name' => $name,
                     'ic' => $ic,
                     'email' => $email,
                     'phone' => $phone,
-                    'programA' => $programA,
-                    'programB' => $programB,
-                    'source' => $source
+                    'programA' => $programA_name,
+                    'programB' => $programB_name
                 ];
 
                 // Send the email notification
@@ -558,15 +560,17 @@ class StudentController extends Controller
                     'path'=>$fileUrl
                 ]);
 
+                $programA_name = DB::table('program')->where('id', $programA)->value('name');
+                $programB_name = DB::table('program')->where('id', $programB)->value('name');
+
                 // Prepare student data for the email
                 $studentData = [
                     'name' => $name,
                     'ic' => $ic,
                     'email' => $email,
                     'phone' => $phone,
-                    'programA' => $programA,
-                    'programB' => $programB,
-                    'source' => $source
+                    'programA' => $programA_name,
+                    'programB' => $programB_name
                 ];
 
                 // Send the email notification

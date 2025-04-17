@@ -25,7 +25,7 @@ class StudentRegistrationNotification extends Mailable
      */
     public function build()
     {
-        return $this->subject('New Student Registration Notification')
+        return $this->subject('Notifikasi Borang Hubungi Untuk Admin - Kolej UNITI')
                     ->view('emails.student-registration');
     }
 }
