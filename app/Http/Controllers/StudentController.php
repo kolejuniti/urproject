@@ -1179,7 +1179,8 @@ class StudentController extends Controller
                 'user_id' => $userID,
                 'location_id' => 1,
                 'source' => 'website',
-                'created_at' => now()
+                'created_at' => now(),
+                'updated_at'=> $update
             ]);
 
             // 1st program choice
@@ -1322,7 +1323,8 @@ class StudentController extends Controller
                 'email' => $request->input('5'),
                 'location_id' => 2,
                 'source' => 'website',
-                'created_at' => now()
+                'created_at' => now(),
+                'updated_at'=> $update
             ]);
 
             // 1st program choice
