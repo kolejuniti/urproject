@@ -311,6 +311,8 @@ class StudentController extends Controller
                             ->value('code');
 
                 $maxNumber = (int) $maxNumber;
+                $found = false;
+                $nextId = null;
 
                 for ($i = $startNumber + 1; $i <= $maxNumber; $i++) {
                     $newCode = $prefix . str_pad($i, 2, '0', STR_PAD_LEFT); // e.g., PD-04
@@ -323,7 +325,25 @@ class StudentController extends Controller
 
                     if ($user) {
                         $nextId = $user->id;
+                        $found = true;
                         break;
+                    }
+                }
+
+                // If not found, loop from 1 to $startNumber
+                if (!$found) {
+                    for ($i = 1; $i <= $startNumber; $i++) {
+                        $newCode = $prefix . str_pad($i, 2, '0', STR_PAD_LEFT);
+
+                        $user = DB::table('users')
+                            ->where('name', 'like', $newCode . '%')
+                            ->where('type', 1)
+                            ->first();
+
+                        if ($user) {
+                            $nextId = $user->id;
+                            break;
+                        }
                     }
                 }
 
@@ -559,6 +579,8 @@ class StudentController extends Controller
                             ->value('code');
 
                 $maxNumber = (int) $maxNumber;
+                $found = false;
+                $nextId = null;
 
                 for ($i = $startNumber + 1; $i <= $maxNumber; $i++) {
                     $newCode = $prefix . str_pad($i, 2, '0', STR_PAD_LEFT); // e.g., PD-04
@@ -571,7 +593,25 @@ class StudentController extends Controller
 
                     if ($user) {
                         $nextId = $user->id;
+                        $found = true;
                         break;
+                    }
+                }
+
+                // If not found, loop from 1 to $startNumber
+                if (!$found) {
+                    for ($i = 1; $i <= $startNumber; $i++) {
+                        $newCode = $prefix . str_pad($i, 2, '0', STR_PAD_LEFT);
+
+                        $user = DB::table('users')
+                            ->where('name', 'like', $newCode . '%')
+                            ->where('type', 1)
+                            ->first();
+
+                        if ($user) {
+                            $nextId = $user->id;
+                            break;
+                        }
                     }
                 }
 
