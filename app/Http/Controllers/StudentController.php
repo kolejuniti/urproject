@@ -586,7 +586,7 @@ class StudentController extends Controller
         }
 
         $ic = $request->input('ic');
-        $studentlists = DB::connection('mysql2')->table('students')->where('ic', $ic)
+        $studentlists = DB::connection('mysql3')->table('students')->where('ic', $ic)
         ->first();
 
         if($studentlists === null)
