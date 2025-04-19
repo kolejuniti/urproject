@@ -1093,6 +1093,82 @@ class StudentController extends Controller
             if ($existingStudent) {
                 return response()->json(['error' => 'Student with this IC already exists'], 400);
             }
+            
+            $userID = null;
+            $update = null;
+
+            $currentUserID = DB::table('students')
+                        ->join('users', 'students.user_id', '=', 'users.id')
+                        ->select('users.name', 'users.id', DB::raw('LEFT(users.name, 5) AS advisor_code'))
+                        ->whereNull('students.referral_code')
+                        ->where('users.type', '1')
+                        ->where('users.name', 'LIKE', 'PD-%')
+                        ->orderByDesc('students.id')
+                        ->limit(1)
+                        ->first();
+
+            if ($currentUserID && isset($currentUserID->advisor_code)) {
+
+                // Step 1: Assume you already have the current code
+                $userIDCode = $currentUserID->advisor_code;
+
+                // Step 2: Extract numeric part and increment
+                $prefix = 'PD-';
+                $startNumber = (int) str_replace($prefix, '', $userIDCode);
+
+                $maxNumber = DB::table('users')
+                            ->select(DB::raw('SUBSTRING(name, 4, 2) as code'))
+                            ->where('type', 1)
+                            ->where('name', 'like', 'PD-%')
+                            ->orderByDesc(DB::raw('SUBSTRING(name, 4, 2)'))
+                            ->limit(1)
+                            ->value('code');
+
+                $maxNumber = (int) $maxNumber;
+                $found = false;
+                $nextId = null;
+
+                for ($i = $startNumber + 1; $i <= $maxNumber; $i++) {
+                    $newCode = $prefix . str_pad($i, 2, '0', STR_PAD_LEFT); // e.g., PD-04
+
+                    // Step 3: Try to find user with this new code
+                    $user = DB::table('users')
+                        ->where('name', 'like', $newCode . '%')
+                        ->where('type', '1')
+                        ->first();
+
+                    if ($user) {
+                        $nextId = $user->id;
+                        $found = true;
+                        break;
+                    }
+                }
+
+                // If not found, loop from 1 to $startNumber
+                if (!$found) {
+                    for ($i = 1; $i <= $startNumber; $i++) {
+                        $newCode = $prefix . str_pad($i, 2, '0', STR_PAD_LEFT);
+
+                        $user = DB::table('users')
+                            ->where('name', 'like', $newCode . '%')
+                            ->where('type', 1)
+                            ->first();
+
+                        if ($user) {
+                            $nextId = $user->id;
+                            break;
+                        }
+                    }
+                }
+
+                // Optional: Handle when no advisor found
+                if ($nextId !== null) {
+                    $userID = $nextId;
+                    $update = date('Y-m-d H:i:s');
+                } else {
+                    $userID = null;
+                }
+            }
 
             // Store in database using Gravity Forms field IDs
             DB::table('students')->insert([
@@ -1100,6 +1176,7 @@ class StudentController extends Controller
                 'ic' => $request->input('3'),
                 'phone' => $request->input('19'),
                 'email' => $request->input('7'),
+                'user_id' => $userID,
                 'location_id' => 1,
                 'source' => 'website',
                 'created_at' => now()
@@ -1159,6 +1236,82 @@ class StudentController extends Controller
 
             if ($existingStudent) {
                 return response()->json(['error' => 'Student with this IC already exists'], 400);
+            }
+            
+            $userID = null;
+            $update = null;
+
+            $currentUserID = DB::table('students')
+                        ->join('users', 'students.user_id', '=', 'users.id')
+                        ->select('users.name', 'users.id', DB::raw('LEFT(users.name, 5) AS advisor_code'))
+                        ->whereNull('students.referral_code')
+                        ->where('users.type', '1')
+                        ->where('users.name', 'LIKE', 'PD-%')
+                        ->orderByDesc('students.id')
+                        ->limit(1)
+                        ->first();
+
+            if ($currentUserID && isset($currentUserID->advisor_code)) {
+
+                // Step 1: Assume you already have the current code
+                $userIDCode = $currentUserID->advisor_code;
+
+                // Step 2: Extract numeric part and increment
+                $prefix = 'PD-';
+                $startNumber = (int) str_replace($prefix, '', $userIDCode);
+
+                $maxNumber = DB::table('users')
+                            ->select(DB::raw('SUBSTRING(name, 4, 2) as code'))
+                            ->where('type', 1)
+                            ->where('name', 'like', 'PD-%')
+                            ->orderByDesc(DB::raw('SUBSTRING(name, 4, 2)'))
+                            ->limit(1)
+                            ->value('code');
+
+                $maxNumber = (int) $maxNumber;
+                $found = false;
+                $nextId = null;
+
+                for ($i = $startNumber + 1; $i <= $maxNumber; $i++) {
+                    $newCode = $prefix . str_pad($i, 2, '0', STR_PAD_LEFT); // e.g., PD-04
+
+                    // Step 3: Try to find user with this new code
+                    $user = DB::table('users')
+                        ->where('name', 'like', $newCode . '%')
+                        ->where('type', '1')
+                        ->first();
+
+                    if ($user) {
+                        $nextId = $user->id;
+                        $found = true;
+                        break;
+                    }
+                }
+
+                // If not found, loop from 1 to $startNumber
+                if (!$found) {
+                    for ($i = 1; $i <= $startNumber; $i++) {
+                        $newCode = $prefix . str_pad($i, 2, '0', STR_PAD_LEFT);
+
+                        $user = DB::table('users')
+                            ->where('name', 'like', $newCode . '%')
+                            ->where('type', 1)
+                            ->first();
+
+                        if ($user) {
+                            $nextId = $user->id;
+                            break;
+                        }
+                    }
+                }
+
+                // Optional: Handle when no advisor found
+                if ($nextId !== null) {
+                    $userID = $nextId;
+                    $update = date('Y-m-d H:i:s');
+                } else {
+                    $userID = null;
+                }
             }
 
             // Store in database using Gravity Forms field IDs
