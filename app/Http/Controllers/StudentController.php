@@ -1328,6 +1328,7 @@ class StudentController extends Controller
                 'ic' => $request->input('3'),
                 'phone' => $request->input('6'),
                 'email' => $request->input('5'),
+                'user_id' => $userID,
                 'location_id' => 2,
                 'source' => 'website',
                 'created_at' => now(),
