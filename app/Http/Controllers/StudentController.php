@@ -1247,7 +1247,7 @@ class StudentController extends Controller
                         ->select('users.name', 'users.id', DB::raw('LEFT(users.name, 5) AS advisor_code'))
                         ->whereNull('students.referral_code')
                         ->where('users.type', '1')
-                        ->where('users.name', 'LIKE', 'PD-%')
+                        ->where('users.name', 'LIKE', 'KB-%')
                         ->orderByDesc('students.id')
                         ->limit(1)
                         ->first();
@@ -1258,13 +1258,13 @@ class StudentController extends Controller
                 $userIDCode = $currentUserID->advisor_code;
 
                 // Step 2: Extract numeric part and increment
-                $prefix = 'PD-';
+                $prefix = 'KB-';
                 $startNumber = (int) str_replace($prefix, '', $userIDCode);
 
                 $maxNumber = DB::table('users')
                             ->select(DB::raw('SUBSTRING(name, 4, 2) as code'))
                             ->where('type', 1)
-                            ->where('name', 'like', 'PD-%')
+                            ->where('name', 'like', 'KB-%')
                             ->orderByDesc(DB::raw('SUBSTRING(name, 4, 2)'))
                             ->limit(1)
                             ->value('code');
