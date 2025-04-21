@@ -276,8 +276,15 @@ class StudentController extends Controller
                 if ($user->type === 'advisor') { // Adjust the comparison based on actual returned value
                     $userID = $user->id;
                     $update = date('Y-m-d H:i:s');
-                } else {
-                    $userID = $user->leader_id;
+                } elseif ($user->type === 'user') {
+                    $leaderType = User::where('id', $user->leader_id)->first();
+
+                    if ($leaderType && $leaderType->type === 'advisor') {
+                        $userID = $leaderType->id;
+                        $update = date('Y-m-d H:i:s');
+                    } else {
+                        $userID = null; // Set to null if no valid advisor found
+                    }
                 }
             }
         } else {
