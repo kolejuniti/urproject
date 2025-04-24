@@ -534,7 +534,7 @@
           <h2 class="mb-4">Jangan Lepaskan Peluang! <b>Daftar Sekarang</b></h2>
         </div>
         <div class="col-12 col-md-5 d-flex justify-content-center justify-content-md-end">
-          <a href="{{ route('student.register-kukb') }}" class="btn btn-lg mb-2 shadow-sm"
+          <a href="{{ route('student.register-kukb', ['source' => old('source', $source), 'ref' => old('ref', $ref)]) }}" class="btn btn-lg mb-2 shadow-sm"
             style="padding: 0.8rem 1.5rem; border-radius: 50px;">
             Daftar Sekarang
           </a>
