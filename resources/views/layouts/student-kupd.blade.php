@@ -49,13 +49,13 @@
     <link rel="stylesheet" href="{{ asset('css/kupd-style.css') }}">
   
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-B4BRS3VJS0"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11015826304"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-  
-      gtag('config', 'G-B4BRS3VJS0');
+
+      gtag('config', 'AW-11015826304');
     </script>
 </head>
 <body class="bg-white">
