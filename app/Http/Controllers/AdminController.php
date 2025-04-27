@@ -212,7 +212,8 @@ class AdminController extends Controller
                     'students.register_at',
                     'students.referral_code',
                     'students.status_id',
-                    'state.name AS state', 'users.name AS user', 'location.code AS location', 'student_foundations.foundation AS note');
+                    'state.name AS state', 'users.name AS user', 'location.code AS location', 'student_foundations.foundation AS note')
+                    ->whereNotNull('students.ic');
                     // ->orderBy('students.created_at', 'desc')
                     // ->get();
         
