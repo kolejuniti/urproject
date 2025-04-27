@@ -414,6 +414,7 @@ class AdminController extends Controller
                     ->leftjoin('status', 'students.status_id', '=', 'status.id')
                     ->join('location', 'students.location_id', '=', 'location.id')
                     ->select('students.id', 'students.name', 'students.ic', 'students.phone', 'students.email', 'students.created_at', 'students.updated_at', 'status.name AS status', 'students.register_at', 'students.referral_code', 'students.user_id', 'location.code AS location')
+                    ->where('students.source', 'NOT LIKE', '%Nuha%')
                     ->orderBy('created_at', 'desc')
                     ->get();
         
@@ -516,7 +517,8 @@ class AdminController extends Controller
         // Student status summary with date range filter
         $studentStatus = DB::table('students')
             ->join('status', 'students.status_id', '=', 'status.id')
-            ->select(DB::raw('COUNT(students.id) AS total'), 'status.name AS status', 'status.id AS status_id');
+            ->select(DB::raw('COUNT(students.id) AS total'), 'status.name AS status', 'status.id AS status_id')
+            ->where('students.source', 'NOT LIKE', '%Nuha%');
 
         if ($start_date) {
             $studentStatus->whereDate('students.created_at', '>=', $start_date);
@@ -530,7 +532,8 @@ class AdminController extends Controller
         // Students with no status and date range filter
         $studentNoStatus = DB::table('students')
             ->select(DB::raw('COUNT(students.id) AS total'), DB::raw('"TIADA STATUS" AS status'), DB::raw('NULL AS status_id'))
-            ->whereNull('students.status_id');
+            ->whereNull('students.status_id')
+            ->where('students.source', 'NOT LIKE', '%Nuha%');
 
         if ($start_date) {
             $studentNoStatus->whereDate('students.created_at', '>=', $start_date);
@@ -552,7 +555,8 @@ class AdminController extends Controller
         // Summary of students by locations with date range filter
         $locations = DB::table('students')
             ->join('location', 'students.location_id', '=', 'location.id')
-            ->select(DB::raw('count(students.id) AS total'), 'location.name AS location');
+            ->select(DB::raw('count(students.id) AS total'), 'location.name AS location')
+            ->where('students.source', 'NOT LIKE', '%Nuha%');
 
         // Apply date range filter if start_date and/or end_date are provided
         if ($start_date) {
@@ -576,7 +580,8 @@ class AdminController extends Controller
                 DB::raw('COUNT(students.id) AS total'),
                 DB::raw('SUM(CASE WHEN students.location_id = 1 THEN 1 ELSE 0 END) AS total_kupd'), // Count for KUPD (location_id = 1)
                 DB::raw('SUM(CASE WHEN students.location_id = 2 THEN 1 ELSE 0 END) AS total_kukb')  // Count for KUKB (location_id = 2)
-            );
+            )
+            ->where('students.source', 'NOT LIKE', '%Nuha%');
 
         // Apply date range filter if start_date and/or end_date are provided
         if ($start_date) {
@@ -602,7 +607,8 @@ class AdminController extends Controller
                 DB::raw('COUNT(students.id) AS total'),
                 DB::raw('SUM(CASE WHEN students.location_id = 1 THEN 1 ELSE 0 END) AS total_kupd'), // Count for KUPD (location_id = 1)
                 DB::raw('SUM(CASE WHEN students.location_id = 2 THEN 1 ELSE 0 END) AS total_kukb')  // Count for KUKB (location_id = 2)
-        );
+        )
+        ->where('students.source', 'NOT LIKE', '%Nuha%');
 
         // Apply date range filter if start_date and/or end_date are provided
         if ($start_date) {
@@ -626,6 +632,7 @@ class AdminController extends Controller
         // Get the student count for each month of the current year
         $students = DB::table('students')
             ->select(DB::raw('COUNT(id) as total, MONTH(created_at) as month'))
+            ->where('students.source', 'NOT LIKE', '%Nuha%')
             ->whereYear('created_at', $currentYear)
             ->groupBy(DB::raw('MONTH(created_at)'))
             ->pluck('total', 'month');
