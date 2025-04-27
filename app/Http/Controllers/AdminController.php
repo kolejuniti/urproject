@@ -213,7 +213,7 @@ class AdminController extends Controller
                     'students.referral_code',
                     'students.status_id',
                     'state.name AS state', 'users.name AS user', 'location.code AS location', 'student_foundations.foundation AS note')
-                    ->whereNotNull('students.ic');
+                    ->where('students.source', 'NOT LIKE', '%Nuha%');
                     // ->orderBy('students.created_at', 'desc')
                     // ->get();
         
