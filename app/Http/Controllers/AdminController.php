@@ -694,5 +694,43 @@ class AdminController extends Controller
         ]);
     }
 
+    public function leadReports(Request $request)
+    {
+        $start_date = $request->input('start_date');
+        $end_date = $request->input('end_date');
+
+        $sources = DB::table('students')
+            ->select(
+                'students.source',
+                DB::raw('COUNT(students.id) AS total'),
+                DB::raw('SUM(CASE WHEN students.location_id = 1 THEN 1 ELSE 0 END) AS total_kupd'),
+                DB::raw('SUM(CASE WHEN students.location_id = 2 THEN 1 ELSE 0 END) AS total_kukb')
+            )
+            ->where('students.source', 'NOT LIKE', '%Nuha%')
+            ->whereBetween('students.created_at', [$start_date, $end_date]);
+
+        $sources = $sources->groupBy('students.source')->get();
+
+        // Always define monthlyTotals to avoid "undefined variable" error
+        $monthlyTotals = [];
+
+        if ($start_date) {
+            $startMonth = date('m', strtotime($start_date)); 
+            $startYear = date('Y', strtotime($start_date));
+
+            $monthlyTotals = DB::table('students')
+                ->select(
+                    'students.source',
+                    DB::raw('COUNT(students.id) AS total_month')
+                )
+                ->where('students.source', 'NOT LIKE', '%Nuha%')
+                ->whereYear('students.created_at', $startYear)
+                ->whereMonth('students.created_at', $startMonth)
+                ->groupBy('students.source')
+                ->pluck('total_month', 'source'); // <-- this makes it easy to match source to total
+        }
+
+        return view('admin.leadreports', compact('sources', 'start_date', 'end_date', 'monthlyTotals'));
+    }
 
 }
