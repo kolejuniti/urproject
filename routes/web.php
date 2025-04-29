@@ -11,6 +11,8 @@ use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\TestMail;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 // use Illuminate\Support\Facades\DB;
 
 // Route::get('/db-check', function () {
@@ -29,6 +31,62 @@ use App\Mail\TestMail;
 //     }
 // });
 
+// Route::get('/', function (Request $request) {
+//     if (auth()->check()) {
+//         switch (auth()->user()->type) {
+//             case 'user':
+//                 return redirect('/user/dashboard');
+//             case 'advisor':
+//                 return redirect('/advisor/dashboard');
+//             case 'admin':
+//                 return redirect('/admin/dashboard');
+//         }
+//     }
+
+//     $ref = $request->query('ref');
+
+//     // $source = $request->query('source') ?? (new \App\Http\Controllers\StudentController)->determineSource($request);
+
+//     if (empty($source) || $source === 'other') {
+//         $source = 'e-Daftar';
+//     }
+    
+//     return view('welcome', compact('ref', 'source')); // Or any other public view
+// });
+
+if (!function_exists('determineSourceFromReferrer')) {
+    function determineSourceFromReferrer($referrer)
+    {
+        $referrer = strtolower($referrer); // case insensitive
+
+        if ($referrer === 'other') {
+            return 'e-Daftar';
+        } elseif ($referrer === 'tiktok') {
+            return 'tiktok';
+        }
+
+        if (strpos($referrer, 'facebook.com') !== false) {
+            return 'facebook';
+        } elseif (strpos($referrer, 'whatsapp.com') !== false) {
+            return 'whatsapp';
+        } elseif (strpos($referrer, 'tiktok.com') !== false || strpos($referrer, 'pangleglobal.com') !== false || strpos($referrer, 'pangle.io') !== false) {
+            return 'tiktok';
+        } elseif (strpos($referrer, 'instagram.com') !== false) {
+            return 'instagram';
+        } elseif (strpos($referrer, 'edaftarkolej.uniticms.edu.my') !== false) {
+            return 'e-Daftar';
+        } elseif (strpos($referrer, 'uniti.edu.my') !== false) {
+            return 'website';
+        } elseif (strpos($referrer, 'google.com') !== false || strpos($referrer, 'google.com.my') !== false) {
+            return 'google';
+        } elseif (strpos($referrer, 'youtube.com') !== false) {
+            return 'youtube';
+        }
+
+        return 'e-Daftar'; // default fallback
+    }
+}
+
 Route::get('/', function (Request $request) {
     if (auth()->check()) {
         switch (auth()->user()->type) {
@@ -42,14 +100,18 @@ Route::get('/', function (Request $request) {
     }
 
     $ref = $request->query('ref');
-
-    // $source = $request->query('source') ?? (new \App\Http\Controllers\StudentController)->determineSource($request);
-
-    if (empty($source) || $source === 'other') {
-        $source = 'e-Daftar';
-    }
     
-    return view('welcome', compact('ref', 'source')); // Or any other public view
+    // Get referrer from headers
+    $referrer = $request->headers->get('referer', 'other');
+
+    // Check if source is in query, else determine from referrer
+    $source = $request->query('source');
+
+    if (empty($source)) {
+        $source = determineSourceFromReferrer($referrer);
+    }
+
+    return view('welcome', compact('ref', 'source'));
 });
 
 // Route::get('/example', function () {
