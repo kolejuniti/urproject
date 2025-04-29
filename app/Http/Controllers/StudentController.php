@@ -331,37 +331,50 @@ class StudentController extends Controller
                                 $found = false;
                                 $nextId = null;
                 
-                                for ($i = $startNumber + 1; $i <= $maxNumber; $i++) {
-                                    $newCode = 'A' . $i; // e.g., A4
+                                // First loop: search from startNumber+1 to maxNumber
 
-                                    // Step 3: Try to find user with this new code
-                                    $user = DB::table('users')
-                                    ->where('name', 'like', 'PD-%')       // Starts with "PD-"
-                                    ->where('name', 'like', '%' . $newCode . '%')  // Contains $newCode (e.g., "A3")
-                                    ->where('type', '1')
-                                    ->first();
-                
-                                    if ($user) {
-                                        $nextId = $user->id;
-                                        $found = true;
-                                        break;
+                                for ($i = $startNumber + 1; $i <= $maxNumber; $i++) {
+                                    $newCode = 'A' . $i; // e.g., A12
+                                    
+                                    // Search for exact code match using CONCAT to add word boundaries
+                                    $users = DB::table('users')
+                                        ->where('name', 'like', 'PD-%')  // Starts with "PD-"
+                                        ->where('type', '1')
+                                        ->get();
+                                    
+                                    // Filter results manually to ensure exact code match
+                                    foreach ($users as $user) {
+                                        // Extract all A-codes from the name
+                                        preg_match_all('/A\d+/', $user->name, $matches);
+                                        
+                                        if (in_array($newCode, $matches[0])) {
+                                            $nextId = $user->id;
+                                            $found = true;
+                                            break 2; // Break out of both loops
+                                        }
                                     }
                                 }
-                
-                                // If not found, loop from 1 to $startNumber
+
+                                // If not found, search from 1 to startNumber
                                 if (!$found) {
                                     for ($i = 1; $i <= $startNumber; $i++) {
-                                        $newCode = 'A' . $i; // e.g., A4
-                
-                                        $user = DB::table('users')
-                                        ->where('name', 'like', 'PD-%')       // Starts with "PD-"
-                                        ->where('name', 'regexp', '(^|-)'.$newCode.'($|-)')  // Contains $newCode (e.g., "A3")
-                                        ->where('type', '1')
-                                        ->first();
-                
-                                        if ($user) {
-                                            $nextId = $user->id;
-                                            break;
+                                        $newCode = 'A' . $i; // e.g., A1
+                                        
+                                        // Search for exact code match
+                                        $users = DB::table('users')
+                                            ->where('name', 'like', 'PD-%')  // Starts with "PD-"
+                                            ->where('type', '1')
+                                            ->get();
+                                        
+                                        // Filter results manually to ensure exact code match
+                                        foreach ($users as $user) {
+                                            // Extract all A-codes from the name
+                                            preg_match_all('/A\d+/', $user->name, $matches);
+                                            
+                                            if (in_array($newCode, $matches[0])) {
+                                                $nextId = $user->id;
+                                                break 2; // Break out of both loops
+                                            }
                                         }
                                     }
                                 }
@@ -695,37 +708,50 @@ class StudentController extends Controller
                                 $found = false;
                                 $nextId = null;
                 
-                                for ($i = $startNumber + 1; $i <= $maxNumber; $i++) {
-                                    $newCode = 'A' . $i; // e.g., A4
+                                // First loop: search from startNumber+1 to maxNumber
 
-                                    // Step 3: Try to find user with this new code
-                                    $user = DB::table('users')
-                                    ->where('name', 'like', 'KB-%')       // Starts with "PD-"
-                                    ->where('name', 'like', '%' . $newCode . '%')  // Contains $newCode (e.g., "A3")
-                                    ->where('type', '1')
-                                    ->first();
-                
-                                    if ($user) {
-                                        $nextId = $user->id;
-                                        $found = true;
-                                        break;
+                                for ($i = $startNumber + 1; $i <= $maxNumber; $i++) {
+                                    $newCode = 'A' . $i; // e.g., A12
+                                    
+                                    // Search for exact code match using CONCAT to add word boundaries
+                                    $users = DB::table('users')
+                                        ->where('name', 'like', 'PD-%')  // Starts with "PD-"
+                                        ->where('type', '1')
+                                        ->get();
+                                    
+                                    // Filter results manually to ensure exact code match
+                                    foreach ($users as $user) {
+                                        // Extract all A-codes from the name
+                                        preg_match_all('/A\d+/', $user->name, $matches);
+                                        
+                                        if (in_array($newCode, $matches[0])) {
+                                            $nextId = $user->id;
+                                            $found = true;
+                                            break 2; // Break out of both loops
+                                        }
                                     }
                                 }
-                
-                                // If not found, loop from 1 to $startNumber
+
+                                // If not found, search from 1 to startNumber
                                 if (!$found) {
                                     for ($i = 1; $i <= $startNumber; $i++) {
-                                        $newCode = 'A' . $i; // e.g., A4
-                
-                                        $user = DB::table('users')
-                                        ->where('name', 'like', 'KB-%')       // Starts with "PD-"
-                                        ->where('name', 'regexp', '(^|-)'.$newCode.'($|-)')  // Contains $newCode (e.g., "A3")
-                                        ->where('type', '1')
-                                        ->first();
-                
-                                        if ($user) {
-                                            $nextId = $user->id;
-                                            break;
+                                        $newCode = 'A' . $i; // e.g., A1
+                                        
+                                        // Search for exact code match
+                                        $users = DB::table('users')
+                                            ->where('name', 'like', 'PD-%')  // Starts with "PD-"
+                                            ->where('type', '1')
+                                            ->get();
+                                        
+                                        // Filter results manually to ensure exact code match
+                                        foreach ($users as $user) {
+                                            // Extract all A-codes from the name
+                                            preg_match_all('/A\d+/', $user->name, $matches);
+                                            
+                                            if (in_array($newCode, $matches[0])) {
+                                                $nextId = $user->id;
+                                                break 2; // Break out of both loops
+                                            }
                                         }
                                     }
                                 }
