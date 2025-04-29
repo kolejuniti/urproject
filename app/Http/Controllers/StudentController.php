@@ -355,7 +355,7 @@ class StudentController extends Controller
                 
                                         $user = DB::table('users')
                                         ->where('name', 'like', 'PD-%')       // Starts with "PD-"
-                                        ->where('name', 'like', '%' . $newCode . '%')  // Contains $newCode (e.g., "A3")
+                                        ->where('name', 'regexp', '(^|-)'.$newCode.'($|-)')  // Contains $newCode (e.g., "A3")
                                         ->where('type', '1')
                                         ->first();
                 
@@ -719,7 +719,7 @@ class StudentController extends Controller
                 
                                         $user = DB::table('users')
                                         ->where('name', 'like', 'KB-%')       // Starts with "PD-"
-                                        ->where('name', 'like', '%' . $newCode . '%')  // Contains $newCode (e.g., "A3")
+                                        ->where('name', 'regexp', '(^|-)'.$newCode.'($|-)')  // Contains $newCode (e.g., "A3")
                                         ->where('type', '1')
                                         ->first();
                 
