@@ -239,7 +239,7 @@ class AdminController extends Controller
         }
 
         // Complete the query
-        $applicants = $query->orderByDesc('students.created_at')->get();
+        $applicants = $query->orderByDesc('students.id')->get();
 
         $affiliates = [];
 
