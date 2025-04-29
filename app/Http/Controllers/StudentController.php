@@ -277,21 +277,112 @@ class StudentController extends Controller
                     $userID = $user->id;
                     $update = date('Y-m-d H:i:s');
                 } elseif ($user->type === 'user') {
-                    $leaderType = User::where('id', $user->leader_id)->first();
+                    $leaderType = null;
+
+                    if (!is_null($user->leader_id)) {
+                        $leaderType = User::find($user->leader_id);
+                    }
 
                     if ($leaderType && $leaderType->type === 'advisor') {
                         $userID = $leaderType->id;
-                        $update = date('Y-m-d H:i:s');
+                        $update = now();
                     } else {
-                        $userID = null; // Set to null if no valid advisor found
+                        // Fallback if no valid advisor found
+                        $currentUserID = DB::table('students')
+                            ->join('users', 'students.user_id', '=', 'users.id')
+                            ->select('users.name', 'users.id', DB::raw("SUBSTRING_INDEX(users.name, ' ', 1) AS advisor_code"))
+                            ->where(function ($query) {
+                                $query->whereNotNull('students.referral_code')
+                                      ->where('students.referral_code', '!=', '');
+                            })
+                            ->where('users.type', '1')
+                            ->where('users.name', 'LIKE', 'PD-%')
+                            ->orderByDesc('students.id')
+                            ->limit(1)
+                            ->first();
+
+                            $userID = null;
+
+                            if ($currentUserID && isset($currentUserID->advisor_code)) {
+                
+                                // Step 1: Assume you already have the current code
+                                $userIDCode = $currentUserID->advisor_code;
+                
+                                // Step 1: Extract the first part (PD-18-A10), then explode by '-' to get pieces
+                                $parts = explode('-', $userIDCode);
+
+                                // Step 2: Get the part that starts with 'A' (assumed to be at index 2)
+                                $advisorCode = $parts[2] ?? ''; // e.g., "A10"
+
+                                // Step 3: Remove the "A" and cast to int
+                                $prefix = 'PD-';
+                                $startNumber = (int) ltrim($advisorCode, 'A');
+                
+                                $maxNumber = DB::table('users')
+                                            ->select(DB::raw("SUBSTRING(SUBSTRING_INDEX(users.name, ' ', 1), LOCATE('-A', users.name) + 2) as code"))
+                                            ->where('type', 1)
+                                            ->where('name', 'like', 'PD-%')
+                                            ->where('affiliate_data', 1)
+                                            ->orderByDesc(DB::raw("CAST(SUBSTRING(SUBSTRING_INDEX(users.name, ' ', 1), LOCATE('-A', users.name) + 2) AS UNSIGNED)"))
+                                            ->limit(1)
+                                            ->value('code');
+                
+                                $maxNumber = (int) $maxNumber;
+                                $found = false;
+                                $nextId = null;
+                
+                                for ($i = $startNumber + 1; $i <= $maxNumber; $i++) {
+                                    $newCode = 'A' . $i; // e.g., A4
+
+                                    // Step 3: Try to find user with this new code
+                                    $user = DB::table('users')
+                                    ->where('name', 'like', 'PD-%' . $newCode . '%')
+                                    ->where('type', '1')
+                                    ->first();
+                
+                                    if ($user) {
+                                        $nextId = $user->id;
+                                        $found = true;
+                                        break;
+                                    }
+                                }
+                
+                                // If not found, loop from 1 to $startNumber
+                                if (!$found) {
+                                    for ($i = 1; $i <= $startNumber; $i++) {
+                                        $newCode = 'A' . $i; // e.g., A4
+                
+                                        $user = DB::table('users')
+                                        ->where('name', 'like', 'PD-%' . $newCode . '%')
+                                        ->where('type', '1')
+                                        ->first();
+                
+                                        if ($user) {
+                                            $nextId = $user->id;
+                                            break;
+                                        }
+                                    }
+                                }
+                
+                                // Optional: Handle when no advisor found
+                                if ($nextId !== null) {
+                                    $userID = $nextId;
+                                    $update = date('Y-m-d H:i:s');
+                                } else {
+                                    $userID = null;
+                                }
+                            }
                     }
                 }
             }
         } else {
             $currentUserID = DB::table('students')
                         ->join('users', 'students.user_id', '=', 'users.id')
-                        ->select('users.name', 'users.id', DB::raw('LEFT(users.name, 5) AS advisor_code'))
-                        ->whereNull('students.referral_code')
+                        ->select('users.name', 'users.id', DB::raw("SUBSTRING_INDEX(users.name, ' ', 1) AS advisor_code"))
+                        ->where(function ($query) {
+                            $query->whereNull('students.referral_code')
+                                  ->orWhere('students.referral_code', '=', '');
+                        })
                         ->where('users.type', '1')
                         ->where('users.name', 'LIKE', 'PD-%')
                         ->orderByDesc('students.id')
@@ -551,20 +642,108 @@ class StudentController extends Controller
                     $userID = $user->id;
                     $update = date('Y-m-d H:i:s');
                 } elseif ($user->type === 'user') {
-                    $leaderType = User::where('id', $user->leader_id)->first();
+                    $leaderType = null;
+
+                    if (!is_null($user->leader_id)) {
+                        $leaderType = User::find($user->leader_id);
+                    }
 
                     if ($leaderType && $leaderType->type === 'advisor') {
                         $userID = $leaderType->id;
-                        $update = date('Y-m-d H:i:s');
+                        $update = now();
                     } else {
-                        $userID = null; // Set to null if no valid advisor found
+                        // Fallback if no valid advisor found
+                        $currentUserID = DB::table('students')
+                            ->join('users', 'students.user_id', '=', 'users.id')
+                            ->select('users.name', 'users.id', DB::raw("SUBSTRING_INDEX(users.name, ' ', 1) AS advisor_code"))
+                            ->where(function ($query) {
+                                $query->whereNotNull('students.referral_code')
+                                      ->where('students.referral_code', '!=', '');
+                            })
+                            ->where('users.type', '1')
+                            ->where('users.name', 'LIKE', 'KB-%')
+                            ->orderByDesc('students.id')
+                            ->limit(1)
+                            ->first();
+
+                            $userID = null;
+
+                            if ($currentUserID && isset($currentUserID->advisor_code)) {
+                
+                                // Step 1: Assume you already have the current code
+                                $userIDCode = $currentUserID->advisor_code;
+                
+                                // Step 1: Extract the first part (PD-18-A10), then explode by '-' to get pieces
+                                $parts = explode('-', $userIDCode);
+
+                                // Step 2: Get the part that starts with 'A' (assumed to be at index 2)
+                                $advisorCode = $parts[2] ?? ''; // e.g., "A10"
+
+                                // Step 3: Remove the "A" and cast to int
+                                $prefix = 'KB-';
+                                $startNumber = (int) ltrim($advisorCode, 'A');
+                
+                                $maxNumber = DB::table('users')
+                                            ->select(DB::raw("SUBSTRING(SUBSTRING_INDEX(users.name, ' ', 1), LOCATE('-A', users.name) + 2) as code"))
+                                            ->where('type', 1)
+                                            ->where('name', 'like', 'KB-%')
+                                            ->where('affiliate_data', 1)
+                                            ->orderByDesc(DB::raw("CAST(SUBSTRING(SUBSTRING_INDEX(users.name, ' ', 1), LOCATE('-A', users.name) + 2) AS UNSIGNED)"))
+                                            ->limit(1)
+                                            ->value('code');
+                
+                                $maxNumber = (int) $maxNumber;
+                                $found = false;
+                                $nextId = null;
+                
+                                for ($i = $startNumber + 1; $i <= $maxNumber; $i++) {
+                                    $newCode = 'A' . $i; // e.g., A4
+
+                                    // Step 3: Try to find user with this new code
+                                    $user = DB::table('users')
+                                    ->where('name', 'like', 'KB-%' . $newCode . '%')
+                                    ->where('type', '1')
+                                    ->first();
+                
+                                    if ($user) {
+                                        $nextId = $user->id;
+                                        $found = true;
+                                        break;
+                                    }
+                                }
+                
+                                // If not found, loop from 1 to $startNumber
+                                if (!$found) {
+                                    for ($i = 1; $i <= $startNumber; $i++) {
+                                        $newCode = 'A' . $i; // e.g., A4
+                
+                                        $user = DB::table('users')
+                                        ->where('name', 'like', 'KB-%' . $newCode . '%')
+                                        ->where('type', '1')
+                                        ->first();
+                
+                                        if ($user) {
+                                            $nextId = $user->id;
+                                            break;
+                                        }
+                                    }
+                                }
+                
+                                // Optional: Handle when no advisor found
+                                if ($nextId !== null) {
+                                    $userID = $nextId;
+                                    $update = date('Y-m-d H:i:s');
+                                } else {
+                                    $userID = null;
+                                }
+                            }
                     }
                 }
             }
         } else {
             $currentUserID = DB::table('students')
                         ->join('users', 'students.user_id', '=', 'users.id')
-                        ->select('users.name', 'users.id', DB::raw('LEFT(users.name, 5) AS advisor_code'))
+                        ->select('users.name', 'users.id', DB::raw("SUBSTRING_INDEX(users.name, ' ', 1) AS advisor_code"))
                         ->whereNull('students.referral_code')
                         ->where('users.type', '1')
                         ->where('users.name', 'LIKE', 'KB-%')
@@ -1112,7 +1291,7 @@ class StudentController extends Controller
 
             $currentUserID = DB::table('students')
                         ->join('users', 'students.user_id', '=', 'users.id')
-                        ->select('users.name', 'users.id', DB::raw('LEFT(users.name, 5) AS advisor_code'))
+                        ->select('users.name', 'users.id', DB::raw("SUBSTRING_INDEX(users.name, ' ', 1) AS advisor_code"))
                         ->whereNull('students.referral_code')
                         ->where('users.type', '1')
                         ->where('users.name', 'LIKE', 'PD-%')
@@ -1257,7 +1436,7 @@ class StudentController extends Controller
 
             $currentUserID = DB::table('students')
                         ->join('users', 'students.user_id', '=', 'users.id')
-                        ->select('users.name', 'users.id', DB::raw('LEFT(users.name, 5) AS advisor_code'))
+                        ->select('users.name', 'users.id', DB::raw("SUBSTRING_INDEX(users.name, ' ', 1) AS advisor_code"))
                         ->whereNull('students.referral_code')
                         ->where('users.type', '1')
                         ->where('users.name', 'LIKE', 'KB-%')
