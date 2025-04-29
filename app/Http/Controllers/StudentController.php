@@ -379,10 +379,7 @@ class StudentController extends Controller
             $currentUserID = DB::table('students')
                         ->join('users', 'students.user_id', '=', 'users.id')
                         ->select('users.name', 'users.id', DB::raw("SUBSTRING_INDEX(users.name, ' ', 1) AS advisor_code"))
-                        ->where(function ($query) {
-                            $query->whereNull('students.referral_code')
-                                  ->orWhere('students.referral_code', '=', '');
-                        })
+                        ->whereNull('students.referral_code')
                         ->where('users.type', '1')
                         ->where('users.name', 'LIKE', 'PD-%')
                         ->orderByDesc('students.id')
