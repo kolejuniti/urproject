@@ -11,23 +11,23 @@ use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\TestMail;
-use Illuminate\Support\Facades\DB;
+// use Illuminate\Support\Facades\DB;
 
-Route::get('/db-check', function () {
-    try {
-        DB::connection('mysql')->getPdo();
-        echo "Default DB Connected.<br>";
+// Route::get('/db-check', function () {
+//     try {
+//         DB::connection('mysql')->getPdo();
+//         echo "Default DB Connected.<br>";
 
-        DB::connection('mysql2')->getPdo();
-        echo "Second DB Connected.<br>";
+//         DB::connection('mysql2')->getPdo();
+//         echo "Second DB Connected.<br>";
 
-        DB::connection('mysql3')->getPdo();
-        echo "Third DB Connected.<br>";
+//         DB::connection('mysql3')->getPdo();
+//         echo "Third DB Connected.<br>";
 
-    } catch (\Exception $e) {
-        return 'Connection failed: ' . $e->getMessage();
-    }
-});
+//     } catch (\Exception $e) {
+//         return 'Connection failed: ' . $e->getMessage();
+//     }
+// });
 
 Route::get('/', function (Request $request) {
     if (auth()->check()) {
