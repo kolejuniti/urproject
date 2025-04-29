@@ -11,6 +11,23 @@ use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\TestMail;
+use Illuminate\Support\Facades\DB;
+
+Route::get('/db-check', function () {
+    try {
+        DB::connection('mysql')->getPdo();
+        echo "Default DB Connected.<br>";
+
+        DB::connection('mysql2')->getPdo();
+        echo "Second DB Connected.<br>";
+
+        DB::connection('mysql3')->getPdo();
+        echo "Third DB Connected.<br>";
+
+    } catch (\Exception $e) {
+        return 'Connection failed: ' . $e->getMessage();
+    }
+});
 
 Route::get('/', function (Request $request) {
     if (auth()->check()) {
@@ -65,6 +82,9 @@ Route::middleware(['auth', 'user-access:admin'])->group(function() {
     // Route::get('/admin/summary', [AdminController::class, 'summary'])->name('admin.summary');
     Route::match(['get', 'post'], '/admin/summary', [AdminController::class, 'summary'])->name('admin.summary');
     Route::post('/admin/summary/detail', [AdminController::class, 'summaryDetail'])->name('admin.summary.detail');
+    Route::match(['get', 'post'], '/admin/leadreports', [AdminController::class, 'leadReports'])->name('admin.leadreports');
+    Route::match(['get', 'post'], '/admin/yearreports', [AdminController::class, 'yearReports'])->name('admin.yearreports');
+    Route::match(['get', 'post'], '/admin/achievements', [AdminController::class, 'achievements'])->name('admin.achievements');
 });
 
 // advisor route
