@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class AdminController extends Controller
 {
@@ -185,6 +186,19 @@ class AdminController extends Controller
      */
      public function applications(Request $request)
     {
+        $user = Auth::user();
+        $ref = $user->referral_code;
+        $id = $user->id;
+
+        $url = url('/').'?ref='.$ref; // Generates the referral URL
+
+        // Generate and return the QR code as an SVG string for use in Blade
+        $qrCode = QrCode::size(200)->generate($url);
+
+        // Generate and save QR code as a PNG file in the public folder
+        QrCode::size(200)
+            ->format('svg')
+            ->generate($url, public_path('qrcode.svg'));
 
         // Retrieve the start and end dates from the form input
         $start_date = $request->input('start_date');
@@ -241,7 +255,7 @@ class AdminController extends Controller
             
         }
 
-        return view('admin.application', compact('applicants', 'affiliates', 'start_date', 'end_date'));
+        return view('admin.application', compact('applicants', 'affiliates', 'start_date', 'end_date', 'url', 'qrCode'));
     }
 
     public function applicationDetail(Request $request)
