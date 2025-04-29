@@ -336,7 +336,8 @@ class StudentController extends Controller
 
                                     // Step 3: Try to find user with this new code
                                     $user = DB::table('users')
-                                    ->where('name', 'like', 'PD-%' . $newCode . '%')
+                                    ->where('name', 'like', 'PD-%')       // Starts with "PD-"
+                                    ->where('name', 'like', '%' . $newCode . '%')  // Contains $newCode (e.g., "A3")
                                     ->where('type', '1')
                                     ->first();
                 
@@ -353,7 +354,8 @@ class StudentController extends Controller
                                         $newCode = 'A' . $i; // e.g., A4
                 
                                         $user = DB::table('users')
-                                        ->where('name', 'like', 'PD-%' . $newCode . '%')
+                                        ->where('name', 'like', 'PD-%')       // Starts with "PD-"
+                                        ->where('name', 'like', '%' . $newCode . '%')  // Contains $newCode (e.g., "A3")
                                         ->where('type', '1')
                                         ->first();
                 
@@ -698,7 +700,8 @@ class StudentController extends Controller
 
                                     // Step 3: Try to find user with this new code
                                     $user = DB::table('users')
-                                    ->where('name', 'like', 'KB-%' . $newCode . '%')
+                                    ->where('name', 'like', 'KB-%')       // Starts with "PD-"
+                                    ->where('name', 'like', '%' . $newCode . '%')  // Contains $newCode (e.g., "A3")
                                     ->where('type', '1')
                                     ->first();
                 
@@ -715,7 +718,8 @@ class StudentController extends Controller
                                         $newCode = 'A' . $i; // e.g., A4
                 
                                         $user = DB::table('users')
-                                        ->where('name', 'like', 'KB-%' . $newCode . '%')
+                                        ->where('name', 'like', 'KB-%')       // Starts with "PD-"
+                                        ->where('name', 'like', '%' . $newCode . '%')  // Contains $newCode (e.g., "A3")
                                         ->where('type', '1')
                                         ->first();
                 
