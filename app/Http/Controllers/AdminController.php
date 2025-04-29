@@ -429,7 +429,7 @@ class AdminController extends Controller
                     ->join('location', 'students.location_id', '=', 'location.id')
                     ->select('students.id', 'students.name', 'students.ic', 'students.phone', 'students.email', 'students.created_at', 'students.updated_at', 'status.name AS status', 'students.register_at', 'students.referral_code', 'students.user_id', 'location.code AS location')
                     ->where('students.source', 'NOT LIKE', '%Nuha%')
-                    ->orderBy('created_at', 'desc')
+                    ->orderBy('id', 'desc')
                     ->get();
         
         $affiliates = [];
