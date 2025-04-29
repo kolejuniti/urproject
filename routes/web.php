@@ -42,7 +42,12 @@ Route::get('/', function (Request $request) {
     }
 
     $ref = $request->query('ref');
-    $source = $request->query('source');
+
+    // $source = $request->query('source') ?? (new \App\Http\Controllers\StudentController)->determineSource($request);
+
+    if (empty($source) || $source === 'other') {
+        $source = 'e-Daftar';
+    }
     
     return view('welcome', compact('ref', 'source')); // Or any other public view
 });
