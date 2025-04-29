@@ -733,4 +733,109 @@ class AdminController extends Controller
         return view('admin.leadreports', compact('sources', 'start_date', 'end_date', 'monthlyTotals'));
     }
 
+    public function yearReports(Request $request)
+    {
+        // Get the current year
+        $currentYear = Carbon::now()->year;
+        
+        // Define start year
+        $startYear = $currentYear - 4;
+        
+        // Array to store yearly data
+        $yearlyData = [];
+        
+        // Loop through each year from 2023 to current year
+        for ($year = $startYear; $year <= $currentYear; $year++) {
+            // Get the student count for each month of the current looped year
+            $students = DB::table('students')
+                ->select(DB::raw('COUNT(id) as total, MONTH(created_at) as month'))
+                ->where('students.source', 'NOT LIKE', '%Nuha%')
+                ->whereYear('created_at', $year)
+                ->groupBy(DB::raw('MONTH(created_at)'))
+                ->pluck('total', 'month');
+                
+            // Initialize an array with all months set to zero for this year
+            $monthlyData = array_fill(1, 12, 0);
+            
+            // Merge the query results with the initialized array
+            foreach ($students as $month => $total) {
+                $monthlyData[$month] = $total;
+            }
+            
+            // Convert the result to a collection
+            $monthlyData = collect($monthlyData)->map(function ($total, $month) {
+                return [
+                    'month' => $month,
+                    'total' => $total,
+                ];
+            })->values();
+            
+            // Add this year's data to the yearly array
+            $yearlyData[$year] = $monthlyData;
+        }
+        
+        return view('admin.yearreports', compact('currentYear', 'startYear', 'yearlyData'));
+    }
+
+    public function achievements(Request $request)
+    {
+        $start_date = $request->input('start_date');
+        $end_date = $request->input('end_date');
+
+        $advisors = User::where('type', 1)
+            ->where(function($query) {
+                $query->where('name', 'like', 'PD-%')
+                        ->orWhere('name', 'like', 'KB-%');
+            })
+            ->orderBy('name')
+            ->get();
+
+        $assigns = [];
+        $process = [];
+        $registers = [];
+        $rejects = [];
+
+        foreach ($advisors as $advisor)
+        {
+            // Directly assign count to advisorId key in assignDatas array (no nested array)
+            $assigns[$advisor->id] = DB::table('students')
+                ->where('students.user_id', $advisor->id)
+                ->where('students.source', 'NOT LIKE', '%Nuha%')
+                ->whereBetween('students.created_at', [$start_date, $end_date])
+                ->count();
+
+            $process[$advisor->id] = DB::table('students')
+            ->where('students.user_id', $advisor->id)
+            ->where('students.source', 'NOT LIKE', '%Nuha%')
+            ->whereBetween('students.created_at', [$start_date, $end_date])
+            ->where(function($query) {
+                $query->whereNull('students.status_id')
+                        ->orWhereIn('students.status_id', [7,8,9,10,12,13,14,15,16,17,18]);
+            })
+            ->count();
+
+            $registers[$advisor->id] = DB::table('students')
+                ->where('students.user_id', $advisor->id)
+                ->where('students.source', 'NOT LIKE', '%Nuha%')
+                ->whereBetween('students.created_at', [$start_date, $end_date])
+                ->whereIn('students.status_id', [19, 20, 21])
+                ->count();
+
+            $rejects[$advisor->id] = DB::table('students')
+                ->where('students.user_id', $advisor->id)
+                ->where('students.source', 'NOT LIKE', '%Nuha%')
+                ->whereBetween('students.created_at', [$start_date, $end_date])
+                ->whereIn('students.status_id', [1, 2, 3, 4, 5, 6, 11, 22, 23, 24, 25, 26, 27])
+                ->count();
+        }
+
+        // Calculate total count
+        $totalCountAssign = array_sum($assigns);
+        $totalCountProcess = array_sum($process);
+        $totalCountRegister = array_sum($registers);
+        $totalCountReject = array_sum($rejects);
+
+        return view('admin.achievements', compact('advisors', 'assigns', 'totalCountAssign', 'process', 'totalCountProcess', 'registers', 'totalCountRegister', 'rejects', 'totalCountReject'));
+    }
+
 }
