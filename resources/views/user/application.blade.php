@@ -235,7 +235,12 @@
     }
 
     function shareOnWhatsApp() {
-        var text = "Jom masuk Kolej UNITI! Gunakan pautan ini untuk mendaftar: " + document.getElementById("referral_url").value;
+        var referralUrl = document.getElementById("referral_url").value;
+        if (!referralUrl.includes('source=')) {
+            referralUrl += (referralUrl.includes('?') ? '&' : '?') + 'source=whatsapp';
+        }
+
+        var text = "Jom masuk Kolej UNITI! Gunakan pautan ini untuk mendaftar: " + referralUrl;
         window.open("https://wa.me/?text=" + encodeURIComponent(text));
     }
 
