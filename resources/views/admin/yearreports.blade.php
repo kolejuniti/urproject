@@ -330,7 +330,7 @@
         layout: {
                 top1Start: {
                     div: {
-                        html: '<h2>Jumlah Permohonan Mengikut Tahun & Bulan</h2>'
+                        html: '<h2>Jumlah Data Permohonan Mengikut Tahun & Bulan</h2>'
                     }
                 },
                 top1End: {

@@ -21,7 +21,7 @@
                 <table id="myTable" class="table table-bordered small table-sm text-center">
                     @if ($start_date === null)
                     @else
-                    <caption>Jumlah data permohonan ini adalah bagi tarikh {{ $start_date ? \Carbon\Carbon::parse($start_date)->format('d-m-Y') : '' }} sehingga {{ $end_date ? \Carbon\Carbon::parse($end_date)->format('d-m-Y') : '' }}</caption>
+                    <caption>Data permohonan ini adalah bagi tarikh {{ $start_date ? \Carbon\Carbon::parse($start_date)->format('d-m-Y') : '' }} sehingga {{ $end_date ? \Carbon\Carbon::parse($end_date)->format('d-m-Y') : '' }}</caption>
                     @endif
                     <thead class="table-dark">
                         <tr>

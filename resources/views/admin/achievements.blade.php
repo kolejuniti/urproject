@@ -19,14 +19,19 @@
             </div>
             <div class="table-responsive">
                 <table id="myTable" class="table table-bordered small table-sm text-center">
+                    @if ($start_date === null)
+                    @else
+                    <caption>Data ini adalah bagi tarikh {{ $start_date ? \Carbon\Carbon::parse($start_date)->format('d-m-Y') : '' }} sehingga {{ $end_date ? \Carbon\Carbon::parse($end_date)->format('d-m-Y') : '' }}</caption>
+                    @endif
                     <thead class="table-dark">
                         <tr>
                             <th>#</th>
                             <th>Nama EA</th>
-                            <th>Permohonan Diterima</th>
-                            <th>Permohonan Dalam Proses</th>
-                            <th>Permohonan Didaftarkan</th>
-                            <th>Permohonan Ditolak/Menolak</th>
+                            <th>Data Diagih</th>
+                            <th>Data Diproses</th>
+                            <th>Pra Daftar</th>
+                            <th>Daftar Masuk</th>
+                            <th>Data Ditolak</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -36,6 +41,7 @@
                             <td>{{ $item->name }}</td>
                             <td class="text-center">{{ $assigns[$item->id] ?? 0 }}</td>
                             <td class="text-center">{{ $process[$item->id] ?? 0 }}</td>
+                            <td class="text-center">{{ $preregisters[$item->id] ?? 0 }}</td>
                             <td class="text-center">{{ $registers[$item->id] ?? 0 }}</td>
                             <td class="text-center">{{ $rejects[$item->id] ?? 0 }}</td>
                         </tr>
@@ -47,6 +53,7 @@
                             <td><strong>Jumlah Keseluruhan</strong></td>
                             <td class="text-center"><strong>{{ $totalCountAssign }}</strong></td>
                             <td class="text-center"><strong>{{ $totalCountProcess }}</strong></td>
+                            <td class="text-center"><strong>{{ $totalCountPreRegister }}</strong></td>
                             <td class="text-center"><strong>{{ $totalCountRegister }}</strong></td>
                             <td class="text-center"><strong>{{ $totalCountReject }}</strong></td>
                         </tr>
