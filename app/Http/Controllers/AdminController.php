@@ -811,6 +811,7 @@ class AdminController extends Controller
 
         $assigns = [];
         $process = [];
+        $preregisters = [];
         $registers = [];
         $rejects = [];
 
@@ -833,11 +834,18 @@ class AdminController extends Controller
             })
             ->count();
 
+            $preregisters[$advisor->id] = DB::table('students')
+                ->where('students.user_id', $advisor->id)
+                ->where('students.source', 'NOT LIKE', '%Nuha%')
+                ->whereBetween('students.created_at', [$start_date, $end_date])
+                ->whereIn('students.status_id', [19])
+                ->count();
+
             $registers[$advisor->id] = DB::table('students')
                 ->where('students.user_id', $advisor->id)
                 ->where('students.source', 'NOT LIKE', '%Nuha%')
                 ->whereBetween('students.created_at', [$start_date, $end_date])
-                ->whereIn('students.status_id', [19, 20, 21])
+                ->whereIn('students.status_id', [20, 21])
                 ->count();
 
             $rejects[$advisor->id] = DB::table('students')
@@ -851,10 +859,11 @@ class AdminController extends Controller
         // Calculate total count
         $totalCountAssign = array_sum($assigns);
         $totalCountProcess = array_sum($process);
+        $totalCountPreRegister = array_sum($preregisters);
         $totalCountRegister = array_sum($registers);
         $totalCountReject = array_sum($rejects);
 
-        return view('admin.achievements', compact('advisors', 'assigns', 'totalCountAssign', 'process', 'totalCountProcess', 'registers', 'totalCountRegister', 'rejects', 'totalCountReject'));
+        return view('admin.achievements', compact('advisors', 'assigns', 'totalCountAssign', 'process', 'totalCountProcess', 'preregisters', 'totalCountPreRegister', 'registers', 'totalCountRegister', 'rejects', 'totalCountReject', 'start_date', 'end_date'));
     }
 
 }
