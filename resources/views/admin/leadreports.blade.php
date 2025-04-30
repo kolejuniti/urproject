@@ -19,15 +19,19 @@
             </div>
             <div class="table-responsive">
                 <table id="myTable" class="table table-bordered small table-sm text-center">
+                    @if ($start_date === null)
+                    @else
+                    <caption>Jumlah data permohonan ini adalah bagi tarikh {{ $start_date ? \Carbon\Carbon::parse($start_date)->format('d-m-Y') : '' }} sehingga {{ $end_date ? \Carbon\Carbon::parse($end_date)->format('d-m-Y') : '' }}</caption>
+                    @endif
                     <thead class="table-dark">
                         <tr>
                             <th>#</th>
                             <th>Sumber</th>
                             <th>KUPD</th>
                             <th>KUKB</th>
-                            <th>{{ $start_date ? \Carbon\Carbon::parse($start_date)->format('d-m-Y') : '' }} sehingga {{ $end_date ? \Carbon\Carbon::parse($end_date)->format('d-m-Y') : '' }}</th>
-                            <th>{{ $start_date ? \Carbon\Carbon::parse($start_date)->format('m-Y') : '-' }}
-                            </th>
+                            <th>Jumlah Keseluruhan</th>
+                            {{-- <th>{{ $start_date ? \Carbon\Carbon::parse($start_date)->format('m-Y') : '-' }}
+                            </th> --}}
                         </tr>
                     </thead>
                     <tbody>
@@ -38,10 +42,18 @@
                             <td class="text-center">{{ $item->total_kupd }}</td>
                             <td class="text-center">{{ $item->total_kukb }}</td>
                             <td class="text-center">{{ $item->total }}</td>
-                            <td class="text-center">{{ $monthlyTotals[$item->source] ?? 0 }}</td>
+                            {{-- <td class="text-center">{{ $monthlyTotals[$item->source] ?? 0 }}</td> --}}
                         </tr>
                         @endforeach
                     </tbody>
+                    <tfoot>
+                        <tr class="table-danger">
+                            <th colspan="2" class="text-center">Jumlah Keseluruhan</th>
+                            <th class="text-center">{{ $total_kupd }}</th>
+                            <th class="text-center">{{ $total_kukb }}</th>
+                            <th class="text-center">{{ $all_total }}</th>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
         </div>
@@ -62,26 +74,26 @@
         layout: {
                 top1Start: {
                     div: {
-                        html: '<h2>Jumlah Permohonan</h2>'
+                        html: '<h2>Jumlah Data Permohonan</h2>'
                     }
                 },
                 top1End: {
                     buttons: [
                         {
                             extend: 'copy',
-                            title: 'Jumlah Permohonan'
+                            title: 'Jumlah Data Permohonan'
                         },
                         {
                             extend: 'excelHtml5',
-                            title: 'Jumlah Permohonan'
+                            title: 'Jumlah Data Permohonan'
                         },
                         {
                             extend: 'pdfHtml5',
-                            title: 'Jumlah Permohonan'
+                            title: 'Jumlah Data Permohonan'
                         },
                         {
                             extend: 'print',
-                            title: 'Jumlah Permohonan'
+                            title: 'Jumlah Data Permohonan'
                         }
                     ]
                 },
