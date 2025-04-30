@@ -141,6 +141,13 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row mb-2 row-cols-2">
+                                <div class="col-md-4">
+                                    <div id="affiliate_data-container">
+                                        <!--Affiliate Data checkbox will display here-->
+                                    </div>
+                                </div>
+                            </div>
                             {{-- <div class="col-md-12 col-sm-12 mb-3 mt-3">
                                 <label for="" class="fw-bold">Alamat Pengguna</label>
                             </div>
@@ -422,6 +429,31 @@
                             `);
                         } else {
                             $('#status-container').html(``);
+                        }
+
+                        // Handle Affiliate Data
+                        if (response.users.affiliate_data !== undefined && response.users.affiliate_data !== null) {
+                            const currentValue = String(response.users.affiliate_data); // Cast to string for comparison
+
+                            const affiliateDataOptions = `
+                                <option value="1" ${currentValue == "1" ? "selected" : ""}>YA</option>
+                                <option value="0" ${currentValue == "0" ? "selected" : ""}>TIDAK</option>
+                            `;
+
+                            $('#affiliate_data-container').html(`
+                                <div class="mb-2">
+                                    <div class="col-md-12">
+                                        <label for="user-affiliate_data" class="fw-bold">Penerima Data Affiliate</label>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <select name="affiliate_data" id="user-affiliate_data" class="form-control form-control-sm text-uppercase" required>
+                                            ${affiliateDataOptions}
+                                        </select>    
+                                    </div>
+                                </div>
+                            `);
+                        } else {
+                            $('#affiliate_data-container').html(``);
                         }
 
                         // Show the modal
