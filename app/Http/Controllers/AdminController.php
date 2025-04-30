@@ -725,6 +725,11 @@ class AdminController extends Controller
 
         $sources = $sources->groupBy('students.source')->get();
 
+        // Initialize totals
+        $total_kupd = $sources->sum('total_kupd');
+        $total_kukb = $sources->sum('total_kukb');
+        $all_total = $sources->sum('total_kupd')+$sources->sum('total_kukb');
+
         // Always define monthlyTotals to avoid "undefined variable" error
         $monthlyTotals = [];
 
@@ -744,7 +749,7 @@ class AdminController extends Controller
                 ->pluck('total_month', 'source'); // <-- this makes it easy to match source to total
         }
 
-        return view('admin.leadreports', compact('sources', 'start_date', 'end_date', 'monthlyTotals'));
+        return view('admin.leadreports', compact('sources', 'start_date', 'end_date', 'monthlyTotals', 'total_kupd', 'total_kukb', 'all_total'));
     }
 
     public function yearReports(Request $request)
