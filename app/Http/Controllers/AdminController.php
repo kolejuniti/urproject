@@ -407,7 +407,7 @@ class AdminController extends Controller
         $bank = $request->input('bank');
         $position = $request->input('position');
         $status = $request->input('status');
-        $affiliate_data = $request->input('affiliate_data');
+        $affiliate_data = $request->has('affiliate_data') ? 1 : 0;
 
         if ($position === "AFFILIATE UNITI") {
             $type = 0;
