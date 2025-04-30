@@ -407,6 +407,7 @@ class AdminController extends Controller
         $bank = $request->input('bank');
         $position = $request->input('position');
         $status = $request->input('status');
+        $affiliate_data = $request->input('affiliate_data');
 
         if ($position === "AFFILIATE UNITI") {
             $type = 0;
@@ -417,7 +418,7 @@ class AdminController extends Controller
 
         $user = DB::table('users')
                 ->where('users.id', $id)
-                ->update(['name'=>$name, 'phone'=>$phone, 'bank_account'=>$bank_account, 'bank_id'=>$bank, 'type'=>$type, 'position'=>$position, 'status'=>$status]);
+                ->update(['name'=>$name, 'phone'=>$phone, 'bank_account'=>$bank_account, 'bank_id'=>$bank, 'type'=>$type, 'position'=>$position, 'status'=>$status, 'affiliate_data'=>$affiliate_data]);
 
         return redirect()->route('admin.userlist')->with('success', 'Maklumat pengguna berjaya dikemaskini.');
     }
