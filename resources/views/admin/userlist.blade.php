@@ -301,7 +301,7 @@
                         $('#user-religion').text(response.users.religion);   
                         $('#user-nation').text(response.users.nation);     
                         $('#user-sex').text(response.users.sex);             
-                        $('#user-email').text(response.users.email);
+                        $('#user-email').text(response.users.email); 
 
                         // Handle phone
                         if (response.users.phone) {
@@ -432,26 +432,30 @@
                         }
 
                         // Handle Affiliate Data
-                        if (response.users.affiliate_data !== undefined && response.users.affiliate_data !== null) {
-                            const isChecked = String(response.users.affiliate_data) === "1"; // true if affiliate_data = 1
+                        // Check user type before displaying affiliate data checkbox
+                        if (response.users.type === "advisor") {
+                            if (response.users.affiliate_data !== undefined && response.users.affiliate_data !== null) {
+                                const isChecked = String(response.users.affiliate_data) === "1"; // true if affiliate_data = 1
 
-                            $('#affiliate_data-container').html(`
-                                <div class="mb-2 form-check">
-                                    <input 
-                                        type="checkbox" 
-                                        class="form-check-input" 
-                                        id="user-affiliate_data" 
-                                        name="affiliate_data" 
-                                        value="1"
-                                        ${isChecked ? 'checked' : ''}
-                                    >
-                                    <label class="form-check-label fw-bold" for="user-affiliate_data">
-                                        Penerima Data Affiliate
-                                    </label>
-                                </div>
-                            `);
+                                $('#affiliate_data-container').html(`
+                                    <div class="mb-2 form-check">
+                                        <input 
+                                            type="checkbox" 
+                                            class="form-check-input" 
+                                            id="user-affiliate_data" 
+                                            name="affiliate_data" 
+                                            value="1"
+                                            ${isChecked ? 'checked' : ''}
+                                        >
+                                        <label class="form-check-label fw-bold" for="user-affiliate_data">
+                                            Penerima Data Affiliate
+                                        </label>
+                                    </div>
+                                `);
+                            }
                         } else {
-                            $('#affiliate_data-container').html(``);
+                            // Clear the container if the user is not an advisor
+                            $('#affiliate_data-container').html('');
                         }
 
                         // Show the modal
