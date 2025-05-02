@@ -323,6 +323,7 @@ class StudentController extends Controller
                                             ->where('type', 1)
                                             ->where('name', 'like', 'PD-%')
                                             ->where('affiliate_data', 1)
+                                            ->where('accept_data', 1)
                                             ->orderByDesc(DB::raw("CAST(SUBSTRING(SUBSTRING_INDEX(users.name, ' ', 1), LOCATE('-A', users.name) + 2) AS UNSIGNED)"))
                                             ->limit(1)
                                             ->value('code');
@@ -416,6 +417,7 @@ class StudentController extends Controller
                             ->select(DB::raw('SUBSTRING(name, 4, 2) as code'))
                             ->where('type', 1)
                             ->where('name', 'like', 'PD-%')
+                            ->where('accept_data', 1)
                             ->orderByDesc(DB::raw('SUBSTRING(name, 4, 2)'))
                             ->limit(1)
                             ->value('code');
@@ -700,6 +702,7 @@ class StudentController extends Controller
                                             ->where('type', 1)
                                             ->where('name', 'like', 'KB-%')
                                             ->where('affiliate_data', 1)
+                                            ->where('accept_data', 1)
                                             ->orderByDesc(DB::raw("CAST(SUBSTRING(SUBSTRING_INDEX(users.name, ' ', 1), LOCATE('-A', users.name) + 2) AS UNSIGNED)"))
                                             ->limit(1)
                                             ->value('code');
@@ -793,6 +796,7 @@ class StudentController extends Controller
                             ->select(DB::raw('SUBSTRING(name, 4, 2) as code'))
                             ->where('type', 1)
                             ->where('name', 'like', 'KB-%')
+                            ->where('accept_data', 1)
                             ->orderByDesc(DB::raw('SUBSTRING(name, 4, 2)'))
                             ->limit(1)
                             ->value('code');
@@ -1339,6 +1343,7 @@ class StudentController extends Controller
                             ->select(DB::raw('SUBSTRING(name, 4, 2) as code'))
                             ->where('type', 1)
                             ->where('name', 'like', 'PD-%')
+                            ->where('accept_data', 1)
                             ->orderByDesc(DB::raw('SUBSTRING(name, 4, 2)'))
                             ->limit(1)
                             ->value('code');
@@ -1484,6 +1489,7 @@ class StudentController extends Controller
                             ->select(DB::raw('SUBSTRING(name, 4, 2) as code'))
                             ->where('type', 1)
                             ->where('name', 'like', 'KB-%')
+                            ->where('accept_data', 1)
                             ->orderByDesc(DB::raw('SUBSTRING(name, 4, 2)'))
                             ->limit(1)
                             ->value('code');
