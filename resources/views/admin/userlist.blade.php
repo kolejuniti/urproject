@@ -143,6 +143,11 @@
                             </div>
                             <div class="row mb-2 row-cols-2">
                                 <div class="col-md-4">
+                                    <div id="accept_data-container">
+                                        <!--Accept Data checkbox will display here-->
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
                                     <div id="affiliate_data-container">
                                         <!--Affiliate Data checkbox will display here-->
                                     </div>
@@ -429,6 +434,33 @@
                             `);
                         } else {
                             $('#status-container').html(``);
+                        }
+
+                        // Handle Affiliate Data
+                        // Check user type before displaying affiliate data checkbox
+                        if (response.users.type === "advisor") {
+                            if (response.users.accept_data !== undefined && response.users.accept_data !== null) {
+                                const isChecked = String(response.users.accept_data) === "1"; // true if accept_data = 1
+
+                                $('#accept_data-container').html(`
+                                    <div class="mb-2 form-check">
+                                        <input 
+                                            type="checkbox" 
+                                            class="form-check-input" 
+                                            id="user-accept_data" 
+                                            name="accept_data" 
+                                            value="1"
+                                            ${isChecked ? 'checked' : ''}
+                                        >
+                                        <label class="form-check-label fw-bold" for="user-accept_data">
+                                            Terima Data
+                                        </label>
+                                    </div>
+                                `);
+                            }
+                        } else {
+                            // Clear the container if the user is not an advisor
+                            $('#accept_data-container').html('');
                         }
 
                         // Handle Affiliate Data
