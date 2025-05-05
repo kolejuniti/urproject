@@ -25,13 +25,25 @@
                     @endif
                     <thead class="table-dark">
                         <tr>
-                            <th>#</th>
-                            <th>Nama EA</th>
-                            <th>Data Diagih</th>
-                            <th>Data Diproses</th>
-                            <th>Pra Daftar</th>
-                            <th>Daftar Masuk</th>
-                            <th>Data Ditolak</th>
+                            <th rowspan="2">#</th>
+                            <th rowspan="2">Nama EA</th>
+                            <th colspan="2" class="text-center">Data Diagih</th>
+                            <th colspan="2" class="text-center">Data Diproses</th>
+                            <th colspan="2" class="text-center">Pra Daftar</th>
+                            <th colspan="2" class="text-center">Daftar Masuk</th>
+                            <th colspan="2" class="text-center">Data Ditolak</th>
+                        </tr>
+                        <tr>
+                            <th>Jumlah</th>
+                            <th>%</th>
+                            <th>Jumlah</th>
+                            <th>%</th>
+                            <th>Jumlah</th>
+                            <th>%</th>
+                            <th>Jumlah</th>
+                            <th>%</th>
+                            <th>Jumlah</th>
+                            <th>%</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -40,10 +52,15 @@
                             <td></td>
                             <td>{{ $item->name }}</td>
                             <td class="text-center">{{ $assigns[$item->id] ?? 0 }}</td>
+                            <td class="text-center">{{ $assignPercentage[$item->id] ?? 0 }}%</td>
                             <td class="text-center">{{ $process[$item->id] ?? 0 }}</td>
+                            <td class="text-center">{{ $processPercentage[$item->id] ?? 0 }}%</td>
                             <td class="text-center">{{ $preregisters[$item->id] ?? 0 }}</td>
+                            <td class="text-center">{{ $preregisterPercentage[$item->id] ?? 0 }}%</td>
                             <td class="text-center">{{ $registers[$item->id] ?? 0 }}</td>
+                            <td class="text-center">{{ $registerPercentage[$item->id] ?? 0 }}%</td>
                             <td class="text-center">{{ $rejects[$item->id] ?? 0 }}</td>
+                            <td class="text-center">{{ $rejectPercentage[$item->id] ?? 0 }}%</td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -52,10 +69,15 @@
                             <td></td>
                             <td><strong>Jumlah Keseluruhan</strong></td>
                             <td class="text-center"><strong>{{ $totalCountAssign }}</strong></td>
+                            <td class="text-center"><strong>{{ $totalCountAssignPercentage }}%</strong></td>
                             <td class="text-center"><strong>{{ $totalCountProcess }}</strong></td>
+                            <td class="text-center"><strong>{{ $totalCountProcessPercentage }}%</strong></td>
                             <td class="text-center"><strong>{{ $totalCountPreRegister }}</strong></td>
+                            <td class="text-center"><strong>{{ $totalCountPreRegisterPercentage }}%</strong></td>
                             <td class="text-center"><strong>{{ $totalCountRegister }}</strong></td>
+                            <td class="text-center"><strong>{{ $totalCountRegisterPercentage }}%</strong></td>
                             <td class="text-center"><strong>{{ $totalCountReject }}</strong></td>
+                            <td class="text-center"><strong>{{ $totalCountRejectPercentage }}%</strong></td>
                         </tr>
                     </tfoot>
                 </table>
