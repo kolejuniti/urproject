@@ -714,44 +714,80 @@ class AdminController extends Controller
     {
         $start_date = $request->input('start_date');
         $end_date = $request->input('end_date');
+        $location = $request->input('location');
+
+        $locations = DB::table('location')->get();
 
         $sources = DB::table('students')
-            ->select(
-                'students.source',
-                DB::raw('COUNT(students.id) AS total'),
-                DB::raw('SUM(CASE WHEN students.location_id = 1 THEN 1 ELSE 0 END) AS total_kupd'),
-                DB::raw('SUM(CASE WHEN students.location_id = 2 THEN 1 ELSE 0 END) AS total_kukb')
-            )
+            ->select('students.source')
             ->where('students.source', 'NOT LIKE', '%Nuha%')
-            ->whereBetween('students.created_at', [$start_date, $end_date]);
+            ->groupBy('students.source')->get();
 
-        $sources = $sources->groupBy('students.source')->get();
+        $totalData = [];
+        $totalDataWithAffiliate = [];
+        $totalDataWithoutAffiliate = [];
+        $totalDataPreRegister = [];
+        $totalDataRegister = [];
 
-        // Initialize totals
-        $total_kupd = $sources->sum('total_kupd');
-        $total_kukb = $sources->sum('total_kukb');
-        $all_total = $sources->sum('total_kupd')+$sources->sum('total_kukb');
-
-        // Always define monthlyTotals to avoid "undefined variable" error
-        $monthlyTotals = [];
-
-        if ($start_date) {
-            $startMonth = date('m', strtotime($start_date)); 
-            $startYear = date('Y', strtotime($start_date));
-
-            $monthlyTotals = DB::table('students')
-                ->select(
-                    'students.source',
-                    DB::raw('COUNT(students.id) AS total_month')
-                )
-                ->where('students.source', 'NOT LIKE', '%Nuha%')
-                ->whereYear('students.created_at', $startYear)
-                ->whereMonth('students.created_at', $startMonth)
-                ->groupBy('students.source')
-                ->pluck('total_month', 'source'); // <-- this makes it easy to match source to total
+        if ($request->input('location') == 1) {
+            $location_name = 'KUPD';
+        } elseif ($request->input('location') == 2) {
+            $location_name = 'KUKB';
+        } else {
+            $location_name = '';
         }
 
-        return view('admin.leadreports', compact('sources', 'start_date', 'end_date', 'monthlyTotals', 'total_kupd', 'total_kukb', 'all_total'));
+        foreach ($sources as $source) {
+            $totalData[$source->source] = DB::table('students')
+                ->where('students.source', '=', $source->source)
+                ->where('students.source', 'NOT LIKE', '%Nuha%')
+                ->where('students.location_id', '=', $location)
+                ->whereBetween('students.created_at', [$start_date, $end_date])
+                ->count();
+
+            $totalDataWithAffiliate[$source->source] = DB::table('students')
+                ->where('students.source', '=', $source->source)
+                ->where('students.source', 'NOT LIKE', '%Nuha%')
+                ->where('students.location_id', '=', $location)
+                ->whereNotNull('students.referral_code')
+                ->whereBetween('students.created_at', [$start_date, $end_date])
+                ->count();
+
+            $totalDataWithoutAffiliate[$source->source] = DB::table('students')
+                ->where('students.source', '=', $source->source)
+                ->where('students.source', 'NOT LIKE', '%Nuha%')
+                ->where('students.location_id', '=', $location)
+                ->whereNull('students.referral_code')
+                ->whereBetween('students.created_at', [$start_date, $end_date])
+                ->count();
+
+            $totalDataPreRegister[$source->source] = DB::table('students')
+                ->where('students.source', '=', $source->source)
+                ->where('students.source', 'NOT LIKE', '%Nuha%')
+                ->where('students.location_id', '=', $location)
+                ->where('students.status_id', '=', 19)
+                ->whereBetween('students.created_at', [$start_date, $end_date])
+                ->count();
+
+            $totalDataRegister[$source->source] = DB::table('students')
+            ->where('students.source', '=', $source->source)
+                ->where('students.source', 'NOT LIKE', '%Nuha%')
+                ->where('students.location_id', '=', $location)
+                ->whereIn('students.status_id', [20,21])
+                ->whereBetween('students.created_at', [$start_date, $end_date])
+                ->count();
+        }
+
+        $totalDataCount = array_sum($totalData);
+        $totalDataWithAffiliateCount = array_sum($totalDataWithAffiliate);
+        $totalDataWithoutAffiliateCount = array_sum($totalDataWithoutAffiliate);
+        $totalDataPreRegisterCount = array_sum($totalDataPreRegister);
+        $totalDataRegisterCount = array_sum($totalDataRegister);
+
+        $totalDataEntry = array_sum($totalDataWithAffiliate) + array_sum($totalDataWithoutAffiliate);
+        $totalDataEntryCollege = array_sum($totalDataPreRegister) + array_sum($totalDataRegister);
+
+        return view('admin.leadreports', compact('sources', 'start_date', 'end_date', 'locations', 'totalData', 'totalDataWithAffiliate', 'totalDataWithoutAffiliate', 'totalDataPreRegister', 'totalDataRegister', 'totalDataCount', 'totalDataWithAffiliateCount', 'totalDataWithoutAffiliateCount', 'totalDataPreRegisterCount', 'totalDataRegisterCount', 'totalDataEntry', 'totalDataEntryCollege', 'location_name'));
     }
 
     public function yearReports(Request $request)
@@ -812,10 +848,15 @@ class AdminController extends Controller
             ->get();
 
         $assigns = [];
+        $assignPercentage = [];
         $process = [];
+        $processPercentage = [];
         $preregisters = [];
+        $preregisterPercentage = [];
         $registers = [];
+        $registerPercentage = [];
         $rejects = [];
+        $rejectPercentage = [];
 
         foreach ($advisors as $advisor)
         {
@@ -856,6 +897,22 @@ class AdminController extends Controller
                 ->whereBetween('students.created_at', [$start_date, $end_date])
                 ->whereIn('students.status_id', [1, 2, 3, 4, 5, 6, 11, 22, 23, 24, 25, 26, 27])
                 ->count();
+
+            
+
+                if ($assigns[$advisor->id] > 0) {
+                    $assignPercentage[$advisor->id] = (($assigns[$advisor->id])/($assigns[$advisor->id]))*(100);
+                    $processPercentage[$advisor->id] = round((($process[$advisor->id])/($assigns[$advisor->id]))*(100),2);
+                    $preregisterPercentage[$advisor->id] = round((($preregisters[$advisor->id])/($assigns[$advisor->id]))*(100),2);
+                    $registerPercentage[$advisor->id] = round((($registers[$advisor->id])/($assigns[$advisor->id]))*(100),2);
+                    $rejectPercentage[$advisor->id] = round((($rejects[$advisor->id])/($assigns[$advisor->id]))*(100),2);
+                } else {
+                    $assignPercentage[$advisor->id] = 0;
+                    $processPercentage[$advisor->id] = 0;
+                    $preregisterPercentage[$advisor->id] = 0;
+                    $registerPercentage[$advisor->id] = 0;
+                    $rejectPercentage[$advisor->id] = 0;
+                }
         }
 
         // Calculate total count
@@ -865,7 +922,22 @@ class AdminController extends Controller
         $totalCountRegister = array_sum($registers);
         $totalCountReject = array_sum($rejects);
 
-        return view('admin.achievements', compact('advisors', 'assigns', 'totalCountAssign', 'process', 'totalCountProcess', 'preregisters', 'totalCountPreRegister', 'registers', 'totalCountRegister', 'rejects', 'totalCountReject', 'start_date', 'end_date'));
+        if ($totalCountAssign > 0) {
+            $totalCountAssignPercentage = array_sum($assigns)/array_sum($assigns)*100;
+            $totalCountProcessPercentage = round(array_sum($process)/array_sum($assigns)*100,2); 
+            $totalCountPreRegisterPercentage = round(array_sum($preregisters)/array_sum($assigns)*100,2);
+            $totalCountRegisterPercentage = round(array_sum($registers)/array_sum($assigns)*100,2);
+            $totalCountRejectPercentage = round(array_sum($rejects)/array_sum($assigns)*100,2);
+        } else {
+            $totalCountAssignPercentage = 0;
+            $totalCountProcessPercentage = 0;
+            $totalCountPreRegisterPercentage = 0;
+            $totalCountRegisterPercentage = 0;
+            $totalCountRejectPercentage = 0;
+        }
+        // Calculate total count percentage
+
+        return view('admin.achievements', compact('advisors', 'assigns', 'totalCountAssign', 'process', 'totalCountProcess', 'preregisters', 'totalCountPreRegister', 'registers', 'totalCountRegister', 'rejects', 'totalCountReject', 'start_date', 'end_date', 'assignPercentage', 'processPercentage', 'preregisterPercentage', 'registerPercentage', 'rejectPercentage', 'totalCountAssignPercentage', 'totalCountProcessPercentage', 'totalCountPreRegisterPercentage', 'totalCountRegisterPercentage', 'totalCountRejectPercentage'));
     }
 
 }
