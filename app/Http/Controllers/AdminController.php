@@ -205,8 +205,9 @@ class AdminController extends Controller
         $end_date = $request->input('end_date');
 
         // If both dates are null, set the default to last 7 days
-        if (!$start_date) {
-            $start_date = Carbon::now()->subDays(7)->toDateString();
+        if (!$start_date && !$end_date) {
+            $start_date = now()->subDays(7)->startOfDay()->format('Y-m-d'); 
+            $end_date = now()->endOfDay()->format('Y-m-d');
         }
 
         // Build the query
@@ -233,9 +234,9 @@ class AdminController extends Controller
 
         // Apply date filters
         if ($start_date && $end_date) {
-            $query->whereBetween('students.created_at', [$start_date, $end_date]);
+            $query->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
         } elseif ($start_date) {
-            $query->whereDate('students.created_at', '>=', $start_date);
+            $query->whereDate(DB::raw("CAST(students.created_at AS DATE)"), $start_date);
         }
 
         // Complete the query
