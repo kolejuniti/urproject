@@ -205,7 +205,7 @@ class AdminController extends Controller
         $end_date = $request->input('end_date');
 
         // If both dates are null, set the default to last 7 days
-        if (!$start_date && !$end_date) {
+        if (!$start_date) {
             $start_date = Carbon::now()->subDays(7)->toDateString();
         }
 
