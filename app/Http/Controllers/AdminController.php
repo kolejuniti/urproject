@@ -760,7 +760,7 @@ class AdminController extends Controller
             $query = DB::table('students')
                 ->where('students.source', '=', $source->source)
                 ->where('students.source', 'NOT LIKE', '%Nuha%')
-                ->whereBetween('students.created_at', [$start_date, $end_date]);
+                ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
 
                 if ($location == 3) {
                     $query ->whereIn('students.location_id', [1, 2]);
@@ -774,7 +774,7 @@ class AdminController extends Controller
                 ->where('students.source', '=', $source->source)
                 ->where('students.source', 'NOT LIKE', '%Nuha%')
                 ->whereNotNull('students.referral_code')
-                ->whereBetween('students.created_at', [$start_date, $end_date]);
+                ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
 
                 if ($location == 3) {
                     $query ->whereIn('students.location_id', [1, 2]);
@@ -788,7 +788,7 @@ class AdminController extends Controller
                 ->where('students.source', '=', $source->source)
                 ->where('students.source', 'NOT LIKE', '%Nuha%')
                 ->whereNull('students.referral_code')
-                ->whereBetween('students.created_at', [$start_date, $end_date]);
+                ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
 
                 if ($location == 3) {
                     $query ->whereIn('students.location_id', [1, 2]);
@@ -803,7 +803,7 @@ class AdminController extends Controller
                 ->where('students.source', 'NOT LIKE', '%Nuha%')
                 ->whereNotNull('students.referral_code')
                 ->where('students.status_id', '=', 19)
-                ->whereBetween('students.created_at', [$start_date, $end_date]);
+                ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
 
                 if ($location == 3) {
                     $query ->whereIn('students.location_id', [1, 2]);
@@ -818,7 +818,7 @@ class AdminController extends Controller
                 ->where('students.source', 'NOT LIKE', '%Nuha%')
                 ->whereNull('students.referral_code')
                 ->where('students.status_id', '=', 19)
-                ->whereBetween('students.created_at', [$start_date, $end_date]);
+                ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
 
                 if ($location == 3) {
                     $query ->whereIn('students.location_id', [1, 2]);
@@ -832,7 +832,7 @@ class AdminController extends Controller
                 ->where('students.source', '=', $source->source)
                 ->where('students.source', 'NOT LIKE', '%Nuha%')
                 ->whereIn('students.status_id', [20,21])
-                ->whereBetween('students.created_at', [$start_date, $end_date]);
+                ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
 
                 if ($location == 3) {
                     $query ->whereIn('students.location_id', [1, 2]);
@@ -846,7 +846,7 @@ class AdminController extends Controller
                 ->where('students.source', '=', $source->source)
                 ->where('students.source', 'NOT LIKE', '%Nuha%')
                 ->whereIn('students.status_id', [20,21])
-                ->whereBetween('students.created_at', [$start_date, $end_date]);
+                ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
 
                 if ($location == 3) {
                     $query ->whereIn('students.location_id', [1, 2]);
