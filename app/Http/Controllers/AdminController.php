@@ -543,11 +543,10 @@ class AdminController extends Controller
         $totalStudents = DB::table('students')
             ->where('students.source', 'NOT LIKE', '%Nuha%');
 
-        if ($start_date) {
+        if ($start_date && $end_date) {
+            $totalStudents->whereBetween('students.created_at', [$start_date, $end_date]);
+        } elseif ($start_date) {
             $totalStudents->whereDate('students.created_at', '>=', $start_date);
-        }
-        if ($end_date) {
-            $totalStudents->whereDate('students.created_at', '<=', $end_date);
         }
         
         $totalStudents = $totalStudents->count();
@@ -558,11 +557,10 @@ class AdminController extends Controller
             ->select(DB::raw('COUNT(students.id) AS total'), 'status.name AS status', 'status.id AS status_id')
             ->where('students.source', 'NOT LIKE', '%Nuha%');
 
-        if ($start_date) {
+        if ($start_date && $end_date) {
+            $studentStatus->whereBetween('students.created_at', [$start_date, $end_date]);
+        } elseif ($start_date) {
             $studentStatus->whereDate('students.created_at', '>=', $start_date);
-        }
-        if ($end_date) {
-            $studentStatus->whereDate('students.created_at', '<=', $end_date);
         }
 
         $studentStatus = $studentStatus->groupBy('status.name', 'status.id');
@@ -573,11 +571,10 @@ class AdminController extends Controller
             ->whereNull('students.status_id')
             ->where('students.source', 'NOT LIKE', '%Nuha%');
 
-        if ($start_date) {
+        if ($start_date && $end_date) {
+            $studentNoStatus->whereBetween('students.created_at', [$start_date, $end_date]);
+        } elseif ($start_date) {
             $studentNoStatus->whereDate('students.created_at', '>=', $start_date);
-        }
-        if ($end_date) {
-            $studentNoStatus->whereDate('students.created_at', '<=', $end_date);
         }
 
         // Union and ordering results
@@ -597,11 +594,10 @@ class AdminController extends Controller
             ->where('students.source', 'NOT LIKE', '%Nuha%');
 
         // Apply date range filter if start_date and/or end_date are provided
-        if ($start_date) {
+        if ($start_date && $end_date) {
+            $locations->whereBetween('students.created_at', [$start_date, $end_date]);
+        } elseif ($start_date) {
             $locations->whereDate('students.created_at', '>=', $start_date);
-        }
-        if ($end_date) {
-            $locations->whereDate('students.created_at', '<=', $end_date);
         }
 
         $locations = $locations->groupBy('location.name')->get();
@@ -622,11 +618,10 @@ class AdminController extends Controller
             ->where('students.source', 'NOT LIKE', '%Nuha%');
 
         // Apply date range filter if start_date and/or end_date are provided
-        if ($start_date) {
+        if ($start_date && $end_date) {
+            $sources->whereBetween('students.created_at', [$start_date, $end_date]);
+        } elseif ($start_date) {
             $sources->whereDate('students.created_at', '>=', $start_date);
-        }
-        if ($end_date) {
-            $sources->whereDate('students.created_at', '<=', $end_date);
         }
 
         $sources = $sources->groupBy('students.source')->get();
@@ -649,11 +644,10 @@ class AdminController extends Controller
         ->where('students.source', 'NOT LIKE', '%Nuha%');
 
         // Apply date range filter if start_date and/or end_date are provided
-        if ($start_date) {
+        if ($start_date && $end_date) {
+            $states->whereBetween('students.created_at', [$start_date, $end_date]);
+        } elseif ($start_date) {
             $states->whereDate('students.created_at', '>=', $start_date);
-        }
-        if ($end_date) {
-            $states->whereDate('students.created_at', '<=', $end_date);
         }
         
         $states = $states->orderBy('state.id')->groupBy('state.id', 'state.name')->get();
