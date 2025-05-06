@@ -131,6 +131,8 @@
                                 <li>
                                     <a class="dropdown-item" href="{{ route('admin.studentlist') }}">Laporan Permohonan</a>
                                     <a class="dropdown-item" href="{{ route('admin.summary') }}">Statistik Permohonan</a>
+                                    <a class="dropdown-item" href="{{ route('admin.leadreports') }}">Data Masuk</a>
+                                    <a class="dropdown-item" href="{{ route('admin.achievements') }}">Pencapaian EA</a>
                                 </li>
                             </ul>
                         </li>
