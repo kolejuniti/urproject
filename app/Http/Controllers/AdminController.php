@@ -424,15 +424,32 @@ class AdminController extends Controller
         return redirect()->route('admin.userlist')->with('success', 'Maklumat pengguna berjaya dikemaskini.');
     }
 
-    public function studentlist()
+    public function studentlist(Request $request)
     {
+        // Retrieve the start and end dates from the form input
+        $start_date = $request->input('start_date');
+        $end_date = $request->input('end_date');
+
+        // Set the default start date to 7 days ago if not provided
+        if (!$start_date) {
+            $start_date = Carbon::now()->subDays(7)->toDateString();
+        }
+
         $students = DB::table('students')
                     ->leftjoin('status', 'students.status_id', '=', 'status.id')
                     ->join('location', 'students.location_id', '=', 'location.id')
                     ->select('students.id', 'students.name', 'students.ic', 'students.phone', 'students.email', 'students.created_at', 'students.updated_at', 'status.name AS status', 'students.register_at', 'students.referral_code', 'students.user_id', 'location.code AS location')
-                    ->where('students.source', 'NOT LIKE', '%Nuha%')
-                    ->orderBy('id', 'desc')
-                    ->get();
+                    ->where('students.source', 'NOT LIKE', '%Nuha%');
+
+        // Apply date filters if provided
+        $students->whereDate('students.created_at', '>=', $start_date);
+
+        if ($end_date) {
+            $students->whereDate('students.created_at', '<=', $end_date);
+        }
+
+        // Complete the query
+        $students = $students->orderByDesc('students.id')->get();
         
         $affiliates = [];
         
@@ -456,7 +473,7 @@ class AdminController extends Controller
             
         }
 
-        return view('admin.studentlist', compact('students', 'affiliates', 'advisors'));
+        return view('admin.studentlist', compact('students', 'affiliates', 'advisors', 'start_date', 'end_date'));
     }
 
     public function profile()
