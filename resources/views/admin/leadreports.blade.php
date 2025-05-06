@@ -33,17 +33,23 @@
                     @endif
                     <thead class="table-dark">
                         <tr>
-                            <th rowspan="2">#</th>
-                            <th rowspan="2">Sumber</th>
-                            <th rowspan="2">Jumlah Data</th>
+                            <th rowspan="3">#</th>
+                            <th rowspan="3">Sumber</th>
+                            <th rowspan="3">Jumlah Data</th>
                             <th class="text-center" colspan="2">Data Masuk</th>
-                            <th class="text-center" colspan="2">Pendaftaran</th>
+                            <th class="text-center" colspan="4">Pendaftaran</th>
+                          </tr>
+                          <tr>
+                            <th rowspan="2">Melalui Affiliate</th>
+                            <th rowspan="2">Tanpa Affiliate</th>
+                            <th colspan="2" class="text-center">Pra Daftar</th>
+                            <th colspan="2" class="text-center">Daftar Kolej</th>
                           </tr>
                           <tr>
                             <th>Melalui Affiliate</th>
                             <th>Tanpa Affiliate</th>
-                            <th>Pra Daftar</th>
-                            <th>Daftar Kolej</th>
+                            <th>Melalui Affiliate</th>
+                            <th>Tanpa Affiliate</th>
                           </tr>
                     </thead>
                     <tbody>
@@ -54,8 +60,10 @@
                             <td class="text-center">{{ $totalData[$item->source] ?? 0 }}</td>
                             <td class="text-center">{{ $totalDataWithAffiliate[$item->source] ?? 0 }}</td>
                             <td class="text-center">{{ $totalDataWithoutAffiliate[$item->source] ?? 0 }}</td>
-                            <td class="text-center">{{ $totalDataPreRegister[$item->source] ?? 0 }}</td>
-                            <td class="text-center">{{ $totalDataRegister[$item->source] ?? 0 }}</td>
+                            <td class="text-center">{{ $totalDataPreRegisterWithAffiliate[$item->source] ?? 0 }}</td>
+                            <td class="text-center">{{ $totalDataPreRegisterWithoutAffiliate[$item->source] ?? 0 }}</td>
+                            <td class="text-center">{{ $totalDataRegisterWithAffiliate[$item->source] ?? 0 }}</td>
+                            <td class="text-center">{{ $totalDataRegisterWithoutAffiliate[$item->source] ?? 0 }}</td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -66,12 +74,15 @@
                             <td rowspan="2" class="text-center"><strong>{{ $totalDataCount }}</strong></td>
                             <td class="text-center"><strong>{{ $totalDataWithAffiliateCount }}</strong></td>
                             <td class="text-center"><strong>{{ $totalDataWithoutAffiliateCount }}</strong></td>
-                            <td class="text-center"><strong>{{ $totalDataPreRegisterCount }}</strong></td>
-                            <td class="text-center"><strong>{{ $totalDataRegisterCount }}</strong></td>
+                            <td class="text-center"><strong>{{ $totalDataPreRegisterWithAffiliateCount }}</strong></td>
+                            <td class="text-center"><strong>{{ $totalDataPreRegisterWithoutAffiliateCount }}</strong></td>
+                            <td class="text-center"><strong>{{ $totalDataRegisterWithAffiliateCount }}</strong></td>
+                            <td class="text-center"><strong>{{ $totalDataRegisterWithoutAffiliateCount }}</strong></td>
                         </tr>
                         <tr>
                             <td colspan="2" class="text-center"><strong>{{ $totalDataEntry }}</strong></td>
-                            <td colspan="2" class="text-center"><strong>{{ $totalDataEntryCollege }}</strong></td>
+                            <td colspan="2" class="text-center"><strong>{{ $totalDataPreRegister }}</strong></td>
+                            <td colspan="2" class="text-center"><strong>{{ $totalDataRegister }}</strong></td>
                         </tr>
                     </tfoot>
                 </table>
