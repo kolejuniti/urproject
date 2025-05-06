@@ -29,7 +29,7 @@
                 <table id="myTable" class="table table-bordered small table-sm text-center">
                     @if ($start_date === null)
                     @else
-                    <caption>Laporan yang dijana adalah bagi tarikh {{ $start_date ? \Carbon\Carbon::parse($start_date)->format('d-m-Y') : '' }} sehingga {{ $end_date ? \Carbon\Carbon::parse($end_date)->format('d-m-Y') : '' }}</caption>
+                    <caption>Laporan yang dijana adalah bagi {{ $location_name }} bertarikh {{ $start_date ? \Carbon\Carbon::parse($start_date)->format('d-m-Y') : '' }} sehingga {{ $end_date ? \Carbon\Carbon::parse($end_date)->format('d-m-Y') : '' }}</caption>
                     @endif
                     <thead class="table-dark">
                         <tr>
