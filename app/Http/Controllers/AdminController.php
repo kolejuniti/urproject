@@ -750,49 +750,81 @@ class AdminController extends Controller
             $location_name = 'KUPD';
         } elseif ($request->input('location') == 2) {
             $location_name = 'KUKB';
+        } elseif ($request->input('location') == 3) {
+            $location_name = 'KUPD & KUKB';
         } else {
             $location_name = '';
         }
 
         foreach ($sources as $source) {
-            $totalData[$source->source] = DB::table('students')
+            $query = DB::table('students')
                 ->where('students.source', '=', $source->source)
                 ->where('students.source', 'NOT LIKE', '%Nuha%')
-                ->where('students.location_id', '=', $location)
-                ->whereBetween('students.created_at', [$start_date, $end_date])
-                ->count();
+                ->whereBetween('students.created_at', [$start_date, $end_date]);
 
-            $totalDataWithAffiliate[$source->source] = DB::table('students')
+                if ($location == 3) {
+                    $query ->whereIn('students.location_id', [1, 2]);
+                } else {
+                    $query ->where('students.location_id', '=', $location);
+                }
+            
+                $totalData[$source->source] = $query->count();
+
+            $query  = DB::table('students')
                 ->where('students.source', '=', $source->source)
                 ->where('students.source', 'NOT LIKE', '%Nuha%')
-                ->where('students.location_id', '=', $location)
                 ->whereNotNull('students.referral_code')
-                ->whereBetween('students.created_at', [$start_date, $end_date])
-                ->count();
+                ->whereBetween('students.created_at', [$start_date, $end_date]);
 
-            $totalDataWithoutAffiliate[$source->source] = DB::table('students')
+                if ($location == 3) {
+                    $query ->whereIn('students.location_id', [1, 2]);
+                } else {
+                    $query ->where('students.location_id', '=', $location);
+                }
+
+                $totalDataWithAffiliate[$source->source] = $query->count();
+
+            $query = DB::table('students')
                 ->where('students.source', '=', $source->source)
                 ->where('students.source', 'NOT LIKE', '%Nuha%')
-                ->where('students.location_id', '=', $location)
                 ->whereNull('students.referral_code')
-                ->whereBetween('students.created_at', [$start_date, $end_date])
-                ->count();
+                ->whereBetween('students.created_at', [$start_date, $end_date]);
 
-            $totalDataPreRegister[$source->source] = DB::table('students')
+                if ($location == 3) {
+                    $query ->whereIn('students.location_id', [1, 2]);
+                } else {
+                    $query ->where('students.location_id', '=', $location);
+                }
+
+                $totalDataWithoutAffiliate[$source->source] = $query->count();
+
+            $query = DB::table('students')
                 ->where('students.source', '=', $source->source)
                 ->where('students.source', 'NOT LIKE', '%Nuha%')
-                ->where('students.location_id', '=', $location)
                 ->where('students.status_id', '=', 19)
-                ->whereBetween('students.created_at', [$start_date, $end_date])
-                ->count();
+                ->whereBetween('students.created_at', [$start_date, $end_date]);
 
-            $totalDataRegister[$source->source] = DB::table('students')
-            ->where('students.source', '=', $source->source)
+                if ($location == 3) {
+                    $query ->whereIn('students.location_id', [1, 2]);
+                } else {
+                    $query ->where('students.location_id', '=', $location);
+                }
+
+                $totalDataPreRegister[$source->source] = $query->count();
+
+            $query = DB::table('students')
+                ->where('students.source', '=', $source->source)
                 ->where('students.source', 'NOT LIKE', '%Nuha%')
-                ->where('students.location_id', '=', $location)
                 ->whereIn('students.status_id', [20,21])
-                ->whereBetween('students.created_at', [$start_date, $end_date])
-                ->count();
+                ->whereBetween('students.created_at', [$start_date, $end_date]);
+
+                if ($location == 3) {
+                    $query ->whereIn('students.location_id', [1, 2]);
+                } else {
+                    $query ->where('students.location_id', '=', $location);
+                }
+
+                $totalDataRegister[$source->source] = $query->count();
         }
 
         $totalDataCount = array_sum($totalData);
@@ -855,6 +887,19 @@ class AdminController extends Controller
     {
         $start_date = $request->input('start_date');
         $end_date = $request->input('end_date');
+        $location = $request->input('location');
+
+        $locations = DB::table('location')->get();
+
+        if ($request->input('location') == 1) {
+            $location_name = 'KUPD';
+        } elseif ($request->input('location') == 2) {
+            $location_name = 'KUKB';
+        } elseif ($request->input('location') == 3) {
+            $location_name = 'KUPD & KUKB';
+        } else {
+            $location_name = '';
+        }
 
         $advisors = User::where('type', 1)
             ->where(function($query) {
@@ -878,44 +923,77 @@ class AdminController extends Controller
         foreach ($advisors as $advisor)
         {
             // Directly assign count to advisorId key in assignDatas array (no nested array)
-            $assigns[$advisor->id] = DB::table('students')
+            $query = DB::table('students')
                 ->where('students.user_id', $advisor->id)
                 ->where('students.source', 'NOT LIKE', '%Nuha%')
-                ->whereBetween('students.created_at', [$start_date, $end_date])
-                ->count();
+                ->whereBetween('students.created_at', [$start_date, $end_date]);
 
-            $process[$advisor->id] = DB::table('students')
-            ->where('students.user_id', $advisor->id)
-            ->where('students.source', 'NOT LIKE', '%Nuha%')
-            ->whereBetween('students.created_at', [$start_date, $end_date])
-            ->where(function($query) {
-                $query->whereNull('students.status_id')
-                        ->orWhereIn('students.status_id', [7,8,9,10,12,13,14,15,16,17,18]);
-            })
-            ->count();
-
-            $preregisters[$advisor->id] = DB::table('students')
-                ->where('students.user_id', $advisor->id)
-                ->where('students.source', 'NOT LIKE', '%Nuha%')
-                ->whereBetween('students.created_at', [$start_date, $end_date])
-                ->whereIn('students.status_id', [19])
-                ->count();
-
-            $registers[$advisor->id] = DB::table('students')
-                ->where('students.user_id', $advisor->id)
-                ->where('students.source', 'NOT LIKE', '%Nuha%')
-                ->whereBetween('students.created_at', [$start_date, $end_date])
-                ->whereIn('students.status_id', [20, 21])
-                ->count();
-
-            $rejects[$advisor->id] = DB::table('students')
-                ->where('students.user_id', $advisor->id)
-                ->where('students.source', 'NOT LIKE', '%Nuha%')
-                ->whereBetween('students.created_at', [$start_date, $end_date])
-                ->whereIn('students.status_id', [1, 2, 3, 4, 5, 6, 11, 22, 23, 24, 25, 26, 27])
-                ->count();
-
+                if ($location == 3) {
+                    $query ->whereIn('students.location_id', [1, 2]);
+                } else {
+                    $query ->where('students.location_id', '=', $location);
+                }
             
+                $assigns[$advisor->id] = $query->count();
+
+            $query = DB::table('students')
+                ->where('students.user_id', $advisor->id)
+                ->where('students.source', 'NOT LIKE', '%Nuha%')
+                ->whereBetween('students.created_at', [$start_date, $end_date])
+                ->where(function($query) {
+                    $query->whereNull('students.status_id')
+                            ->orWhereIn('students.status_id', [7,8,9,10,12,13,14,15,16,17,18]);
+                });
+
+                if ($location == 3) {
+                    $query ->whereIn('students.location_id', [1, 2]);
+                } else {
+                    $query ->where('students.location_id', '=', $location);
+                }
+            
+                $process[$advisor->id] = $query->count();
+
+            $query = DB::table('students')
+                ->where('students.user_id', $advisor->id)
+                ->where('students.source', 'NOT LIKE', '%Nuha%')
+                ->whereBetween('students.created_at', [$start_date, $end_date])
+                ->whereIn('students.status_id', [19]);
+
+                if ($location == 3) {
+                    $query ->whereIn('students.location_id', [1, 2]);
+                } else {
+                    $query ->where('students.location_id', '=', $location);
+                }
+            
+                $preregisters[$advisor->id] = $query->count();
+
+            $query = DB::table('students')
+                ->where('students.user_id', $advisor->id)
+                ->where('students.source', 'NOT LIKE', '%Nuha%')
+                ->whereBetween('students.created_at', [$start_date, $end_date])
+                ->whereIn('students.status_id', [20, 21]);
+
+                if ($location == 3) {
+                    $query ->whereIn('students.location_id', [1, 2]);
+                } else {
+                    $query ->where('students.location_id', '=', $location);
+                }
+            
+                $registers[$advisor->id] = $query->count();
+
+            $query = DB::table('students')
+                ->where('students.user_id', $advisor->id)
+                ->where('students.source', 'NOT LIKE', '%Nuha%')
+                ->whereBetween('students.created_at', [$start_date, $end_date])
+                ->whereIn('students.status_id', [1, 2, 3, 4, 5, 6, 11, 22, 23, 24, 25, 26, 27]);
+
+                if ($location == 3) {
+                    $query ->whereIn('students.location_id', [1, 2]);
+                } else {
+                    $query ->where('students.location_id', '=', $location);
+                }
+            
+                $rejects[$advisor->id] = $query->count();
 
                 if ($assigns[$advisor->id] > 0) {
                     $assignPercentage[$advisor->id] = (($assigns[$advisor->id])/($assigns[$advisor->id]))*(100);
@@ -954,7 +1032,7 @@ class AdminController extends Controller
         }
         // Calculate total count percentage
 
-        return view('admin.achievements', compact('advisors', 'assigns', 'totalCountAssign', 'process', 'totalCountProcess', 'preregisters', 'totalCountPreRegister', 'registers', 'totalCountRegister', 'rejects', 'totalCountReject', 'start_date', 'end_date', 'assignPercentage', 'processPercentage', 'preregisterPercentage', 'registerPercentage', 'rejectPercentage', 'totalCountAssignPercentage', 'totalCountProcessPercentage', 'totalCountPreRegisterPercentage', 'totalCountRegisterPercentage', 'totalCountRejectPercentage'));
+        return view('admin.achievements', compact('advisors', 'assigns', 'locations', 'totalCountAssign', 'process', 'totalCountProcess', 'preregisters', 'totalCountPreRegister', 'registers', 'totalCountRegister', 'rejects', 'totalCountReject', 'start_date', 'end_date', 'assignPercentage', 'processPercentage', 'preregisterPercentage', 'registerPercentage', 'rejectPercentage', 'totalCountAssignPercentage', 'totalCountProcessPercentage', 'totalCountPreRegisterPercentage', 'totalCountRegisterPercentage', 'totalCountRejectPercentage', 'location_name'));
     }
 
 }
