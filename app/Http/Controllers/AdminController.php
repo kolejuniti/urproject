@@ -538,13 +538,16 @@ class AdminController extends Controller
         $end_date = $request->input('end_date');
 
         // Total students with date range filter
-        $totalStudents = DB::table('students');
+        $totalStudents = DB::table('students')
+            ->where('students.source', 'NOT LIKE', '%Nuha%');
+
         if ($start_date) {
             $totalStudents->whereDate('students.created_at', '>=', $start_date);
         }
         if ($end_date) {
             $totalStudents->whereDate('students.created_at', '<=', $end_date);
         }
+        
         $totalStudents = $totalStudents->count();
 
         // Student status summary with date range filter
