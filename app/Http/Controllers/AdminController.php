@@ -204,9 +204,10 @@ class AdminController extends Controller
         $start_date = $request->input('start_date');
         $end_date = $request->input('end_date');
 
-        // Set the default start date to 7 days ago if not provided
-        if (!$start_date) {
+        // If both dates are null, set the default to last 7 days
+        if (!$start_date && !$end_date) {
             $start_date = Carbon::now()->subDays(7)->toDateString();
+            $end_date = Carbon::now()->toDateString();
         }
 
         // Build the query
@@ -230,12 +231,12 @@ class AdminController extends Controller
                     ->where('students.source', 'NOT LIKE', '%Nuha%');
                     // ->orderBy('students.created_at', 'desc')
                     // ->get();
-        
-                    // Apply date filters if provided
-        $query->whereDate('students.created_at', '>=', $start_date);
 
-        if ($end_date) {
-            $query->whereDate('students.created_at', '<=', $end_date);
+        // Apply date filters
+        if ($start_date && $end_date) {
+            $query->whereBetween('students.created_at', [$start_date, $end_date]);
+        } elseif ($start_date) {
+            $query->whereDate('students.created_at', '>=', $start_date);
         }
 
         // Complete the query
@@ -430,9 +431,10 @@ class AdminController extends Controller
         $start_date = $request->input('start_date');
         $end_date = $request->input('end_date');
 
-        // Set the default start date to 7 days ago if not provided
-        if (!$start_date) {
+        // If both dates are null, set the default to last 7 days
+        if (!$start_date && !$end_date) {
             $start_date = Carbon::now()->subDays(7)->toDateString();
+            $end_date = Carbon::now()->toDateString();
         }
 
         $students = DB::table('students')
@@ -441,11 +443,11 @@ class AdminController extends Controller
                     ->select('students.id', 'students.name', 'students.ic', 'students.phone', 'students.email', 'students.created_at', 'students.updated_at', 'status.name AS status', 'students.register_at', 'students.referral_code', 'students.user_id', 'location.code AS location')
                     ->where('students.source', 'NOT LIKE', '%Nuha%');
 
-        // Apply date filters if provided
-        $students->whereDate('students.created_at', '>=', $start_date);
-
-        if ($end_date) {
-            $students->whereDate('students.created_at', '<=', $end_date);
+        // Apply date filters
+        if ($start_date && $end_date) {
+            $students->whereBetween('students.created_at', [$start_date, $end_date]);
+        } elseif ($start_date) {
+            $students->whereDate('students.created_at', '>=', $start_date);
         }
 
         // Complete the query
