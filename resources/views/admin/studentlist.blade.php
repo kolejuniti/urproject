@@ -10,8 +10,21 @@
                     {{ $success }}
                 </div>
             @endif
+            <div class="col-md-6 col-sm-6 col-12 ms-auto">
+                <form method="POST" action="{{ route('admin.studentlist') }}">
+                @csrf
+                    <div class="input-group mb-3">
+                        <button class="btn btn-secondary" disabled>Tarikh</button>
+                        <input type="date" class="form-control" name="start_date">
+                        <button class="btn btn-secondary" disabled>-</button>
+                        <input type="date" class="form-control" name="end_date">
+                        <button class="btn btn-warning" type="submit">Cari</button>
+                    </div>
+                </form>
+            </div>
             <div class="table-responsive">
                 <table id="myTable" class="table table-bordered small table-sm text-center">
+                    <caption>Senarai yang dipaparkan adalah dari tarikh {{ \Carbon\Carbon::parse($start_date)->format('d-m-Y') }} sehingga {{ \Carbon\Carbon::parse($end_date)->format('d-m-Y') }}</caption>
                     <thead class="table-dark">
                         <tr>
                             <th>#</th>
