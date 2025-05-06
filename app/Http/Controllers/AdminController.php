@@ -743,6 +743,7 @@ class AdminController extends Controller
         $totalData = [];
         $totalDataWithAffiliate = [];
         $totalDataWithoutAffiliate = [];
+        $totalDataPreRegisterWithAffiliate = [];
         $totalDataPreRegister = [];
         $totalDataRegister = [];
 
@@ -801,6 +802,7 @@ class AdminController extends Controller
             $query = DB::table('students')
                 ->where('students.source', '=', $source->source)
                 ->where('students.source', 'NOT LIKE', '%Nuha%')
+                ->whereNotNull('students.referral_code')
                 ->where('students.status_id', '=', 19)
                 ->whereBetween('students.created_at', [$start_date, $end_date]);
 
@@ -810,7 +812,22 @@ class AdminController extends Controller
                     $query ->where('students.location_id', '=', $location);
                 }
 
-                $totalDataPreRegister[$source->source] = $query->count();
+                $totalDataPreRegisterWithAffiliate[$source->source] = $query->count();
+
+            $query = DB::table('students')
+                ->where('students.source', '=', $source->source)
+                ->where('students.source', 'NOT LIKE', '%Nuha%')
+                ->whereNull('students.referral_code')
+                ->where('students.status_id', '=', 19)
+                ->whereBetween('students.created_at', [$start_date, $end_date]);
+
+                if ($location == 3) {
+                    $query ->whereIn('students.location_id', [1, 2]);
+                } else {
+                    $query ->where('students.location_id', '=', $location);
+                }
+
+                $totalDataPreRegisterWithoutAffiliate[$source->source] = $query->count();
 
             $query = DB::table('students')
                 ->where('students.source', '=', $source->source)
@@ -824,19 +841,36 @@ class AdminController extends Controller
                     $query ->where('students.location_id', '=', $location);
                 }
 
-                $totalDataRegister[$source->source] = $query->count();
+                $totalDataRegisterWithAffiliate[$source->source] = $query->count();
+
+            $query = DB::table('students')
+                ->where('students.source', '=', $source->source)
+                ->where('students.source', 'NOT LIKE', '%Nuha%')
+                ->whereIn('students.status_id', [20,21])
+                ->whereBetween('students.created_at', [$start_date, $end_date]);
+
+                if ($location == 3) {
+                    $query ->whereIn('students.location_id', [1, 2]);
+                } else {
+                    $query ->where('students.location_id', '=', $location);
+                }
+
+                $totalDataRegisterWithoutAffiliate[$source->source] = $query->count();
         }
 
         $totalDataCount = array_sum($totalData);
         $totalDataWithAffiliateCount = array_sum($totalDataWithAffiliate);
         $totalDataWithoutAffiliateCount = array_sum($totalDataWithoutAffiliate);
-        $totalDataPreRegisterCount = array_sum($totalDataPreRegister);
-        $totalDataRegisterCount = array_sum($totalDataRegister);
+        $totalDataPreRegisterWithAffiliateCount = array_sum($totalDataPreRegisterWithAffiliate);
+        $totalDataPreRegisterWithoutAffiliateCount = array_sum($totalDataPreRegisterWithoutAffiliate);
+        $totalDataRegisterWithAffiliateCount = array_sum($totalDataRegisterWithAffiliate);
+        $totalDataRegisterWithoutAffiliateCount = array_sum($totalDataRegisterWithoutAffiliate);
 
         $totalDataEntry = array_sum($totalDataWithAffiliate) + array_sum($totalDataWithoutAffiliate);
-        $totalDataEntryCollege = array_sum($totalDataPreRegister) + array_sum($totalDataRegister);
+        $totalDataPreRegister = array_sum($totalDataPreRegisterWithAffiliate) + array_sum($totalDataPreRegisterWithoutAffiliate);
+        $totalDataRegister = array_sum($totalDataRegisterWithAffiliate) + array_sum($totalDataRegisterWithoutAffiliate);
 
-        return view('admin.leadreports', compact('sources', 'start_date', 'end_date', 'locations', 'totalData', 'totalDataWithAffiliate', 'totalDataWithoutAffiliate', 'totalDataPreRegister', 'totalDataRegister', 'totalDataCount', 'totalDataWithAffiliateCount', 'totalDataWithoutAffiliateCount', 'totalDataPreRegisterCount', 'totalDataRegisterCount', 'totalDataEntry', 'totalDataEntryCollege', 'location_name'));
+        return view('admin.leadreports', compact('sources', 'start_date', 'end_date', 'locations', 'totalData', 'totalDataWithAffiliate', 'totalDataWithoutAffiliate', 'totalDataPreRegisterWithAffiliate', 'totalDataPreRegisterWithoutAffiliate', 'totalDataRegister', 'totalDataCount', 'totalDataWithAffiliateCount', 'totalDataWithoutAffiliateCount', 'totalDataPreRegisterWithAffiliateCount', 'totalDataPreRegisterWithoutAffiliateCount', 'totalDataRegisterWithAffiliateCount', 'totalDataRegisterWithoutAffiliateCount', 'totalDataEntry', 'totalDataPreRegister', 'totalDataRegister', 'location_name'));
     }
 
     public function yearReports(Request $request)
@@ -845,7 +879,7 @@ class AdminController extends Controller
         $currentYear = Carbon::now()->year;
         
         // Define start year
-        $startYear = $currentYear - 4;
+        $startYear = $currentYear - 1;
         
         // Array to store yearly data
         $yearlyData = [];
