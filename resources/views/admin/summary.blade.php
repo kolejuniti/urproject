@@ -18,7 +18,7 @@
                 </form>
             </div>
             <h2 class="mb-3">Statistik Permohonan</h2>
-            <div>
+            {{-- <div>
                 <div class="col-md-12">
                     <table id="myTable4" class="table table-bordered table-sm text-center">
                         <thead class="table-dark">
@@ -40,7 +40,7 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
+            </div> --}}
             <div class="row">
                 <div class="col-md-6">
                     <table id="myTable" class="table table-bordered table-sm text-center">

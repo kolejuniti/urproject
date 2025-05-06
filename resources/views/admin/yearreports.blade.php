@@ -330,26 +330,26 @@
         layout: {
                 top1Start: {
                     div: {
-                        html: '<h2>Jumlah Data Permohonan Mengikut Tahun & Bulan</h2>'
+                        html: '<h2>Jumlah Data Masuk Mengikut Tahun & Bulan</h2>'
                     }
                 },
                 top1End: {
                     buttons: [
                         {
                             extend: 'copy',
-                            title: 'Statistik Permohonan - Tahun & Bulan'
+                            title: 'Data Masuk - Tahun & Bulan'
                         },
                         {
                             extend: 'excelHtml5',
-                            title: 'Statistik Permohonan - Tahun & Bulan'
+                            title: 'Data Masuk - Tahun & Bulan'
                         },
                         {
                             extend: 'pdfHtml5',
-                            title: 'Statistik Permohonan - Tahun & Bulan'
+                            title: 'Data Masuk - Tahun & Bulan'
                         },
                         {
                             extend: 'print',
-                            title: 'Statistik Permohonan - Tahun & Bulan'
+                            title: 'Data Masuk - Tahun & Bulan'
                         }
                     ]
                 },
