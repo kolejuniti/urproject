@@ -142,7 +142,7 @@ Route::middleware(['auth', 'user-access:admin'])->group(function() {
     Route::get('/admin/userlist', [AdminController::class, 'userlist'])->name('admin.userlist');
     Route::post('/admin/userlist/detail', [AdminController::class, 'userDetail'])->name('admin.userlist.detail');
     Route::put('/admin/userlist/{id}', [AdminController::class, 'updateUser'])->name('admin.userlist.update');
-    Route::get('/admin/studentlist', [AdminController::class, 'studentlist'])->name('admin.studentlist');
+    Route::match(['get', 'post'], '/admin/studentlist', [AdminController::class, 'studentlist'])->name('admin.studentlist');
     Route::get('/admin/profile', [AdminController::class, 'profile'])->name('admin.profile');
     Route::put('/admin/update/profile', [AdminController::class, 'updateProfile'])->name('admin.profile.update');
     Route::put('/admin/update/password', [AdminController::class, 'password'])->name('admin.profile.password');
