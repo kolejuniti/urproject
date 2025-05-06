@@ -341,6 +341,8 @@ class StudentController extends Controller
                                     $users = DB::table('users')
                                         ->where('name', 'like', 'PD-%')  // Starts with "PD-"
                                         ->where('type', '1')
+                                        ->where('affiliate_data', 1)
+                                        ->where('accept_data', 1)
                                         ->get();
                                     
                                     // Filter results manually to ensure exact code match
@@ -365,6 +367,8 @@ class StudentController extends Controller
                                         $users = DB::table('users')
                                             ->where('name', 'like', 'PD-%')  // Starts with "PD-"
                                             ->where('type', '1')
+                                            ->where('affiliate_data', 1)
+                                            ->where('accept_data', 1)
                                             ->get();
                                         
                                         // Filter results manually to ensure exact code match
@@ -433,6 +437,7 @@ class StudentController extends Controller
                     $user = DB::table('users')
                         ->where('name', 'like', $newCode . '%')
                         ->where('type', '1')
+                        ->where('accept_data', 1)
                         ->first();
 
                     if ($user) {
@@ -450,6 +455,7 @@ class StudentController extends Controller
                         $user = DB::table('users')
                             ->where('name', 'like', $newCode . '%')
                             ->where('type', 1)
+                            ->where('accept_data', 1)
                             ->first();
 
                         if ($user) {
@@ -720,6 +726,8 @@ class StudentController extends Controller
                                     $users = DB::table('users')
                                         ->where('name', 'like', 'PD-%')  // Starts with "PD-"
                                         ->where('type', '1')
+                                        ->where('affiliate_data', 1)
+                                        ->where('accept_data', 1)
                                         ->get();
                                     
                                     // Filter results manually to ensure exact code match
@@ -744,6 +752,8 @@ class StudentController extends Controller
                                         $users = DB::table('users')
                                             ->where('name', 'like', 'PD-%')  // Starts with "PD-"
                                             ->where('type', '1')
+                                            ->where('affiliate_data', 1)
+                                            ->where('accept_data', 1)
                                             ->get();
                                         
                                         // Filter results manually to ensure exact code match
@@ -812,6 +822,7 @@ class StudentController extends Controller
                     $user = DB::table('users')
                         ->where('name', 'like', $newCode . '%')
                         ->where('type', '1')
+                        ->where('accept_data', 1)
                         ->first();
 
                     if ($user) {
@@ -829,6 +840,7 @@ class StudentController extends Controller
                         $user = DB::table('users')
                             ->where('name', 'like', $newCode . '%')
                             ->where('type', 1)
+                            ->where('accept_data', 1)
                             ->first();
 
                         if ($user) {
@@ -1005,17 +1017,6 @@ class StudentController extends Controller
             return redirect()->back()->with('msg_error', 'No. kad pengenalan telah didaftar di dalam Sistem Maklumat Pelajar Kolej UNITI.');
         }
     }
-
-    // public function confirmation(Request $request)
-    // {
-    //     $ref = $request->query('ref');
-        
-    //     if (!$request->session()->has('ic')) {
-    //         return redirect()->route('student.register')->with('msg_error', 'Tiada data pelajar. Sila daftar terlebih dahulu.');
-    //     }
-
-    //     return view('student.confirmation', compact('ref'));
-    // }
 
     public function pengesahan_kupd(Request $request)
     {
@@ -1359,6 +1360,7 @@ class StudentController extends Controller
                     $user = DB::table('users')
                         ->where('name', 'like', $newCode . '%')
                         ->where('type', '1')
+                        ->where('accept_data', 1)
                         ->first();
 
                     if ($user) {
@@ -1376,6 +1378,7 @@ class StudentController extends Controller
                         $user = DB::table('users')
                             ->where('name', 'like', $newCode . '%')
                             ->where('type', 1)
+                            ->where('accept_data', 1)
                             ->first();
 
                         if ($user) {
@@ -1505,6 +1508,7 @@ class StudentController extends Controller
                     $user = DB::table('users')
                         ->where('name', 'like', $newCode . '%')
                         ->where('type', '1')
+                        ->where('accept_data', 1)
                         ->first();
 
                     if ($user) {
@@ -1522,6 +1526,7 @@ class StudentController extends Controller
                         $user = DB::table('users')
                             ->where('name', 'like', $newCode . '%')
                             ->where('type', 1)
+                            ->where('accept_data', 1)
                             ->first();
 
                         if ($user) {
