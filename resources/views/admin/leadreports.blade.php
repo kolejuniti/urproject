@@ -19,6 +19,7 @@
                             @foreach ($locations as $item)
                                 <option value="{{ $item->id }}">{{ $item->code }}</option>
                             @endforeach
+                            <option value="3">KUPD & KUKB</option>
                         </select>
                         <button class="btn btn-warning" type="submit">Cari</button>
                     </div>

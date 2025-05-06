@@ -8,13 +8,21 @@
             <div class="col-md-6 col-sm-6 col-12 ms-auto">
                 <form method="POST" action="{{ route('admin.achievements') }}">
                 @csrf
-                    <div class="input-group mb-3">
-                        <button class="btn btn-secondary" disabled>Tarikh</button>
-                        <input type="date" class="form-control" name="start_date">
-                        <button class="btn btn-secondary" disabled>-</button>
-                        <input type="date" class="form-control" name="end_date">
-                        <button class="btn btn-warning" type="submit">Cari</button>
-                    </div>
+                <div class="input-group mb-3">
+                    <button class="btn btn-secondary" disabled>Tarikh</button>
+                    <input type="date" class="form-control" name="start_date" required>
+                    <button class="btn btn-secondary" disabled>-</button>
+                    <input type="date" class="form-control" name="end_date" required>
+                    <button class="btn btn-secondary" disabled>Lokasi</button>
+                    <select name="location" id="location" class="form-control" required>
+                        <option value="">Pilihan Lokasi</option>
+                        @foreach ($locations as $item)
+                            <option value="{{ $item->id }}">{{ $item->code }}</option>
+                        @endforeach
+                        <option value="3">KUPD & KUKB</option>
+                    </select>
+                    <button class="btn btn-warning" type="submit">Cari</button>
+                </div>
                 </form>
             </div>
             <div class="table-responsive">
@@ -100,7 +108,7 @@
         layout: {
                 top1Start: {
                     div: {
-                        html: '<h2>Pencapaian EA</h2>'
+                        html: '<h2>Pencapaian EA {{ $location_name }}</h2>'
                     }
                 },
                 top1End: {
