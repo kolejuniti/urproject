@@ -32,7 +32,7 @@
                         </div>
                     @endif
 
-                    <form action="{{ route('admin.profile.update') }}" method="POST">
+                    <form action="{{ route('user.profile.update') }}" method="POST">
                         @csrf
                         @method('PUT')
                         <div class="mb-3">
