@@ -105,7 +105,7 @@
                     </form>
                 </div>
                 <div class="mt-3">
-                    <form action="{{ route('admin.profile.password') }}" method="POST">
+                    <form action="{{ route('user.profile.password') }}" method="POST">
                         @csrf
                         @method('PUT')
                         <div class="mb-3">
