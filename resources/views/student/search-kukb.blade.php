@@ -52,7 +52,7 @@
                         <div class="col-12 col-md-6 col-sm-6 offset-md-3">
                             <div class="input-group mb-3">
                                 <input type="text" name="ic" id="ic" class="form-control" placeholder="No. Kad Pengenalan" maxlength="12" aria-label="No. Kad Pengenalan" aria-describedby="button-addon2" oninput="this.value = this.value.replace(/[-\s]/g, '')">
-                                <button class="btn btn-warning" type="button" id="button-addon2"><i class="bi bi-search"></i></button>
+                                <button class="btn btn-warning" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
                             </div>
                         </div>
                     </div>
