@@ -503,6 +503,12 @@ class StudentController extends Controller
                 $programA = $request->input('programA');
                 $programB = $request->input('programB');
 
+                if ($ref !== null) {
+                    $incentive = 5;
+                } else {
+                    $incentive = 0;
+                }   
+
                 DB::table('students')->insert([
                     'name'=>$name,
                     'ic'=>$ic,
@@ -519,7 +525,7 @@ class StudentController extends Controller
                     'user_id'=>$userID,
                     'source'=>$source,
                     'updated_at'=> $update,
-                    'incentive'=> 5
+                    'incentive'=> $incentive
                 ]);
 
                 $student = DB::table('students')->where('ic', $ic)->first();
@@ -889,6 +895,12 @@ class StudentController extends Controller
                 $programA = $request->input('programA');
                 $programB = $request->input('programB');
 
+                if ($ref !== null) {
+                    $incentive = 5;
+                } else {
+                    $incentive = 0;
+                } 
+
                 DB::table('students')->insert([
                     'name'=>$name,
                     'ic'=>$ic,
@@ -905,7 +917,7 @@ class StudentController extends Controller
                     'user_id'=>$userID,
                     'source'=>$source,
                     'updated_at'=> $update,
-                    'incentive'=> 5
+                    'incentive'=> $incentive
                 ]);
 
                 $student = DB::table('students')->where('ic', $ic)->first();
