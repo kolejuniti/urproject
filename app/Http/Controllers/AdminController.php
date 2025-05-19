@@ -849,11 +849,8 @@ class AdminController extends Controller
             $query = DB::table('students')
                 ->where('students.source', '=', $source->source)
                 ->where('students.source', 'NOT LIKE', '%Nuha%')
-                ->where(function ($query) {
-                    $query->whereNull('students.referral_code')
-                        ->orWhere('students.referral_code', '');
-                })
-                ->whereIn('students.status_id', [20,21])
+                ->whereNull('students.referral_code')
+                ->where('students.status_id', '=', 19)
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
 
                 if ($location == 3) {
