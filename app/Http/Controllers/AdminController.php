@@ -835,7 +835,7 @@ class AdminController extends Controller
                 ->where('students.source', '=', $source->source)
                 ->where('students.source', 'NOT LIKE', '%Nuha%')
                 ->whereNotNull('students.referral_code')
-                ->whereIn('students.status_id', [20,21])
+                ->where('students.status_id', 'IN', [20,21])
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
 
                 if ($location == 3) {
@@ -850,7 +850,7 @@ class AdminController extends Controller
                 ->where('students.source', '=', $source->source)
                 ->where('students.source', 'NOT LIKE', '%Nuha%')
                 ->whereNull('students.referral_code')
-                ->whereIn('students.status_id', [20,21])
+                ->where('students.status_id', 'IN', [20,21])
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
 
                 if ($location == 3) {
