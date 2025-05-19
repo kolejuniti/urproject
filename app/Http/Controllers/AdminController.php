@@ -874,7 +874,7 @@ class AdminController extends Controller
         $totalDataPreRegister = array_sum($totalDataPreRegisterWithAffiliate) + array_sum($totalDataPreRegisterWithoutAffiliate);
         $totalDataRegister = array_sum($totalDataRegisterWithAffiliate) + array_sum($totalDataRegisterWithoutAffiliate);
 
-        return view('admin.leadreports', compact('sources', 'start_date', 'end_date', 'locations', 'totalData', 'totalDataWithAffiliate', 'totalDataWithoutAffiliate', 'totalDataPreRegisterWithAffiliate', 'totalDataPreRegisterWithoutAffiliate', 'totalDataRegister', 'totalDataCount', 'totalDataWithAffiliateCount', 'totalDataWithoutAffiliateCount', 'totalDataPreRegisterWithAffiliateCount', 'totalDataPreRegisterWithoutAffiliateCount', 'totalDataRegisterWithAffiliateCount', 'totalDataRegisterWithoutAffiliateCount', 'totalDataEntry', 'totalDataPreRegister', 'totalDataRegister', 'location_name'));
+        return view('admin.leadreports', compact('sources', 'start_date', 'end_date', 'locations', 'totalData', 'totalDataWithAffiliate', 'totalDataWithoutAffiliate', 'totalDataPreRegisterWithAffiliate', 'totalDataPreRegisterWithoutAffiliate', 'totalDataRegisterWithAffiliate', 'totalDataRegisterWithoutAffiliate', 'totalDataRegister', 'totalDataCount', 'totalDataWithAffiliateCount', 'totalDataWithoutAffiliateCount', 'totalDataPreRegisterWithAffiliateCount', 'totalDataPreRegisterWithoutAffiliateCount', 'totalDataRegisterWithAffiliateCount', 'totalDataRegisterWithoutAffiliateCount', 'totalDataEntry', 'totalDataPreRegister', 'totalDataRegister', 'location_name'));
     }
 
     public function yearReports(Request $request)
