@@ -834,6 +834,7 @@ class AdminController extends Controller
             $query = DB::table('students')
                 ->where('students.source', '=', $source->source)
                 ->where('students.source', 'NOT LIKE', '%Nuha%')
+                ->whereNotNull('students.referral_code')
                 ->whereIn('students.status_id', [20,21])
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
 
@@ -848,6 +849,7 @@ class AdminController extends Controller
             $query = DB::table('students')
                 ->where('students.source', '=', $source->source)
                 ->where('students.source', 'NOT LIKE', '%Nuha%')
+                ->whereNull('students.referral_code')
                 ->whereIn('students.status_id', [20,21])
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
 
@@ -1068,7 +1070,37 @@ class AdminController extends Controller
         }
         // Calculate total count percentage
 
-        return view('admin.achievements', compact('advisors', 'assigns', 'locations', 'totalCountAssign', 'process', 'totalCountProcess', 'preregisters', 'totalCountPreRegister', 'registers', 'totalCountRegister', 'rejects', 'totalCountReject', 'start_date', 'end_date', 'assignPercentage', 'processPercentage', 'preregisterPercentage', 'registerPercentage', 'rejectPercentage', 'totalCountAssignPercentage', 'totalCountProcessPercentage', 'totalCountPreRegisterPercentage', 'totalCountRegisterPercentage', 'totalCountRejectPercentage', 'location_name'));
+        return view('admin.achievements', compact('advisors', 'assigns', 'locations', 'totalCountAssign', 'process', 'totalCountProcess', 'preregisters', 'totalCountPreRegister', 'registers', 'totalCountRegister', 'rejects', 'totalCountReject', 'start_date', 'end_date', 'assignPercentage', 'processPercentage', 'preregisterPercentage', 'registerPercentage', 'rejectPercentage', 'totalCountAssignPercentage', 'totalCountProcessPercentage', 'totalCountPreRegisterPercentage', 'totalCountRegisterPercentage', 'totalCountRejectPercentage', 'location_name', 'location'));
+    }
+
+    public function achievementsDetails(Request $request, $id)
+    {
+        $start_date = $request->input('start_date');
+        $end_date = $request->input('end_date');
+        $location_id = $request->input('location');
+
+        $user = User::where('id', $id)
+            ->where('type', 1)
+            ->first();
+
+        $applications = DB::table('students')
+            ->leftjoin('status', 'students.status_id', '=', 'status.id')
+            ->where('students.user_id', $id)
+            ->where('students.source', 'NOT LIKE', '%Nuha%')
+            ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date])
+            ->select('students.name', 'students.created_at', 'students.updated_at', 'students.status_id', 'status.name AS status',
+            DB::raw('DATEDIFF(CURDATE(), students.updated_at) AS days_since_update'))
+            ->orderByDesc('students.id');
+
+                if ($location_id == 3) {
+                    $applications ->whereIn('students.location_id', [1, 2]);
+                } else {
+                    $applications ->where('students.location_id', '=', $location_id);
+                }
+
+            $applications = $applications->get();
+
+        return view('admin.achievementDetails', compact('user', 'applications'));
     }
 
 }
