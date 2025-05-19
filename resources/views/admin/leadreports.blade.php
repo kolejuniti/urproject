@@ -5,7 +5,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
-            <div class="col-md-8 col-sm-8 col-12 ms-auto">
+            <div class="col-md-6 col-sm-6 col-12 ms-auto">
                 <form method="POST" action="{{ route('admin.leadreports') }}">
                 @csrf
                     <div class="input-group mb-3">
