@@ -518,7 +518,8 @@ class StudentController extends Controller
                     'referral_code'=>$ref,
                     'user_id'=>$userID,
                     'source'=>$source,
-                    'updated_at'=> $update
+                    'updated_at'=> $update,
+                    'incentive'=> 5
                 ]);
 
                 $student = DB::table('students')->where('ic', $ic)->first();
@@ -903,7 +904,8 @@ class StudentController extends Controller
                     'referral_code'=>$ref,
                     'user_id'=>$userID,
                     'source'=>$source,
-                    'updated_at'=> $update
+                    'updated_at'=> $update,
+                    'incentive'=> 5
                 ]);
 
                 $student = DB::table('students')->where('ic', $ic)->first();
