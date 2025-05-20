@@ -58,7 +58,7 @@
                         @foreach ($advisors as $item)
                         <tr>
                             <td></td>
-                            <td><a href="{{ route('admin.achievements.details', ['id' => $item->id, 'start_date' => $start_date, 'end_date' => $end_date, 'location' => $location]) }}" class="btn btn-sm btn-link" target="_blank">{{ $item->name }}</a></td>
+                            <td><a href="{{ route('admin.achievement.details', ['id' => $item->id, 'start_date' => $start_date, 'end_date' => $end_date, 'location' => $location]) }}" class="btn btn-sm btn-link" target="_blank">{{ $item->name }}</a></td>
                             <td class="text-center">{{ $assigns[$item->id] ?? 0 }}</td>
                             <td class="text-center">{{ $assignPercentage[$item->id] ?? 0 }}%</td>
                             <td class="text-center">{{ $process[$item->id] ?? 0 }}</td>
