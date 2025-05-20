@@ -152,7 +152,7 @@ Route::middleware(['auth', 'user-access:admin'])->group(function() {
     Route::match(['get', 'post'], '/admin/leadreports', [AdminController::class, 'leadReports'])->name('admin.leadreports');
     Route::match(['get', 'post'], '/admin/yearreports', [AdminController::class, 'yearReports'])->name('admin.yearreports');
     Route::match(['get', 'post'], '/admin/achievements', [AdminController::class, 'achievements'])->name('admin.achievements');
-    Route::get('/admin/achievements/{id}/details', [AdminController::class, 'achievementsDetails'])->name('admin.achievements.details');
+    Route::get('/admin/achievements/{id}/details/{start_date?}/{end_date?}/{location?}', [AdminController::class, 'achievementsDetails'])->name('admin.achievements.details');
 });
 
 // advisor route
