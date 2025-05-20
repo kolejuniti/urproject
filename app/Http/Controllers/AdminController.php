@@ -1073,11 +1073,11 @@ class AdminController extends Controller
         return view('admin.achievements', compact('advisors', 'assigns', 'locations', 'totalCountAssign', 'process', 'totalCountProcess', 'preregisters', 'totalCountPreRegister', 'registers', 'totalCountRegister', 'rejects', 'totalCountReject', 'start_date', 'end_date', 'assignPercentage', 'processPercentage', 'preregisterPercentage', 'registerPercentage', 'rejectPercentage', 'totalCountAssignPercentage', 'totalCountProcessPercentage', 'totalCountPreRegisterPercentage', 'totalCountRegisterPercentage', 'totalCountRejectPercentage', 'location_name', 'location'));
     }
 
-    public function achievementsDetails(Request $request, $id)
+    public function achievementDetails(Request $request, $id, $start_date = null, $end_date = null, $location = null)
     {
-        $start_date = $request->input('start_date');
-        $end_date = $request->input('end_date');
-        $location_id = $request->input('location');
+        // $start_date = $request->input('start_date');
+        // $end_date = $request->input('end_date');
+        // $location = $request->input('location');
 
         $user = User::where('id', $id)
             ->where('type', 1)
@@ -1092,10 +1092,10 @@ class AdminController extends Controller
             DB::raw('DATEDIFF(CURDATE(), students.updated_at) AS days_since_update'))
             ->orderByDesc('students.id');
 
-                if ($location_id == 3) {
+                if ($location == 3) {
                     $applications ->whereIn('students.location_id', [1, 2]);
                 } else {
-                    $applications ->where('students.location_id', '=', $location_id);
+                    $applications ->where('students.location_id', '=', $location);
                 }
 
             $applications = $applications->get();
