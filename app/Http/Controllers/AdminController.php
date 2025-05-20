@@ -228,7 +228,10 @@ class AdminController extends Controller
                     'students.referral_code',
                     'students.status_id',
                     'state.name AS state', 'users.name AS user', 'location.code AS location', 'student_foundations.foundation AS note')
-                    ->where('students.source', 'NOT LIKE', '%Nuha%');
+                    ->where(function ($query) {
+                        $query->whereNotNull('students.ic')
+                            ->where('students.ic', '!=', '');
+                    });
                     // ->orderBy('students.created_at', 'desc')
                     // ->get();
 
@@ -441,7 +444,10 @@ class AdminController extends Controller
                     ->leftjoin('status', 'students.status_id', '=', 'status.id')
                     ->join('location', 'students.location_id', '=', 'location.id')
                     ->select('students.id', 'students.name', 'students.ic', 'students.phone', 'students.email', 'students.created_at', 'students.updated_at', 'status.name AS status', 'students.register_at', 'students.referral_code', 'students.user_id', 'location.code AS location')
-                    ->where('students.source', 'NOT LIKE', '%Nuha%');
+                    ->where(function ($query) {
+                        $query->whereNotNull('students.ic')
+                            ->where('students.ic', '!=', '');
+                    });
 
         // Apply date filters
         if ($start_date && $end_date) {
@@ -541,7 +547,10 @@ class AdminController extends Controller
 
         // Total students with date range filter
         $totalStudents = DB::table('students')
-            ->where('students.source', 'NOT LIKE', '%Nuha%');
+            ->where(function ($query) {
+                $query->whereNotNull('students.ic')
+                    ->where('students.ic', '!=', '');
+            });
 
         // Apply date filters
         if ($start_date && $end_date) {
@@ -556,7 +565,10 @@ class AdminController extends Controller
         $studentStatus = DB::table('students')
             ->join('status', 'students.status_id', '=', 'status.id')
             ->select(DB::raw('COUNT(students.id) AS total'), 'status.name AS status', 'status.id AS status_id')
-            ->where('students.source', 'NOT LIKE', '%Nuha%');
+            ->where(function ($query) {
+                        $query->whereNotNull('students.ic')
+                            ->where('students.ic', '!=', '');
+                    });
 
         // Apply date filters
         if ($start_date && $end_date) {
@@ -571,7 +583,10 @@ class AdminController extends Controller
         $studentNoStatus = DB::table('students')
             ->select(DB::raw('COUNT(students.id) AS total'), DB::raw('"TIADA STATUS" AS status'), DB::raw('NULL AS status_id'))
             ->whereNull('students.status_id')
-            ->where('students.source', 'NOT LIKE', '%Nuha%');
+            ->where(function ($query) {
+                        $query->whereNotNull('students.ic')
+                            ->where('students.ic', '!=', '');
+                    });
 
         // Apply date filters
         if ($start_date && $end_date) {
@@ -594,7 +609,10 @@ class AdminController extends Controller
         $locations = DB::table('students')
             ->join('location', 'students.location_id', '=', 'location.id')
             ->select(DB::raw('count(students.id) AS total'), 'location.name AS location')
-            ->where('students.source', 'NOT LIKE', '%Nuha%');
+            ->where(function ($query) {
+                        $query->whereNotNull('students.ic')
+                            ->where('students.ic', '!=', '');
+                    });
 
         // Apply date filters
         if ($start_date && $end_date) {
@@ -618,7 +636,10 @@ class AdminController extends Controller
                 DB::raw('SUM(CASE WHEN students.location_id = 1 THEN 1 ELSE 0 END) AS total_kupd'), // Count for KUPD (location_id = 1)
                 DB::raw('SUM(CASE WHEN students.location_id = 2 THEN 1 ELSE 0 END) AS total_kukb')  // Count for KUKB (location_id = 2)
             )
-            ->where('students.source', 'NOT LIKE', '%Nuha%');
+            ->where(function ($query) {
+                        $query->whereNotNull('students.ic')
+                            ->where('students.ic', '!=', '');
+                    });
 
         // Apply date filters
         if ($start_date && $end_date) {
@@ -644,7 +665,10 @@ class AdminController extends Controller
                 DB::raw('SUM(CASE WHEN students.location_id = 1 THEN 1 ELSE 0 END) AS total_kupd'), // Count for KUPD (location_id = 1)
                 DB::raw('SUM(CASE WHEN students.location_id = 2 THEN 1 ELSE 0 END) AS total_kukb')  // Count for KUKB (location_id = 2)
         )
-        ->where('students.source', 'NOT LIKE', '%Nuha%');
+        ->where(function ($query) {
+                        $query->whereNotNull('students.ic')
+                            ->where('students.ic', '!=', '');
+                    });
 
         // Apply date filters
         if ($start_date && $end_date) {
@@ -667,7 +691,10 @@ class AdminController extends Controller
         // Get the student count for each month of the current year
         $students = DB::table('students')
             ->select(DB::raw('COUNT(id) as total, MONTH(created_at) as month'))
-            ->where('students.source', 'NOT LIKE', '%Nuha%')
+            ->where(function ($query) {
+                        $query->whereNotNull('students.ic')
+                            ->where('students.ic', '!=', '');
+                    })
             ->whereYear('created_at', $currentYear)
             ->groupBy(DB::raw('MONTH(created_at)'))
             ->pluck('total', 'month');
@@ -739,7 +766,10 @@ class AdminController extends Controller
 
         $sources = DB::table('students')
             ->select('students.source')
-            ->where('students.source', 'NOT LIKE', '%Nuha%')
+            ->where(function ($query) {
+                        $query->whereNotNull('students.ic')
+                            ->where('students.ic', '!=', '');
+                    })
             ->groupBy('students.source')->get();
 
         $totalData = [];
@@ -762,7 +792,10 @@ class AdminController extends Controller
         foreach ($sources as $source) {
             $query = DB::table('students')
                 ->where('students.source', '=', $source->source)
-                ->where('students.source', 'NOT LIKE', '%Nuha%')
+                ->where(function ($query) {
+                        $query->whereNotNull('students.ic')
+                            ->where('students.ic', '!=', '');
+                    })
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
 
                 if ($location == 3) {
@@ -775,7 +808,10 @@ class AdminController extends Controller
 
             $query  = DB::table('students')
                 ->where('students.source', '=', $source->source)
-                ->where('students.source', 'NOT LIKE', '%Nuha%')
+                ->where(function ($query) {
+                        $query->whereNotNull('students.ic')
+                            ->where('students.ic', '!=', '');
+                    })
                 ->whereNotNull('students.referral_code')
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
 
@@ -789,7 +825,10 @@ class AdminController extends Controller
 
             $query = DB::table('students')
                 ->where('students.source', '=', $source->source)
-                ->where('students.source', 'NOT LIKE', '%Nuha%')
+                ->where(function ($query) {
+                        $query->whereNotNull('students.ic')
+                            ->where('students.ic', '!=', '');
+                    })
                 ->whereNull('students.referral_code')
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
 
@@ -803,7 +842,10 @@ class AdminController extends Controller
 
             $query = DB::table('students')
                 ->where('students.source', '=', $source->source)
-                ->where('students.source', 'NOT LIKE', '%Nuha%')
+                ->where(function ($query) {
+                        $query->whereNotNull('students.ic')
+                            ->where('students.ic', '!=', '');
+                    })
                 ->whereNotNull('students.referral_code')
                 ->where('students.status_id', '=', 19)
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
@@ -818,7 +860,10 @@ class AdminController extends Controller
 
             $query = DB::table('students')
                 ->where('students.source', '=', $source->source)
-                ->where('students.source', 'NOT LIKE', '%Nuha%')
+                ->where(function ($query) {
+                        $query->whereNotNull('students.ic')
+                            ->where('students.ic', '!=', '');
+                    })
                 ->whereNull('students.referral_code')
                 ->where('students.status_id', '=', 19)
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
@@ -833,7 +878,10 @@ class AdminController extends Controller
 
             $query = DB::table('students')
                 ->where('students.source', '=', $source->source)
-                ->where('students.source', 'NOT LIKE', '%Nuha%')
+                ->where(function ($query) {
+                        $query->whereNotNull('students.ic')
+                            ->where('students.ic', '!=', '');
+                    })
                 ->whereNotNull('students.referral_code')
                 ->whereIn('students.status_id', [20,21])
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
@@ -848,7 +896,10 @@ class AdminController extends Controller
 
             $query = DB::table('students')
                 ->where('students.source', '=', $source->source)
-                ->where('students.source', 'NOT LIKE', '%Nuha%')
+                ->where(function ($query) {
+                        $query->whereNotNull('students.ic')
+                            ->where('students.ic', '!=', '');
+                    })
                 ->whereNull('students.referral_code')
                 ->whereIn('students.status_id', [20,21])
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
@@ -893,7 +944,10 @@ class AdminController extends Controller
             // Get the student count for each month of the current looped year
             $students = DB::table('students')
                 ->select(DB::raw('COUNT(id) as total, MONTH(created_at) as month'))
-                ->where('students.source', 'NOT LIKE', '%Nuha%')
+                ->where(function ($query) {
+                        $query->whereNotNull('students.ic')
+                            ->where('students.ic', '!=', '');
+                    })
                 ->whereYear('created_at', $year)
                 ->groupBy(DB::raw('MONTH(created_at)'))
                 ->pluck('total', 'month');
@@ -963,7 +1017,10 @@ class AdminController extends Controller
             // Directly assign count to advisorId key in assignDatas array (no nested array)
             $query = DB::table('students')
                 ->where('students.user_id', $advisor->id)
-                ->where('students.source', 'NOT LIKE', '%Nuha%')
+                ->where(function ($query) {
+                        $query->whereNotNull('students.ic')
+                            ->where('students.ic', '!=', '');
+                    })
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
 
                 if ($location == 3) {
@@ -976,7 +1033,10 @@ class AdminController extends Controller
 
             $query = DB::table('students')
                 ->where('students.user_id', $advisor->id)
-                ->where('students.source', 'NOT LIKE', '%Nuha%')
+                ->where(function ($query) {
+                        $query->whereNotNull('students.ic')
+                            ->where('students.ic', '!=', '');
+                    })
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date])
                 ->where(function($query) {
                     $query->whereNull('students.status_id')
@@ -993,7 +1053,10 @@ class AdminController extends Controller
 
             $query = DB::table('students')
                 ->where('students.user_id', $advisor->id)
-                ->where('students.source', 'NOT LIKE', '%Nuha%')
+                ->where(function ($query) {
+                        $query->whereNotNull('students.ic')
+                            ->where('students.ic', '!=', '');
+                    })
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date])
                 ->whereIn('students.status_id', [19]);
 
@@ -1007,7 +1070,10 @@ class AdminController extends Controller
 
             $query = DB::table('students')
                 ->where('students.user_id', $advisor->id)
-                ->where('students.source', 'NOT LIKE', '%Nuha%')
+                ->where(function ($query) {
+                        $query->whereNotNull('students.ic')
+                            ->where('students.ic', '!=', '');
+                    })
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date])
                 ->whereIn('students.status_id', [20, 21]);
 
@@ -1021,7 +1087,10 @@ class AdminController extends Controller
 
             $query = DB::table('students')
                 ->where('students.user_id', $advisor->id)
-                ->where('students.source', 'NOT LIKE', '%Nuha%')
+                ->where(function ($query) {
+                        $query->whereNotNull('students.ic')
+                            ->where('students.ic', '!=', '');
+                    })
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date])
                 ->whereIn('students.status_id', [1, 2, 3, 4, 5, 6, 11, 22, 23, 24, 25, 26, 27]);
 
@@ -1086,7 +1155,10 @@ class AdminController extends Controller
         $applications = DB::table('students')
             ->leftjoin('status', 'students.status_id', '=', 'status.id')
             ->where('students.user_id', $id)
-            ->where('students.source', 'NOT LIKE', '%Nuha%')
+            ->where(function ($query) {
+                        $query->whereNotNull('students.ic')
+                            ->where('students.ic', '!=', '');
+                    })
             ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date])
             ->select('students.name', 'students.created_at', 'students.updated_at', 'students.status_id', 'status.name AS status',
             DB::raw('DATEDIFF(CURDATE(), students.updated_at) AS days_since_update'))
