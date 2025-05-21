@@ -930,50 +930,38 @@ class AdminController extends Controller
 
     public function yearReports(Request $request)
     {
-        // Get the current year
+        $locations = DB::table('location')->get();  
+
         $currentYear = Carbon::now()->year;
-        
-        // Define start year
-        $startYear = $currentYear - 1;
-        
-        // Array to store yearly data
+        $startYear = $currentYear - 2;
+
+        // Final data structure
         $yearlyData = [];
-        
-        // Loop through each year from 2023 to current year
-        for ($year = $startYear; $year <= $currentYear; $year++) {
-            // Get the student count for each month of the current looped year
-            $students = DB::table('students')
-                ->select(DB::raw('COUNT(id) as total, MONTH(created_at) as month'))
-                ->where(function ($query) {
+
+        foreach ($locations as $location) { 
+            for ($year = $startYear; $year <= $currentYear; $year++) {
+                $students = DB::table('students')
+                    ->select(DB::raw('COUNT(id) as total, MONTH(CAST(created_at AS DATE)) as month'))
+                    ->where(function ($query) {
                         $query->whereNotNull('students.ic')
                             ->where('students.ic', '!=', '');
                     })
-                ->whereYear('created_at', $year)
-                ->groupBy(DB::raw('MONTH(created_at)'))
-                ->pluck('total', 'month');
-                
-            // Initialize an array with all months set to zero for this year
-            $monthlyData = array_fill(1, 12, 0);
-            
-            // Merge the query results with the initialized array
-            foreach ($students as $month => $total) {
-                $monthlyData[$month] = $total;
+                    ->where('students.location_id', $location->id)
+                    ->whereYear('created_at', $year)
+                    ->groupBy(DB::raw('MONTH(CAST(created_at AS DATE))'))
+                    ->pluck('total', 'month');
+
+                // Ensure all months are present
+                for ($month = 1; $month <= 12; $month++) {
+                    $total = $students[$month] ?? 0;
+                    $yearlyData[$year][$month]['total'][$location->id] = $total;
+                }
             }
-            
-            // Convert the result to a collection
-            $monthlyData = collect($monthlyData)->map(function ($total, $month) {
-                return [
-                    'month' => $month,
-                    'total' => $total,
-                ];
-            })->values();
-            
-            // Add this year's data to the yearly array
-            $yearlyData[$year] = $monthlyData;
         }
-        
-        return view('admin.yearreports', compact('currentYear', 'startYear', 'yearlyData'));
+
+        return view('admin.yearreports', compact('currentYear', 'startYear', 'yearlyData', 'locations'));
     }
+
 
     public function achievements(Request $request)
     {
