@@ -158,23 +158,23 @@ Route::middleware(['auth', 'user-access:admin'])->group(function() {
 // advisor route
 Route::middleware(['auth', 'user-access:advisor'])->group(function() {
     Route::get('/advisor/dashboard', [AdvisorController::class, 'dashboard'])->name('advisor.dashboard');
-    Route::get('/advisor/application', [AdvisorController::class, 'applications'])->name('advisor.application');
+    Route::get('/advisor/list/applications', [AdvisorController::class, 'applications'])->name('advisor.application');
     Route::post('/advisor/application/detail', [AdvisorController::class, 'applicationDetail'])->name('advisor.application.detail');
     Route::put('/advisor/application/{id}', [AdvisorController::class, 'update'])->name('advisor.application.update');
     Route::get('/advisor/profile', [AdvisorController::class, 'profile'])->name('advisor.profile');
     Route::put('/advisor/update/profile', [AdvisorController::class, 'updateProfile'])->name('advisor.profile.update');
     Route::put('/advisor/update/password', [AdvisorController::class, 'password'])->name('advisor.profile.password');
-    Route::get('/advisor/affiliate', [AdvisorController::class, 'affiliate'])->name('advisor.affiliate');
+    Route::get('/advisor/list/affiliates', [AdvisorController::class, 'affiliate'])->name('advisor.affiliate');
 });
 
 // user route
 Route::middleware(['auth', 'user-access:user'])->group(function() {
     Route::get('/user/dashboard', [UserController::class, 'dashboard'])->name('user.dashboard');
-    Route::get('/user/application', [UserController::class, 'applications'])->name('user.application');
+    Route::get('/user/list/applications', [UserController::class, 'applications'])->name('user.application');
     Route::get('/user/profile', [UserController::class, 'profile'])->name('user.profile');
     Route::put('/user/update/profile', [UserController::class, 'update'])->name('user.profile.update');
     Route::put('/user/update/password', [UserController::class, 'password'])->name('user.profile.password');
-    Route::get('/user/affiliate', [UserController::class, 'affiliate'])->name('user.affiliate');
+    Route::get('/user/list/affiliates', [UserController::class, 'affiliate'])->name('user.affiliate');
 });
 
 // student route
