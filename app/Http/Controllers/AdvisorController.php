@@ -60,6 +60,10 @@ class AdvisorController extends Controller
                     $query->where('students.referral_code', $ref)
                         ->orWhere('students.user_id', $id);
                 })
+                ->where(function ($query) {
+                    $query->whereNotNull('students.ic')
+                        ->where('students.ic', '!=', '');
+                })
                 ->orderBy('students.created_at', 'desc')
                 ->get();
 
