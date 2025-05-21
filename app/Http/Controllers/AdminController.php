@@ -1132,10 +1132,6 @@ class AdminController extends Controller
 
     public function achievementDetails(Request $request, $id, $start_date = null, $end_date = null, $location = null)
     {
-        // $start_date = $request->input('start_date');
-        // $end_date = $request->input('end_date');
-        // $location = $request->input('location');
-
         $user = User::where('id', $id)
             ->where('type', 1)
             ->first();
