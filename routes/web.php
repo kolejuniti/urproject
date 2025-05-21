@@ -134,25 +134,25 @@ Route::middleware(['auth', 'user-access:admin'])->group(function() {
     Route::match(['get', 'post'],'/admin/program', [AdminController::class, 'program'])->name('admin.program');
     Route::post('/admin/program/add', [AdminController::class, 'addprogram'])->name('admin.program.submit');
     Route::post('/admin/program/update/{id}', [AdminController::class, 'updateprogram'])->name('admin.program.update');
-    Route::get('/admin/register', [AdminController::class, 'showRegistrationForm'])->name('admin.register');
-    Route::post('/admin/register', [AdminController::class, 'register']);
-    Route::match(['get', 'post'], '/admin/application', [AdminController::class, 'applications'])->name('admin.application');
+    Route::get('/admin/user/register', [AdminController::class, 'showRegistrationForm'])->name('admin.register');
+    Route::post('/admin/user/register', [AdminController::class, 'register']);
+    Route::match(['get', 'post'], '/admin/list/application', [AdminController::class, 'applications'])->name('admin.application');
     Route::post('/admin/application/detail', [AdminController::class, 'applicationDetail'])->name('admin.application.detail');
     Route::put('/admin/application/{id}', [AdminController::class, 'update'])->name('admin.application.update');
-    Route::get('/admin/userlist', [AdminController::class, 'userlist'])->name('admin.userlist');
-    Route::post('/admin/userlist/detail', [AdminController::class, 'userDetail'])->name('admin.userlist.detail');
+    Route::get('/admin/list/user', [AdminController::class, 'userlist'])->name('admin.userlist');
+    Route::post('/admin/list/user/detail', [AdminController::class, 'userDetail'])->name('admin.userlist.detail');
     Route::put('/admin/userlist/{id}', [AdminController::class, 'updateUser'])->name('admin.userlist.update');
-    Route::match(['get', 'post'], '/admin/studentlist', [AdminController::class, 'studentlist'])->name('admin.studentlist');
+    Route::match(['get', 'post'], '/admin/report/applications', [AdminController::class, 'studentlist'])->name('admin.studentlist');
     Route::get('/admin/profile', [AdminController::class, 'profile'])->name('admin.profile');
     Route::put('/admin/update/profile', [AdminController::class, 'updateProfile'])->name('admin.profile.update');
     Route::put('/admin/update/password', [AdminController::class, 'password'])->name('admin.profile.password');
     // Route::get('/admin/summary', [AdminController::class, 'summary'])->name('admin.summary');
-    Route::match(['get', 'post'], '/admin/summary', [AdminController::class, 'summary'])->name('admin.summary');
+    Route::match(['get', 'post'], '/admin/report/statistics', [AdminController::class, 'summary'])->name('admin.summary');
     Route::post('/admin/summary/detail', [AdminController::class, 'summaryDetail'])->name('admin.summary.detail');
-    Route::match(['get', 'post'], '/admin/leadreports', [AdminController::class, 'leadReports'])->name('admin.leadreports');
-    Route::match(['get', 'post'], '/admin/yearreports', [AdminController::class, 'yearReports'])->name('admin.yearreports');
-    Route::match(['get', 'post'], '/admin/achievements', [AdminController::class, 'achievements'])->name('admin.achievements');
-    Route::get('/admin/achievement/{id}/details/{start_date?}/{end_date?}/{location?}', [AdminController::class, 'achievementDetails'])->name('admin.achievement.details');
+    Route::match(['get', 'post'], '/admin/report/sources', [AdminController::class, 'leadReports'])->name('admin.leadreports');
+    Route::match(['get', 'post'], '/admin/report/annual', [AdminController::class, 'yearReports'])->name('admin.yearreports');
+    Route::match(['get', 'post'], '/admin/report/ea/achievements', [AdminController::class, 'achievements'])->name('admin.achievements');
+    Route::get('/admin/report/{id}/achievement/details/{start_date?}/{end_date?}/{location?}', [AdminController::class, 'achievementDetails'])->name('admin.achievement.details');
 });
 
 // advisor route
