@@ -12,6 +12,7 @@
                         <th rowspan="2">Nama Pemohon</th>
                         <th rowspan="2">Tarikh Permohonan</th>
                         <th rowspan="2">Tarikh Diagihkan</th>
+                        <th rowspan="2">Sumber</th>
                         <th rowspan="2">Status Terkini</th>
                         <th colspan="4" class="text-center">Julat Hari</th>
                     </tr>
@@ -29,6 +30,8 @@
                         <td>{{ $item->name }}</td>
                         <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d-m-Y') }}</td>
                         <td>{{ $item->updated_at ? \Carbon\Carbon::parse($item->updated_at)->format('d-m-Y') : '' }}</td>
+                        
+                        <td class="text-uppercase">{{ $item->source }}</td>
                         <td class="text-uppercase">{{ $item->status ?? 'PERMOHONAN BARU' }}</td>
                         {{-- Group 1: status_id in [7–18] --}}
                         <td class="text-center">
