@@ -1160,4 +1160,129 @@ class AdminController extends Controller
         return view('admin.achievementDetails', compact('user', 'applications'));
     }
 
+
+    public function affiliateAchievements(Request $request)
+    {
+        $start_date = $request->input('start_date');
+        $end_date = $request->input('end_date');
+        
+        // Fetch all affiliates
+        $affiliates = User::where('type', 0)
+            ->orderBy('name')
+            ->get();
+
+        foreach ($affiliates as $affiliate) {
+            $affiliate->total_students = DB::table('students')
+                ->where('students.referral_code', $affiliate->referral_code)
+                ->where(function ($query) {
+                    $query->whereNotNull('students.ic')
+                        ->where('students.ic', '!=', '');
+                })
+                ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date])
+                ->count();
+
+            $affiliate->total_students_process = DB::table('students')
+                ->where('students.referral_code', $affiliate->referral_code)
+                ->where(function ($query) {
+                    $query->whereNotNull('students.ic')
+                        ->where('students.ic', '!=', '');
+                })
+                ->where(function($query) {
+                        $query->whereNull('students.status_id')
+                                ->orWhereIn('students.status_id', [7,8,9,10,12,13,14,15,16,17,18]);
+                })
+                ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date])
+                ->count();
+
+            $affiliate->total_students_pre = DB::table('students')
+                ->where('students.referral_code', $affiliate->referral_code)
+                ->where(function ($query) {
+                    $query->whereNotNull('students.ic')
+                        ->where('students.ic', '!=', '');
+                })
+                ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date])
+                ->whereIn('students.status_id', [19])
+                ->count();
+
+            $affiliate->total_students_register = DB::table('students')
+                ->where('students.referral_code', $affiliate->referral_code)
+                ->where(function ($query) {
+                    $query->whereNotNull('students.ic')
+                        ->where('students.ic', '!=', '');
+                })
+                ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date])
+                ->whereIn('students.status_id', [20, 21])
+                ->count();
+
+            $affiliate->total_students_reject = DB::table('students')
+                ->where('students.referral_code', $affiliate->referral_code)
+                ->where(function ($query) {
+                    $query->whereNotNull('students.ic')
+                        ->where('students.ic', '!=', '');
+                })
+                ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date])
+                ->whereIn('students.status_id', [1, 2, 3, 4, 5, 6, 11, 22, 23, 24, 25, 26, 27])
+                ->count();
+        }
+
+        $totalStudents = DB::table('students')
+            ->join ('users', 'students.referral_code', '=', 'users.referral_code')
+            ->where('users.type', 0)
+            ->where(function ($query) {
+                $query->whereNotNull('students.ic')
+                    ->where('students.ic', '!=', '');
+            })
+            ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date])
+            ->count();
+
+        $totalStudentProcess = DB::table('students')
+            ->join ('users', 'students.referral_code', '=', 'users.referral_code')
+            ->where('users.type', 0)
+            ->where(function ($query) {
+                $query->whereNotNull('students.ic')
+                    ->where('students.ic', '!=', '');
+            })
+            ->where(function($query) {
+                    $query->whereNull('students.status_id')
+                            ->orWhereIn('students.status_id', [7,8,9,10,12,13,14,15,16,17,18]);
+            })
+            ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date])
+            ->count();
+
+        $totalStudentPre = DB::table('students')
+            ->join ('users', 'students.referral_code', '=', 'users.referral_code')
+            ->where('users.type', 0)
+            ->where(function ($query) {
+                $query->whereNotNull('students.ic')
+                    ->where('students.ic', '!=', '');
+            })
+            ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date])
+            ->whereIn('students.status_id', [19])
+            ->count();
+
+        $totalStudentRegister = DB::table('students')
+            ->join ('users', 'students.referral_code', '=', 'users.referral_code')
+            ->where('users.type', 0)
+            ->where(function ($query) {
+                $query->whereNotNull('students.ic')
+                    ->where('students.ic', '!=', '');
+            })
+            ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date])
+            ->whereIn('students.status_id', [20, 21])
+            ->count();
+
+        $totalStudentReject = DB::table('students')
+            ->join ('users', 'students.referral_code', '=', 'users.referral_code')
+            ->where('users.type', 0)
+            ->where(function ($query) {
+                $query->whereNotNull('students.ic')
+                    ->where('students.ic', '!=', '');
+            })
+            ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date])
+            ->whereIn('students.status_id', [1, 2, 3, 4, 5, 6, 11, 22, 23, 24, 25, 26, 27])
+            ->count();
+
+        return view('admin.affiliateachievements', compact('affiliates', 'totalStudents', 'totalStudentProcess', 'totalStudentPre', 'totalStudentRegister', 'totalStudentReject'));
+    }
+
 }
