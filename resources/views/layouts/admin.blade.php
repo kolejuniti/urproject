@@ -133,6 +133,7 @@
                                     <a class="dropdown-item" href="{{ route('admin.summary') }}">Statistik Permohonan</a>
                                     <a class="dropdown-item" href="{{ route('admin.leadreports') }}">Sumber Data Masuk</a>
                                     <a class="dropdown-item" href="{{ route('admin.achievements') }}">Pencapaian EA</a>
+                                    <a class="dropdown-item" href="{{ route('admin.affiliateachievements') }}">Pencapaian Affiliate</a>
                                 </li>
                             </ul>
                         </li>
