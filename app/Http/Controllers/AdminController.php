@@ -1144,7 +1144,7 @@ class AdminController extends Controller
                             ->where('students.ic', '!=', '');
                     })
             ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date])
-            ->select('students.name', 'students.created_at', 'students.updated_at', 'students.status_id', 'status.name AS status',
+            ->select('students.name', 'students.created_at', 'students.updated_at', 'students.source', 'students.status_id', 'status.name AS status',
             DB::raw('DATEDIFF(CURDATE(), students.updated_at) AS days_since_update'))
             ->orderByDesc('students.id');
 
