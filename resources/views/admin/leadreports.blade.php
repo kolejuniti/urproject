@@ -29,7 +29,7 @@
                 <table id="myTable" class="table table-bordered small table-sm text-center">
                     @if ($start_date === null)
                     @else
-                    <caption>Laporan yang dijana adalah bagi {{ $location_name }} bertarikh {{ $start_date ? \Carbon\Carbon::parse($start_date)->format('d-m-Y') : '' }} sehingga {{ $end_date ? \Carbon\Carbon::parse($end_date)->format('d-m-Y') : '' }}</caption>
+                    <caption>Laporan yang dijana adalah bagi lokasi {{ $location_name }} bertarikh {{ $start_date ? \Carbon\Carbon::parse($start_date)->format('d-m-Y') : '' }} sehingga {{ $end_date ? \Carbon\Carbon::parse($end_date)->format('d-m-Y') : '' }}</caption>
                     @endif
                     <thead class="table-dark">
                         <tr>
@@ -42,7 +42,7 @@
                           <tr>
                             <th rowspan="2">Melalui Affiliate</th>
                             <th rowspan="2">Tanpa Affiliate</th>
-                            <th colspan="2" class="text-center">Pra Daftar</th>
+                            <th colspan="2" class="text-center">Pra Pendaftaran</th>
                             <th colspan="2" class="text-center">Daftar Kolej</th>
                           </tr>
                           <tr>
@@ -105,26 +105,26 @@
         layout: {
                 top1Start: {
                     div: {
-                        html: '<h2>Data Masuk {{ $location_name }}</h2>'
+                        html: '<h2>Data Masuk & Sumber {{ $location_name }}</h2>'
                     }
                 },
                 top1End: {
                     buttons: [
                         {
                             extend: 'copy',
-                            title: 'Data Masuk'
+                            title: 'Data Masuk & Sumber'
                         },
                         {
                             extend: 'excelHtml5',
-                            title: 'Data Masuk'
+                            title: 'Data Masuk & Sumber'
                         },
                         {
                             extend: 'pdfHtml5',
-                            title: 'Data Masuk'
+                            title: 'Data Masuk & Sumber'
                         },
                         {
                             extend: 'print',
-                            title: 'Data Masuk'
+                            title: 'Data Masuk & Sumber'
                         }
                     ]
                 },
