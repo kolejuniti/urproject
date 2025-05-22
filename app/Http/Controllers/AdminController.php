@@ -1138,13 +1138,14 @@ class AdminController extends Controller
 
         $applications = DB::table('students')
             ->leftjoin('status', 'students.status_id', '=', 'status.id')
+            ->leftjoin('users', 'users.referral_code', '=', 'students.referral_code')
             ->where('students.user_id', $id)
             ->where(function ($query) {
                         $query->whereNotNull('students.ic')
                             ->where('students.ic', '!=', '');
                     })
             ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date])
-            ->select('students.name', 'students.created_at', 'students.updated_at', 'students.source', 'students.status_id', 'status.name AS status',
+            ->select('students.name', 'students.created_at', 'students.updated_at', 'users.name AS affiliate', 'students.source', 'students.status_id', 'status.name AS status',
             DB::raw('DATEDIFF(CURDATE(), students.updated_at) AS days_since_update'))
             ->orderByDesc('students.id');
 
