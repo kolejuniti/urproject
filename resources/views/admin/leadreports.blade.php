@@ -38,6 +38,8 @@
                             <th rowspan="3">Jumlah Data</th>
                             <th class="text-center" colspan="2">Data Masuk</th>
                             <th class="text-center" colspan="4">Pendaftaran</th>
+                            <th rowspan="3">Data Ditolak</th>
+                            <th rowspan="3">Baki Data</th>
                           </tr>
                           <tr>
                             <th rowspan="2">Melalui Affiliate</th>
@@ -64,20 +66,24 @@
                             <td class="text-center">{{ $totalDataPreRegisterWithoutAffiliate[$item->source] ?? 0 }}</td>
                             <td class="text-center">{{ $totalDataRegisterWithAffiliate[$item->source] ?? 0 }}</td>
                             <td class="text-center">{{ $totalDataRegisterWithoutAffiliate[$item->source] ?? 0 }}</td>
+                            <td class="text-center">{{ $totalDataRejects[$item->source] ?? 0 }}</td>
+                            <td class="text-center">{{ $totalData[$item->source]-$totalDataRejects[$item->source] ?? 0 }}</td>
                         </tr>
                         @endforeach
                     </tbody>
                     <tfoot class="table-danger">
                         <tr>
-                            <td rowspan="2"></td>
-                            <td rowspan="2"><strong>Jumlah Keseluruhan</strong></td>
-                            <td rowspan="2" class="text-center"><strong>{{ $totalDataCount }}</strong></td>
-                            <td class="text-center"><strong>{{ $totalDataWithAffiliateCount }}</strong></td>
-                            <td class="text-center"><strong>{{ $totalDataWithoutAffiliateCount }}</strong></td>
-                            <td class="text-center"><strong>{{ $totalDataPreRegisterWithAffiliateCount }}</strong></td>
-                            <td class="text-center"><strong>{{ $totalDataPreRegisterWithoutAffiliateCount }}</strong></td>
-                            <td class="text-center"><strong>{{ $totalDataRegisterWithAffiliateCount }}</strong></td>
-                            <td class="text-center"><strong>{{ $totalDataRegisterWithoutAffiliateCount }}</strong></td>
+                            <th rowspan="2"></th>
+                            <th rowspan="2">Jumlah Keseluruhan</th>
+                            <th rowspan="2" class="text-center">{{ $totalDataCount }}</th>
+                            <th class="text-center">{{ $totalDataWithAffiliateCount }}</th>
+                            <th class="text-center">{{ $totalDataWithoutAffiliateCount }}</th>
+                            <th class="text-center">{{ $totalDataPreRegisterWithAffiliateCount }}</th>
+                            <th class="text-center">{{ $totalDataPreRegisterWithoutAffiliateCount }}</th>
+                            <th class="text-center">{{ $totalDataRegisterWithAffiliateCount }}</th>
+                            <th class="text-center">{{ $totalDataRegisterWithoutAffiliateCount }}</th>
+                            <th rowspan="2" class="text-center">{{ $totalDataRejectCount }}</th>
+                            <th rowspan="2" class="text-center">{{ $totalDataCount-$totalDataRejectCount }}</th>
                         </tr>
                         <tr>
                             <td colspan="2" class="text-center"><strong>{{ $totalDataEntry }}</strong></td>
