@@ -778,6 +778,7 @@ class AdminController extends Controller
         $totalDataPreRegisterWithAffiliate = [];
         $totalDataPreRegister = [];
         $totalDataRegister = [];
+        $totalDataRejects = [];
 
         if ($request->input('location') == 1) {
             $location_name = 'KUPD';
@@ -911,6 +912,23 @@ class AdminController extends Controller
                 }
 
                 $totalDataRegisterWithoutAffiliate[$source->source] = $query->count();
+
+            $query = DB::table('students')
+                ->where('students.source', '=', $source->source)
+                ->where(function ($query) {
+                        $query->whereNotNull('students.ic')
+                            ->where('students.ic', '!=', '');
+                    })
+                ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date])
+                ->whereIn('students.status_id', [1, 2, 3, 4, 5, 6, 11, 22, 23, 24, 25, 26, 27]);
+
+                if ($location == 3) {
+                    $query ->whereIn('students.location_id', [1, 2]);
+                } else {
+                    $query ->where('students.location_id', '=', $location);
+                }
+            
+                $totalDataRejects[$source->source] = $query->count();
         }
 
         $totalDataCount = array_sum($totalData);
@@ -920,12 +938,13 @@ class AdminController extends Controller
         $totalDataPreRegisterWithoutAffiliateCount = array_sum($totalDataPreRegisterWithoutAffiliate);
         $totalDataRegisterWithAffiliateCount = array_sum($totalDataRegisterWithAffiliate);
         $totalDataRegisterWithoutAffiliateCount = array_sum($totalDataRegisterWithoutAffiliate);
+        $totalDataRejectCount = array_sum($totalDataRejects);
 
         $totalDataEntry = array_sum($totalDataWithAffiliate) + array_sum($totalDataWithoutAffiliate);
         $totalDataPreRegister = array_sum($totalDataPreRegisterWithAffiliate) + array_sum($totalDataPreRegisterWithoutAffiliate);
         $totalDataRegister = array_sum($totalDataRegisterWithAffiliate) + array_sum($totalDataRegisterWithoutAffiliate);
 
-        return view('admin.leadreports', compact('sources', 'start_date', 'end_date', 'locations', 'totalData', 'totalDataWithAffiliate', 'totalDataWithoutAffiliate', 'totalDataPreRegisterWithAffiliate', 'totalDataPreRegisterWithoutAffiliate', 'totalDataRegisterWithAffiliate', 'totalDataRegisterWithoutAffiliate', 'totalDataRegister', 'totalDataCount', 'totalDataWithAffiliateCount', 'totalDataWithoutAffiliateCount', 'totalDataPreRegisterWithAffiliateCount', 'totalDataPreRegisterWithoutAffiliateCount', 'totalDataRegisterWithAffiliateCount', 'totalDataRegisterWithoutAffiliateCount', 'totalDataEntry', 'totalDataPreRegister', 'totalDataRegister', 'location_name'));
+        return view('admin.leadreports', compact('sources', 'start_date', 'end_date', 'locations', 'totalData', 'totalDataWithAffiliate', 'totalDataWithoutAffiliate', 'totalDataPreRegisterWithAffiliate', 'totalDataPreRegisterWithoutAffiliate', 'totalDataRegisterWithAffiliate', 'totalDataRegisterWithoutAffiliate', 'totalDataRegister', 'totalDataCount', 'totalDataWithAffiliateCount', 'totalDataWithoutAffiliateCount', 'totalDataPreRegisterWithAffiliateCount', 'totalDataPreRegisterWithoutAffiliateCount', 'totalDataRegisterWithAffiliateCount', 'totalDataRegisterWithoutAffiliateCount', 'totalDataEntry', 'totalDataPreRegister', 'totalDataRegister', 'location_name', 'totalDataRejects', 'totalDataRejectCount'));
     }
 
     public function yearReports(Request $request)
