@@ -621,6 +621,113 @@
   </div><br><br>
   <!-- Program END-->
 
+  <!-- Kemudahan & Fasiliti Start -->
+  <section class="container-fluid py-3">
+    <h1 class="fw-bold mb-4 text-center">Kemudahan & Fasiliti</h1>
+    <div class="row row-cols-1 row-cols-md-4 g-3 mb-4">
+      <div class="col">
+        <div class="card">
+          <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/cafe.jpg" class="card-img" alt="...">
+          <div class="card-img-overlay">
+            <h6 class="card-title position-absolute bottom-0 start-0 fw-bold text-white bg-dark px-3 py-1">Cafetaria</h6>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/koop.jpg" class="card-img" alt="...">
+          <div class="card-img-overlay">
+            <h6 class="card-title position-absolute bottom-0 start-0 fw-bold text-white bg-dark px-3 py-1">Kedai Runcit Koop</h6>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/atm.jpg" class="card-img" alt="...">
+          <div class="card-img-overlay">
+            <h6 class="card-title position-absolute bottom-0 start-0 fw-bold text-white bg-dark px-3 py-1">Mesin ATM</h6>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/library.jpg" class="card-img" alt="...">
+          <div class="card-img-overlay">
+            <h6 class="card-title position-absolute bottom-0 start-0 fw-bold text-white bg-dark px-3 py-1">Perpustakaan</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row row-cols-1 row-cols-md-4 g-3 mb-4">
+      <div class="col">
+        <div class="card">
+          <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/bk.jpg" class="card-img" alt="...">
+          <div class="card-img-overlay">
+            <h6 class="card-title position-absolute bottom-0 start-0 fw-bold text-white bg-dark px-3 py-1">Bilik Kuliah</h6>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/halal.jpg" class="card-img" alt="...">
+          <div class="card-img-overlay">
+            <h6 class="card-title position-absolute bottom-0 start-0 fw-bold text-white bg-dark px-3 py-1">Bengkel Halal</h6>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/kaunseling.jpg" class="card-img" alt="...">
+          <div class="card-img-overlay">
+            <h6 class="card-title position-absolute bottom-0 start-0 fw-bold text-white bg-dark px-3 py-1">Bilik Kaunseling</h6>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/komputer.jpg" class="card-img" alt="...">
+          <div class="card-img-overlay">
+            <h6 class="card-title position-absolute bottom-0 start-0 fw-bold text-white bg-dark px-3 py-1">Makmal Komputer</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row row-cols-1 row-cols-md-4 g-3 mb-4">
+      <div class="col">
+        <div class="card">
+          <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/guard.jpg" class="card-img" alt="...">
+          <div class="card-img-overlay">
+            <h6 class="card-title position-absolute bottom-0 start-0 fw-bold text-white bg-dark px-3 py-1">Kawalan Keselamatan 24 Jam</h6>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/bus.jpg" class="card-img" alt="...">
+          <div class="card-img-overlay">
+            <h6 class="card-title position-absolute bottom-0 start-0 fw-bold text-white bg-dark px-3 py-1">Perkhidmatan Bas Awam</h6>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/court.jpg" class="card-img" alt="...">
+          <div class="card-img-overlay">
+            <h6 class="card-title position-absolute bottom-0 start-0 fw-bold text-white bg-dark px-3 py-1">Gelanggang Sukan</h6>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/banners/dobi.jpg" class="card-img" alt="...">
+          <div class="card-img-overlay">
+            <h6 class="card-title position-absolute bottom-0 start-0 fw-bold text-white bg-dark px-3 py-1">Dobi Layan Diri</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Student Section Start -->
   <section class="student-feedback py-5 bg-light">
     <div class="container">
