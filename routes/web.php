@@ -123,7 +123,7 @@ Auth::routes();
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
-Route::get('/affiliate/about', [RegisterController::class, 'about'])->name('about');
+Route::get('/affiliate', [RegisterController::class, 'about'])->name('about');
 Route::get('/affiliate/register', [RegisterController::class, 'showRegistrationForm'])->name('affiliate.register');
 Route::post('/affiliate/register', [RegisterController::class, 'register']);
 
