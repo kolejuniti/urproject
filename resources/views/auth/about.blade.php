@@ -48,7 +48,7 @@
     <div class="row g-4 py-1 row-cols-1 mt-1">
         <div class="feature col text-center">
             <p class="fs-6">Adakah anda berminat untuk menjadi Affiliate UNITI?</p>
-            <a href="{{ route('register', ['ref' => old('ref', $ref)]) }}" class="btn btn-danger">Daftar Sekarang</a>
+            <a href="{{ route('affiliate.register', ['ref' => old('ref', $ref)]) }}" class="btn btn-danger">Daftar Sekarang</a>
         </div>
     </div>
 </div>
