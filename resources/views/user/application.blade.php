@@ -60,6 +60,7 @@
                             <th>Nama Pemohon</th>
                             <th>Tarikh Permohonan</th>
                             <th>Status</th>
+                            <th>Insentif</th>
                             <th>Tarikh Pendaftaran</th>
                             <th>Tarikh Komisen</th>
                             <th>Amaun Komisen</th>
@@ -84,6 +85,7 @@
                             </td>
                             <td>{{ \Carbon\Carbon::parse($data['applicant']->created_at)->format('d-m-Y') }}</td>
                             <td class="text-uppercase">{{ $data['applicant']->status }}</td>
+                            <td class="text-uppercase text-center">{{ $data['applicant']->incentive ?? '0.00' }}</td>
                             <td>{{$data['applicant']->register_at ? \Carbon\Carbon::parse($data['applicant']->register_at)->format('d-m-Y') : '' }}</td>
                             <td>{{$data['applicant']->commission_date ? \Carbon\Carbon::parse($data['applicant']->commission_date)->format('d-m-Y') : '' }}</td>
                             <td class="text-center">{{ $data['applicant']->commission }}</td>
