@@ -1184,6 +1184,19 @@ class AdminController extends Controller
     {
         $start_date = $request->input('start_date');
         $end_date = $request->input('end_date');
+        $location = $request->input('location');
+
+        $locations = DB::table('location')->get();
+
+        if ($request->input('location') == 1) {
+            $location_name = 'KUPD';
+        } elseif ($request->input('location') == 2) {
+            $location_name = 'KUKB';
+        } elseif ($request->input('location') == 3) {
+            $location_name = 'KUPD & KUKB';
+        } else {
+            $location_name = '';
+        }
         
         // Fetch all affiliates
         $affiliates = User::where('type', 0)
@@ -1196,6 +1209,11 @@ class AdminController extends Controller
                 ->where(function ($query) {
                     $query->whereNotNull('students.ic')
                         ->where('students.ic', '!=', '');
+                })
+                ->when($location == 3, function ($query) {
+                    $query->whereIn('students.location_id', [1, 2]);
+                }, function ($query) use ($location) {
+                    $query->where('students.location_id', '=', $location);
                 })
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date])
                 ->count();
@@ -1210,6 +1228,11 @@ class AdminController extends Controller
                         $query->whereNull('students.status_id')
                                 ->orWhereIn('students.status_id', [7,8,9,10,12,13,14,15,16,17,18]);
                 })
+                ->when($location == 3, function ($query) {
+                    $query->whereIn('students.location_id', [1, 2]);
+                }, function ($query) use ($location) {
+                    $query->where('students.location_id', '=', $location);
+                })
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date])
                 ->count();
 
@@ -1218,6 +1241,11 @@ class AdminController extends Controller
                 ->where(function ($query) {
                     $query->whereNotNull('students.ic')
                         ->where('students.ic', '!=', '');
+                })
+                ->when($location == 3, function ($query) {
+                    $query->whereIn('students.location_id', [1, 2]);
+                }, function ($query) use ($location) {
+                    $query->where('students.location_id', '=', $location);
                 })
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date])
                 ->whereIn('students.status_id', [19])
@@ -1229,6 +1257,11 @@ class AdminController extends Controller
                     $query->whereNotNull('students.ic')
                         ->where('students.ic', '!=', '');
                 })
+                ->when($location == 3, function ($query) {
+                    $query->whereIn('students.location_id', [1, 2]);
+                }, function ($query) use ($location) {
+                    $query->where('students.location_id', '=', $location);
+                })
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date])
                 ->whereIn('students.status_id', [20, 21])
                 ->count();
@@ -1238,6 +1271,11 @@ class AdminController extends Controller
                 ->where(function ($query) {
                     $query->whereNotNull('students.ic')
                         ->where('students.ic', '!=', '');
+                })
+                ->when($location == 3, function ($query) {
+                    $query->whereIn('students.location_id', [1, 2]);
+                }, function ($query) use ($location) {
+                    $query->where('students.location_id', '=', $location);
                 })
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date])
                 ->whereIn('students.status_id', [1, 2, 3, 4, 5, 6, 11, 22, 23, 24, 25, 26, 27])
@@ -1250,6 +1288,11 @@ class AdminController extends Controller
             ->where(function ($query) {
                 $query->whereNotNull('students.ic')
                     ->where('students.ic', '!=', '');
+            })
+            ->when($location == 3, function ($query) {
+                $query->whereIn('students.location_id', [1, 2]);
+            }, function ($query) use ($location) {
+                $query->where('students.location_id', '=', $location);
             })
             ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date])
             ->count();
@@ -1265,6 +1308,11 @@ class AdminController extends Controller
                     $query->whereNull('students.status_id')
                             ->orWhereIn('students.status_id', [7,8,9,10,12,13,14,15,16,17,18]);
             })
+            ->when($location == 3, function ($query) {
+                $query->whereIn('students.location_id', [1, 2]);
+            }, function ($query) use ($location) {
+                $query->where('students.location_id', '=', $location);
+            })
             ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date])
             ->count();
 
@@ -1274,6 +1322,11 @@ class AdminController extends Controller
             ->where(function ($query) {
                 $query->whereNotNull('students.ic')
                     ->where('students.ic', '!=', '');
+            })
+            ->when($location == 3, function ($query) {
+                $query->whereIn('students.location_id', [1, 2]);
+            }, function ($query) use ($location) {
+                $query->where('students.location_id', '=', $location);
             })
             ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date])
             ->whereIn('students.status_id', [19])
@@ -1286,6 +1339,11 @@ class AdminController extends Controller
                 $query->whereNotNull('students.ic')
                     ->where('students.ic', '!=', '');
             })
+            ->when($location == 3, function ($query) {
+                $query->whereIn('students.location_id', [1, 2]);
+            }, function ($query) use ($location) {
+                $query->where('students.location_id', '=', $location);
+            })
             ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date])
             ->whereIn('students.status_id', [20, 21])
             ->count();
@@ -1297,11 +1355,16 @@ class AdminController extends Controller
                 $query->whereNotNull('students.ic')
                     ->where('students.ic', '!=', '');
             })
+            ->when($location == 3, function ($query) {
+                $query->whereIn('students.location_id', [1, 2]);
+            }, function ($query) use ($location) {
+                $query->where('students.location_id', '=', $location);
+            })
             ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date])
             ->whereIn('students.status_id', [1, 2, 3, 4, 5, 6, 11, 22, 23, 24, 25, 26, 27])
             ->count();
 
-        return view('admin.affiliateachievements', compact('affiliates', 'totalStudents', 'totalStudentProcess', 'totalStudentPre', 'totalStudentRegister', 'totalStudentReject'));
+        return view('admin.affiliateachievements', compact('affiliates', 'locations',  'start_date', 'end_date', 'location_name', 'totalStudents', 'totalStudentProcess', 'totalStudentPre', 'totalStudentRegister', 'totalStudentReject'));
     }
 
 }
