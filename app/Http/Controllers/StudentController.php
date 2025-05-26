@@ -581,7 +581,7 @@ class StudentController extends Controller
 
                 // Send the email notification
                 try {
-                    Mail::to('faizulsoknan@gmail.com')->send(new \App\Mail\StudentRegistrationNotification($studentData));
+                    Mail::to('info@uniti.edu.my')->send(new \App\Mail\StudentRegistrationNotification($studentData));
                     // Optional: log success or set a session variable
                     // Log::info('Registration notification email sent successfully');
                 } catch (\Exception $e) {
@@ -973,7 +973,7 @@ class StudentController extends Controller
 
                 // Send the email notification
                 try {
-                    Mail::to('faizulsoknan@gmail.com')->send(new \App\Mail\StudentRegistrationNotification($studentData));
+                    Mail::to('info@uniti.edu.my')->send(new \App\Mail\StudentRegistrationNotification($studentData));
                     // Optional: log success or set a session variable
                     // Log::info('Registration notification email sent successfully');
                 } catch (\Exception $e) {
