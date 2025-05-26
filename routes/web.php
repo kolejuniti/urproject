@@ -122,11 +122,10 @@ Auth::routes();
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::prefix('affiliate')->group(function() {
-    Route::get('/', [RegisterController::class, 'about'])->name('about');
-    Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('affiliate.register');
-    Route::post('/register', [RegisterController::class, 'register']);
-});
+
+Route::get('/affiliate/about', [RegisterController::class, 'about'])->name('about');
+Route::get('/affiliate/register', [RegisterController::class, 'showRegistrationForm'])->name('affiliate.register');
+Route::post('/affiliate/register', [RegisterController::class, 'register']);
 
 // admin route
 Route::middleware(['auth', 'user-access:admin'])->group(function() {
