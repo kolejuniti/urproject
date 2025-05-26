@@ -1,55 +1,198 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container px-4 py-1" id="featured-3">
-    <h2 class="pb-2 border-bottom text">Kenapa Affiliate UNITI?</h2>
-    <div class="row g-4 py-3 row-cols-1 row-cols-lg-3">
-        <div class="feature col">
-            <h3 class="fs-3 text-body-emphasis text-uppercase">Peluang Menjana Pendapatan Tambahan</h3>
-            <p class="fs-6">Anda akan menerima komisen bagi setiap pelajar yang mendaftar di Kolej UNITI melalui pautan atau rujukan anda. Ini adalah cara yang baik untuk menjana pendapatan tambahan tanpa perlu meninggalkan pekerjaan utama anda.</p>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 100px 0;
+        }
+        
+        .hero-section h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+        
+        .hero-section p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+        }
+        
+        .btn-hero {
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+        }
+        
+        .features-section {
+            padding: 80px 0;
+            background-color: #f8f9fa;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            height: 100%;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 25px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+        }
+        
+        .cta-section {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 80px 0;
+        }
+        
+        .cta-section h2 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+        
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .btn-cta {
+            padding: 18px 45px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            margin: 0 10px 10px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2.5rem;
+            }
+            
+            .cta-section h2 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row justify-content-center text-center">
+                <div class="col-lg-8">
+                    <h1>Program Affiliate UNITI</h1>
+                    <p class="lead">Jana Pendapatan Dengan Berkongsi.</p>
+                    <a href="{{ route('affiliate.register', ['ref' => old('ref', $ref)]) }}" class="btn btn-danger btn-cta">Jom Daftar Sekarang</a>
+                </div>
+            </div>
         </div>
-        <div class="feature col">
-            <h3 class="fs-3 text-body-emphasis text-uppercase">Memanfaatkan Rangkaian Anda</h3>
-            <p class="fs-6">Jika anda mempunyai rangkaian yang luas dalam kalangan pelajar, ibu bapa, atau komuniti pendidikan, anda boleh memanfaatkan rangkaian ini dengan memperkenalkan Kolej UNITI. Dengan berkongsi maklumat dan testimoni tentang kolej, anda boleh membantu orang lain membuat keputusan pendidikan yang lebih baik.</p>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center mb-5">
+                    <h2 class="display-5 fw-bold">Kenapa Pilih Program Kami?</h2>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-cash-coin"></i>
+                        </div>
+                        <h3 class="h4 mb-3">Peluang Menjana Pendapatan Tambahan</h3>
+                        <p>Anda akan menerima komisen bagi setiap pelajar yang mendaftar di Kolej UNITI melalui pautan atau rujukan anda.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-people"></i>
+                        </div>
+                        <h3 class="h4 mb-3">Memanfaatkan Rangkaian Anda</h3>
+                        <p>Memanfaatkan rangkaian yang luas di dalam kalangan pelajar, ibu bapa atau komuniti pendidikan dengan memperkenalkan Kolej UNITI.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-link-45deg"></i>
+                        </div>
+                        <h3 class="h4 mb-3">Mudah dan Fleksibel</h3>
+                        <p>Anda boleh berkongsi pautan atau rujukan anda di mana-mana media sosial tanpa mengira masa dan tempat.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row g-4 mt-2">
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-bank"></i>
+                        </div>
+                        <h3 class="h4 mb-3">Tanpa Modal Besar</h3>
+                        <p>Tidak memerlukan kos permulaan yang tinggi. Anda hanya perlu mempromosikan pautan atau rujukan anda.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-mortarboard"></i>
+                        </div>
+                        <h3 class="h4 mb-3">Menyumbang Kepada Pendidikan Berkualiti</h3>
+                        <p>Dengan memperkenalkan pelajar kepada Kolej UNITI, anda membantu mereka mendapatkan akses pendidikan berkualiti yang ditawarkan.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-star"></i>
+                        </div>
+                        <h3 class="h4 mb-3">Ganjaran dan Pengiktirafan</h3>
+                        <p>Selain komisen, anda mungkin menerima ganjaran lain seperti bonus prestasi, sijil penghargaan atau pengiktirafan lain daripada Kolej UNITI sebagai tanda penghargaan atas sumbangan anda.</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="feature col">
-            <h3 class="fs-3 text-body-emphasis text-uppercase">Menyumbang kepada Pendidikan Berkualiti</h3>
-            <p class="fs-6">Dengan memperkenalkan pelajar kepada Kolej UNITI, anda membantu mereka mendapatkan akses pendidikan berkualiti yang ditawarkan. Ini memberi impak positif kepada masa depan mereka dan menyumbang kepada pembangunan sumber manusia yang berkualiti.</p>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="row justify-content-center text-center">
+                <div class="col-lg-8">
+                    <h2>Sudahkan Anda Bersedia Untuk Menjana Pendapatan?</h2>
+                    <p class="lead">Sertai beribu-ribu ahli yang telah mendaftar dengan program kami. Tiada pengalaman diperlukan - kami sedia membimbing anda.</p>
+                    <div class="d-flex flex-wrap justify-content-center">
+                        <a href="{{ route('affiliate.register', ['ref' => old('ref', $ref)]) }}" class="btn btn-danger btn-cta">Daftar Sekarang</a>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="row g-4 py-1 row-cols-1 row-cols-lg-3">
-        <div class="feature col">
-            <h3 class="fs-3 text-body-emphasis text-uppercase">Fleksibiliti dan Kebebasan</h3>
-            <p class="fs-6">Pemasaran afiliasi memberikan anda kebebasan untuk bekerja mengikut keselesaan anda sendiri. Anda boleh mempromosikan Kolej UNITI pada masa dan tempat yang sesuai dengan jadual anda, tanpa terikat dengan jam kerja yang tetap.</p>
-        </div>
-        <div class="feature col">
-            {{-- <h3 class="fs-3 text-body-emphasis text-uppercase">Menerima Sokongan dan Bahan Pemasaran</h3>
-            <p class="fs-6">Kolej UNITI akan menyediakan pelbagai bahan pemasaran seperti banting, pautan teks, brosur dan video bagi membantu anda mempromosikan kolej dengan lebih berkesan. Sokongan ini memudahkan anda dalam menjalankan aktiviti pemasaran.</p> --}}
-        </div>
-        <div class="feature col">
-            <h3 class="fs-3 text-body-emphasis text-uppercase">Membangunkan Hubungan Profesional</h3>
-            <p class="fs-6">Anda akan berpeluang untuk membina hubungan profesional dengan staf dan pengurusan Kolej UNITI. Ini boleh membuka pintu kepada peluang kerjaya atau kolaborasi lain di masa hadapan.</p>
-        </div>
-    </div>
-    <div class="row g-4 py-1 row-cols-1 row-cols-lg-3">
-        <div class="feature col">
-            <h3 class="fs-3 text-body-emphasis text-uppercase">Reputasi dan Kredibiliti</h3>
-            <p class="fs-6">Kerjasama dengan institusi pendidikan yang mempunyai reputasi seperti Kolej UNITI akan meningkatkan kredibiliti anda sebagai individu atau organisasi yang memperkenalkan pilihan pendidikan yang baik. Ini boleh meningkatkan kepercayaan dalam kalangan mereka yang berada di dalam rangkaian anda.</p>
-        </div>
-        <div class="feature col">
-            <h3 class="fs-3 text-body-emphasis text-uppercase">Ganjaran dan Pengiktirafan</h3>
-            <p class="fs-6">Selain komisen, anda mungkin menerima ganjaran lain seperti bonus prestasi, sijil penghargaan atau pengiktirafan lain daripada Kolej UNITI sebagai tanda penghargaan atas sumbangan anda.</p>
-        </div>
-        <div class="feature col">
-            <h3 class="fs-3 text-body-emphasis text-uppercase">Memberi Impak Positif kepada Masyarakat</h3>
-            <p class="fs-6">Dengan memperkenalkan pelajar kepada Kolej UNITI, anda memberi peluang kepada mereka untuk mendapatkan pendidikan yang dapat mengubah kehidupan mereka. Ini bukan sahaja memberi manfaat kepada individu tetapi juga memberi impak positif kepada masyarakat secara keseluruhan.</p>
-        </div>
-    </div>
-    <div class="row g-4 py-1 row-cols-1 mt-1">
-        <div class="feature col text-center">
-            <p class="fs-6">Adakah anda berminat untuk menjadi Affiliate UNITI?</p>
-            <a href="{{ route('affiliate.register', ['ref' => old('ref', $ref)]) }}" class="btn btn-danger">Daftar Sekarang</a>
-        </div>
-    </div>
-</div>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 @endsection
