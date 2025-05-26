@@ -13,20 +13,24 @@
                     <input type="date" class="form-control" name="start_date" required>
                     <button class="btn btn-secondary" disabled>-</button>
                     <input type="date" class="form-control" name="end_date" required>
-                    {{-- <button class="btn btn-secondary" disabled>Lokasi</button>
+                    <button class="btn btn-secondary" disabled>Lokasi</button>
                     <select name="location" id="location" class="form-control" required>
                         <option value="">Pilihan Lokasi</option>
                         @foreach ($locations as $item)
                             <option value="{{ $item->id }}">{{ $item->code }}</option>
                         @endforeach
                         <option value="3">KUPD & KUKB</option>
-                    </select> --}}
+                    </select>
                     <button class="btn btn-warning" type="submit">Cari</button>
                 </div>
                 </form>
             </div>
             <div class="table-responsive">
                 <table id="myTable" class="table table-bordered small table-sm text-center">
+                    @if ($start_date === null)
+                    @else
+                    <caption>Laporan yang dijana adalah bagi {{ $location_name }} bertarikh {{ $start_date ? \Carbon\Carbon::parse($start_date)->format('d-m-Y') : '' }} sehingga {{ $end_date ? \Carbon\Carbon::parse($end_date)->format('d-m-Y') : '' }}</caption>
+                    @endif
                     <thead class="table-dark">
                         <tr>
                             <th>#</th>
@@ -82,7 +86,7 @@
         layout: {
                 top1Start: {
                     div: {
-                        html: '<h2>Pencapaian Affiliate</h2>'
+                        html: '<h2>Pencapaian Affiliate {{ $location_name }}</h2>'
                     }
                 },
                 top1End: {
