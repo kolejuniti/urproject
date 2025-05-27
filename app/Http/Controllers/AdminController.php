@@ -1398,7 +1398,7 @@ class AdminController extends Controller
 
         $applications = $applications->get();
 
-        return view('admin.affiliateAchievementDetails', compact('affiliate', 'applications', 'totalIncentive', 'totalCommission'));
+        return view('admin.affiliateachievementDetails', compact('affiliate', 'applications', 'totalIncentive', 'totalCommission'));
     }
 
 }
