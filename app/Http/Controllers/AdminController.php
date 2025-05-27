@@ -1364,7 +1364,41 @@ class AdminController extends Controller
             ->whereIn('students.status_id', [1, 2, 3, 4, 5, 6, 11, 22, 23, 24, 25, 26, 27])
             ->count();
 
-        return view('admin.affiliateachievements', compact('affiliates', 'locations',  'start_date', 'end_date', 'location_name', 'totalStudents', 'totalStudentProcess', 'totalStudentPre', 'totalStudentRegister', 'totalStudentReject'));
+        return view('admin.affiliateachievements', compact('affiliates', 'locations',  'start_date', 'end_date', 'location_name', 'totalStudents', 'totalStudentProcess', 'totalStudentPre', 'totalStudentRegister', 'totalStudentReject', 'location'));
+    }
+
+    public function affiliateAchievementDetails(Request $request, $id, $start_date = null, $end_date = null, $location = null)
+    {
+        $affiliate = User::where('id', $id)
+            ->where('type', 0)
+            ->first();
+
+        if (!$affiliate) {
+            return redirect()->back()->with('error', 'Affiliate not found.');
+        }
+
+        $applications = DB::table('students')
+            ->where('students.referral_code', $affiliate->referral_code)
+            ->where(function ($query) {
+                        $query->whereNotNull('students.ic')
+                            ->where('students.ic', '!=', '');
+                    })
+            ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date])
+            ->select('students.name', 'students.created_at', 'students.incentive', 'students.commission')
+            ->orderByDesc('students.id');
+
+                if ($location == 3) {
+                    $applications ->whereIn('students.location_id', [1, 2]);
+                } else {
+                    $applications ->where('students.location_id', '=', $location);
+                }
+
+            $totalIncentive = number_format($applications->sum('students.incentive'), 2, '.', '');
+            $totalCommission = $applications->sum('students.commission');
+
+        $applications = $applications->get();
+
+        return view('admin.affiliateAchievementDetails', compact('affiliate', 'applications', 'totalIncentive', 'totalCommission'));
     }
 
 }
