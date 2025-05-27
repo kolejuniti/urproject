@@ -46,7 +46,7 @@
                         @foreach ($affiliates as $item)
                         <tr>
                             <td></td>
-                            <td class="text-uppercase">{{ $item->name }}</td>
+                            <td class="text-uppercase"><a href="{{ route('admin.affiliate.achievement.details', ['id' => $item->id, 'start_date' => $start_date, 'end_date' => $end_date, 'location' => $location]) }}" class="btn btn-sm btn-link" target="_blank">{{ $item->name }}</td>
                             <td class="text-center">{{ $item->total_students ?? 0 }}</td>
                             <td class="text-center">{{ $item->total_students_process ?? 0 }}</td>
                             <td class="text-center">{{ $item->total_students_pre ?? 0 }}</td>
