@@ -11,6 +11,7 @@
                         <th>#</th>
                         <th>Nama Pemohon</th>
                         <th>Tarikh Permohonan</th>
+                        <th>Sumber</th>
                         <th>Insentif</th>
                         <th>Komisen</th>
                     </tr>
@@ -21,6 +22,7 @@
                         <td></td>
                         <td>{{ $item->name }}</td>
                         <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d-m-Y') }}</td>
+                        <td>{{ $item->source }}</td>
                         <td class="text-center">{{ $item->incentive ?? '0.00' }}</td>
                         <td class="text-center">{{ $item->commission ?? '0.00' }}</td>
                     </tr>
