@@ -153,6 +153,7 @@ Route::middleware(['auth', 'user-access:admin'])->group(function() {
     Route::match(['get', 'post'], '/admin/report/ea/achievements', [AdminController::class, 'achievements'])->name('admin.achievements');
     Route::get('/admin/report/{id}/achievement/details/{start_date?}/{end_date?}/{location?}', [AdminController::class, 'achievementDetails'])->name('admin.achievement.details');
     Route::match(['get', 'post'], '/admin/report/affiliates/achievements', [AdminController::class, 'affiliateAchievements'])->name('admin.affiliateachievements');
+    Route::get('/admin/report/{id}/achievement/details/{start_date?}/{end_date?}/{location?}', [AdminController::class, 'affiliateAchievementDetails'])->name('admin.affiliate.achievement.details');
 });
 
 // advisor route
