@@ -32,6 +32,7 @@
                     <tr>
                         <th></th>
                         <th></th>
+                        <th></th>
                         <th class="text-center">Jumlah Keseluruhan</th>
                         <th>{{ $totalIncentive ?? '0.00' }}</th>
                         <th>{{ $totalCommission ?? '0.00' }}</th>
