@@ -66,8 +66,8 @@
                             <th>No. Kad Pengenalan</th>
                             <th>No. Telefon</th>
                             <th>Email</th>
-                            <th>Sumber</th>
                             <th>Tarikh Permohonan</th>
+                            <th>Lokasi</th>
                             <th>Affiliate</th>
                             <th>Tarikh Agihan</th>
                             <th>Status</th>
@@ -93,8 +93,8 @@
                             </td>
                             <td class="text-center">{{ $data->ic }}</td>
                             <td class="text-center">{{ $data->phone }}</td>
-                            <td>{{ $data->email }}</td>
                             <td>{{ \Carbon\Carbon::parse($data->created_at)->format('d-m-Y') }}</td>
+                            <td>{{ $data->location }}</td>
                             <td>{{ $data->source }}</td>
                             <td class="text-uppercase">
                                 @if($data->referral_code !== null)
