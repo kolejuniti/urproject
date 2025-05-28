@@ -525,6 +525,7 @@ class StudentController extends Controller
                     'user_id'=>$userID,
                     'source'=>$source,
                     'updated_at'=> $update,
+                    'auto_assign'=> 1,
                     'incentive'=> $incentive
                 ]);
 
@@ -917,6 +918,7 @@ class StudentController extends Controller
                     'user_id'=>$userID,
                     'source'=>$source,
                     'updated_at'=> $update,
+                    'auto_assign'=> 1,
                     'incentive'=> $incentive
                 ]);
 
@@ -1421,7 +1423,8 @@ class StudentController extends Controller
                 'location_id' => 1,
                 'source' => 'website',
                 'created_at' => now(),
-                'updated_at'=> $update
+                'updated_at'=> $update,
+                'auto_assign'=> 1
             ]);
 
             // 1st program choice
@@ -1569,7 +1572,8 @@ class StudentController extends Controller
                 'location_id' => 2,
                 'source' => 'website',
                 'created_at' => now(),
-                'updated_at'=> $update
+                'updated_at'=> $update,
+                'auto_assign'=> 1
             ]);
 
             // 1st program choice

@@ -349,7 +349,7 @@ class AdminController extends Controller
         {
             $studentPIC = DB::table('students')
                         ->where('students.id', $id)
-                        ->update(['user_id'=>$pic, 'updated_at'=>date('Y-m-d H:i:s')]);
+                        ->update(['user_id'=>$pic, 'updated_at'=>date('Y-m-d H:i:s'), 'auto_assign' => 0]);
 
             return redirect()->route('admin.application')->with('success', 'Agihan pegawai perhubungan kepada pelajar telah berjaya.');
         }
