@@ -93,9 +93,9 @@
                             </td>
                             <td class="text-center">{{ $data->ic }}</td>
                             <td class="text-center">{{ $data->phone }}</td>
+                            <td>{{ $data->email }}</td>
                             <td>{{ \Carbon\Carbon::parse($data->created_at)->format('d-m-Y') }}</td>
                             <td>{{ $data->location }}</td>
-                            <td>{{ $data->source }}</td>
                             <td class="text-uppercase">
                                 @if($data->referral_code !== null)
                                     @if(isset($affiliates[$data->id]) && $affiliates[$data->id]->isNotEmpty())
