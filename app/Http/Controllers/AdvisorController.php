@@ -55,7 +55,7 @@ class AdvisorController extends Controller
                 ->leftJoin('users', 'students.user_id', '=', 'users.id')
                 ->join('location', 'students.location_id', '=', 'location.id')
                 ->leftJoin('status', 'students.status_id', '=', 'status.id')
-                ->select('students.*', 'state.name AS state', 'users.name AS user', 'location.name AS location', 'status.name AS status')
+                ->select('students.*', 'state.name AS state', 'users.name AS user', 'location.code AS location', 'status.name AS status')
                 ->where(function($query) use ($ref, $id) {
                     $query->where('students.referral_code', $ref)
                         ->orWhere('students.user_id', $id);
