@@ -255,7 +255,9 @@ Route::get('/sitemap.xml', function () {
         ->add(Url::create('/semak-permohonan/port-dickson'))
         ->add(Url::create('/kampus/kota-bharu'))
         ->add(Url::create('/daftar/kota-bharu'))
-        ->add(Url::create('/semak-permohonan/kota-bharu'));
+        ->add(Url::create('/semak-permohonan/kota-bharu'))
+        ->add(Url::create('/affiliate'))
+        ->add(Url::create('/affiliate/register'));
 
     return $sitemap->toResponse(request());
 });
