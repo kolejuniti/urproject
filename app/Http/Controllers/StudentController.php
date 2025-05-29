@@ -276,6 +276,7 @@ class StudentController extends Controller
                 if ($user->type === 'advisor') { // Adjust the comparison based on actual returned value
                     $userID = $user->id;
                     $update = date('Y-m-d H:i:s');
+                    $auto_assign = 2; // Set auto_assign to 2 for advisors
                 } elseif ($user->type === 'user') {
                     $leaderType = null;
 
@@ -286,6 +287,7 @@ class StudentController extends Controller
                     if ($leaderType && $leaderType->type === 'advisor') {
                         $userID = $leaderType->id;
                         $update = now();
+                        $auto_assign = 2; // Set auto_assign to 2 for advisors
                     } else {
                         // Fallback if no valid advisor found
                         $currentUserID = DB::table('students')
@@ -297,6 +299,7 @@ class StudentController extends Controller
                             })
                             ->where('users.type', '1')
                             ->where('users.name', 'LIKE', 'PD-%')
+                            ->where('students.auto_assign', 1)
                             ->orderByDesc('students.id')
                             ->limit(1)
                             ->first();
@@ -388,6 +391,7 @@ class StudentController extends Controller
                                 if ($nextId !== null) {
                                     $userID = $nextId;
                                     $update = date('Y-m-d H:i:s');
+                                    $auto_assign = 1; // Set auto_assign to 1 for advisors
                                 } else {
                                     $userID = null;
                                 }
@@ -469,6 +473,7 @@ class StudentController extends Controller
                 if ($nextId !== null) {
                     $userID = $nextId;
                     $update = date('Y-m-d H:i:s');
+                    $auto_assign = 1; // Set auto_assign to 1 for advisors
                 } else {
                     $userID = null;
                 }
@@ -525,7 +530,7 @@ class StudentController extends Controller
                     'user_id'=>$userID,
                     'source'=>$source,
                     'updated_at'=> $update,
-                    'auto_assign'=> 1,
+                    'auto_assign'=> $auto_assign,
                     'incentive'=> $incentive
                 ]);
 
@@ -669,6 +674,7 @@ class StudentController extends Controller
                 if ($user->type === 'advisor') { // Adjust the comparison based on actual returned value
                     $userID = $user->id;
                     $update = date('Y-m-d H:i:s');
+                    $auto_assign = 2; // Set auto_assign to 2 for advisors
                 } elseif ($user->type === 'user') {
                     $leaderType = null;
 
@@ -679,6 +685,7 @@ class StudentController extends Controller
                     if ($leaderType && $leaderType->type === 'advisor') {
                         $userID = $leaderType->id;
                         $update = now();
+                        $auto_assign = 2; // Set auto_assign to 2 for advisors
                     } else {
                         // Fallback if no valid advisor found
                         $currentUserID = DB::table('students')
@@ -690,6 +697,7 @@ class StudentController extends Controller
                             })
                             ->where('users.type', '1')
                             ->where('users.name', 'LIKE', 'KB-%')
+                            ->where('students.auto_assign', 1)
                             ->orderByDesc('students.id')
                             ->limit(1)
                             ->first();
@@ -781,6 +789,7 @@ class StudentController extends Controller
                                 if ($nextId !== null) {
                                     $userID = $nextId;
                                     $update = date('Y-m-d H:i:s');
+                                    $auto_assign = 1; // Set auto_assign to 1 for advisors
                                 } else {
                                     $userID = null;
                                 }
@@ -862,6 +871,7 @@ class StudentController extends Controller
                 if ($nextId !== null) {
                     $userID = $nextId;
                     $update = date('Y-m-d H:i:s');
+                    $auto_assign = 1; // Set auto_assign to 1 for advisors
                 } else {
                     $userID = null;
                 }
@@ -918,7 +928,7 @@ class StudentController extends Controller
                     'user_id'=>$userID,
                     'source'=>$source,
                     'updated_at'=> $update,
-                    'auto_assign'=> 1,
+                    'auto_assign'=> $auto_assign,
                     'incentive'=> $incentive
                 ]);
 
