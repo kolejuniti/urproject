@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\TestMail;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Spatie\Sitemap\Sitemap;
+use Spatie\Sitemap\Tags\Url;
 // use Illuminate\Support\Facades\DB;
 
 // Route::get('/db-check', function () {
@@ -244,3 +246,16 @@ Route::get('/logout', function () {
 //         return 'Email sending failed: ' . $e->getMessage();
 //     }
 // });
+
+Route::get('/sitemap.xml', function () {
+    $sitemap = Sitemap::create()
+        ->add(Url::create('/'))
+        ->add(Url::create('/kampus/port-dickson'))
+        ->add(Url::create('/daftar/port-dickson'))
+        ->add(Url::create('/semak-permohonan/port-dickson'))
+        ->add(Url::create('/kampus/kota-bharu'))
+        ->add(Url::create('/daftar/kota-bharu'))
+        ->add(Url::create('/semak-permohonan/kota-bharu'));
+
+    return $sitemap->toResponse(request());
+});
