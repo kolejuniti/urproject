@@ -732,7 +732,7 @@ class StudentController extends Controller
                                     
                                     // Search for exact code match using CONCAT to add word boundaries
                                     $users = DB::table('users')
-                                        ->where('name', 'like', 'PD-%')  // Starts with "PD-"
+                                        ->where('name', 'like', 'KB-%')  // Starts with "KB-"
                                         ->where('type', '1')
                                         ->where('affiliate_data', 1)
                                         ->where('accept_data', 1)
@@ -758,7 +758,7 @@ class StudentController extends Controller
                                         
                                         // Search for exact code match
                                         $users = DB::table('users')
-                                            ->where('name', 'like', 'PD-%')  // Starts with "PD-"
+                                            ->where('name', 'like', 'KB-%')  // Starts with "KB-"
                                             ->where('type', '1')
                                             ->where('affiliate_data', 1)
                                             ->where('accept_data', 1)
