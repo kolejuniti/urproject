@@ -33,6 +33,13 @@
                     @endif
                     <thead class="table-dark">
                         <tr>
+                           <th colspan="11" class="text-end">
+                                <label>
+                                        <input type="checkbox" id="hideKolejbtmCheckbox">&nbsp;Tidak termasuk DATA KOLEJBTM
+                                </label>
+                            </th> 
+                        </tr>
+                        <tr>
                             <th rowspan="3">#</th>
                             <th rowspan="3">Sumber</th>
                             <th rowspan="3">Jumlah Data</th>
@@ -56,41 +63,60 @@
                     </thead>
                     <tbody>
                         @foreach ($sources as $item)
-                        <tr>
+                        @php
+                            $source = $item->source;
+                            $total = $totalData[$source] ?? 0;
+                            $withAffiliate = $totalDataWithAffiliate[$source] ?? 0;
+                            $withoutAffiliate = $totalDataWithoutAffiliate[$source] ?? 0;
+                            $preWithAff = $totalDataPreRegisterWithAffiliate[$source] ?? 0;
+                            $preWithoutAff = $totalDataPreRegisterWithoutAffiliate[$source] ?? 0;
+                            $regWithAff = $totalDataRegisterWithAffiliate[$source] ?? 0;
+                            $regWithoutAff = $totalDataRegisterWithoutAffiliate[$source] ?? 0;
+                            $reject = $totalDataRejects[$source] ?? 0;
+                        @endphp
+                        <tr data-source="{{ $source }}"
+                            data-total="{{ $total }}"
+                            data-aff="{{ $withAffiliate }}"
+                            data-noaff="{{ $withoutAffiliate }}"
+                            data-preaff="{{ $preWithAff }}"
+                            data-prenoaff="{{ $preWithoutAff }}"
+                            data-regaff="{{ $regWithAff }}"
+                            data-regnoaff="{{ $regWithoutAff }}"
+                            data-reject="{{ $reject }}">
                             <td></td>
-                            <td class="text-uppercase">{{ $item->source }}</td>
-                            <td class="text-center">{{ $totalData[$item->source] ?? 0 }}</td>
-                            <td class="text-center">{{ $totalDataWithAffiliate[$item->source] ?? 0 }}</td>
-                            <td class="text-center">{{ $totalDataWithoutAffiliate[$item->source] ?? 0 }}</td>
-                            <td class="text-center">{{ $totalDataPreRegisterWithAffiliate[$item->source] ?? 0 }}</td>
-                            <td class="text-center">{{ $totalDataPreRegisterWithoutAffiliate[$item->source] ?? 0 }}</td>
-                            <td class="text-center">{{ $totalDataRegisterWithAffiliate[$item->source] ?? 0 }}</td>
-                            <td class="text-center">{{ $totalDataRegisterWithoutAffiliate[$item->source] ?? 0 }}</td>
-                            <td class="text-center">{{ $totalDataRejects[$item->source] ?? 0 }}</td>
-                            <td class="text-center">{{ $totalData[$item->source]-$totalDataRejects[$item->source] ?? 0 }}</td>
+                            <td class="text-uppercase">{{ $source }}</td>
+                            <td class="text-center">{{ $total }}</td>
+                            <td class="text-center">{{ $withAffiliate }}</td>
+                            <td class="text-center">{{ $withoutAffiliate }}</td>
+                            <td class="text-center">{{ $preWithAff }}</td>
+                            <td class="text-center">{{ $preWithoutAff }}</td>
+                            <td class="text-center">{{ $regWithAff }}</td>
+                            <td class="text-center">{{ $regWithoutAff }}</td>
+                            <td class="text-center">{{ $reject }}</td>
+                            <td class="text-center">{{ $total - $reject }}</td>
                         </tr>
                         @endforeach
                     </tbody>
                     <tfoot class="table-danger">
-                        <tr>
-                            <th rowspan="2"></th>
-                            <th rowspan="2">Jumlah Keseluruhan</th>
-                            <th rowspan="2" class="text-center">{{ $totalDataCount }}</th>
-                            <th class="text-center">{{ $totalDataWithAffiliateCount }}</th>
-                            <th class="text-center">{{ $totalDataWithoutAffiliateCount }}</th>
-                            <th class="text-center">{{ $totalDataPreRegisterWithAffiliateCount }}</th>
-                            <th class="text-center">{{ $totalDataPreRegisterWithoutAffiliateCount }}</th>
-                            <th class="text-center">{{ $totalDataRegisterWithAffiliateCount }}</th>
-                            <th class="text-center">{{ $totalDataRegisterWithoutAffiliateCount }}</th>
-                            <th rowspan="2" class="text-center">{{ $totalDataRejectCount }}</th>
-                            <th rowspan="2" class="text-center">{{ $totalDataCount-$totalDataRejectCount }}</th>
-                        </tr>
-                        <tr>
-                            <td colspan="2" class="text-center"><strong>{{ $totalDataEntry }}</strong></td>
-                            <td colspan="2" class="text-center"><strong>{{ $totalDataPreRegister }}</strong></td>
-                            <td colspan="2" class="text-center"><strong>{{ $totalDataRegister }}</strong></td>
-                        </tr>
-                    </tfoot>
+                    <tr>
+                        <th rowspan="2"></th>
+                        <th rowspan="2">Jumlah Keseluruhan</th>
+                        <th rowspan="2" class="text-center"><span id="total-count">{{ $totalDataCount }}</span></th>
+                        <th class="text-center"><span id="aff-count">{{ $totalDataWithAffiliateCount }}</span></th>
+                        <th class="text-center"><span id="noaff-count">{{ $totalDataWithoutAffiliateCount }}</span></th>
+                        <th class="text-center"><span id="preaff-count">{{ $totalDataPreRegisterWithAffiliateCount }}</span></th>
+                        <th class="text-center"><span id="prenoaff-count">{{ $totalDataPreRegisterWithoutAffiliateCount }}</span></th>
+                        <th class="text-center"><span id="regaff-count">{{ $totalDataRegisterWithAffiliateCount }}</span></th>
+                        <th class="text-center"><span id="regnoaff-count">{{ $totalDataRegisterWithoutAffiliateCount }}</span></th>
+                        <th rowspan="2" class="text-center"><span id="reject-count">{{ $totalDataRejectCount }}</span></th>
+                        <th rowspan="2" class="text-center"><span id="balance-count">{{ $totalDataCount - $totalDataRejectCount }}</span></th>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="text-center"><strong><span id="entry-count">{{ $totalDataEntry }}</span></strong></td>
+                        <td colspan="2" class="text-center"><strong><span id="preregister-count">{{ $totalDataPreRegister }}</span></strong></td>
+                        <td colspan="2" class="text-center"><strong><span id="register-count">{{ $totalDataRegister }}</span></strong></td>
+                    </tr>
+                </tfoot>
                 </table>
             </div>
         </div>
@@ -148,5 +174,66 @@
             });
         }).draw();
     });
+</script>
+<script>
+    document.getElementById('hideKolejbtmCheckbox').addEventListener('change', function () {
+        const shouldHide = this.checked;
+        const rows = document.querySelectorAll('table tbody tr');
+
+        rows.forEach(row => {
+            const source = row.getAttribute('data-source');
+            if (source === 'DATA KOLEJBTM') {
+                row.style.display = shouldHide ? 'none' : '';
+            }
+        });
+    });
+</script>
+<script>
+document.getElementById('hideKolejbtmCheckbox').addEventListener('change', function () {
+    const hide = this.checked;
+    const rows = document.querySelectorAll('tbody tr');
+
+    rows.forEach(row => {
+        const source = row.getAttribute('data-source');
+        if (source === 'DATA KOLEJBTM') {
+            row.style.display = hide ? 'none' : '';
+        }
+    });
+
+    updateTotals();
+});
+
+function updateTotals() {
+    let total = 0, aff = 0, noaff = 0, preaff = 0, prenoaff = 0;
+    let regaff = 0, regnoaff = 0, reject = 0;
+
+    document.querySelectorAll('tbody tr').forEach(row => {
+        if (row.style.display !== 'none') {
+            total += parseInt(row.dataset.total);
+            aff += parseInt(row.dataset.aff);
+            noaff += parseInt(row.dataset.noaff);
+            preaff += parseInt(row.dataset.preaff);
+            prenoaff += parseInt(row.dataset.prenoaff);
+            regaff += parseInt(row.dataset.regaff);
+            regnoaff += parseInt(row.dataset.regnoaff);
+            reject += parseInt(row.dataset.reject);
+        }
+    });
+
+    // Update footer cells
+    document.getElementById('total-count').innerText = total;
+    document.getElementById('aff-count').innerText = aff;
+    document.getElementById('noaff-count').innerText = noaff;
+    document.getElementById('preaff-count').innerText = preaff;
+    document.getElementById('prenoaff-count').innerText = prenoaff;
+    document.getElementById('regaff-count').innerText = regaff;
+    document.getElementById('regnoaff-count').innerText = regnoaff;
+    document.getElementById('reject-count').innerText = reject;
+    document.getElementById('balance-count').innerText = total - reject;
+
+    document.getElementById('entry-count').innerText = aff + noaff;
+    document.getElementById('preregister-count').innerText = preaff + prenoaff;
+    document.getElementById('register-count').innerText = regaff + regnoaff;
+}
 </script>
 @endsection
