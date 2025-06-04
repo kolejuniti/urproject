@@ -25,6 +25,11 @@
                     </div>
                 </form>
             </div>
+            <div class="col-md-8 col-sm-8 col-12 ms-auto text-end">
+                <label>
+                        <input type="checkbox" id="hideKolejbtmCheckbox">&nbsp;Tidak termasuk DATA KOLEJBTM
+                </label>
+            </div>
             <div class="table-responsive">
                 <table id="myTable" class="table table-bordered small table-sm text-center">
                     @if ($start_date === null)
@@ -32,13 +37,6 @@
                     <caption>Laporan yang dijana adalah bagi lokasi {{ $location_name }} bertarikh {{ $start_date ? \Carbon\Carbon::parse($start_date)->format('d-m-Y') : '' }} sehingga {{ $end_date ? \Carbon\Carbon::parse($end_date)->format('d-m-Y') : '' }}</caption>
                     @endif
                     <thead class="table-dark">
-                        <tr>
-                           <th colspan="11" class="text-end">
-                                <label>
-                                        <input type="checkbox" id="hideKolejbtmCheckbox">&nbsp;Tidak termasuk DATA KOLEJBTM
-                                </label>
-                            </th> 
-                        </tr>
                         <tr>
                             <th rowspan="3">#</th>
                             <th rowspan="3">Sumber</th>
