@@ -1341,7 +1341,7 @@ class StudentController extends Controller
                 ->exists();
 
             if ($existingStudent) {
-                return response()->json(['error' => 'Student with this IC already exists'], 400);
+                return response()->json(['error' => 'Student with this IC already exists'], 409);
             }
             
             $userID = null;
@@ -1490,7 +1490,7 @@ class StudentController extends Controller
                 ->exists();
 
             if ($existingStudent) {
-                return response()->json(['error' => 'Student with this IC already exists'], 400);
+                return response()->json(['error' => 'Student with this IC already exists'], 409);
             }
             
             $userID = null;
