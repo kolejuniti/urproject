@@ -8,7 +8,7 @@
   <meta name="google-site-verification" content="jAW-nBBPmKdXh1IRqIAEZHzrj6t7QmoFX1IgsZMuqqE" />
 
   <!--Canonical Tag-->
-  <link rel="canonical" href="{{ url()->current() }}">
+  <link rel="canonical" href="https://edaftarkolej.uniticms.edu.my/">
 
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css"
