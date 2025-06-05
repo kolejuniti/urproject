@@ -1118,7 +1118,7 @@ class StudentController extends Controller
                             ->get();
         }
 
-        return view('student.offerletter', compact('ref','students', 'studentprograms'));
+        return view('student.offerletter', compact('ref','students', 'studentprograms'))->with('canonical', 'https://edaftarkolej.uniticms.edu.my/semak-permohonan/surat-tawaran');
     }
 
     public function about(Request $request)
