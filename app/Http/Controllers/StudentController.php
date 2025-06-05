@@ -1051,7 +1051,7 @@ class StudentController extends Controller
         $isEmbedded = $request->query('embed') === 'true';
         
         if (!$request->session()->has('ic')) {
-            return redirect()->route('student.register-kupd')->with('msg_error', 'Tiada data pelajar. Sila daftar terlebih dahulu.');
+            return redirect()->route('student.register-kupd')->with('msg_error', 'Tiada data pelajar. Sila daftar terlebih dahulu.')->with('canonical', 'https://edaftarkolej.uniticms.edu.my/https://edaftarkolej.uniticms.edu.my/daftar/port-dickson/pengesahan');
         }
 
         return view('student.confirmation-kupd', compact('ref', 'isEmbedded'));
@@ -1064,7 +1064,7 @@ class StudentController extends Controller
         $isEmbedded = $request->query('embed') === 'true';
         
         if (!$request->session()->has('ic')) {
-            return redirect()->route('student.register-kukb')->with('msg_error', 'Tiada data pelajar. Sila daftar terlebih dahulu.');
+            return redirect()->route('student.register-kukb')->with('msg_error', 'Tiada data pelajar. Sila daftar terlebih dahulu.')->with('canonical', 'https://edaftarkolej.uniticms.edu.my/https://edaftarkolej.uniticms.edu.my/daftar/kota-bharu/pengesahan');
         }
 
         return view('student.confirmation-kukb', compact('ref', 'isEmbedded'));
