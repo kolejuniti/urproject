@@ -46,7 +46,7 @@ class StudentController extends Controller
             ->where('program.offered', 1)
             ->get();
 
-        return view('student.register-kupd', compact('ref', 'states', 'locations', 'years', 'source', 'isEmbedded', 'programs'));
+        return view('student.register-kupd', compact('ref', 'states', 'locations', 'years', 'source', 'isEmbedded', 'programs'))->with('canonical', 'https://edaftarkolej.uniticms.edu.my/daftar/port-dickson');
     }
 
     public function index_kukb(Request $request)
@@ -66,7 +66,7 @@ class StudentController extends Controller
             ->where('program.offered', 1)
             ->get();
 
-        return view('student.register-kukb', compact('ref', 'states', 'locations', 'years', 'source', 'isEmbedded', 'programs'));
+        return view('student.register-kukb', compact('ref', 'states', 'locations', 'years', 'source', 'isEmbedded', 'programs'))->with('canonical', 'https://edaftarkolej.uniticms.edu.my/daftar/kota-bharu');
     }
 
     public function location($id)
@@ -1702,7 +1702,7 @@ class StudentController extends Controller
             }
         }                            
 
-        return view('student.search-kupd', compact('ref', 'students', 'states', 'years', 'ic', 'studentPrograms', 'foundFile'));
+        return view('student.search-kupd', compact('ref', 'students', 'states', 'years', 'ic', 'studentPrograms', 'foundFile'))->with('canonical', 'https://edaftarkolej.uniticms.edu.my/semak-permohonan/port-dickson');
     }
 
     public function kemaskini_permohonan_kupd($id, $email, Request $request)
@@ -1776,7 +1776,7 @@ class StudentController extends Controller
             }
         }                            
 
-        return view('student.search-kukb', compact('ref', 'students', 'states', 'years', 'ic', 'studentPrograms', 'foundFile'));
+        return view('student.search-kukb', compact('ref', 'students', 'states', 'years', 'ic', 'studentPrograms', 'foundFile'))->with('canonical', 'https://edaftarkolej.uniticms.edu.my/semak-permohonan/kota-bharu');
     }
 
     public function kemaskini_permohonan_kukb($id, $email, Request $request)
