@@ -1188,183 +1188,90 @@ class AdminController extends Controller
 
         $locations = DB::table('location')->get();
 
-        if ($request->input('location') == 1) {
-            $location_name = 'KUPD';
-        } elseif ($request->input('location') == 2) {
-            $location_name = 'KUKB';
-        } elseif ($request->input('location') == 3) {
-            $location_name = 'KUPD & KUKB';
-        } else {
-            $location_name = '';
-        }
-        
-        // Fetch all affiliates
+        $location_name = [
+            1 => 'KUPD',
+            2 => 'KUKB',
+            3 => 'KUPD & KUKB'
+        ][$location] ?? '';
+
+        $statusProcess = [7,8,9,10,12,13,14,15,16,17,18];
+        $statusPre = [19];
+        $statusRegister = [20,21];
+        $statusReject = [1,2,3,4,5,6,11,22,23,24,25,26,27];
+
+        // Common base query for students
+        $baseQuery = function ($query) use ($start_date, $end_date, $location) {
+            $query->whereNotNull('students.ic')
+                ->where('students.ic', '!=', '')
+                ->when($location == 3, fn($q) => $q->whereIn('students.location_id', [1, 2]))
+                ->when(in_array($location, [1, 2]), fn($q) => $q->where('students.location_id', $location))
+                ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
+        };
+
+        // Fetch all affiliate student counts in ONE query grouped by referral_code
+        $studentCounts = DB::table('students')
+        ->select(
+            'referral_code',
+            DB::raw('COUNT(*) as total_students'),
+            DB::raw("SUM(CASE WHEN status_id IS NULL OR status_id IN (" . implode(',', $statusProcess) . ") THEN 1 ELSE 0 END) as total_students_process"),
+            DB::raw("SUM(CASE WHEN status_id IN (" . implode(',', $statusPre) . ") THEN 1 ELSE 0 END) as total_students_pre"),
+            DB::raw("SUM(CASE WHEN status_id IN (" . implode(',', $statusRegister) . ") THEN 1 ELSE 0 END) as total_students_register"),
+            DB::raw("SUM(CASE WHEN status_id IN (" . implode(',', $statusReject) . ") THEN 1 ELSE 0 END) as total_students_reject")
+        )
+        ->where($baseQuery)
+        ->groupBy('referral_code')
+        ->get()
+        ->keyBy('referral_code');
+
+        // Fetch all affiliates and attach their counts
         $affiliates = User::where('type', 0)
             ->orderBy('name')
-            ->get();
+            ->get()
+            ->map(function ($affiliate) use ($studentCounts) {
+                $counts = $studentCounts[$affiliate->referral_code] ?? (object) [
+                    'total_students' => 0,
+                    'total_students_process' => 0,
+                    'total_students_pre' => 0,
+                    'total_students_register' => 0,
+                    'total_students_reject' => 0,
+                ];
 
-        foreach ($affiliates as $affiliate) {
-            $affiliate->total_students = DB::table('students')
-                ->where('students.referral_code', $affiliate->referral_code)
-                ->where(function ($query) {
-                    $query->whereNotNull('students.ic')
-                        ->where('students.ic', '!=', '');
-                })
-                ->when($location == 3, function ($query) {
-                    $query->whereIn('students.location_id', [1, 2]);
-                }, function ($query) use ($location) {
-                    $query->where('students.location_id', '=', $location);
-                })
-                ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date])
-                ->count();
+                $affiliate->total_students = $counts->total_students;
+                $affiliate->total_students_process = $counts->total_students_process;
+                $affiliate->total_students_pre = $counts->total_students_pre;
+                $affiliate->total_students_register = $counts->total_students_register;
+                $affiliate->total_students_reject = $counts->total_students_reject;
 
-            $affiliate->total_students_process = DB::table('students')
-                ->where('students.referral_code', $affiliate->referral_code)
-                ->where(function ($query) {
-                    $query->whereNotNull('students.ic')
-                        ->where('students.ic', '!=', '');
-                })
-                ->where(function($query) {
-                        $query->whereNull('students.status_id')
-                                ->orWhereIn('students.status_id', [7,8,9,10,12,13,14,15,16,17,18]);
-                })
-                ->when($location == 3, function ($query) {
-                    $query->whereIn('students.location_id', [1, 2]);
-                }, function ($query) use ($location) {
-                    $query->where('students.location_id', '=', $location);
-                })
-                ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date])
-                ->count();
+                return $affiliate;
+            });
 
-            $affiliate->total_students_pre = DB::table('students')
-                ->where('students.referral_code', $affiliate->referral_code)
-                ->where(function ($query) {
-                    $query->whereNotNull('students.ic')
-                        ->where('students.ic', '!=', '');
-                })
-                ->when($location == 3, function ($query) {
-                    $query->whereIn('students.location_id', [1, 2]);
-                }, function ($query) use ($location) {
-                    $query->where('students.location_id', '=', $location);
-                })
-                ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date])
-                ->whereIn('students.status_id', [19])
-                ->count();
-
-            $affiliate->total_students_register = DB::table('students')
-                ->where('students.referral_code', $affiliate->referral_code)
-                ->where(function ($query) {
-                    $query->whereNotNull('students.ic')
-                        ->where('students.ic', '!=', '');
-                })
-                ->when($location == 3, function ($query) {
-                    $query->whereIn('students.location_id', [1, 2]);
-                }, function ($query) use ($location) {
-                    $query->where('students.location_id', '=', $location);
-                })
-                ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date])
-                ->whereIn('students.status_id', [20, 21])
-                ->count();
-
-            $affiliate->total_students_reject = DB::table('students')
-                ->where('students.referral_code', $affiliate->referral_code)
-                ->where(function ($query) {
-                    $query->whereNotNull('students.ic')
-                        ->where('students.ic', '!=', '');
-                })
-                ->when($location == 3, function ($query) {
-                    $query->whereIn('students.location_id', [1, 2]);
-                }, function ($query) use ($location) {
-                    $query->where('students.location_id', '=', $location);
-                })
-                ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date])
-                ->whereIn('students.status_id', [1, 2, 3, 4, 5, 6, 11, 22, 23, 24, 25, 26, 27])
-                ->count();
-        }
-
-        $totalStudents = DB::table('students')
-            ->join ('users', 'students.referral_code', '=', 'users.referral_code')
+        // Total counts across all affiliates (reuse baseQuery)
+        $totals = DB::table('students')
+            ->join('users', 'students.referral_code', '=', 'users.referral_code')
             ->where('users.type', 0)
-            ->where(function ($query) {
-                $query->whereNotNull('students.ic')
-                    ->where('students.ic', '!=', '');
-            })
-            ->when($location == 3, function ($query) {
-                $query->whereIn('students.location_id', [1, 2]);
-            }, function ($query) use ($location) {
-                $query->where('students.location_id', '=', $location);
-            })
-            ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date])
-            ->count();
+            ->where($baseQuery)
+            ->selectRaw('
+                COUNT(*) as totalStudents,
+                SUM(CASE WHEN status_id IS NULL OR status_id IN (' . implode(',', $statusProcess) . ') THEN 1 ELSE 0 END) as totalStudentProcess,
+                SUM(CASE WHEN status_id IN (' . implode(',', $statusPre) . ') THEN 1 ELSE 0 END) as totalStudentPre,
+                SUM(CASE WHEN status_id IN (' . implode(',', $statusRegister) . ') THEN 1 ELSE 0 END) as totalStudentRegister,
+                SUM(CASE WHEN status_id IN (' . implode(',', $statusReject) . ') THEN 1 ELSE 0 END) as totalStudentReject
+            ')
+            ->first();
 
-        $totalStudentProcess = DB::table('students')
-            ->join ('users', 'students.referral_code', '=', 'users.referral_code')
-            ->where('users.type', 0)
-            ->where(function ($query) {
-                $query->whereNotNull('students.ic')
-                    ->where('students.ic', '!=', '');
-            })
-            ->where(function($query) {
-                    $query->whereNull('students.status_id')
-                            ->orWhereIn('students.status_id', [7,8,9,10,12,13,14,15,16,17,18]);
-            })
-            ->when($location == 3, function ($query) {
-                $query->whereIn('students.location_id', [1, 2]);
-            }, function ($query) use ($location) {
-                $query->where('students.location_id', '=', $location);
-            })
-            ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date])
-            ->count();
-
-        $totalStudentPre = DB::table('students')
-            ->join ('users', 'students.referral_code', '=', 'users.referral_code')
-            ->where('users.type', 0)
-            ->where(function ($query) {
-                $query->whereNotNull('students.ic')
-                    ->where('students.ic', '!=', '');
-            })
-            ->when($location == 3, function ($query) {
-                $query->whereIn('students.location_id', [1, 2]);
-            }, function ($query) use ($location) {
-                $query->where('students.location_id', '=', $location);
-            })
-            ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date])
-            ->whereIn('students.status_id', [19])
-            ->count();
-
-        $totalStudentRegister = DB::table('students')
-            ->join ('users', 'students.referral_code', '=', 'users.referral_code')
-            ->where('users.type', 0)
-            ->where(function ($query) {
-                $query->whereNotNull('students.ic')
-                    ->where('students.ic', '!=', '');
-            })
-            ->when($location == 3, function ($query) {
-                $query->whereIn('students.location_id', [1, 2]);
-            }, function ($query) use ($location) {
-                $query->where('students.location_id', '=', $location);
-            })
-            ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date])
-            ->whereIn('students.status_id', [20, 21])
-            ->count();
-
-        $totalStudentReject = DB::table('students')
-            ->join ('users', 'students.referral_code', '=', 'users.referral_code')
-            ->where('users.type', 0)
-            ->where(function ($query) {
-                $query->whereNotNull('students.ic')
-                    ->where('students.ic', '!=', '');
-            })
-            ->when($location == 3, function ($query) {
-                $query->whereIn('students.location_id', [1, 2]);
-            }, function ($query) use ($location) {
-                $query->where('students.location_id', '=', $location);
-            })
-            ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date])
-            ->whereIn('students.status_id', [1, 2, 3, 4, 5, 6, 11, 22, 23, 24, 25, 26, 27])
-            ->count();
-
-        return view('admin.affiliateachievements', compact('affiliates', 'locations',  'start_date', 'end_date', 'location_name', 'totalStudents', 'totalStudentProcess', 'totalStudentPre', 'totalStudentRegister', 'totalStudentReject', 'location'));
+        return view('admin.affiliateachievements', [
+            'affiliates' => $affiliates,
+            'locations' => $locations,
+            'start_date' => $start_date,
+            'end_date' => $end_date,
+            'location_name' => $location_name,
+            'location' => $location,
+            'totalStudents' => $totals->totalStudents,
+            'totalStudentProcess' => $totals->totalStudentProcess,
+            'totalStudentPre' => $totals->totalStudentPre,
+            'totalStudentRegister' => $totals->totalStudentRegister,
+            'totalStudentReject' => $totals->totalStudentReject,
+        ]);
     }
 
     public function affiliateAchievementDetails(Request $request, $id, $start_date = null, $end_date = null, $location = null)
