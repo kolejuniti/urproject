@@ -480,7 +480,7 @@ class StudentController extends Controller
             }
         }
 
-        $ic = $request->input('ic');
+        $ic = trim($request->input('ic')); // trims any accidental spaces
         $studentlists = DB::connection('mysql2')->table('students')->where('ic', $ic)
         ->first();
 
@@ -884,7 +884,7 @@ class StudentController extends Controller
 
         if($studentlists === null)
         {
-            $ic = $request->input('ic');
+            $ic = trim($request->input('ic')); // trims any accidental spaces
             $students = DB::table('students')
                         ->where('ic', $ic)
                         ->first();
