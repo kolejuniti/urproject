@@ -61,7 +61,7 @@
                     </div>
                     <div class="row g-2 mb-2 row-cols-2">
                         <div class="col-md-3 col-sm-3 form-floating">
-                            <input type="text" name="postcode" id="postcode" class="form-control" placeholder="" required>
+                            <input type="text" name="postcode" id="postcode" class="form-control" placeholder="" maxlength="5" required>
                             <label for="postcode">Poskod</label>
                         </div>
                         <div class="col-md-3 col-sm-3 form-floating">
