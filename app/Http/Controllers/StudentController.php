@@ -558,8 +558,11 @@ class StudentController extends Controller
 
                 $file = $request->file('file');
 
+                // Force the extension to lowercase to prevent case sensitivity issues
+                $extension = strtolower($file->getClientOriginalExtension());
+
                 // Upload file to Linode and set it as public
-                $filePath = 'urproject/student/resultspm/' . $ic . '.' . $file->getClientOriginalExtension();
+                $filePath = 'urproject/student/resultspm/' . $ic . '.' . $extension;
 
                 Storage::disk('linode')->put($filePath, file_get_contents($file), 'public');
 
@@ -956,8 +959,11 @@ class StudentController extends Controller
 
                 $file = $request->file('file');
 
+                // Force the extension to lowercase to prevent case sensitivity issues
+                $extension = strtolower($file->getClientOriginalExtension());
+
                 // Upload file to Linode and set it as public
-                $filePath = 'urproject/student/resultspm/' . $ic . '.' . $file->getClientOriginalExtension();
+                $filePath = 'urproject/student/resultspm/' . $ic . '.' . $extension;
 
                 Storage::disk('linode')->put($filePath, file_get_contents($file), 'public');
 
