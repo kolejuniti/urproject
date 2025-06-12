@@ -31,14 +31,16 @@
   <link rel="icon" type="image/png" href="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/img/ku1.png">
   <title>Kolej UNITI Port Dickson</title>
   
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11015826304"></script>
+  <!-- Load gtag.js only ONCE -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-B4BRS3VJS0"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
 
-    gtag('config', 'AW-11015826304');
+    // Configure BOTH tags using the same gtag instance
+    gtag('config', 'G-B4BRS3VJS0');      // Your GA4
+    gtag('config', 'AW-11015826304');    // Your Google Ads
   </script>
 </head>
 
