@@ -25,17 +25,33 @@
   <title>UTAMA - Kolej UNITI</title>
   
   <!-- Google tag (gtag.js) -->
+  <!-- Google Tag Manager (GTM) -->
+  <script>
+  (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GT-TWQTTKPL');
+  </script>
+
+  <!-- Global site tag (gtag.js) for Google Analytics and Ads -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-B4BRS3VJS0"></script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11015826304"></script>
   <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
-    gtag('config', 'AW-11015826304');
+      // Your GA4 Measurement ID
+      gtag('config', 'G-B4BRS3VJS0');
+
+      // Existing Google Ads Conversion ID
+      gtag('config', 'AW-11015826304');
   </script>
 </head>
 
 <body>
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GT-TWQTTKPL" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <!-- CAMPUS Section START -->
   <section class="campus py-3" id="campus">
