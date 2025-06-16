@@ -31,11 +31,11 @@
                             <th>Nama Pelajar</th>
                             <th>No. Kad Pengenalan</th>
                             <th>No. Telefon</th>
-                            {{-- <th>Email</th> --}}
+                            <th>Email</th>
                             <th>Tarikh Permohonan</th>
                             <th>Lokasi</th>
                             <th>Affiliate</th>
-                            <th>Tarikh Agihan</th>
+                            {{-- <th>Tarikh Agihan</th> --}}
                             <th>Education Advisor</th>
                             <th>Status</th>
                             <th>Tarikh Daftar</th>
@@ -48,7 +48,7 @@
                             <td class="text-uppercase">{{ $student->name }}</td>
                             <td class="text-center">{{ $student->ic }}</td>
                             <td class="text-center">{{ $student->phone }}</td>
-                            {{-- <td>{{ $student->email }}</td> --}}
+                            <td>{{ $student->email }}</td>
                             <td>{{ \Carbon\Carbon::parse($student->created_at)->format('d-m-Y') }}</td>
                             <td>{{ $student->location }}</td>
                             <td class="text-uppercase">
@@ -60,7 +60,7 @@
                                     {{__('TIADA AFFILIATE')}}
                                 @endif
                             </td>
-                            <td>{{ $student->updated_at ? \Carbon\Carbon::parse($student->updated_at)->format('d-m-Y') : '' }}</td>
+                            {{-- <td>{{ $student->updated_at ? \Carbon\Carbon::parse($student->updated_at)->format('d-m-Y') : '' }}</td> --}}
                             <td class="text-uppercase">
                                 @foreach ($advisors[$student->id] as $advisor)
                                     {{ $advisor->name }}
