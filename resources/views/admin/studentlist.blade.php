@@ -48,7 +48,7 @@
                             <td class="text-uppercase">{{ $student->name }}</td>
                             <td class="text-center">{{ $student->ic }}</td>
                             <td class="text-center">{{ $student->phone }}</td>
-                            <td>{{ $student->email }}</td>
+                            <td>{{ strtolower($student->email) }}</td>
                             <td>{{ \Carbon\Carbon::parse($student->created_at)->format('d-m-Y') }}</td>
                             <td>{{ $student->location }}</td>
                             <td class="text-uppercase">
