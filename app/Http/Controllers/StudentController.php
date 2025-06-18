@@ -267,6 +267,8 @@ class StudentController extends Controller
         $userID = null;
         $update = null;
 
+        $auto_assign = 1; // Default value
+
         if ($referral_code !== null) {
             $user = User::where('referral_code', $referral_code)->first();
 
@@ -667,6 +669,8 @@ class StudentController extends Controller
         $ref = null;
         $userID = null;
         $update = null;
+
+        $auto_assign = 1; // Default value
 
         if ($referral_code !== null) {
             $user = User::where('referral_code', $referral_code)->first();
