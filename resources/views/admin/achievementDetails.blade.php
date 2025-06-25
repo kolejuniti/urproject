@@ -42,9 +42,9 @@
                         <td class="text-center">
                             {{ $item->status_id === 19 ? $item->days_since_update : 0 }}
                         </td>
-                        {{-- Group 3: status_id in [20, 21] --}}
+                        {{-- Group 3: status_id in [20, 21, 22] --}}
                         <td class="text-center">
-                            {{ in_array($item->status_id, [20, 21]) ? $item->days_since_update : 0 }}
+                            {{ in_array($item->status_id, [20, 21, 22]) ? $item->days_since_update : 0 }}
                         </td>
                         {{-- Group 4: status_id in [1–5, 24, 26, 27] --}}
                         <td class="text-center">
