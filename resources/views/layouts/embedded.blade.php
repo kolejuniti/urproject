@@ -50,6 +50,18 @@
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ asset('css/kupd-style.css') }}">
+  
+    <!-- Load gtag.js only ONCE -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-B4BRS3VJS0"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      // Configure BOTH tags using the same gtag instance
+      gtag('config', 'G-B4BRS3VJS0');      // Your GA4
+      gtag('config', 'AW-11015826304');    // Your Google Ads
+    </script>
 </head>
 <body class="bg-white">
     <div id="app">
