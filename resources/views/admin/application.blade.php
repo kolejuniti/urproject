@@ -98,6 +98,8 @@
                             <tr class="table-warning">
                         @elseif ($data->user_id !== null && $data->register_at !== null)
                             <tr class="table-success">
+                        @elseif ($data->user_id === 0 && $data->register_at === null)
+                            <tr>
                         @else
                             <tr>
                         @endif
@@ -110,12 +112,12 @@
                             <td>{{ \Carbon\Carbon::parse($data->created_at)->format('d-m-Y') }}</td>
                             <td class="text-center">{{ $data->location }}</td>
                             <td class="text-uppercase">
-                                @if( $data->referral_code !== null)
+                                @if (!empty($data->referral_code) && $data->referral_code !== 'null' && isset($affiliates[$data->id]))
                                     @foreach ($affiliates[$data->id] as $affiliate)
                                         {{ $affiliate->name }}
                                     @endforeach
                                 @else
-                                    {{__('TIADA AFFILIATE')}}
+                                    {{ __('TIADA AFFILIATE') }}
                                 @endif
                             </td>
                             <td>{{$data->updated_at ? \Carbon\Carbon::parse($data->updated_at)->format('d-m-Y') : '' }}</td>
