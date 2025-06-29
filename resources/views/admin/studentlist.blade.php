@@ -52,12 +52,12 @@
                             <td>{{ \Carbon\Carbon::parse($student->created_at)->format('d-m-Y') }}</td>
                             <td>{{ $student->location }}</td>
                             <td class="text-uppercase">
-                                @if( $student->referral_code !== null)
+                                @if (!empty($student->referral_code) && $student->referral_code !== 'null' && isset($affiliates[$student->id]))
                                     @foreach ($affiliates[$student->id] as $affiliate)
                                         {{ $affiliate->name }}
                                     @endforeach
                                 @else
-                                    {{__('TIADA AFFILIATE')}}
+                                    {{ __('TIADA AFFILIATE') }}
                                 @endif
                             </td>
                             {{-- <td>{{ $student->updated_at ? \Carbon\Carbon::parse($student->updated_at)->format('d-m-Y') : '' }}</td> --}}
