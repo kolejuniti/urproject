@@ -98,7 +98,7 @@
                             <tr class="table-warning">
                         @elseif ($data->user_id !== null && $data->register_at !== null)
                             <tr class="table-success">
-                        @elseif ($data->user_id === 0 && $data->register_at === null)
+                        @elseif (in_array($data->user_id, [0, '0'], true) && $data->register_at === null)
                             <tr>
                         @else
                             <tr>
