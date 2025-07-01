@@ -80,6 +80,8 @@
                             <tr class="table-danger">
                         @elseif ($data->user_id !== null && $data->register_at === null && $data->status_id === 19)
                             <tr class="table-info">
+                        @elseif ($data->user_id !== null && $data->status_id === null)
+                            <tr>
                         @elseif ($data->user_id !== null && $data->register_at === null)
                             <tr class="table-warning">
                         @elseif ($data->user_id !== null && $data->register_at !== null)
