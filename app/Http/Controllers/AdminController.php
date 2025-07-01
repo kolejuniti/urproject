@@ -296,7 +296,11 @@ class AdminController extends Controller
                     ->where('students.ic', 'LIKE', "{$ic}")
                     ->first();
 
-        $users = User::where('type', 1)->orderBy('name')->get();
+        $users = User::where('type', 1)
+            ->where('accept_data', 1)
+            ->where('affiliate_data', 1)
+            ->orderBy('name')
+            ->get();
 
         $fileUrl = null;
         if ($applicants) {
@@ -1178,7 +1182,6 @@ class AdminController extends Controller
 
         return view('admin.achievementDetails', compact('user', 'applications'));
     }
-
 
     public function affiliateAchievements(Request $request)
     {
