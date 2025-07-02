@@ -1014,6 +1014,8 @@ class AdminController extends Controller
 
         $assigns = [];
         $assignPercentage = [];
+        $notprocess = [];
+        $notprocessPercentage = [];
         $process = [];
         $processPercentage = [];
         $preregisters = [];
@@ -1041,6 +1043,26 @@ class AdminController extends Controller
                 }
             
                 $assigns[$advisor->id] = $query->count();
+                
+            $query = DB::table('students')
+                ->where('students.user_id', $advisor->id)
+                ->where(function ($query) {
+                        $query->whereNotNull('students.ic')
+                            ->where('students.ic', '!=', '');
+                    })
+                ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date])
+                ->where(function($query) {
+                    $query->whereNull('students.status_id')
+                        ->orWhere('students.status_id', '=', 0);
+                });
+
+                if ($location == 3) {
+                    $query ->whereIn('students.location_id', [1, 2]);
+                } else {
+                    $query ->where('students.location_id', '=', $location);
+                }
+            
+                $notprocess[$advisor->id] = $query->count();
 
             $query = DB::table('students')
                 ->where('students.user_id', $advisor->id)
@@ -1114,12 +1136,14 @@ class AdminController extends Controller
 
                 if ($assigns[$advisor->id] > 0) {
                     $assignPercentage[$advisor->id] = (($assigns[$advisor->id])/($assigns[$advisor->id]))*(100);
+                    $notprocessPercentage[$advisor->id] = round((($notprocess[$advisor->id])/($assigns[$advisor->id]))*(100),2);
                     $processPercentage[$advisor->id] = round((($process[$advisor->id])/($assigns[$advisor->id]))*(100),2);
                     $preregisterPercentage[$advisor->id] = round((($preregisters[$advisor->id])/($assigns[$advisor->id]))*(100),2);
                     $registerPercentage[$advisor->id] = round((($registers[$advisor->id])/($assigns[$advisor->id]))*(100),2);
                     $rejectPercentage[$advisor->id] = round((($rejects[$advisor->id])/($assigns[$advisor->id]))*(100),2);
                 } else {
                     $assignPercentage[$advisor->id] = 0;
+                    $notprocessPercentage[$advisor->id] = 0;
                     $processPercentage[$advisor->id] = 0;
                     $preregisterPercentage[$advisor->id] = 0;
                     $registerPercentage[$advisor->id] = 0;
@@ -1129,6 +1153,7 @@ class AdminController extends Controller
 
         // Calculate total count
         $totalCountAssign = array_sum($assigns);
+        $totalCountNotProcess = array_sum($notprocess);
         $totalCountProcess = array_sum($process);
         $totalCountPreRegister = array_sum($preregisters);
         $totalCountRegister = array_sum($registers);
@@ -1136,12 +1161,14 @@ class AdminController extends Controller
 
         if ($totalCountAssign > 0) {
             $totalCountAssignPercentage = array_sum($assigns)/array_sum($assigns)*100;
+            $totalCountNotProcessPercentage = round(array_sum($notprocess)/array_sum($assigns)*100,2); 
             $totalCountProcessPercentage = round(array_sum($process)/array_sum($assigns)*100,2); 
             $totalCountPreRegisterPercentage = round(array_sum($preregisters)/array_sum($assigns)*100,2);
             $totalCountRegisterPercentage = round(array_sum($registers)/array_sum($assigns)*100,2);
             $totalCountRejectPercentage = round(array_sum($rejects)/array_sum($assigns)*100,2);
         } else {
             $totalCountAssignPercentage = 0;
+            $totalCountNotProcessPercentage = 0;
             $totalCountProcessPercentage = 0;
             $totalCountPreRegisterPercentage = 0;
             $totalCountRegisterPercentage = 0;
@@ -1149,7 +1176,7 @@ class AdminController extends Controller
         }
         // Calculate total count percentage
 
-        return view('admin.achievements', compact('advisors', 'assigns', 'locations', 'totalCountAssign', 'process', 'totalCountProcess', 'preregisters', 'totalCountPreRegister', 'registers', 'totalCountRegister', 'rejects', 'totalCountReject', 'start_date', 'end_date', 'assignPercentage', 'processPercentage', 'preregisterPercentage', 'registerPercentage', 'rejectPercentage', 'totalCountAssignPercentage', 'totalCountProcessPercentage', 'totalCountPreRegisterPercentage', 'totalCountRegisterPercentage', 'totalCountRejectPercentage', 'location_name', 'location'));
+        return view('admin.achievements', compact('advisors', 'assigns', 'locations', 'totalCountAssign', 'notprocess', 'totalCountNotProcess', 'process', 'totalCountProcess', 'preregisters', 'totalCountPreRegister', 'registers', 'totalCountRegister', 'rejects', 'totalCountReject', 'start_date', 'end_date', 'assignPercentage', 'notprocessPercentage', 'processPercentage', 'preregisterPercentage', 'registerPercentage', 'rejectPercentage', 'totalCountAssignPercentage', 'totalCountNotProcessPercentage', 'totalCountProcessPercentage', 'totalCountPreRegisterPercentage', 'totalCountRegisterPercentage', 'totalCountRejectPercentage', 'location_name', 'location'));
     }
 
     public function achievementDetails(Request $request, $id, $start_date = null, $end_date = null, $location = null)
