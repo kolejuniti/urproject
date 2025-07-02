@@ -36,12 +36,15 @@
                             <th rowspan="2">#</th>
                             <th rowspan="2">Nama EA</th>
                             <th colspan="2" class="text-center">Data Diagih</th>
+                            <th colspan="2" class="text-center">Belum Diproses</th>
                             <th colspan="2" class="text-center">Data Diproses</th>
                             <th colspan="2" class="text-center">Pra Daftar</th>
                             <th colspan="2" class="text-center">Daftar Masuk</th>
                             <th colspan="2" class="text-center">Data Ditolak</th>
                         </tr>
                         <tr>
+                            <th>Jumlah</th>
+                            <th>%</th>
                             <th>Jumlah</th>
                             <th>%</th>
                             <th>Jumlah</th>
@@ -61,6 +64,8 @@
                             <td><a href="{{ route('admin.achievement.details', ['id' => $item->id, 'start_date' => $start_date, 'end_date' => $end_date, 'location' => $location]) }}" class="btn btn-sm btn-link" target="_blank">{{ $item->name }}</a></td>
                             <td class="text-center">{{ $assigns[$item->id] ?? 0 }}</td>
                             <td class="text-center">{{ $assignPercentage[$item->id] ?? 0 }}%</td>
+                            <td class="text-center">{{ $notprocess[$item->id] ?? 0 }}</td>
+                            <td class="text-center">{{ $notprocessPercentage[$item->id] ?? 0 }}%</td>
                             <td class="text-center">{{ $process[$item->id] ?? 0 }}</td>
                             <td class="text-center">{{ $processPercentage[$item->id] ?? 0 }}%</td>
                             <td class="text-center">{{ $preregisters[$item->id] ?? 0 }}</td>
@@ -78,6 +83,8 @@
                             <td><strong>Jumlah Keseluruhan</strong></td>
                             <td class="text-center"><strong>{{ $totalCountAssign }}</strong></td>
                             <td class="text-center"><strong>{{ $totalCountAssignPercentage }}%</strong></td>
+                            <td class="text-center"><strong>{{ $totalCountNotProcess }}</strong></td>
+                            <td class="text-center"><strong>{{ $totalCountNotProcessPercentage }}%</strong></td>
                             <td class="text-center"><strong>{{ $totalCountProcess }}</strong></td>
                             <td class="text-center"><strong>{{ $totalCountProcessPercentage }}%</strong></td>
                             <td class="text-center"><strong>{{ $totalCountPreRegister }}</strong></td>
