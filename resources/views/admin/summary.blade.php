@@ -199,7 +199,7 @@
                             <label class="fw-bold">Education Advisor</label>
                         </div>
                         <div class="col-md-2">
-                            <label class="fw-bold">Tarikh Daftar</label>
+                            <label class="fw-bold">Tarikh Daftar Kolej</label>
                         </div>
                     </div>
                     <div id="statusDetailsContainer" class="mb-2">
