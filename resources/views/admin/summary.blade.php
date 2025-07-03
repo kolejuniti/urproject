@@ -10,9 +10,9 @@
                 @csrf
                     <div class="input-group mb-3">
                         <button class="btn btn-secondary" disabled>Tarikh</button>
-                        <input type="date" class="form-control" name="start_date">
+                        <input type="date" class="form-control" name="start_date" value="{{ request('start_date') }}">
                         <button class="btn btn-secondary" disabled>-</button>
-                        <input type="date" class="form-control" name="end_date">
+                        <input type="date" class="form-control" name="end_date" value="{{ request('end_date') }}">
                         <button class="btn btn-warning" type="submit">Cari</button>
                     </div>
                 </form>
@@ -192,11 +192,14 @@
                         <div class="col-md-2">
                             <label class="fw-bold">No. Kad Pengenalan</label>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <label class="fw-bold">Affiliate</label>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <label class="fw-bold">Education Advisor</label>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="fw-bold">Tarikh Daftar</label>
                         </div>
                     </div>
                     <div id="statusDetailsContainer" class="mb-2">
@@ -272,13 +275,17 @@
 
         $(document).on('click', '.open-modal', function() {
             var status_id = $(this).data('status_id');
+            var start_date = $('input[name="start_date"]').val();
+            var end_date = $('input[name="end_date"]').val();
 
             $.ajax({
                 url: "{{ route('admin.summary.detail') }}",
                 type: "POST",
                 data: {
                     _token: "{{ csrf_token() }}",
-                    status_id: status_id
+                    status_id: status_id,
+                    start_date: start_date,
+                    end_date: end_date
                 },
                 success: function(response) {
                     console.log(response.statusDetails); // Debugging: log the response
@@ -301,11 +308,14 @@
                                     <div class="col-md-2">
                                         <label class="text-uppercase">${statusDetail.ic || 'N/A'}</label>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <label class="text-uppercase">${statusDetail.affiliate || 'N/A'}</label>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <label class="text-uppercase">${statusDetail.advisor || 'N/A'}</label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="text-uppercase">${statusDetail.register_at || 'N/A'}</label>
                                     </div>
                                 </div>
                             `;
