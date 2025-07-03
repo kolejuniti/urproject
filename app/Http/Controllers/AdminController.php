@@ -736,7 +736,7 @@ class AdminController extends Controller
 
         $statusName = $status ? $status->status_name : 'Tiada Status';
 
-        // Build the base query
+        // Build base query
         $query = DB::table('students')
             ->join('users AS affiliate', 'students.referral_code', '=', 'affiliate.referral_code')
             ->join('users AS advisor', 'students.user_id', '=', 'advisor.id')
@@ -756,13 +756,13 @@ class AdminController extends Controller
             $query->where('students.status_id', '=', $status_id);
         }
 
-        // Apply date range filter if provided
+        // Filter by created_at (casted to DATE)
         if ($startDate && $endDate) {
-            $query->whereBetween('students.register_at', [$startDate, $endDate]);
+            $query->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$startDate, $endDate]);
         } elseif ($startDate) {
-            $query->whereDate('students.register_at', '>=', $startDate);
+            $query->whereDate(DB::raw("CAST(students.created_at AS DATE)"), '>=', $startDate);
         } elseif ($endDate) {
-            $query->whereDate('students.register_at', '<=', $endDate);
+            $query->whereDate(DB::raw("CAST(students.created_at AS DATE)"), '<=', $endDate);
         }
 
         $statusDetails = $query->get();
