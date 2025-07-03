@@ -725,34 +725,47 @@ class AdminController extends Controller
     public function summaryDetail(Request $request)
     {
         $status_id = $request->input('status_id');
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
 
-        // Fetch status information
+        // Fetch status name
         $status = DB::table('status')
             ->select('status.name AS status_name')
             ->where('status.id', '=', $status_id)
             ->first();
 
-        // Format status
         $statusName = $status ? $status->status_name : 'Tiada Status';
 
-        // Handle the case where status_id is null (for "TIADA STATUS")
+        // Build the base query
+        $query = DB::table('students')
+            ->join('users AS affiliate', 'students.referral_code', '=', 'affiliate.referral_code')
+            ->join('users AS advisor', 'students.user_id', '=', 'advisor.id')
+            ->select(
+                'students.name AS student',
+                'students.ic',
+                'affiliate.name AS affiliate',
+                'advisor.name AS advisor',
+                DB::raw("DATE_FORMAT(students.register_at, '%d-%m-%Y') as register_at")
+            )
+            ->where('affiliate.type', '=', 0);
+
+        // Filter by status
         if (is_null($status_id)) {
-            $statusDetails = DB::table('students')
-                ->join('users AS affiliate', 'students.referral_code', '=', 'affiliate.referral_code')
-                ->join('users AS advisor', 'students.user_id', '=', 'advisor.id')
-                ->select('students.name AS student', 'students.ic', 'affiliate.name AS affiliate', 'advisor.name AS advisor')
-                ->where('affiliate.type', '=', 0)
-                ->whereNull('students.status_id')
-                ->get();
+            $query->whereNull('students.status_id');
         } else {
-            $statusDetails = DB::table('students')
-                ->join('users AS affiliate', 'students.referral_code', '=', 'affiliate.referral_code')
-                ->join('users AS advisor', 'students.user_id', '=', 'advisor.id')
-                ->select('students.name AS student', 'students.ic', 'affiliate.name AS affiliate', 'advisor.name AS advisor')
-                ->where('affiliate.type', '=', 0)
-                ->where('students.status_id', '=', $status_id)
-                ->get();
+            $query->where('students.status_id', '=', $status_id);
         }
+
+        // Apply date range filter if provided
+        if ($startDate && $endDate) {
+            $query->whereBetween('students.register_at', [$startDate, $endDate]);
+        } elseif ($startDate) {
+            $query->whereDate('students.register_at', '>=', $startDate);
+        } elseif ($endDate) {
+            $query->whereDate('students.register_at', '<=', $endDate);
+        }
+
+        $statusDetails = $query->get();
 
         return response()->json([
             'statusDetails' => $statusDetails,
