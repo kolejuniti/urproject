@@ -797,6 +797,7 @@ class AdminController extends Controller
         $totalDataPreRegisterWithEA = [];
         $totalDataPreRegisterWithoutAffiliate = [];
         $totalDataRegisterWithAffiliate = [];
+        $totalDataRegisterWithOtherEA = [];
         $totalDataRegisterWithEA = [];
         $totalDataRegisterWithoutAffiliate = [];
         $totalDataEntry = [];
@@ -952,7 +953,7 @@ class AdminController extends Controller
                             ->where('students.ic', '!=', '');
                     })
                 ->whereNotNull('students.referral_code')
-                ->whereIn('students.status_id', [20,21,22])
+                ->whereIn('students.status_id', [20,21])
                 ->where('affiliate.type', '=', 0)
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
 
@@ -963,6 +964,26 @@ class AdminController extends Controller
                 }
 
                 $totalDataRegisterWithAffiliate[$source->source] = $query->count();
+
+            $query = DB::table('students')
+                ->join('users AS affiliate', 'students.referral_code', '=', 'affiliate.referral_code')
+                ->where('students.source', '=', $source->source)
+                ->where(function ($query) {
+                        $query->whereNotNull('students.ic')
+                            ->where('students.ic', '!=', '');
+                    })
+                ->whereNotNull('students.referral_code')
+                ->whereIn('students.status_id', [22])
+                ->where('affiliate.type', '=', 0)
+                ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
+
+                if ($location == 3) {
+                    $query ->whereIn('students.location_id', [1, 2]);
+                } else {
+                    $query ->where('students.location_id', '=', $location);
+                }
+
+                $totalDataRegisterWithOtherEA[$source->source] = $query->count();
 
             $query = DB::table('students')
                 ->join('users AS advisor', 'students.referral_code', '=', 'advisor.referral_code')
@@ -1028,15 +1049,16 @@ class AdminController extends Controller
         $totalDataPreRegisterWithEACount = array_sum($totalDataPreRegisterWithEA);
         $totalDataPreRegisterWithoutAffiliateCount = array_sum($totalDataPreRegisterWithoutAffiliate);
         $totalDataRegisterWithAffiliateCount = array_sum($totalDataRegisterWithAffiliate);
+        $totalDataRegisterWithOtherEACount = array_sum($totalDataRegisterWithOtherEA);
         $totalDataRegisterWithEACount = array_sum($totalDataRegisterWithEA);
         $totalDataRegisterWithoutAffiliateCount = array_sum($totalDataRegisterWithoutAffiliate);
         $totalDataRejectCount = array_sum($totalDataRejects);
 
         $totalDataEntry = array_sum($totalDataWithAffiliate) + array_sum($totalDataWithEA) + array_sum($totalDataWithoutAffiliate);
         $totalDataPreRegister = array_sum($totalDataPreRegisterWithAffiliate) + array_sum($totalDataPreRegisterWithEA) + array_sum($totalDataPreRegisterWithoutAffiliate);
-        $totalDataRegister = array_sum($totalDataRegisterWithAffiliate) + array_sum($totalDataRegisterWithEA) + array_sum($totalDataRegisterWithoutAffiliate);
+        $totalDataRegister = array_sum($totalDataRegisterWithAffiliate) + array_sum($totalDataRegisterWithEA) + array_sum($totalDataRegisterWithoutAffiliate) + array_sum($totalDataRegisterWithOtherEA);
 
-        return view('admin.leadreports', compact('sources', 'start_date', 'end_date', 'locations', 'totalData', 'totalDataWithAffiliate', 'totalDataWithEA', 'totalDataWithoutAffiliate', 'totalDataPreRegisterWithAffiliate', 'totalDataPreRegisterWithoutAffiliate', 'totalDataPreRegisterWithEACount', 'totalDataRegisterWithAffiliate', 'totalDataRegisterWithEA', 'totalDataRegisterWithoutAffiliate', 'totalDataRegister', 'totalDataCount', 'totalDataWithAffiliateCount', 'totalDataWithEACount', 'totalDataWithoutAffiliateCount', 'totalDataPreRegisterWithAffiliateCount', 'totalDataPreRegisterWithoutAffiliateCount', 'totalDataRegisterWithAffiliateCount', 'totalDataRegisterWithEACount', 'totalDataRegisterWithoutAffiliateCount', 'totalDataEntry', 'totalDataPreRegister', 'totalDataRegister', 'location_name', 'totalDataRejects', 'totalDataRejectCount'));
+        return view('admin.leadreports', compact('sources', 'start_date', 'end_date', 'locations', 'totalData', 'totalDataWithAffiliate', 'totalDataWithEA', 'totalDataWithoutAffiliate', 'totalDataPreRegisterWithAffiliate', 'totalDataPreRegisterWithoutAffiliate', 'totalDataPreRegisterWithEACount', 'totalDataRegisterWithAffiliate', 'totalDataRegisterWithOtherEA', 'totalDataRegisterWithEA', 'totalDataRegisterWithoutAffiliate', 'totalDataRegister', 'totalDataCount', 'totalDataWithAffiliateCount', 'totalDataWithEACount', 'totalDataWithoutAffiliateCount', 'totalDataPreRegisterWithAffiliateCount', 'totalDataPreRegisterWithoutAffiliateCount', 'totalDataRegisterWithAffiliateCount', 'totalDataRegisterWithOtherEACount', 'totalDataRegisterWithEACount', 'totalDataRegisterWithoutAffiliateCount', 'totalDataEntry', 'totalDataPreRegister', 'totalDataRegister', 'location_name', 'totalDataRejects', 'totalDataRejectCount'));
     }
 
     public function yearReports(Request $request)
