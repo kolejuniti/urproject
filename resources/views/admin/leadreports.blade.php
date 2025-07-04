@@ -42,24 +42,25 @@
                             <th rowspan="3">Sumber</th>
                             <th rowspan="3">Jumlah Data</th>
                             <th class="text-center" colspan="3">Data Masuk</th>
-                            <th class="text-center" colspan="6">Pendaftaran</th>
+                            <th class="text-center" colspan="7">Pendaftaran</th>
                             <th rowspan="3">Data Ditolak</th>
                             <th rowspan="3">Baki Data</th>
                           </tr>
                           <tr>
-                            <th rowspan="2">Melalui Affiliate</th>
-                            <th rowspan="2">Melalui EA</th>
-                            <th rowspan="2">Tanpa Affiliate</th>
+                            <th rowspan="2">Data Affiliate</th>
+                            <th rowspan="2">Data EA</th>
+                            <th rowspan="2">Tanpa Affiliate/EA</th>
                             <th colspan="3" class="text-center">Pra Pendaftaran</th>
-                            <th colspan="3" class="text-center">Daftar Kolej</th>
+                            <th colspan="4" class="text-center">Daftar Kolej</th>
                           </tr>
                           <tr>
-                            <th>Melalui Affiliate</th>
-                            <th>Melalui EA</th>
-                            <th>Tanpa Affiliate</th>
-                            <th>Melalui Affiliate</th>
-                            <th>Melalui EA</th>
-                            <th>Tanpa Affiliate</th>
+                            <th>Data Affiliate >> EA</th>
+                            <th>Data EA</th>
+                            <th>Tanpa Affiliate >> EA</th>
+                            <th>Data Affiliate >> EA</th>
+                            <th>Data Affiliate >> EA Lain</th>
+                            <th>Data EA</th>
+                            <th>Tanpa Affiliate >> EA</th>
                           </tr>
                     </thead>
                     <tbody>
@@ -74,6 +75,7 @@
                             $preWithEA = $totalDataPreRegisterWithEA[$source] ?? 0;
                             $preWithoutAff = $totalDataPreRegisterWithoutAffiliate[$source] ?? 0;
                             $regWithAff = $totalDataRegisterWithAffiliate[$source] ?? 0;
+                            $regOtherEA = $totalDataRegisterWithOtherEA[$source] ?? 0;
                             $regWithEA = $totalDataRegisterWithEA[$source] ?? 0;
                             $regWithoutAff = $totalDataRegisterWithoutAffiliate[$source] ?? 0;
                             $reject = $totalDataRejects[$source] ?? 0;
@@ -100,6 +102,7 @@
                             <td class="text-center">{{ $preWithEA }}</td>
                             <td class="text-center">{{ $preWithoutAff }}</td>
                             <td class="text-center">{{ $regWithAff }}</td>
+                            <td class="text-center">{{ $regOtherEA }}</td>
                             <td class="text-center">{{ $regWithEA }}</td>
                             <td class="text-center">{{ $regWithoutAff }}</td>
                             <td class="text-center">{{ $reject }}</td>
@@ -119,6 +122,7 @@
                         <th class="text-center"><span id="preea-count">{{ $totalDataPreRegisterWithEACount }}</span></th>
                         <th class="text-center"><span id="prenoaff-count">{{ $totalDataPreRegisterWithoutAffiliateCount }}</span></th>
                         <th class="text-center"><span id="regaff-count">{{ $totalDataRegisterWithAffiliateCount }}</span></th>
+                        <th class="text-center"><span id="regotherea-count">{{ $totalDataRegisterWithOtherEACount }}</span></th>
                         <th class="text-center"><span id="regea-count"></span>{{ $totalDataRegisterWithEACount }}</th>
                         <th class="text-center"><span id="regnoaff-count">{{ $totalDataRegisterWithoutAffiliateCount }}</span></th>
                         <th rowspan="2" class="text-center"><span id="reject-count">{{ $totalDataRejectCount }}</span></th>
@@ -127,7 +131,7 @@
                     <tr>
                         <td colspan="3" class="text-center"><strong><span id="entry-count">{{ $totalDataEntry }}</span></strong></td>
                         <td colspan="3" class="text-center"><strong><span id="preregister-count">{{ $totalDataPreRegister }}</span></strong></td>
-                        <td colspan="3" class="text-center"><strong><span id="register-count">{{ $totalDataRegister }}</span></strong></td>
+                        <td colspan="4" class="text-center"><strong><span id="register-count">{{ $totalDataRegister }}</span></strong></td>
                     </tr>
                 </tfoot>
                 </table>
