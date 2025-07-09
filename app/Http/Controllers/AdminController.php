@@ -454,6 +454,11 @@ class AdminController extends Controller
                             ->where('students.ic', '!=', '');
                     });
 
+        if ($show_affiliate_only == 1) {
+            $students->join('users', 'students.referral_code', '=', 'users.referral_code')
+                 ->where('users.type', 0);
+        }
+
         // Apply date filters
         if ($start_date && $end_date) {
             $students->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
