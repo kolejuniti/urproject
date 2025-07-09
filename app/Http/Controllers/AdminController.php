@@ -437,6 +437,7 @@ class AdminController extends Controller
         // Retrieve the start and end dates from the form input
         $start_date = $request->input('start_date');
         $end_date = $request->input('end_date');
+        $show_affiliate_only = $request->input('show_affiliate_only');
 
         // If both dates are null, set the default to last 7 days
         if (!$start_date && !$end_date) {
@@ -743,6 +744,7 @@ class AdminController extends Controller
             ->select(
                 'students.name AS student',
                 'students.ic',
+                DB::raw("DATE_FORMAT(students.created_at, '%d-%m-%Y') as created_at"),
                 'affiliate.name AS affiliate',
                 'advisor.name AS advisor',
                 DB::raw("DATE_FORMAT(students.register_at, '%d-%m-%Y') as register_at")
