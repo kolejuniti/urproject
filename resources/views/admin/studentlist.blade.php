@@ -10,7 +10,7 @@
                     {{ $success }}
                 </div>
             @endif
-            <div class="col-md-6 col-sm-6 col-12 ms-auto">
+            <div class="col-md-8 col-sm-8 col-12 ms-auto">
                 <form method="POST" action="{{ route('admin.studentlist') }}">
                 @csrf
                     <div class="input-group mb-3">
@@ -18,6 +18,10 @@
                         <input type="date" class="form-control" name="start_date">
                         <button class="btn btn-secondary" disabled>-</button>
                         <input type="date" class="form-control" name="end_date">
+                        <span class="input-group-text">
+                            <input type="checkbox" name="show_affiliate_only" value="1" {{ request('show_affiliate_only') ? 'checked' : '' }}>
+                            <span class="ms-2">Affiliate Sahaja</span>
+                        </span>
                         <button class="btn btn-warning" type="submit">Cari</button>
                     </div>
                 </form>
