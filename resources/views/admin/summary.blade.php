@@ -186,11 +186,14 @@
                 </div>
                 <div class="modal-body small">
                     <div class="row mb-2">
-                        <div class="col-md-4">
+                        <div class="col-md-2">
                             <label class="fw-bold">#&nbsp;&nbsp;&nbsp;Nama Pemohon</label>
                         </div>
                         <div class="col-md-2">
                             <label class="fw-bold">No. Kad Pengenalan</label>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="fw-bold">Tarikh Mohon</label>
                         </div>
                         <div class="col-md-2">
                             <label class="fw-bold">Affiliate</label>
@@ -302,11 +305,14 @@
                         response.statusDetails.forEach(function(statusDetail, index) {
                             var recordHtml = `
                                 <div class="row mb-2 border-bottom">
-                                    <div class="col-md-4">
+                                    <div class="col-md-2">
                                         <label class="text-uppercase">${index + 1}.&nbsp;&nbsp;${statusDetail.student || 'N/A'}</label>
                                     </div>
                                     <div class="col-md-2">
                                         <label class="text-uppercase">${statusDetail.ic || 'N/A'}</label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="text-uppercase">${statusDetail.created_at || 'N/A'}</label>
                                     </div>
                                     <div class="col-md-2">
                                         <label class="text-uppercase">${statusDetail.affiliate || 'N/A'}</label>
