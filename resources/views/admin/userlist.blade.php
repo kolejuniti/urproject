@@ -274,7 +274,7 @@
                     console.log(response); // Debugging: log the response
 
                     if (response.users) {
-                        $('#user-form').attr('action', "{{ url('admin/userlist') }}/" + response.users.id);
+                        $('#user-form').attr('action', "{{ url('admin/kemaskini/pengguna') }}/" + response.users.id);
                         // Populate the modal with the returned data
                         // $('#user-name').text(response.users.name);
 
