@@ -140,9 +140,9 @@ Route::middleware(['auth', 'user-access:admin'])->group(function() {
     Route::match(['get', 'post'], '/admin/list/application', [AdminController::class, 'applications'])->name('admin.application');
     Route::post('/admin/application/detail', [AdminController::class, 'applicationDetail'])->name('admin.application.detail');
     Route::put('/admin/application/{id}', [AdminController::class, 'update'])->name('admin.application.update');
-    Route::get('/admin/list/user', [AdminController::class, 'userlist'])->name('admin.userlist');
-    Route::post('/admin/list/user/detail', [AdminController::class, 'userDetail'])->name('admin.userlist.detail');
-    Route::put('/admin/userlist/{id}', [AdminController::class, 'updateUser'])->name('admin.userlist.update');
+    Route::get('/admin/senarai/pengguna', [AdminController::class, 'userlist'])->name('admin.userlist');
+    Route::post('/admin/senarai/pengguna/detail', [AdminController::class, 'userDetail'])->name('admin.userlist.detail');
+    Route::put('/admin/kemaskini/pengguna/{id}', [AdminController::class, 'updateUser'])->name('admin.userlist.update');
     Route::match(['get', 'post'], '/admin/report/applications', [AdminController::class, 'studentlist'])->name('admin.studentlist');
     Route::get('/admin/profile', [AdminController::class, 'profile'])->name('admin.profile');
     Route::put('/admin/update/profile', [AdminController::class, 'updateProfile'])->name('admin.profile.update');
