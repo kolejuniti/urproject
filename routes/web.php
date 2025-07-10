@@ -153,9 +153,9 @@ Route::middleware(['auth', 'user-access:admin'])->group(function() {
     Route::match(['get', 'post'], '/admin/laporan/sumber', [AdminController::class, 'leadReports'])->name('admin.leadreports');
     Route::match(['get', 'post'], '/admin/laporan/tahunan', [AdminController::class, 'yearReports'])->name('admin.yearreports');
     Route::match(['get', 'post'], '/admin/laporan/pencapaian/ea', [AdminController::class, 'achievements'])->name('admin.achievements');
-    Route::get('/admin/report/{id}/achievement/details/{start_date?}/{end_date?}/{location?}', [AdminController::class, 'achievementDetails'])->name('admin.achievement.details');
+    Route::get('/admin/maklumat/pencapaian/ea/{id}/{start_date?}/{end_date?}/{location?}', [AdminController::class, 'achievementDetails'])->name('admin.achievement.details');
     Route::match(['get', 'post'], '/admin/laporan/pencapaian/affiliate', [AdminController::class, 'affiliateAchievements'])->name('admin.affiliateachievements');
-    Route::get('/admin/report/affiliate/{id}/achievement/details/{start_date?}/{end_date?}/{location?}', [AdminController::class, 'affiliateAchievementDetails'])->name('admin.affiliate.achievement.details');
+    Route::get('/admin/maklumat/pencapaian/affiliate/{id}/{start_date?}/{end_date?}/{location?}', [AdminController::class, 'affiliateAchievementDetails'])->name('admin.affiliate.achievement.details');
     Route::get('/admin/content', [AdminController::class, 'content'])->name('admin.content');
     Route::post('/admin/content', [AdminController::class, 'storeContent'])->name('admin.content.store');
 });
