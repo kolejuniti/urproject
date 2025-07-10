@@ -28,7 +28,7 @@
                     @foreach ($applications as $item)
                     <tr>
                         <td></td>
-                        <td>{{ $item->name }}</td>
+                        <td class="text-uppercase">{{ $item->name }}</td>
                         <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d-m-Y') }}</td>
                         <td>{{ $item->updated_at ? \Carbon\Carbon::parse($item->updated_at)->format('d-m-Y') : '' }}</td>
                         <td class="text-uppercase">{{ $item->affiliate ?? 'TIADA AFFILIATE' }}</td>
