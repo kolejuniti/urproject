@@ -137,9 +137,9 @@ Route::middleware(['auth', 'user-access:admin'])->group(function() {
     Route::post('/admin/program/update/{id}', [AdminController::class, 'updateprogram'])->name('admin.program.update');
     Route::get('/admin/daftar/pengguna', [AdminController::class, 'showRegistrationForm'])->name('admin.register');
     Route::post('/admin/daftar/pengguna', [AdminController::class, 'register']);
-    Route::match(['get', 'post'], '/admin/list/application', [AdminController::class, 'applications'])->name('admin.application');
-    Route::post('/admin/application/detail', [AdminController::class, 'applicationDetail'])->name('admin.application.detail');
-    Route::put('/admin/application/{id}', [AdminController::class, 'update'])->name('admin.application.update');
+    Route::match(['get', 'post'], '/admin/senarai/permohonan', [AdminController::class, 'applications'])->name('admin.application');
+    Route::post('/admin/maklumat/permohonan', [AdminController::class, 'applicationDetail'])->name('admin.application.detail');
+    Route::put('/admin/kemaskini/permohonan/{id}', [AdminController::class, 'update'])->name('admin.application.update');
     Route::get('/admin/senarai/pengguna', [AdminController::class, 'userlist'])->name('admin.userlist');
     Route::post('/admin/senarai/pengguna/detail', [AdminController::class, 'userDetail'])->name('admin.userlist.detail');
     Route::put('/admin/kemaskini/pengguna/{id}', [AdminController::class, 'updateUser'])->name('admin.userlist.update');
