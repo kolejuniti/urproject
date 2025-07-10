@@ -135,8 +135,8 @@ Route::middleware(['auth', 'user-access:admin'])->group(function() {
     Route::match(['get', 'post'],'/admin/program', [AdminController::class, 'program'])->name('admin.program');
     Route::post('/admin/program/add', [AdminController::class, 'addprogram'])->name('admin.program.submit');
     Route::post('/admin/program/update/{id}', [AdminController::class, 'updateprogram'])->name('admin.program.update');
-    Route::get('/admin/user/register', [AdminController::class, 'showRegistrationForm'])->name('admin.register');
-    Route::post('/admin/user/register', [AdminController::class, 'register']);
+    Route::get('/admin/daftar/pengguna', [AdminController::class, 'showRegistrationForm'])->name('admin.register');
+    Route::post('/admin/daftar/pengguna', [AdminController::class, 'register']);
     Route::match(['get', 'post'], '/admin/list/application', [AdminController::class, 'applications'])->name('admin.application');
     Route::post('/admin/application/detail', [AdminController::class, 'applicationDetail'])->name('admin.application.detail');
     Route::put('/admin/application/{id}', [AdminController::class, 'update'])->name('admin.application.update');
@@ -156,6 +156,8 @@ Route::middleware(['auth', 'user-access:admin'])->group(function() {
     Route::get('/admin/report/{id}/achievement/details/{start_date?}/{end_date?}/{location?}', [AdminController::class, 'achievementDetails'])->name('admin.achievement.details');
     Route::match(['get', 'post'], '/admin/report/affiliates/achievements', [AdminController::class, 'affiliateAchievements'])->name('admin.affiliateachievements');
     Route::get('/admin/report/affiliate/{id}/achievement/details/{start_date?}/{end_date?}/{location?}', [AdminController::class, 'affiliateAchievementDetails'])->name('admin.affiliate.achievement.details');
+    Route::get('/admin/content', [AdminController::class, 'content'])->name('admin.content');
+    Route::post('/admin/content', [AdminController::class, 'storeContent'])->name('admin.content.store');
 });
 
 // advisor route
