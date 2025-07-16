@@ -36,8 +36,21 @@
                         <td class="text-uppercase">{{ $item->source }}</td>
                         <td class="text-uppercase">{{ $item->status ?? 'PERMOHONAN BARU' }}</td>
                         {{-- Group 1: status_id in [7–18] --}}
-                        <td class="text-center">
-                            {{ in_array($item->status_id, range(7, 18)) ? $item->days_since_update : 0 }}
+                        @php
+                            $days = in_array($item->status_id, range(7, 18)) ? $item->days_since_update : 0;
+
+                            if ($days < 7) {
+                                $class = 'table-success';
+                            } elseif ($days <= 14) {
+                                $class = 'table-warning';
+                            } elseif ($days > 15) {
+                                $class = 'table-danger';
+                            } else {
+                                $class = '';
+                            }
+                        @endphp
+                        <td class="text-center {{ $class }}">
+                            {{ $days }}
                         </td>
                         {{-- Group 2: status_id === 19 --}}
                         <td class="text-center">
