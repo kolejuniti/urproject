@@ -37,24 +37,38 @@
                         <td class="text-uppercase">{{ $item->status ?? 'PERMOHONAN BARU' }}</td>
                         {{-- Group 1: status_id in [7–18] --}}
                         @php
-                            $days = in_array($item->status_id, range(7, 18)) ? $item->days_since_update : 0;
+                            $days_process = in_array($item->status_id, range(7, 18)) ? $item->days_since_update : 0;
 
-                            if ($days < 7) {
+                            if ($days_process < 7) {
                                 $class = 'table-success';
-                            } elseif ($days <= 14) {
+                            } elseif ($days_process <= 14) {
                                 $class = 'table-warning';
-                            } elseif ($days > 15) {
+                            } elseif ($days_process > 15) {
                                 $class = 'table-danger';
                             } else {
                                 $class = '';
                             }
                         @endphp
                         <td class="text-center {{ $class }}">
-                            {{ $days }}
+                            {{ $days_process }}
                         </td>
                         {{-- Group 2: status_id === 19 --}}
-                        <td class="text-center">
-                            {{ $item->status_id === 19 ? $item->days_since_update : 0 }}
+                        @php
+                            $days_pre = $item->status_id === 19 ? $item->days_since_update : 0;
+
+                            if ($days_pre < 7) {
+                                $class = 'table-success';
+                            } elseif ($days_pre <= 14) {
+                                $class = 'table-warning';
+                            } elseif ($days_pre > 15) {
+                                $class = 'table-danger';
+                            } else {
+                                $class = '';
+                            }
+                        @endphp
+
+                        <td class="text-center {{ $class }}">
+                            {{ $days_pre }}
                         </td>
                         {{-- Group 3: status_id in [20, 21, 22] --}}
                         <td class="text-center">
