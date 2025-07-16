@@ -53,22 +53,8 @@
                             {{ $days_process }}
                         </td>
                         {{-- Group 2: status_id === 19 --}}
-                        @php
-                            $days_pre = $item->status_id === 19 ? $item->days_since_update : 0;
-
-                            if ($days_pre < 7) {
-                                $class = 'table-success';
-                            } elseif ($days_pre <= 14) {
-                                $class = 'table-warning';
-                            } elseif ($days_pre > 15) {
-                                $class = 'table-danger';
-                            } else {
-                                $class = '';
-                            }
-                        @endphp
-
-                        <td class="text-center {{ $class }}">
-                            {{ $days_pre }}
+                        <td class="text-center">
+                            {{ $item->status_id === 19 ? $item->days_since_update : 0 }}
                         </td>
                         {{-- Group 3: status_id in [20, 21, 22] --}}
                         <td class="text-center">
