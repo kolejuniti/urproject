@@ -15,12 +15,13 @@
                         <th rowspan="2">Affiliate</th>
                         <th rowspan="2">Sumber</th>
                         <th rowspan="2">Status Terkini</th>
-                        <th colspan="4" class="text-center">Julat Hari</th>
+                        <th colspan="5" class="text-center">Julat Hari</th>
                     </tr>
                     <tr>
                         <th>Data Proses</th>
                         <th>Pra Pendaftaran</th>
                         <th>Daftar Masuk</th>
+                        <th>Daftar Masuk EA Lain</th>
                         <th>Data Ditolak</th>
                     </tr>
                 </thead>
@@ -44,7 +45,11 @@
                         </td>
                         {{-- Group 3: status_id in [20, 21, 22] --}}
                         <td class="text-center">
-                            {{ in_array($item->status_id, [20, 21, 22]) ? $item->days_since_update : 0 }}
+                            {{ in_array($item->status_id, [20, 21]) ? $item->days_since_update : 0 }}
+                        </td>
+                        {{-- Group 3: status_id in [22] --}}
+                        <td class="text-center">
+                            {{ $item->status_id === 22 ? $item->days_since_update : 0 }}
                         </td>
                         {{-- Group 4: status_id in [1–5, 24, 26, 27] --}}
                         <td class="text-center">
