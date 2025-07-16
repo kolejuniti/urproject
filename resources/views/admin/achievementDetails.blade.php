@@ -43,7 +43,7 @@
                                 $class = 'table-success';
                             } elseif ($days_process <= 14) {
                                 $class = 'table-warning';
-                            } elseif ($days_process > 15) {
+                            } elseif ($days_process >= 15) {
                                 $class = 'table-danger';
                             } else {
                                 $class = '';
