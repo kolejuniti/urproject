@@ -109,16 +109,18 @@
                             <tr>
                                 <th rowspan="2">#</th>
                                 <th rowspan="2">Sumber</th>
-                                <th colspan="2" class="text-center">Data Masuk</th>
-                                <th colspan="2" class="text-center">Daftar Kolej</th>
-                                <th rowspan="2" class="text-center">Jumlah</th>
-                                <th rowspan="2" class="text-center">% </th>
+                                <th colspan="4" class="text-center">Data Masuk</th>
+                                <th colspan="4" class="text-center">Daftar Kolej</th>
                             </tr>
                             <tr>
                                 <th>KUPD</th>
                                 <th>KUKB</th>
+                                <th>Jumlah</th>
+                                <th>%</th>
                                 <th>KUPD</th>
                                 <th>KUKB</th>
+                                <th>Jumlah</th>
+                                <th>%</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -128,10 +130,12 @@
                                 <td class="text-uppercase">{{ $data3->source }}</td>
                                 <td class="text-center table-warning">{{ $data3->total_kupd }}</td>
                                 <td class="text-center table-warning">{{ $data3->total_kukb }}</td>
+                                <td class="text-center table-warning">{{ $data3->total }}</td>
+                                <td class="text-center table-warning">{{ number_format($data3->percentage, 2) }}%</td>
                                 <td class="text-center table-success">{{ $data3->total_kupd_register }}</td>
                                 <td class="text-center table-success">{{ $data3->total_kukb_register }}</td>
-                                <td class="text-center">{{ $data3->total }}</td>
-                                <td class="text-center">{{ number_format($data3->percentage, 2) }}%</td>
+                                <td class="text-center table-success">{{ $data3->total_register }}</td>
+                                <td class="text-center table-success">{{ number_format($data3->register_percentage, 2) }}%</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -141,10 +145,14 @@
                                 <td class="table-danger" style="border-width:2px;border-style:solid;"></td>
                                 <td class="table-warning" style="border-width:2px;border-style:solid;">{{ $totalSourceKupdSum }}</td>
                                 <td class="table-warning" style="border-width:2px;border-style:solid;">{{ $totalSourceKukbSum }}</td>
+                                <td class="table-warning" style="border-width:2px;border-style:solid;">{{ $totalStudents }}</td>
+                                <td class="table-warning" style="border-width:2px;border-style:solid;"></td>
                                 <td class="table-success" style="border-width:2px;border-style:solid;">{{ $totalSourceKupdRegisterSum }}</td>
                                 <td class="table-success" style="border-width:2px;border-style:solid;">{{ $totalSourceKukbRegisterSum }}</td>
-                                <td class="table-danger" style="border-width:2px;border-style:solid;">{{ $totalStudents }}</td>
-                                <td class="table-danger" style="border-width:2px;border-style:solid;"></td>
+                                <td class="table-success" style="border-width:2px;border-style:solid;">{{ $totalSourceRegisterSum }}</td>
+                                <td class="table-success" style="border-width:2px;border-style:solid;">
+                                    {{ $totalSourceSum > 0 ? number_format(($totalSourceRegisterSum / $totalSourceSum) * 100, 2) . '%' : '0.00%' }}
+                                </td>
                             </tr>
                         </tfoot>
                     </table>
@@ -154,16 +162,18 @@
                             <tr>
                                 <th rowspan="2">#</th>
                                 <th rowspan="2">Negeri</th>
-                                <th colspan="2" class="text-center">Data Masuk</th>
-                                <th colspan="2" class="text-center">Daftar Kolej</th>
-                                <th rowspan="2" class="text-center">Jumlah</th>
-                                <th rowspan="2" class="text-center">% </th>
+                                <th colspan="4" class="text-center">Data Masuk</th>
+                                <th colspan="4" class="text-center">Daftar Kolej</th>
                             </tr>
                             <tr>
                                 <th>KUPD</th>
                                 <th>KUKB</th>
+                                <th>Jumlah</th>
+                                <th>%</th>
                                 <th>KUPD</th>
                                 <th>KUKB</th>
+                                <th>Jumlah</th>
+                                <th>%</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -173,10 +183,12 @@
                                 <td class="text-uppercase">{{ $data4->state }}</td>
                                 <td class="text-center table-warning">{{ $data4->total_kupd }}</td>
                                 <td class="text-center table-warning">{{ $data4->total_kukb }}</td>
+                                <td class="text-center table-warning">{{ $data4->total }}</td>
+                                <td class="text-center table-warning">{{ number_format($data4->percentage, 2) }}%</td>
                                 <td class="text-center table-success">{{ $data4->total_kupd_register }}</td>
                                 <td class="text-center table-success">{{ $data4->total_kukb_register }}</td>
-                                <td class="text-center">{{ $data4->total }}</td>
-                                <td class="text-center">{{ number_format($data4->percentage, 2) }}%</td>
+                                <td class="text-center table-success">{{ $data4->total_register }}</td>
+                                <td class="text-center table-success">{{ number_format($data4->register_percentage, 2) }}%</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -186,10 +198,14 @@
                                 <td class="table-danger" style="border-width:2px;border-style:solid;"></td>
                                 <td class="table-warning" style="border-width:2px;border-style:solid;">{{ $totalStateKupdSum }}</td>
                                 <td class="table-warning" style="border-width:2px;border-style:solid;">{{ $totalStateKukbSum }}</td>
+                                <td class="table-warning" style="border-width:2px;border-style:solid;">{{ $totalStateSum }}</td>
+                                <td class="table-warning" style="border-width:2px;border-style:solid;"></td>
                                 <td class="table-success" style="border-width:2px;border-style:solid;">{{ $totalStateKupdRegisterSum }}</td>
                                 <td class="table-success" style="border-width:2px;border-style:solid;">{{ $totalStateKukbRegisterSum }}</td>
-                                <td class="table-danger" style="border-width:2px;border-style:solid;">{{ $totalStudents }}</td>
-                                <td class="table-danger" style="border-width:2px;border-style:solid;"></td>
+                                <td class="table-success" style="border-width:2px;border-style:solid;">{{ $totalStateRegisterSum }}</td>
+                                <td class="table-success" style="border-width:2px;border-style:solid;">
+                                    {{ $totalStateSum > 0 ? number_format(($totalStateRegisterSum / $totalStateSum) * 100, 2) . '%' : '0.00%' }}
+                                </td>
                             </tr>
                         </tfoot>
                     </table>
