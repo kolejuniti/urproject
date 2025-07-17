@@ -644,6 +644,7 @@ class AdminController extends Controller
             ->select(
             'students.source',
             DB::raw('COUNT(students.id) AS total'),
+            DB::raw('SUM(CASE WHEN students.status_id IN (20,21,22) THEN 1 ELSE 0 END) AS total_register'),
             DB::raw('SUM(CASE WHEN students.location_id = 1 THEN 1 ELSE 0 END) AS total_kupd'), // Count for KUPD (location_id = 1)
             DB::raw('SUM(CASE WHEN students.location_id = 2 THEN 1 ELSE 0 END) AS total_kukb'),  // Count for KUKB (location_id = 2)
             DB::raw('SUM(CASE WHEN students.location_id = 1 AND students.status_id IN (20,22) THEN 1 ELSE 0 END) AS total_kupd_register'), // KUPD register
@@ -666,12 +667,20 @@ class AdminController extends Controller
         // Sum all total_kupd
         $totalSourceKupdSum = $sources->sum('total_kupd');
         $totalSourceKukbSum = $sources->sum('total_kukb');
+        $totalSourceSum = $sources->sum('total_kupd') + $sources->sum('total_kukb');
         $totalSourceKupdRegisterSum = $sources->sum('total_kupd_register');
         $totalSourceKukbRegisterSum = $sources->sum('total_kukb_register');
+        $totalSourceRegisterSum = $sources->sum('total_kupd_register') + $sources->sum('total_kukb_register');
 
         // Calculate percentage for each source
         $sourcessWithPercentage = $sources->map(function ($source) use ($totalStudents) {
             $source->percentage = ($source->total / $totalStudents) * 100;
+            return $source;
+        });
+
+        // Calculate percentage for each state (total_register)
+        $statesWithRegisterPercentage = $sources->map(function ($source) use ($totalStudents) {
+            $source->register_percentage = ($source->total_register / $totalStudents) * 100;
             return $source;
         });
 
@@ -681,6 +690,7 @@ class AdminController extends Controller
             ->select(
             'state.name AS state',
             DB::raw('COUNT(students.id) AS total'),
+            DB::raw('SUM(CASE WHEN students.status_id IN (20,21,22) THEN 1 ELSE 0 END) AS total_register'),
             DB::raw('SUM(CASE WHEN students.location_id = 1 THEN 1 ELSE 0 END) AS total_kupd'), // Count for KUPD (location_id = 1)
             DB::raw('SUM(CASE WHEN students.location_id = 2 THEN 1 ELSE 0 END) AS total_kukb'),  // Count for KUKB (location_id = 2)
             DB::raw('SUM(CASE WHEN students.location_id = 1 AND students.status_id IN (20,22) THEN 1 ELSE 0 END) AS total_kupd_register'), // KUPD register
@@ -703,12 +713,20 @@ class AdminController extends Controller
         // Sum all total_kupd
         $totalStateKupdSum = $states->sum('total_kupd');
         $totalStateKukbSum = $states->sum('total_kukb');
+        $totalStateSum = $states->sum('total_kupd') + $states->sum('total_kukb');
         $totalStateKupdRegisterSum = $states->sum('total_kupd_register');
         $totalStateKukbRegisterSum = $states->sum('total_kukb_register');
+        $totalStateRegisterSum = $states->sum('total_kupd_register') + $states->sum('total_kukb_register');
 
-        // Calculate percentage for each source
+        // Calculate percentage for each state (total students)
         $statesWithPercentage = $states->map(function ($state) use ($totalStudents) {
             $state->percentage = ($state->total / $totalStudents) * 100;
+            return $state;
+        });
+
+        // Calculate percentage for each state (total_register)
+        $statesWithRegisterPercentage = $states->map(function ($state) use ($totalStudents) {
+            $state->register_percentage = ($state->total_register / $totalStudents) * 100;
             return $state;
         });
 
@@ -742,7 +760,7 @@ class AdminController extends Controller
             ];
         })->values();
 
-        return view('admin.summary', compact('totalStudents', 'statusWithPercentage', 'locationsWithPercentage', 'sourcessWithPercentage', 'currentYear', 'monthlyData', 'statesWithPercentage', 'totalStateKupdSum', 'totalStateKukbSum', 'totalStateKupdRegisterSum', 'totalStateKukbRegisterSum', 'totalSourceKupdSum', 'totalSourceKukbSum', 'totalSourceKupdRegisterSum', 'totalSourceKukbRegisterSum'));
+        return view('admin.summary', compact('totalStudents', 'statusWithPercentage', 'locationsWithPercentage', 'sourcessWithPercentage', 'currentYear', 'monthlyData', 'statesWithPercentage', 'totalStateKupdSum', 'totalStateKukbSum', 'totalStateKupdRegisterSum', 'totalStateKukbRegisterSum', 'totalStateRegisterSum', 'totalSourceKupdSum', 'totalSourceKukbSum', 'totalStateSum', 'totalSourceKupdRegisterSum', 'totalSourceKukbRegisterSum', 'statesWithRegisterPercentage', 'totalSourceSum', 'totalSourceRegisterSum'));
     }
 
     public function summaryDetail(Request $request)
