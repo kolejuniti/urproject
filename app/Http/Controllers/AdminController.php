@@ -14,6 +14,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use App\Models\Content;
 
 class AdminController extends Controller
 {
@@ -641,15 +642,17 @@ class AdminController extends Controller
         // Summary of students by sources with KUPD and KUKB, including date range filter
         $sources = DB::table('students')
             ->select(
-                'students.source',
-                DB::raw('COUNT(students.id) AS total'),
-                DB::raw('SUM(CASE WHEN students.location_id = 1 THEN 1 ELSE 0 END) AS total_kupd'), // Count for KUPD (location_id = 1)
-                DB::raw('SUM(CASE WHEN students.location_id = 2 THEN 1 ELSE 0 END) AS total_kukb')  // Count for KUKB (location_id = 2)
+            'students.source',
+            DB::raw('COUNT(students.id) AS total'),
+            DB::raw('SUM(CASE WHEN students.location_id = 1 THEN 1 ELSE 0 END) AS total_kupd'), // Count for KUPD (location_id = 1)
+            DB::raw('SUM(CASE WHEN students.location_id = 2 THEN 1 ELSE 0 END) AS total_kukb'),  // Count for KUKB (location_id = 2)
+            DB::raw('SUM(CASE WHEN students.location_id = 1 AND students.status_id IN (20,22) THEN 1 ELSE 0 END) AS total_kupd_register'), // KUPD register
+            DB::raw('SUM(CASE WHEN students.location_id = 2 AND students.status_id IN (21,22) THEN 1 ELSE 0 END) AS total_kukb_register')  // KUKB register
             )
             ->where(function ($query) {
-                        $query->whereNotNull('students.ic')
-                            ->where('students.ic', '!=', '');
-                    });
+            $query->whereNotNull('students.ic')
+                ->where('students.ic', '!=', '');
+            });
 
         // Apply date filters
         if ($start_date && $end_date) {
@@ -670,15 +673,17 @@ class AdminController extends Controller
         $states = DB::table('students')
             ->leftjoin('state', 'students.state_id', '=', 'state.id')
             ->select(
-                'state.name AS state',
-                DB::raw('COUNT(students.id) AS total'),
-                DB::raw('SUM(CASE WHEN students.location_id = 1 THEN 1 ELSE 0 END) AS total_kupd'), // Count for KUPD (location_id = 1)
-                DB::raw('SUM(CASE WHEN students.location_id = 2 THEN 1 ELSE 0 END) AS total_kukb')  // Count for KUKB (location_id = 2)
-        )
-        ->where(function ($query) {
-                        $query->whereNotNull('students.ic')
-                            ->where('students.ic', '!=', '');
-                    });
+            'state.name AS state',
+            DB::raw('COUNT(students.id) AS total'),
+            DB::raw('SUM(CASE WHEN students.location_id = 1 THEN 1 ELSE 0 END) AS total_kupd'), // Count for KUPD (location_id = 1)
+            DB::raw('SUM(CASE WHEN students.location_id = 2 THEN 1 ELSE 0 END) AS total_kukb'),  // Count for KUKB (location_id = 2)
+            DB::raw('SUM(CASE WHEN students.location_id = 1 AND students.status_id IN (20,22) THEN 1 ELSE 0 END) AS total_kupd_register'), // KUPD register
+            DB::raw('SUM(CASE WHEN students.location_id = 2 AND students.status_id IN (21,22) THEN 1 ELSE 0 END) AS total_kukb_register')  // KUKB register
+            )
+            ->where(function ($query) {
+            $query->whereNotNull('students.ic')
+                ->where('students.ic', '!=', '');
+            });
 
         // Apply date filters
         if ($start_date && $end_date) {
@@ -1452,6 +1457,24 @@ class AdminController extends Controller
         $applications = $applications->get();
 
         return view('admin.affiliateachievementDetails', compact('affiliate', 'applications', 'totalIncentive', 'totalCommission'));
+    }
+
+    public function content()
+    {     
+        return view('admin.registercontent');
+    }
+
+    public function storeContent(Request $request)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'type' => 'required|in:image,video,link,text',
+        ]);
+
+        Content::create($validated);
+
+        return redirect()->route('admin.content')->with('success', 'Kandungan media berjaya disimpan.');
     }
 
 }
