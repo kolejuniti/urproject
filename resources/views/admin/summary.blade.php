@@ -109,16 +109,16 @@
                             <tr>
                                 <th rowspan="2">#</th>
                                 <th rowspan="2">Sumber</th>
-                                <th colspan="2" class="text-center">KUPD</th>
-                                <th colspan="2" class="text-center">KUKB</th>
-                                <th rowspan="2">Jumlah</th>
-                                <th rowspan="2">%</th>
+                                <th colspan="2" class="text-center">Data Masuk</th>
+                                <th colspan="2" class="text-center">Daftar Kolej</th>
+                                <th rowspan="2" class="text-center">Jumlah</th>
+                                <th rowspan="2" class="text-center">% </th>
                             </tr>
                             <tr>
-                                <th>Data Masuk</th>
-                                <th>Daftar Kolej</th>
-                                <th>Data Masuk</th>
-                                <th>Daftar Kolej</th>
+                                <th>KUPD</th>
+                                <th>KUKB</th>
+                                <th>KUPD</th>
+                                <th>KUKB</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -126,25 +126,25 @@
                             <tr>
                                 <td></td>
                                 <td class="text-uppercase">{{ $data3->source }}</td>
-                                <td class="text-center">{{ $data3->total_kupd }}</td>
-                                <td class="text-center">{{ $data3->total_kupd_register }}</td>
-                                <td class="text-center">{{ $data3->total_kukb }}</td>
-                                <td class="text-center">{{ $data3->total_kukb_register }}</td>
+                                <td class="text-center table-warning">{{ $data3->total_kupd }}</td>
+                                <td class="text-center table-warning">{{ $data3->total_kukb }}</td>
+                                <td class="text-center table-success">{{ $data3->total_kupd_register }}</td>
+                                <td class="text-center table-success">{{ $data3->total_kukb_register }}</td>
                                 <td class="text-center">{{ $data3->total }}</td>
                                 <td class="text-center">{{ number_format($data3->percentage, 2) }}%</td>
                             </tr>
                             @endforeach
                         </tbody>
-                        <tfoot class="table-danger">
+                        <tfoot style="border-width:2px;border-style:solid;">
                             <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>{{ $totalStudents }}</td>
-                                <td></td>
+                                <td class="table-danger" style="border-width:2px;border-style:solid;"></td>
+                                <td class="table-danger" style="border-width:2px;border-style:solid;"></td>
+                                <td class="table-warning" style="border-width:2px;border-style:solid;">{{ $totalSourceKupdSum }}</td>
+                                <td class="table-warning" style="border-width:2px;border-style:solid;">{{ $totalSourceKukbSum }}</td>
+                                <td class="table-success" style="border-width:2px;border-style:solid;">{{ $totalSourceKupdRegisterSum }}</td>
+                                <td class="table-success" style="border-width:2px;border-style:solid;">{{ $totalSourceKukbRegisterSum }}</td>
+                                <td class="table-danger" style="border-width:2px;border-style:solid;">{{ $totalStudents }}</td>
+                                <td class="table-danger" style="border-width:2px;border-style:solid;"></td>
                             </tr>
                         </tfoot>
                     </table>
@@ -154,16 +154,16 @@
                             <tr>
                                 <th rowspan="2">#</th>
                                 <th rowspan="2">Negeri</th>
-                                <th colspan="2" class="text-center">KUPD</th>
-                                <th colspan="2" class="text-center">KUKB</th>
+                                <th colspan="2" class="text-center">Data Masuk</th>
+                                <th colspan="2" class="text-center">Daftar Kolej</th>
                                 <th rowspan="2" class="text-center">Jumlah</th>
                                 <th rowspan="2" class="text-center">% </th>
                             </tr>
                             <tr>
-                                <th>Data Masuk</th>
-                                <th>Daftar Kolej</th>
-                                <th>Data Masuk</th>
-                                <th>Daftar Kolej</th>
+                                <th>KUPD</th>
+                                <th>KUKB</th>
+                                <th>KUPD</th>
+                                <th>KUKB</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -171,25 +171,25 @@
                             <tr>
                                 <td></td>
                                 <td class="text-uppercase">{{ $data4->state }}</td>
-                                <td class="text-center">{{ $data4->total_kupd }}</td>
-                                <td class="text-center">{{ $data4->total_kupd_register }}</td>
-                                <td class="text-center">{{ $data4->total_kukb }}</td>
-                                <td class="text-center">{{ $data4->total_kukb_register }}</td>
+                                <td class="text-center table-warning">{{ $data4->total_kupd }}</td>
+                                <td class="text-center table-warning">{{ $data4->total_kukb }}</td>
+                                <td class="text-center table-success">{{ $data4->total_kupd_register }}</td>
+                                <td class="text-center table-success">{{ $data4->total_kukb_register }}</td>
                                 <td class="text-center">{{ $data4->total }}</td>
                                 <td class="text-center">{{ number_format($data4->percentage, 2) }}%</td>
                             </tr>
                             @endforeach
                         </tbody>
-                        <tfoot class="table-danger">
+                        <tfoot style="border-width:2px;border-style:solid;">
                             <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>{{ $totalStudents }}</td>
-                                <td></td>
+                                <td class="table-danger" style="border-width:2px;border-style:solid;"></td>
+                                <td class="table-danger" style="border-width:2px;border-style:solid;"></td>
+                                <td class="table-warning" style="border-width:2px;border-style:solid;">{{ $totalStateKupdSum }}</td>
+                                <td class="table-warning" style="border-width:2px;border-style:solid;">{{ $totalStateKukbSum }}</td>
+                                <td class="table-success" style="border-width:2px;border-style:solid;">{{ $totalStateKupdRegisterSum }}</td>
+                                <td class="table-success" style="border-width:2px;border-style:solid;">{{ $totalStateKukbRegisterSum }}</td>
+                                <td class="table-danger" style="border-width:2px;border-style:solid;">{{ $totalStudents }}</td>
+                                <td class="table-danger" style="border-width:2px;border-style:solid;"></td>
                             </tr>
                         </tfoot>
                     </table>
