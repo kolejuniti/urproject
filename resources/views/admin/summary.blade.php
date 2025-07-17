@@ -107,12 +107,18 @@
                     <table id="myTable3" class="table table-bordered table-sm text-center">
                         <thead class="table-dark">
                             <tr>
-                                <th>#</th>
-                                <th>Sumber</th>
-                                <th>KUPD</th>
-                                <th>KUKB</th>
-                                <th>Jumlah</th>
-                                <th>%</th>
+                                <th rowspan="2">#</th>
+                                <th rowspan="2">Sumber</th>
+                                <th colspan="2" class="text-center">KUPD</th>
+                                <th colspan="2" class="text-center">KUKB</th>
+                                <th rowspan="2">Jumlah</th>
+                                <th rowspan="2">%</th>
+                            </tr>
+                            <tr>
+                                <th>Data Masuk</th>
+                                <th>Daftar Kolej</th>
+                                <th>Data Masuk</th>
+                                <th>Daftar Kolej</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -121,7 +127,9 @@
                                 <td></td>
                                 <td class="text-uppercase">{{ $data3->source }}</td>
                                 <td class="text-center">{{ $data3->total_kupd }}</td>
+                                <td class="text-center">{{ $data3->total_kupd_register }}</td>
                                 <td class="text-center">{{ $data3->total_kukb }}</td>
+                                <td class="text-center">{{ $data3->total_kukb_register }}</td>
                                 <td class="text-center">{{ $data3->total }}</td>
                                 <td class="text-center">{{ number_format($data3->percentage, 2) }}%</td>
                             </tr>
@@ -129,6 +137,8 @@
                         </tbody>
                         <tfoot class="table-danger">
                             <tr>
+                                <td></td>
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -142,12 +152,18 @@
                     <table id="myTable5" class="table table-bordered table-sm text-center">
                         <thead class="table-dark">
                             <tr>
-                                <th>#</th>
-                                <th>Negeri</th>
-                                <th>KUPD</th>
-                                <th>KUKB</th>
-                                <th>Jumlah</th>
-                                <th>%</th>
+                                <th rowspan="2">#</th>
+                                <th rowspan="2">Negeri</th>
+                                <th colspan="2" class="text-center">KUPD</th>
+                                <th colspan="2" class="text-center">KUKB</th>
+                                <th rowspan="2" class="text-center">Jumlah</th>
+                                <th rowspan="2" class="text-center">% </th>
+                            </tr>
+                            <tr>
+                                <th>Data Masuk</th>
+                                <th>Daftar Kolej</th>
+                                <th>Data Masuk</th>
+                                <th>Daftar Kolej</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -156,7 +172,9 @@
                                 <td></td>
                                 <td class="text-uppercase">{{ $data4->state }}</td>
                                 <td class="text-center">{{ $data4->total_kupd }}</td>
+                                <td class="text-center">{{ $data4->total_kupd_register }}</td>
                                 <td class="text-center">{{ $data4->total_kukb }}</td>
+                                <td class="text-center">{{ $data4->total_kukb_register }}</td>
                                 <td class="text-center">{{ $data4->total }}</td>
                                 <td class="text-center">{{ number_format($data4->percentage, 2) }}%</td>
                             </tr>
@@ -164,6 +182,8 @@
                         </tbody>
                         <tfoot class="table-danger">
                             <tr>
+                                <td></td>
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
