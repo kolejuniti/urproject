@@ -663,6 +663,12 @@ class AdminController extends Controller
 
         $sources = $sources->groupBy('students.source')->get();
 
+        // Sum all total_kupd
+        $totalSourceKupdSum = $sources->sum('total_kupd');
+        $totalSourceKukbSum = $sources->sum('total_kukb');
+        $totalSourceKupdRegisterSum = $sources->sum('total_kupd_register');
+        $totalSourceKukbRegisterSum = $sources->sum('total_kukb_register');
+
         // Calculate percentage for each source
         $sourcessWithPercentage = $sources->map(function ($source) use ($totalStudents) {
             $source->percentage = ($source->total / $totalStudents) * 100;
@@ -693,6 +699,12 @@ class AdminController extends Controller
         }
         
         $states = $states->orderBy('state.id')->groupBy('state.id', 'state.name')->get();
+
+        // Sum all total_kupd
+        $totalStateKupdSum = $states->sum('total_kupd');
+        $totalStateKukbSum = $states->sum('total_kukb');
+        $totalStateKupdRegisterSum = $states->sum('total_kupd_register');
+        $totalStateKukbRegisterSum = $states->sum('total_kukb_register');
 
         // Calculate percentage for each source
         $statesWithPercentage = $states->map(function ($state) use ($totalStudents) {
@@ -730,7 +742,7 @@ class AdminController extends Controller
             ];
         })->values();
 
-        return view('admin.summary', compact('totalStudents', 'statusWithPercentage', 'locationsWithPercentage', 'sourcessWithPercentage', 'currentYear', 'monthlyData', 'statesWithPercentage'));
+        return view('admin.summary', compact('totalStudents', 'statusWithPercentage', 'locationsWithPercentage', 'sourcessWithPercentage', 'currentYear', 'monthlyData', 'statesWithPercentage', 'totalStateKupdSum', 'totalStateKukbSum', 'totalStateKupdRegisterSum', 'totalStateKukbRegisterSum', 'totalSourceKupdSum', 'totalSourceKukbSum', 'totalSourceKupdRegisterSum', 'totalSourceKukbRegisterSum'));
     }
 
     public function summaryDetail(Request $request)
