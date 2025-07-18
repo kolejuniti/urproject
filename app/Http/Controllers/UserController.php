@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -29,7 +30,80 @@ class UserController extends Controller
      */
      public function dashboard()
     {
-        return view('user.dashboard');
+        $user = Auth::user();
+        $referralCode = $user->referral_code;
+
+        // Build dynamic last 3 months data
+        $monthlyStats = [];
+        for ($i = 0; $i < 3; $i++) {
+            $date = Carbon::now()->subMonths($i);
+            $month = $date->month;
+            $year = $date->year;
+
+            $count = DB::table('students')
+                ->where('referral_code', $referralCode)
+                ->whereMonth('created_at', $month)
+                ->whereYear('created_at', $year)
+                ->count();
+
+            // Array of Malay month names
+            $malayMonths = [
+                1 => 'Januari',
+                2 => 'Februari',
+                3 => 'Mac',
+                4 => 'April',
+                5 => 'Mei',
+                6 => 'Jun',
+                7 => 'Julai',
+                8 => 'Ogos',
+                9 => 'September',
+                10 => 'Oktober',
+                11 => 'November',
+                12 => 'Disember',
+            ];
+
+            $monthlyStats[] = [
+                'month_name' => $malayMonths[$month],  // e.g. Julai
+                'month_number' => $month,              // e.g. 7
+                'count' => $count
+            ];
+        }
+
+        // Last registered student via user link
+        $lastRegisteredStudent = DB::table('students')
+            ->where('referral_code', $referralCode)
+            ->latest('created_at')
+            ->first();
+
+        $lastRegisteredDate = optional($lastRegisteredStudent)->created_at 
+        ? Carbon::parse($lastRegisteredStudent->created_at)->format('d-m-Y') 
+        : '-';
+
+        // Total registered students via user link
+        $totalRegistered = DB::table('students')
+            ->where('referral_code', $referralCode)
+            ->count();
+
+        $totalSuccessRegistered = DB::table('students')
+            ->where('referral_code', $referralCode)
+            ->whereIn('status_id', [20, 21])
+            ->count();
+
+        // Top 5 students (latest registrations)
+        $topStudents = DB::table('students')
+            ->where('referral_code', $referralCode)
+            ->orderByDesc('created_at')
+            ->limit(5)
+            ->get();
+
+        return view('user.dashboard', compact(
+            'user',
+            'monthlyStats',
+            'lastRegisteredDate',
+            'totalRegistered',
+            'topStudents',
+            'totalSuccessRegistered'
+        ));
     }
 
     /**
