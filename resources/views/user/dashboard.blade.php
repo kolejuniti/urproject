@@ -58,30 +58,32 @@
                     5 Permohonan Pelajar Terkini
                 </div>
                 <div class="card-body p-0">
-                    <table class="table table-striped m-0">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Nama</th>
-                                <th>Emel</th>
-                                <th>Tarikh Permohonan</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($topStudents as $index => $student)
+                    <div class="table-responsive">
+                        <table class="table table-striped m-0">
+                            <thead>
                                 <tr>
-                                    <td>{{ $index + 1 }}</td>
-                                    <td>{{ $student->name }}</td>
-                                    <td>{{ $student->email }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($student->created_at)->format('d-m-Y') }}</td>
+                                    <th>#</th>
+                                    <th>Nama</th>
+                                    <th>Emel</th>
+                                    <th>Tarikh Permohonan</th>
                                 </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="4" class="text-center">Tiada permohonan pelajar.</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @forelse ($topStudents as $index => $student)
+                                    <tr>
+                                        <td>{{ $index + 1 }}</td>
+                                        <td>{{ $student->name }}</td>
+                                        <td>{{ $student->email }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($student->created_at)->format('d-m-Y') }}</td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="4" class="text-center">Tiada permohonan pelajar.</td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
