@@ -11,7 +11,7 @@
                 </div>
             @endif
             <div class="card mb-3 shadow-sm">
-                <div class="card-header">{{ __('Pautan Rujukan') }}</div>
+                <div class="card-header" style="background-color: #e65100; color: white; font-weight: bold;">{{ __('Pautan Rujukan') }}</div>
 
                 <div class="card-body">
                     @auth
