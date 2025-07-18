@@ -10,7 +10,7 @@
                     {{ session('success') }}
                 </div>
             @endif
-            <div class="card mb-3">
+            <div class="card mb-3 shadow-sm">
                 <div class="card-header">{{ __('Pautan Rujukan') }}</div>
 
                 <div class="card-body">
@@ -58,7 +58,7 @@
                 </div>
             </div>
             <div class="table-responsive">
-                <table id="myTable" class="table table-bordered small table-sm text-center">
+                <table id="myTable" class="table table-bordered small table-sm text-center shadow-sm">
                     <thead class="table-dark">
                         <tr>
                             <th>#</th>
