@@ -43,6 +43,10 @@ class AdvisorController extends Controller
 
             $count = DB::table('students')
                 ->where('students.user_id', $user->id)
+                ->where(function ($query) {
+                        $query->whereNotNull('students.ic')
+                            ->where('students.ic', '!=', '');
+                    })
                 ->whereMonth('created_at', $month)
                 ->whereYear('created_at', $year)
                 ->count();
@@ -73,6 +77,10 @@ class AdvisorController extends Controller
         // Last registered student via user link
         $lastRegisteredStudent = DB::table('students')
             ->where('students.user_id', $user->id)
+            ->where(function ($query) {
+                    $query->whereNotNull('students.ic')
+                        ->where('students.ic', '!=', '');
+                })
             ->latest('created_at')
             ->first();
 
@@ -83,10 +91,18 @@ class AdvisorController extends Controller
         // Total registered students via user link
         $totalRegistered = DB::table('students')
             ->where('students.user_id', $user->id)
+            ->where(function ($query) {
+                    $query->whereNotNull('students.ic')
+                        ->where('students.ic', '!=', '');
+                })
             ->count();
 
         $totalSuccessRegistered = DB::table('students')
             ->where('students.user_id', $user->id)
+            ->where(function ($query) {
+                    $query->whereNotNull('students.ic')
+                        ->where('students.ic', '!=', '');
+                })
             ->whereIn('status_id', [20, 21])
             ->count();
 
