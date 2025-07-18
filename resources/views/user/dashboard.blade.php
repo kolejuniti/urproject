@@ -10,14 +10,14 @@
 
             <!-- Student Registrations by Month -->
             <div class="card mb-4 shadow-sm">
-                <div class="card-header" style="background-color: #8173b6; color: white; font-weight: bold;">Permohonan Pelajar (3 Bulan Terakhir)</div>
+                <div class="card-header" style="background-color: #8173b6; color: white; font-weight: bold;">Jumlah Pemohon (3 Bulan Terakhir)</div>
                 <div class="card-body" style="background-color: #edf0f7;">
                     <div class="row text-center">
                         @foreach ($monthlyStats as $stat)
                             <div class="col-md-4 mb-2">
                                 <div class="bg-light border rounded p-3 shadow-sm">
                                     <h6 class="text-muted">Bulan {{ $stat['month_number'] }} ({{ $stat['month_name'] }})</h6>
-                                    <div class="fs-4 fw-bold">{{ $stat['count'] }}</div>
+                                    <div class="fs-5 fw-bold">{{ $stat['count'] }}</div>
                                 </div>
                             </div>
                         @endforeach
@@ -27,7 +27,7 @@
 
             <!-- User Link Info Styled Like Monthly Cards -->
             <div class="card mb-4 shadow-sm">
-                <div class="card-header" style="background-color: #8173b6; color: white; font-weight: bold;">Permohonan Pelajar Melalui Pautan Anda</div>
+                <div class="card-header" style="background-color: #8173b6; color: white; font-weight: bold;">Permohonan Melalui Pautan Anda</div>
                 <div class="card-body" style="background-color: #edf0f7;">
                     <div class="row text-center">
                         <div class="col-md-4 mb-2">
@@ -38,14 +38,14 @@
                         </div>
                         <div class="col-md-4 mb-2">
                             <div class="bg-light border rounded p-3 shadow-sm">
-                                <h6 class="text-muted">Jumlah Permohonan</h6>
-                                <div class="fs-5 fw-bold">{{ $totalRegistered }} Pelajar</div>
+                                <h6 class="text-muted">Jumlah Pemohon</h6>
+                                <div class="fs-5 fw-bold">{{ $totalRegistered }}</div>
                             </div>
                         </div>
                         <div class="col-md-4 mb-2">
                             <div class="bg-light border rounded p-3 shadow-sm">
-                                <h6 class="text-muted">Jumlah Permohonan Daftar Kolej</h6>
-                                <div class="fs-5 fw-bold">{{ $totalSuccessRegistered }} Pelajar</div>
+                                <h6 class="text-muted">Jumlah Pemohon Daftar Kolej</h6>
+                                <div class="fs-5 fw-bold">{{ $totalSuccessRegistered }}</div>
                             </div>
                         </div>
                     </div>
@@ -55,7 +55,7 @@
             <!-- Top 5 Students Table -->
             <div class="card shadow-sm">
                 <div class="card-header" style="background-color: #8173b6; color: white; font-weight: bold;">
-                    5 Permohonan Pelajar Terkini
+                    5 Pemohon Terkini
                 </div>
                 <div class="card-body p-0">
                     <div class="table-responsive">
@@ -72,7 +72,7 @@
                                 @forelse ($topStudents as $index => $student)
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
-                                        <td>{{ $student->name }}</td>
+                                        <td class="text-uppercase">{{ $student->name }}</td>
                                         <td>{{ $student->email }}</td>
                                         <td>{{ \Carbon\Carbon::parse($student->created_at)->format('d-m-Y') }}</td>
                                     </tr>
