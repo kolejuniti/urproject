@@ -12,8 +12,8 @@
                 </div>
             @endif
             
-            <div class="card mb-3">
-                <div class="card-header">{{ __('Pautan Rujukan') }}</div>
+            <div class="card mb-3 shadow-sm">
+                <div class="card-header" style="background-color: #4682b4; color: white; font-weight: bold;">{{ __('Pautan Rujukan') }}</div>
 
                 <div class="card-body">
                     @auth
@@ -72,7 +72,7 @@
                 </form>
             </div>
             <div class="table-responsive">
-                <table id="myTable" class="table table-bordered small table-sm text-center">
+                <table id="myTable" class="table table-bordered small table-sm text-center shadow-sm">
                     <caption>Senarai yang dipaparkan adalah dari tarikh {{ \Carbon\Carbon::parse($start_date)->format('d-m-Y') }} sehingga {{ \Carbon\Carbon::parse($end_date)->format('d-m-Y') }}</caption>
                     <thead class="table-dark">
                         <tr>
