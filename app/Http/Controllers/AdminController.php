@@ -130,7 +130,7 @@ class AdminController extends Controller
                     $query->whereNotNull('students.ic')
                         ->where('students.ic', '!=', '');
                 })
-            ->orderByDesc('created_at')
+            ->orderByDesc('id')
             ->limit(5)
             ->get();
 
