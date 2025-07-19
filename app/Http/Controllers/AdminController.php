@@ -121,7 +121,7 @@ class AdminController extends Controller
                     $query->whereNotNull('students.ic')
                         ->where('students.ic', '!=', '');
                 })
-            ->whereIn('status_id', [20, 21])
+            ->whereIn('status_id', [20, 21,22])
             ->count();
 
         // Top 5 students (latest registrations)
