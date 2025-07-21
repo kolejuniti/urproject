@@ -58,7 +58,7 @@ class AdminController extends Controller
 
         // Build dynamic last 3 months data
         $monthlyStats = [];
-        for ($i = 0; $i < 3; $i++) {
+        for ($i = 0; $i < 6; $i++) {
             $date = Carbon::now()->subMonths($i);
             $month = $date->month;
             $year = $date->year;
@@ -108,20 +108,39 @@ class AdminController extends Controller
         ? Carbon::parse($lastRegisteredStudent->created_at)->format('d-m-Y') 
         : '-';
 
-        // Total registered students via user link
+        // Total registered students
         $totalRegistered = DB::table('students')
             ->where(function ($query) {
-                    $query->whereNotNull('students.ic')
-                        ->where('students.ic', '!=', '');
-                })
+                $query->whereNotNull('students.ic')
+                ->where('students.ic', '!=', '');
+            })
+            ->count();
+
+        $currentYear = Carbon::now()->year;
+
+        $totalRegisteredCurrentYear = DB::table('students')
+            ->where(function ($query) {
+            $query->whereNotNull('students.ic')
+            ->where('students.ic', '!=', '');
+            })
+            ->whereYear('created_at', $currentYear)
             ->count();
 
         $totalSuccessRegistered = DB::table('students')
             ->where(function ($query) {
-                    $query->whereNotNull('students.ic')
-                        ->where('students.ic', '!=', '');
-                })
-            ->whereIn('status_id', [20, 21,22])
+                $query->whereNotNull('students.ic')
+                ->where('students.ic', '!=', '');
+            })
+            ->whereIn('status_id', [20, 21, 22])
+            ->count();
+
+        $totalSuccessRegisteredCurrentYear = DB::table('students')
+            ->where(function ($query) {
+                $query->whereNotNull('students.ic')
+                ->where('students.ic', '!=', '');
+            })
+            ->whereIn('status_id', [20, 21, 22])
+            ->whereYear('created_at', $currentYear)
             ->count();
 
         // Top 5 students (latest registrations)
@@ -139,8 +158,11 @@ class AdminController extends Controller
             'monthlyStats',
             'lastRegisteredDate',
             'totalRegistered',
+            'currentYear',
+            'totalRegisteredCurrentYear',
             'topStudents',
-            'totalSuccessRegistered'
+            'totalSuccessRegistered',
+            'totalSuccessRegisteredCurrentYear'
         ));
     }
 
