@@ -133,51 +133,87 @@ class AdminController extends Controller
             
         }
 
+        $locations = [
+            1 => 'KUPD',
+            2 => 'KUKB'
+        ];
+
         // Last registered student via user link
-        $lastRegisteredStudent = DB::table('students')
-            ->where(function ($query) {
+        $lastRegisteredStudents = [];
+
+        foreach ($locations as $id => $name) {
+            $student = DB::table('students')
+                ->where('location_id', $id)
+                ->where(function ($query) {
                     $query->whereNotNull('students.ic')
                         ->where('students.ic', '!=', '');
                 })
-            ->latest('created_at')
-            ->first();
+                ->latest('created_at')
+                ->first();
 
-        $lastRegisteredDate = optional($lastRegisteredStudent)->created_at 
-        ? Carbon::parse($lastRegisteredStudent->created_at)->format('d-m-Y') 
-        : '-';
+            $lastRegisteredStudents[$name] = $student
+                ? Carbon::parse($student->created_at)->format('d-m-Y')
+                : '-';
+        }
 
         // Total registered students
-        $totalRegistered = DB::table('students')
-            ->where(function ($query) {
-                $query->whereNotNull('students.ic')
-                ->where('students.ic', '!=', '');
-            })
-            ->count();
+        $totalRegistered = [];
 
-        $totalRegisteredCurrentYear = DB::table('students')
-            ->where(function ($query) {
-            $query->whereNotNull('students.ic')
-            ->where('students.ic', '!=', '');
-            })
-            ->whereYear('created_at', $currentYear)
-            ->count();
+        foreach ($locations as $id => $name) {
+            $count = DB::table('students')
+                ->where('location_id', $id)
+                ->where(function ($query) {
+                    $query->whereNotNull('students.ic')
+                        ->where('students.ic', '!=', '');
+                })
+                ->count();
 
-        $totalSuccessRegistered = DB::table('students')
-            ->where(function ($query) {
-                $query->whereNotNull('students.ic')
-                ->where('students.ic', '!=', '');
-            })
-            ->whereIn('status_id', [20, 21, 22])
-            ->count();
+            $totalRegistered[$name] = $count;
+        }
 
-        $totalSuccessRegisteredCurrentYear = DB::table('students')
-            ->where(function ($query) {
-                $query->whereNotNull('students.ic')
-                ->where('students.ic', '!=', '');
-            })
-            ->whereIn('status_id', [20, 21, 22])
-            ->whereYear('created_at', $currentYear)
-            ->count();
+        $totalRegisteredCurrentYear = [];
+
+        foreach ($locations as $id => $name) {
+            $count = DB::table('students')
+                ->where('location_id', $id)
+                ->where(function ($query) {
+                    $query->whereNotNull('students.ic')
+                        ->where('students.ic', '!=', '');
+                })
+                ->whereYear('created_at', $currentYear)
+                ->count();
+
+            $totalRegisteredCurrentYear[$name] = $count;
+        }
+
+        $totalSuccessRegistered = [];
+
+        foreach ($locations as $id => $name) {
+            $count = DB::table('students')
+                ->where('location_id', $id)
+                ->where(function ($query) {
+                    $query->whereNotNull('students.ic')
+                        ->where('students.ic', '!=', '');
+                })
+                ->whereIn('status_id', [20, 21, 22])
+                ->count();
+
+            $totalSuccessRegistered[$name] = $count;
+        }
+
+        foreach ($locations as $id => $name) {
+            $count = DB::table('students')
+                ->where('location_id', $id)
+                ->where(function ($query) {
+                    $query->whereNotNull('students.ic')
+                        ->where('students.ic', '!=', '');
+                })
+                ->whereIn('status_id', [20, 21, 22])
+                ->whereYear('created_at', $currentYear)
+                ->count();
+
+            $totalSuccessRegisteredCurrentYear[$name] = $count;
+        }
 
         // Top 5 students (latest registrations)
         $topStudents = DB::table('students')
@@ -193,7 +229,7 @@ class AdminController extends Controller
             'user',
             'monthlyStatsKUPD',
             'monthlyStatsKUKB',
-            'lastRegisteredDate',
+            'lastRegisteredStudents',
             'totalRegistered',
             'currentYear',
             'totalRegisteredCurrentYear',
