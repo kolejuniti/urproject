@@ -51,48 +51,86 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-     public function dashboard()
+     public function dashboard(Request $request)
     {
         $user = Auth::user();
         $referralCode = $user->referral_code;
 
-        // Build dynamic last 3 months data
-        $monthlyStats = [];
-        for ($i = 0; $i < 6; $i++) {
-            $date = Carbon::now()->subMonths($i);
-            $month = $date->month;
-            $year = $date->year;
+        $currentYear = $request->input('year') ?? Carbon::now()->year;
 
+        // Build dynamic last 12 months data
+        $monthlyStatsKUPD = [];
+
+        for ($i = 1; $i <= 12; $i++) {
             $count = DB::table('students')
-                ->where(function ($query) {
-                        $query->whereNotNull('students.ic')
-                            ->where('students.ic', '!=', '');
-                    })
-                ->whereMonth('created_at', $month)
-                ->whereYear('created_at', $year)
-                ->count();
+            ->where(function ($query) {
+                $query->whereNotNull('students.ic')
+                ->where('students.ic', '!=', '');
+            })
+            ->where('students.location_id', 1) // KUPD location_id
+            ->whereMonth('created_at', $i)
+            ->whereYear('created_at', $currentYear)
+            ->count();
 
             // Array of Malay month names
             $malayMonths = [
-                1 => 'Januari',
-                2 => 'Februari',
-                3 => 'Mac',
-                4 => 'April',
-                5 => 'Mei',
-                6 => 'Jun',
-                7 => 'Julai',
-                8 => 'Ogos',
-                9 => 'September',
-                10 => 'Oktober',
-                11 => 'November',
-                12 => 'Disember',
+            1 => 'Januari',
+            2 => 'Februari',
+            3 => 'Mac',
+            4 => 'April',
+            5 => 'Mei',
+            6 => 'Jun',
+            7 => 'Julai',
+            8 => 'Ogos',
+            9 => 'September',
+            10 => 'Oktober',
+            11 => 'November',
+            12 => 'Disember',
             ];
 
-            $monthlyStats[] = [
-                'month_name' => $malayMonths[$month],  // e.g. Julai
-                'month_number' => $month,              // e.g. 7
-                'count' => $count
+            $monthlyStatsKUPD[] = [
+            'month_name' => $malayMonths[$i],
+            'month_number' => $i,
+            'count' => $count
             ];
+            
+        }
+
+        $monthlyStatsKUKB = [];
+
+        for ($i = 1; $i <= 12; $i++) {
+            $count = DB::table('students')
+            ->where(function ($query) {
+                $query->whereNotNull('students.ic')
+                ->where('students.ic', '!=', '');
+            })
+            ->where('students.location_id', 2) // KUKB location_id
+            ->whereMonth('created_at', $i)
+            ->whereYear('created_at', $currentYear)
+            ->count();
+
+            // Array of Malay month names
+            $malayMonths = [
+            1 => 'Januari',
+            2 => 'Februari',
+            3 => 'Mac',
+            4 => 'April',
+            5 => 'Mei',
+            6 => 'Jun',
+            7 => 'Julai',
+            8 => 'Ogos',
+            9 => 'September',
+            10 => 'Oktober',
+            11 => 'November',
+            12 => 'Disember',
+            ];
+
+            $monthlyStatsKUKB[] = [
+            'month_name' => $malayMonths[$i],
+            'month_number' => $i,
+            'count' => $count
+            ];
+            
         }
 
         // Last registered student via user link
@@ -115,8 +153,6 @@ class AdminController extends Controller
                 ->where('students.ic', '!=', '');
             })
             ->count();
-
-        $currentYear = Carbon::now()->year;
 
         $totalRegisteredCurrentYear = DB::table('students')
             ->where(function ($query) {
@@ -155,7 +191,8 @@ class AdminController extends Controller
 
         return view('admin.dashboard', compact(
             'user',
-            'monthlyStats',
+            'monthlyStatsKUPD',
+            'monthlyStatsKUKB',
             'lastRegisteredDate',
             'totalRegistered',
             'currentYear',
