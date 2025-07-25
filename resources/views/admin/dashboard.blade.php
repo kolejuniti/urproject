@@ -188,36 +188,71 @@
                 <div class="card-header" style="background-color: #4682b4; color: white; font-weight: bold;">Maklumat Permohonan</div>
                 <div class="card-body" style="background-color: #e7f1f9;">
                     <div class="row text-center">
-                        <div class="col-md-4 mb-2">
-                            <div class="bg-light border rounded p-3 shadow-sm">
-                                <h6 class="text-muted">Permohonan Terakhir</h6>
-                                <div class="fs-5 fw-bold">{{ $lastRegisteredDate }}</div>
+                        <div class="col-md-4 mb-3">
+                            <div class="border rounded shadow-sm p-3 bg-white h-100">
+                                <h6 class="text-muted mb-3">Permohonan Terakhir</h6>
+                                <ul class="list-group list-group-flush">
+                                    @foreach ($lastRegisteredStudents as $location => $date)
+                                        <li class="list-group-item d-flex justify-content-between align-items-center px-3">
+                                            <span class="text-muted">{{ $location }}</span>
+                                            <span class="fw-semibold">{{ $date }}</span>
+                                        </li>
+                                    @endforeach
+                                </ul>
                             </div>
                         </div>
-                        <div class="col-md-4 mb-2">
-                            <div class="bg-light border rounded p-3 shadow-sm">
-                                <h6 class="text-muted">Jumlah Permohonan ({{ $currentYear }})</h6>
-                                <div class="fs-5 fw-bold">{{ $totalRegisteredCurrentYear }}</div>
+                        <div class="col-md-4 mb-3">
+                            <div class="border rounded shadow-sm p-3 bg-white h-100">
+                                <h6 class="text-muted mb-3">Jumlah Permohonan ({{ $currentYear }})</h6>
+                                <ul class="list-group list-group-flush">
+                                    @foreach ($totalRegisteredCurrentYear as $location => $count)
+                                        <li class="list-group-item d-flex justify-content-between align-items-center px-3">
+                                            <span class="text-muted">{{ $location }}</span>
+                                            <span class="fw-semibold">{{ $count }}</span>
+                                        </li>
+                                    @endforeach
+                                </ul>
                             </div>
                         </div>
-                        <div class="col-md-4 mb-2">
-                            <div class="bg-light border rounded p-3 shadow-sm">
-                                <h6 class="text-muted">Jumlah Permohonan Daftar Kolej ({{ $currentYear }})</h6>
-                                <div class="fs-5 fw-bold">{{ $totalSuccessRegisteredCurrentYear }}</div>
+                        <div class="col-md-4 mb-3">
+                            <div class="border rounded shadow-sm p-3 bg-white h-100">
+                                <h6 class="text-muted mb-3">Jumlah Permohonan Daftar Kolej ({{ $currentYear }})</h6>
+                                <ul class="list-group list-group-flush">
+                                    @foreach ($totalSuccessRegisteredCurrentYear as $location => $count)
+                                        <li class="list-group-item d-flex justify-content-between align-items-center px-3">
+                                            <span class="text-muted">{{ $location }}</span>
+                                            <span class="fw-semibold">{{ $count }}</span>
+                                        </li>
+                                    @endforeach
+                                </ul>
                             </div>
                         </div>
                     </div>
                     <div class="row text-center">
-                        <div class="col-md-4 mb-2">
-                            <div class="bg-light border rounded p-3 shadow-sm">
-                                <h6 class="text-muted">Jumlah Permohonan</h6>
-                                <div class="fs-5 fw-bold">{{ $totalRegistered }}</div>
+                        <div class="col-md-4 mb-3">
+                            <div class="border rounded shadow-sm p-3 bg-white h-100">
+                                <h6 class="text-muted mb-3">Jumlah Permohonan</h6>
+                                <ul class="list-group list-group-flush">
+                                    @foreach ($totalRegistered as $location => $count)
+                                        <li class="list-group-item d-flex justify-content-between align-items-center px-3">
+                                            <span class="text-muted">{{ $location }}</span>
+                                            <span class="fw-semibold">{{ $count }}</span>
+                                        </li>
+                                    @endforeach
+                                </ul>
                             </div>
                         </div>
-                        <div class="col-md-4 mb-2">
-                            <div class="bg-light border rounded p-3 shadow-sm">
-                                <h6 class="text-muted">Jumlah Permohonan Daftar Kolej</h6>
-                                <div class="fs-5 fw-bold">{{ $totalSuccessRegistered }}</div>
+                        <div class="col-md-4 mb-3">
+                            <div class="border rounded shadow-sm p-3 bg-white h-100">
+                                <h6 class="text-muted mb-3">Jumlah Permohonan Daftar Kolej</h6>
+                                <ul class="list-group list-group-flush">
+                                    @foreach ($totalSuccessRegistered as $location => $count)
+                                        <li class="list-group-item d-flex justify-content-between align-items-center px-3">
+                                            <span class="text-muted">{{ $location }}</span>
+                                            <span class="fw-semibold">{{ $count }}</span>
+                                        </li>
+                                    @endforeach
+                                </ul>
                             </div>
                         </div>
                     </div>
