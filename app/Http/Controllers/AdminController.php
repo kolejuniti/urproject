@@ -1288,38 +1288,66 @@ class AdminController extends Controller
 
     public function yearReports(Request $request)
     {
-        $locations = DB::table('location')->get();  
+        $locations = DB::table('location')->get();
 
-        $currentYear = Carbon::now()->year;
-        $startYear = $currentYear - 2;
+        $currentYear = $request->input('year') ?? Carbon::now()->year;
 
-        // Final data structure
         $yearlyData = [];
+        $weeklyMonthlyData = [];
 
-        foreach ($locations as $location) { 
-            for ($year = $startYear; $year <= $currentYear; $year++) {
-                $students = DB::table('students')
-                    ->select(DB::raw('COUNT(id) as total, MONTH(CAST(created_at AS DATE)) as month'))
-                    ->where(function ($query) {
-                        $query->whereNotNull('students.ic')
-                            ->where('students.ic', '!=', '');
-                    })
+        // Monthly totals (existing logic)
+        foreach ($locations as $location) {
+            $students = DB::table('students')
+                ->select(DB::raw('COUNT(id) as total, MONTH(created_at) as month'))
+                ->whereNotNull('students.ic')
+                ->where('students.ic', '!=', '')
+                ->where('students.location_id', $location->id)
+                ->whereYear('created_at', $currentYear)
+                ->groupBy(DB::raw('MONTH(created_at)'))
+                ->pluck('total', 'month');
+
+            for ($month = 1; $month <= 12; $month++) {
+                $yearlyData[$currentYear][$month]['total'][$location->id] = $students[$month] ?? 0;
+            }
+        }
+
+        // Weekly breakdown per month
+        foreach ($locations as $location) {
+            for ($month = 1; $month <= 12; $month++) {
+                // Get all created_at dates and count by ISO week number
+                $weekly = DB::table('students')
+                    ->select(DB::raw('COUNT(id) as total, WEEK(created_at, 1) as iso_week'))
+                    ->whereNotNull('students.ic')
+                    ->where('students.ic', '!=', '')
                     ->where('students.location_id', $location->id)
-                    ->whereYear('created_at', $year)
-                    ->groupBy(DB::raw('MONTH(CAST(created_at AS DATE))'))
-                    ->pluck('total', 'month');
+                    ->whereYear('created_at', $currentYear)
+                    ->whereMonth('created_at', $month)
+                    ->groupBy(DB::raw('WEEK(created_at, 1)'))
+                    ->pluck('total', 'iso_week');
 
-                // Ensure all months are present
-                for ($month = 1; $month <= 12; $month++) {
-                    $total = $students[$month] ?? 0;
-                    $yearlyData[$year][$month]['total'][$location->id] = $total;
+                // Determine all week numbers that fall within the month
+                $weeksInMonth = [];
+
+                $startOfMonth = Carbon::create($currentYear, $month, 1);
+                $endOfMonth = $startOfMonth->copy()->endOfMonth();
+
+                for ($date = $startOfMonth->copy(); $date <= $endOfMonth; $date->addDay()) {
+                    $isoWeek = $date->isoWeek();
+                    $weeksInMonth[] = $isoWeek;
+                }
+
+                $weeksInMonth = array_values(array_unique($weeksInMonth));
+
+                foreach ($weeksInMonth as $weekIndex => $isoWeek) {
+                    $weekInMonth = $weekIndex + 1;
+                    $total = $weekly[$isoWeek] ?? 0;
+                    $weeklyMonthlyData[$month][$weekInMonth]['total'][$location->id] = $total;
                 }
             }
         }
 
-        return view('admin.yearreports', compact('currentYear', 'startYear', 'yearlyData', 'locations'));
+        return view('admin.yearreports', compact('currentYear', 'yearlyData', 'weeklyMonthlyData', 'locations'));
     }
-
 
     public function achievements(Request $request)
     {
