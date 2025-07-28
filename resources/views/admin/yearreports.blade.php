@@ -5,47 +5,78 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
-            {{-- <div class="col-md-6 col-sm-6 col-12 ms-auto">
-                <form method="POST" action="{{ route('admin.yearreports') }}">
-                @csrf
-                    <div class="input-group mb-3">
-                        <button class="btn btn-secondary" disabled>Tarikh</button>
-                        <input type="date" class="form-control" name="start_date">
-                        <button class="btn btn-secondary" disabled>-</button>
-                        <input type="date" class="form-control" name="end_date">
-                        <button class="btn btn-warning" type="submit">Cari</button>
-                    </div>
-                </form>
-            </div> --}}
+            <div class="d-flex justify-content-end mb-3">
+                <div style="min-width: 120px;">
+                    <form method="GET" action="{{ route('admin.yearreports') }}">
+                        <div class="input-group">
+                            <select name="year" class="form-select" onchange="this.form.submit()">
+                                @for ($year = now()->year; $year >= now()->year - 3; $year--)
+                                    <option value="{{ $year }}" {{ $currentYear == $year ? 'selected' : '' }}>{{ $year }}</option>
+                                @endfor
+                            </select>
+                        </div>
+                    </form>
+                </div>
+            </div>
             <div>
                 <div class="col-md-12">
+                    @php
+                        $monthNames = [
+                            1 => 'Januari', 2 => 'Februari', 3 => 'Mac', 4 => 'April',
+                            5 => 'Mei', 6 => 'Jun', 7 => 'Julai', 8 => 'Ogos',
+                            9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Disember',
+                        ];
+                    @endphp
                     @foreach ($locations as $location)
                         <table id="myTable{{ $location->id }}" class="table table-bordered table-sm text-center">
-                            <caption>Laporan yang dijana adalah bagi 3 tahun terakhir di {{ $location->name }}.</caption>
+                            <caption>Laporan yang dijana adalah bagi tahun {{ $currentYear }} di {{ $location->name }}.</caption>
                             <thead class="table-dark">
                                 <tr>
                                     <th colspan="13" class="text-center">{{ $location->name }}</th>
                                 </tr>
                                 <tr>
-                                    <th rowspan="2" class="text-align-middle">Tahun</th>
-                                    <th colspan="12" class="text-center">Bulan</th>
-                                </tr>
-                                <tr>
+                                    <th class="text-align-middle">Tahun</th>
                                     @for ($month = 1; $month <= 12; $month++)
                                         <th class="text-center" width="100">{{ $month }}</th>
                                     @endfor
                                 </tr>
                             </thead>
                             <tbody>
-                                @for ($year = $startYear; $year <= $currentYear; $year++)
-                                    <tr>
-                                        <td class="text-center">{{ $year }}</td>
-                                        @for ($month = 1; $month <= 12; $month++)
-                                            <td class="text-center">
-                                                {{ $yearlyData[$year][$month]['total'][$location->id] ?? 0 }}
-                                            </td>
-                                        @endfor
-                                    </tr>
+                                <tr>
+                                    <td class="text-center">{{ $currentYear }}</td>
+                                    @for ($month = 1; $month <= 12; $month++)
+                                        <td class="text-center">
+                                            {{ $yearlyData[$currentYear][$month]['total'][$location->id] ?? 0 }}
+                                        </td>
+                                    @endfor
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-bordered table-sm text-center">
+                        <thead class="table-secondary">
+                            <tr>
+                                <th>Bulan</th>
+                                <th>Minggu</th>
+                                <th>Jumlah Pendaftaran</th>
+                            </tr>
+                        </thead>
+                            <tbody>
+                                @for ($month = 1; $month <= 12; $month++)
+                                    @php
+                                        $weeks = $weeklyMonthlyData[$month] ?? [];
+                                        $rowspan = count($weeks);
+                                        $printed = false;
+                                    @endphp
+                                    @foreach ($weeks as $weekInMonth => $data)
+                                        <tr>
+                                            @if (!$printed)
+                                                <td rowspan="{{ $rowspan }}" class="align-middle">{{ $monthNames[$month] }}</td>
+                                                @php $printed = true; @endphp
+                                            @endif
+                                            <td>Minggu {{ $weekInMonth }}</td>
+                                            <td>{{ $data['total'][$location->id] ?? 0 }}</td>
+                                        </tr>
+                                    @endforeach
                                 @endfor
                             </tbody>
                         </table>
