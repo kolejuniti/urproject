@@ -1314,10 +1314,48 @@ class AdminController extends Controller
         // Weekly breakdown per month
         foreach ($locations as $location) {
             for ($month = 1; $month <= 12; $month++) {
-                // Get all created_at dates and count by ISO week number
+                // Get all created_at dates and count by ISO week number (all students)
                 $weekly = DB::table('students')
                     ->select(DB::raw('COUNT(id) as total, WEEK(created_at, 1) as iso_week'))
                     ->whereNotNull('students.ic')
+                    ->where('students.ic', '!=', '')
+                    ->where('students.location_id', $location->id)
+                    ->whereYear('created_at', $currentYear)
+                    ->whereMonth('created_at', $month)
+                    ->groupBy(DB::raw('WEEK(created_at, 1)'))
+                    ->pluck('total', 'iso_week');
+
+                // Get all created_at dates and count by ISO week number (students with referral_code)
+                $weeklyWithReferral = DB::table('students')
+                    ->join('users AS affiliate', 'students.referral_code', '=', 'affiliate.referral_code')
+                    ->select(DB::raw('COUNT(students.id) as total, WEEK(students.created_at, 1) as iso_week'))
+                    ->whereNotNull('students.ic')
+                    ->where('students.ic', '!=', '')
+                    ->where('students.location_id', $location->id)
+                    ->whereYear('students.created_at', $currentYear)
+                    ->whereMonth('students.created_at', $month)
+                    ->whereNotNull('students.referral_code')
+                    ->where('affiliate.type', '=', 0)
+                    ->groupBy(DB::raw('WEEK(students.created_at, 1)'))
+                    ->pluck('total', 'iso_week');
+
+                $weeklyWithEA = DB::table('students')
+                    ->join('users AS advisor', 'students.referral_code', '=', 'advisor.referral_code')
+                    ->select(DB::raw('COUNT(students.id) as total, WEEK(students.created_at, 1) as iso_week'))
+                    ->whereNotNull('students.ic')
+                    ->where('students.ic', '!=', '')
+                    ->where('students.location_id', $location->id)
+                    ->whereYear('students.created_at', $currentYear)
+                    ->whereMonth('students.created_at', $month)
+                    ->whereNotNull('students.referral_code')
+                    ->whereIn('advisor.type', [1, 2])
+                    ->groupBy(DB::raw('WEEK(students.created_at, 1)'))
+                    ->pluck('total', 'iso_week');
+
+                 $weeklyWithout = DB::table('students')
+                    ->select(DB::raw('COUNT(id) as total, WEEK(created_at, 1) as iso_week'))
+                    ->whereNotNull('students.ic')
+                    ->whereNull('students.referral_code')
                     ->where('students.ic', '!=', '')
                     ->where('students.location_id', $location->id)
                     ->whereYear('created_at', $currentYear)
@@ -1341,7 +1379,13 @@ class AdminController extends Controller
                 foreach ($weeksInMonth as $weekIndex => $isoWeek) {
                     $weekInMonth = $weekIndex + 1;
                     $total = $weekly[$isoWeek] ?? 0;
+                    $totalWithReferral = $weeklyWithReferral[$isoWeek] ?? 0;
+                    $totalWithEA = $weeklyWithEA[$isoWeek] ?? 0;
+                    $totalWithout = $weeklyWithout[$isoWeek] ?? 0;
                     $weeklyMonthlyData[$month][$weekInMonth]['total'][$location->id] = $total;
+                    $weeklyMonthlyData[$month][$weekInMonth]['total_with_referral'][$location->id] = $totalWithReferral;
+                    $weeklyMonthlyData[$month][$weekInMonth]['total_with_ea'][$location->id] = $totalWithEA;
+                    $weeklyMonthlyData[$month][$weekInMonth]['total_without_affiliate'][$location->id] = $totalWithout;
                 }
             }
         }
