@@ -52,12 +52,15 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <table class="table table-bordered table-sm text-center">
+                        <table class="table table-bordered table-sm text-center align-middle">
                         <thead class="table-secondary">
                             <tr>
-                                <th>Bulan</th>
-                                <th>Minggu</th>
-                                <th>Jumlah Pendaftaran</th>
+                                <th class="col-2">Bulan</th>
+                                <th class="col-2">Minggu</th>
+                                <th class="col-2">Jumlah Data</th>
+                                <th class="col-2">Data Affiliate</th>
+                                <th class="col-2">Data EA</th>
+                                <th class="col-2">Data Tanpa Affiliate/EA</th>
                             </tr>
                         </thead>
                             <tbody>
@@ -75,6 +78,9 @@
                                             @endif
                                             <td>Minggu {{ $weekInMonth }}</td>
                                             <td>{{ $data['total'][$location->id] ?? 0 }}</td>
+                                            <td>{{ $data['total_with_referral'][$location->id] ?? 0 }}</td>
+                                            <td>{{ $data['total_with_ea'][$location->id] ?? 0 }}</td>
+                                            <td>{{ $data['total_without_affiliate'][$location->id] ?? 0 }}</td>
                                         </tr>
                                     @endforeach
                                 @endfor
