@@ -1280,8 +1280,8 @@ class AdminController extends Controller
         $totalDataRejectCount = array_sum($totalDataRejects);
 
         $totalDataEntry = $totalDataWithAffiliateCount + $totalDataWithEACount + $totalDataWithoutAffiliateCount;
-        $totalDataPreRegister = array_sum($totalDataPreRegisterWithAffiliate) + array_sum($totalDataPreRegisterWithEA) + array_sum($totalDataPreRegisterWithoutAffiliate);
-        $totalDataRegister = array_sum($totalDataRegisterWithAffiliate) + array_sum($totalDataRegisterWithEA) + array_sum($totalDataRegisterWithoutAffiliate) + array_sum($totalDataRegisterWithOtherEA);
+        $totalDataPreRegister = $totalDataPreRegisterWithAffiliateCount + $totalDataPreRegisterWithEACount + $totalDataPreRegisterWithoutAffiliateCount;
+        $totalDataRegister = $totalDataRegisterWithAffiliateCount + $totalDataRegisterWithOtherEACount + $totalDataRegisterWithEACount + $totalDataRegisterWithoutAffiliateCount;
 
         return view('admin.leadreports', compact('sources', 'start_date', 'end_date', 'locations', 'totalData', 'totalDataWithAffiliate', 'totalDataWithEA', 'totalDataWithoutAffiliate', 'totalDataPreRegisterWithAffiliate', 'totalDataPreRegisterWithoutAffiliate', 'totalDataPreRegisterWithEACount', 'totalDataRegisterWithAffiliate', 'totalDataRegisterWithOtherEA', 'totalDataRegisterWithEA', 'totalDataRegisterWithoutAffiliate', 'totalDataRegister', 'totalDataCount', 'totalDataWithAffiliateCount', 'totalDataWithEACount', 'totalDataWithoutAffiliateCount', 'totalDataPreRegisterWithAffiliateCount', 'totalDataPreRegisterWithoutAffiliateCount', 'totalDataRegisterWithAffiliateCount', 'totalDataRegisterWithOtherEACount', 'totalDataRegisterWithEACount', 'totalDataRegisterWithoutAffiliateCount', 'totalDataEntry', 'totalDataPreRegister', 'totalDataRegister', 'location_name', 'totalDataRejects', 'totalDataRejectCount'));
     }
