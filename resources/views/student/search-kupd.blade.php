@@ -218,13 +218,18 @@
                                         <small class="text-danger">* Saiz salinan SPM mestilah tidak melebihi 5MB.</small>
                                     </div>
                                 </div>
-                                <div class="mb-3">
-                                    <div class="col-md-12 text-center">
-                                        <button type="submit" class="btn btn-sm btn-primary">Simpan / Kemaskini</button>
-                                    </div>
+                            @endif
+                            @if (empty($student->address1) || trim($student->address1) === '')
+                            <div class="mb-3">
+                                <div class="col-md-12 text-center">
+                                    <button type="submit" class="btn btn-sm btn-primary">Simpan / Kemaskini</button>
                                 </div>
+                            </div>
                             @endif
                             </form>
+                            <div class="col-md-12 col-sm-12 mt-3 mb-3">
+                                <label for="" class="fw-bold">Program Yang Dipohon</label>
+                            </div>
                             <div class="row mb-2">
                                 <div class="col-md-3 col-sm-3">
                                     <label for="">Tarikh Permohonan</label>
@@ -232,9 +237,6 @@
                                 <div class="col-md-3 col-sm-3">
                                     <label for="name">{{ \Carbon\Carbon::parse(  $student->created_at )->format('d-m-Y') }}</label>
                                 </div>
-                            </div>
-                            <div class="col-md-12 col-sm-12 mt-3 mb-3">
-                                <label for="" class="fw-bold">Program Yang Dipohon</label>
                             </div>
                             <div class="row mb-2">
                                 <div class="col-md-3 col-sm-3">
