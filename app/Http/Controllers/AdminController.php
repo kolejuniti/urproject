@@ -1279,7 +1279,7 @@ class AdminController extends Controller
         $totalDataRegisterWithoutAffiliateCount = array_sum($totalDataRegisterWithoutAffiliate);
         $totalDataRejectCount = array_sum($totalDataRejects);
 
-        $totalDataEntry = array_sum($totalDataWithAffiliate) + array_sum($totalDataWithEA) + array_sum($totalDataWithoutAffiliate);
+        $totalDataEntry = $totalDataWithAffiliateCount + $totalDataWithEACount + $totalDataWithoutAffiliateCount;
         $totalDataPreRegister = array_sum($totalDataPreRegisterWithAffiliate) + array_sum($totalDataPreRegisterWithEA) + array_sum($totalDataPreRegisterWithoutAffiliate);
         $totalDataRegister = array_sum($totalDataRegisterWithAffiliate) + array_sum($totalDataRegisterWithEA) + array_sum($totalDataRegisterWithoutAffiliate) + array_sum($totalDataRegisterWithOtherEA);
 
