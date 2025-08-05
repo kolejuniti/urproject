@@ -62,17 +62,17 @@
                 <label for="">{{$student->offer_letter_date ? \Carbon\Carbon::parse($student->offer_letter_date)->format('d-m-Y') : '' }}</label>
             </div>
             <div class="mt-3 mb-3">
-                <label for="">{{ $student->name }}</label>
+                <label for="" class="text-uppercase">{{ $student->name }}</label>
             </div>
             <div>
-                <label for="">{{ $student->address1 }}</label>
+                <label for="" class="text-uppercase">{{ $student->address1 }}</label>
             </div>
             <div>
-                <label for="">{{ $student->address2 }}</label>
+                <label for="" class="text-uppercase">{{ $student->address2 }}</label>
             </div>
             <div>
                 <label for="">{{ $student->postcode }},&nbsp;</label>
-                <label for="">{{ $student->city }}</label>
+                <label for="" class="text-uppercase">{{ $student->city }}</label>
             </div>
             <div>
                 <label for="">{{ $student->state }}</label>
