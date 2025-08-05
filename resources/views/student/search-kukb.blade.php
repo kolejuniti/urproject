@@ -84,7 +84,7 @@
                                     <label for="">No. Kad Pengenalan</label>
                                 </div>
                                 <div class="col-md-3 col-sm-3">
-                                    <label for="name">{{ $student->ic }}</label>
+                                    <label for="name" class="text-uppercase">{{ $student->ic }}</label>
                                 </div>
                             </div>
                             <div class="row mb-2">
@@ -117,7 +117,7 @@
                                         <label for="">Alamat 1</label>
                                     </div>
                                     <div class="col-md-9 col-sm-9">
-                                        <label for="name">{{ $student->address1 }}</label>
+                                        <label for="name" class="text-uppercase">{{ $student->address1 }}</label>
                                     </div>
                                 @endif
                             </div>
@@ -134,7 +134,7 @@
                                         <label for="">Alamat 2</label>
                                     </div>
                                     <div class="col-md-9 col-sm-9">
-                                        <label for="name">{{ $student->address2 }}</label>
+                                        <label for="name" class="text-uppercase">{{ $student->address2 }}</label>
                                     </div>
                                 @endif
                             </div>
@@ -166,7 +166,7 @@
                                         <label for="">Bandar</label>
                                     </div>
                                     <div class="col-md-3 col-sm-3">
-                                        <label for="name">{{ $student->city }}</label>
+                                        <label for="name" class="text-uppercase">{{ $student->city }}</label>
                                     </div>
                                 @endif
                             </div>
