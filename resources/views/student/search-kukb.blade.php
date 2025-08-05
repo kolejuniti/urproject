@@ -105,14 +105,14 @@
                             @csrf
                             @method('PUT')  
                             <div class="row mb-2">
-                                @if ($student->address1 === null)
+                                @if (empty($student->address1) || trim($student->address1) === '')
                                     <div class="col-md-3 col-sm-3">
                                         <label for="">Alamat 1</label>
                                     </div>
                                     <div class="col-12 col-md-6 col-sm-6">
                                         <input type="text" name="address1" id="address1" class="form-control form-control-sm is-invalid" required>
                                     </div>
-                                    @else
+                                @else
                                     <div class="col-md-3 col-sm-3">
                                         <label for="">Alamat 1</label>
                                     </div>
@@ -122,14 +122,14 @@
                                 @endif
                             </div>
                             <div class="row mb-2">
-                                @if ($student->address2 === null)
+                                @if (empty($student->address2))
                                     <div class="col-md-3 col-sm-3">
                                         <label for="">Alamat 2</label>
                                     </div>
                                     <div class="col-12 col-md-6 col-sm-6">
                                         <input type="text" name="address2" id="address2" class="form-control form-control-sm is-invalid" required>
                                     </div>
-                                    @else
+                                @else
                                     <div class="col-md-3 col-sm-3">
                                         <label for="">Alamat 2</label>
                                     </div>
@@ -139,7 +139,7 @@
                                 @endif
                             </div>
                             <div class="row mb-2">
-                                @if ($student->postcode === null)
+                                @if (empty($student->postcode))
                                     <div class="col-md-3 col-sm-3">
                                         <label for="">Poskod</label>
                                     </div>
@@ -154,7 +154,7 @@
                                         <label for="name">{{ $student->postcode }}</label>
                                     </div>
                                 @endif
-                                @if ($student->city === null)
+                                @if (empty($student->city))
                                     <div class="col-md-3 col-sm-3">
                                         <label for="">Bandar</label>
                                     </div>
@@ -171,7 +171,7 @@
                                 @endif
                             </div>
                             <div class="row mb-2">
-                                @if ($student->state === null)
+                                @if (empty($student->state))
                                     <div class="col-md-3 col-sm-3">
                                         <label for="">Negeri</label>
                                     </div>
@@ -193,7 +193,7 @@
                                 @endif
                             </div>
                             <div class="row mb-2">
-                                @if ($student->spm_year === null)
+                                @if (empty($student->spm_year))
                                     <div class="col-md-3 col-sm-3">
                                         <label for="">Tahun SPM</label>
                                     </div>
@@ -231,12 +231,12 @@
                                         <small class="text-danger">* Saiz salinan SPM mestilah tidak melebihi 5MB.</small>
                                     </div>
                                 </div>
-                            @endif
-                            <div class="mb-3">
-                                <div class="col-md-12 text-center">
-                                    <button type="submit" class="btn btn-sm btn-primary">Simpan</button>
+                                <div class="mb-3">
+                                    <div class="col-md-12 text-center">
+                                        <button type="submit" class="btn btn-sm btn-primary">Simpan / Kemaskini</button>
+                                    </div>
                                 </div>
-                            </div>
+                            @endif
                             </form>
                             <div class="row mb-2">
                                 <div class="col-md-3 col-sm-3">
