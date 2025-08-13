@@ -158,6 +158,7 @@ Route::middleware(['auth', 'user-access:admin'])->group(function() {
     Route::get('/admin/maklumat/pencapaian/affiliate/{id}/{start_date?}/{end_date?}/{location?}', [AdminController::class, 'affiliateAchievementDetails'])->name('admin.affiliate.achievement.details');
     Route::get('/admin/content', [AdminController::class, 'content'])->name('admin.content');
     Route::post('/admin/content', [AdminController::class, 'storeContent'])->name('admin.content.store');
+    Route::get('/admin/content/list', [AdminController::class, 'listofcontent'])->name('admin.content.list');
 });
 
 // advisor route

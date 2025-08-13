@@ -84,7 +84,7 @@
                                     <label for="">No. Kad Pengenalan</label>
                                 </div>
                                 <div class="col-md-3 col-sm-3">
-                                    <label for="name">{{ $student->ic }}</label>
+                                    <label for="name" class="text-uppercase">{{ $student->ic }}</label>
                                 </div>
                             </div>
                             <div class="row mb-2">
@@ -105,41 +105,41 @@
                             @csrf
                             @method('PUT')  
                             <div class="row mb-2">
-                                @if ($student->address1 === null)
+                                @if (empty($student->address1) || trim($student->address1) === '')
                                     <div class="col-md-3 col-sm-3">
                                         <label for="">Alamat 1</label>
                                     </div>
                                     <div class="col-12 col-md-6 col-sm-6">
                                         <input type="text" name="address1" id="address1" class="form-control form-control-sm is-invalid" required>
                                     </div>
-                                    @else
+                                @else
                                     <div class="col-md-3 col-sm-3">
                                         <label for="">Alamat 1</label>
                                     </div>
                                     <div class="col-md-9 col-sm-9">
-                                        <label for="name">{{ $student->address1 }}</label>
+                                        <label for="name" class="text-uppercase">{{ $student->address1 }}</label>
                                     </div>
                                 @endif
                             </div>
                             <div class="row mb-2">
-                                @if ($student->address2 === null)
+                                @if (empty($student->address2))
                                     <div class="col-md-3 col-sm-3">
                                         <label for="">Alamat 2</label>
                                     </div>
                                     <div class="col-12 col-md-6 col-sm-6">
                                         <input type="text" name="address2" id="address2" class="form-control form-control-sm is-invalid" required>
                                     </div>
-                                    @else
+                                @else
                                     <div class="col-md-3 col-sm-3">
                                         <label for="">Alamat 2</label>
                                     </div>
                                     <div class="col-md-9 col-sm-9">
-                                        <label for="name">{{ $student->address2 }}</label>
+                                        <label for="name" class="text-uppercase">{{ $student->address2 }}</label>
                                     </div>
                                 @endif
                             </div>
                             <div class="row mb-2">
-                                @if ($student->postcode === null)
+                                @if (empty($student->postcode))
                                     <div class="col-md-3 col-sm-3">
                                         <label for="">Poskod</label>
                                     </div>
@@ -154,7 +154,7 @@
                                         <label for="name">{{ $student->postcode }}</label>
                                     </div>
                                 @endif
-                                @if ($student->city === null)
+                                @if (empty($student->city))
                                     <div class="col-md-3 col-sm-3">
                                         <label for="">Bandar</label>
                                     </div>
@@ -166,12 +166,12 @@
                                         <label for="">Bandar</label>
                                     </div>
                                     <div class="col-md-3 col-sm-3">
-                                        <label for="name">{{ $student->city }}</label>
+                                        <label for="name" class="text-uppercase">{{ $student->city }}</label>
                                     </div>
                                 @endif
                             </div>
                             <div class="row mb-2">
-                                @if ($student->state === null)
+                                @if (empty($student->state))
                                     <div class="col-md-3 col-sm-3">
                                         <label for="">Negeri</label>
                                     </div>
@@ -193,7 +193,7 @@
                                 @endif
                             </div>
                             <div class="row mb-2">
-                                @if ($student->spm_year === null)
+                                @if (empty($student->spm_year))
                                     <div class="col-md-3 col-sm-3">
                                         <label for="">Tahun SPM</label>
                                     </div>
@@ -232,12 +232,17 @@
                                     </div>
                                 </div>
                             @endif
+                            @if (empty($student->address1) || trim($student->address1) === '')
                             <div class="mb-3">
                                 <div class="col-md-12 text-center">
-                                    <button type="submit" class="btn btn-sm btn-primary">Simpan</button>
+                                    <button type="submit" class="btn btn-sm btn-primary">Simpan / Kemaskini</button>
                                 </div>
                             </div>
+                            @endif
                             </form>
+                            <div class="col-md-12 col-sm-12 mt-3 mb-3">
+                                <label for="" class="fw-bold">Program Yang Dipohon</label>
+                            </div>
                             <div class="row mb-2">
                                 <div class="col-md-3 col-sm-3">
                                     <label for="">Tarikh Permohonan</label>
@@ -245,9 +250,6 @@
                                 <div class="col-md-3 col-sm-3">
                                     <label for="name">{{ \Carbon\Carbon::parse(  $student->created_at )->format('d-m-Y') }}</label>
                                 </div>
-                            </div>
-                            <div class="col-md-12 col-sm-12 mt-3 mb-3">
-                                <label for="" class="fw-bold">Program Yang Dipohon</label>
                             </div>
                             <div class="row mb-2">
                                 <div class="col-md-3 col-sm-3">

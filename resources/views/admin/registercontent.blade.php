@@ -39,16 +39,28 @@
                 </div>
 
                 <!-- File Upload (no form-floating for file inputs) -->
-                <div class="mb-2">
+                <div class="mb-2" id="file-upload-group" style="display: none;">
                     <label for="file" class="form-label">Muatnaik Fail</label>
                     <input type="file" name="file" id="file" class="form-control">
                 </div>
 
                 <!-- External Link -->
-                <div class="form-floating mb-2">
+                <div class="form-floating mb-2" id="external-link-group" style="display: none;">
                     <input type="url" name="external_link" id="external_link" class="form-control" placeholder="https://example.com" value="{{ old('external_link') }}">
                     <label for="external_link">Pautan</label>
                 </div>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        function toggleFields() {
+                            var type = document.getElementById('type').value;
+                            document.getElementById('file-upload-group').style.display = (type === 'image') ? 'block' : 'none';
+                            document.getElementById('external-link-group').style.display = (type === 'video' || type === 'link') ? 'block' : 'none';
+                        }
+                        document.getElementById('type').addEventListener('change', toggleFields);
+                        toggleFields();
+                    });
+                </script>
 
                 <!-- Tags -->
                 <div class="form-floating mb-2">

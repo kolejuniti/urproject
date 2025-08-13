@@ -19,60 +19,71 @@
     <title>Surat Tawaran</title>
 
     <style>
-        @media print {
-        @page {
-            size: A4; /* or 'letter' */
-            margin: 10mm; /* Adjust as needed */
-        }
-
+        /* General styles for A4 view */
         body {
-            font-size: 12px; /* Adjust font size for print */
+            font-size: 12px;
+            background: #fff;
         }
-
         .container-fluid {
-            width: 100%;
-            padding: 0;
+            max-width: 210mm;
+            min-height: 297mm;
+            margin: 0 auto;
+            padding: 20mm 15mm;
+            box-sizing: border-box;
+            background: #fff url('https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/letter_head/offer_letter.jpg') no-repeat top center;
+            background-size: cover;
         }
-
-        /* Hide unnecessary elements */
-        .navbar, .footer {
-            display: none;
+        @media print {
+            @page {
+                size: A4;
+                margin: 10mm;
+            }
+            body, html {
+                width: 210mm;
+                height: 297mm;
+                margin: 0;
+                padding: 0;
+                overflow: visible;
+            }
+            .container-fluid {
+                width: 100%;
+                min-height: 100%;
+                margin: 0;
+                padding: 0;
+                box-shadow: none;
+                background: #fff url('https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/letter_head/offer_letter.jpg') no-repeat top center;
+                background-size: cover;
+            }
+            .navbar, .footer {
+                display: none !important;
+            }
+            .container-fluid, .row, .col-sm-2, .col-sm-10, main {
+                page-break-inside: avoid;
+                page-break-after: avoid;
+            }
         }
-
-        /* Adjust other elements as needed */
-        /* Forcing a single page */
-        body, html {
-            height: 100%;
-            overflow: hidden;
-        }
-
-        .container-fluid, .row, .col-sm-2, .col-sm-10, main {
-            page-break-inside: avoid;
-            page-break-after: avoid;
-        }
-    }
     </style>
 
 </head>
 <body class="bg-white">
     @foreach($students as $student)
     <div class="container-fluid">
-        <div class="col-sm-12">
+        <div class="col-sm-9 text-start">
             <div class="mt-3">
                 <label for="">{{$student->offer_letter_date ? \Carbon\Carbon::parse($student->offer_letter_date)->format('d-m-Y') : '' }}</label>
             </div>
             <div class="mt-3 mb-3">
-                <label for="">{{ $student->name }}</label>
+                <label for="" class="text-uppercase">{{ $student->name }}</label>
             </div>
             <div>
-                <label for="">{{ $student->address1 }}</label>
+                <label for="" class="text-uppercase">{{ $student->address1 }}</label>
             </div>
             <div>
-                <label for="">{{ $student->address2 }}</label>
+                <label for="" class="text-uppercase">{{ $student->address2 }}</label>
             </div>
             <div>
                 <label for="">{{ $student->postcode }},&nbsp;</label>
-                <label for="">{{ $student->city }}</label>
+                <label for="" class="text-uppercase">{{ $student->city }}</label>
             </div>
             <div>
                 <label for="">{{ $student->state }}</label>
