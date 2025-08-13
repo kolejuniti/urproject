@@ -232,6 +232,7 @@ function updateTotals() {
             ea += parseInt(row.dataset.ea);
             noaff += parseInt(row.dataset.noaff);
             preaff += parseInt(row.dataset.preaff);
+            preea += parseInt(row.dataset.preea);
             prenoaff += parseInt(row.dataset.prenoaff);
             regaff += parseInt(row.dataset.regaff);
             regnoaff += parseInt(row.dataset.regnoaff);
@@ -245,6 +246,7 @@ function updateTotals() {
     document.getElementById('ea-count').innerText = ea;
     document.getElementById('noaff-count').innerText = noaff;
     document.getElementById('preaff-count').innerText = preaff;
+    document.getElementById('preea-count').innerText = preea;
     document.getElementById('prenoaff-count').innerText = prenoaff;
     document.getElementById('regaff-count').innerText = regaff;
     document.getElementById('regnoaff-count').innerText = regnoaff;
