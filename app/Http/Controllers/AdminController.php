@@ -1755,11 +1755,46 @@ class AdminController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'type' => 'required|in:image,video,link,text',
+            'tags' => 'nullable|string|max:255',
+
+            // Platform validation
+            'platform'   => 'required|array', // Must be an array
+            'platform.*' => 'in:facebook,instagram,whatsapp,tiktok,telegram', // Only allowed values
         ]);
+
+        if ($request->input('type') === 'image' && $request->hasFile('file')) {
+            $file = $request->file('file');
+
+            $extension = strtolower($file->getClientOriginalExtension());
+
+            $filePath = 'urproject/images/contents/' . uniqid('content_') . '.' . $extension;
+
+            Storage::disk('linode')->put($filePath, file_get_contents($file), 'public');
+
+            $validated['file_path'] = Storage::disk('linode')->url($filePath);
+        }
+
+        if (in_array($request->input('type'), ['link', 'video'])) {
+            $externalLink = $request->input('external_link');
+            if ($externalLink) {
+            $request->validate([
+                'external_link' => 'required|url|max:255',
+            ]);
+            $validated['external_link'] = $externalLink;
+            }
+        }
 
         Content::create($validated);
 
         return redirect()->route('admin.content')->with('success', 'Kandungan media berjaya disimpan.');
+    }
+
+    public function listofcontent()
+    {     
+        // Fetch all contents from DB
+        $contents = Content::all();
+
+        return view('admin.listofcontents', compact('contents'));
     }
 
 }
