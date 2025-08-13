@@ -222,13 +222,14 @@ document.getElementById('hideKolejbtmCheckbox').addEventListener('change', funct
 });
 
 function updateTotals() {
-    let total = 0, aff = 0, noaff = 0, preaff = 0, prenoaff = 0;
+    let total = 0, aff = 0, ea = 0, noaff = 0, preaff = 0, prenoaff = 0;
     let regaff = 0, regnoaff = 0, reject = 0;
 
     document.querySelectorAll('tbody tr').forEach(row => {
         if (row.style.display !== 'none') {
             total += parseInt(row.dataset.total);
             aff += parseInt(row.dataset.aff);
+            ea += parseInt(row.dataset.ea);
             noaff += parseInt(row.dataset.noaff);
             preaff += parseInt(row.dataset.preaff);
             prenoaff += parseInt(row.dataset.prenoaff);
@@ -241,6 +242,7 @@ function updateTotals() {
     // Update footer cells
     document.getElementById('total-count').innerText = total;
     document.getElementById('aff-count').innerText = aff;
+    document.getElementById('ea-count').innerText = ea;
     document.getElementById('noaff-count').innerText = noaff;
     document.getElementById('preaff-count').innerText = preaff;
     document.getElementById('prenoaff-count').innerText = prenoaff;
@@ -249,7 +251,7 @@ function updateTotals() {
     document.getElementById('reject-count').innerText = reject;
     document.getElementById('balance-count').innerText = total - reject;
 
-    document.getElementById('entry-count').innerText = aff + noaff;
+    document.getElementById('entry-count').innerText = aff + ea + noaff;
     document.getElementById('preregister-count').innerText = preaff + prenoaff;
     document.getElementById('register-count').innerText = regaff + regnoaff;
 }
