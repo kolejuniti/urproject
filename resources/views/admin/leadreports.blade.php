@@ -129,7 +129,7 @@
                         <th rowspan="2" class="text-center"><span id="balance-count">{{ $totalDataCount - $totalDataRejectCount }}</span></th>
                     </tr>
                     <tr>
-                        <td colspan="3" class="text-center"><strong><span id="entry-count">{{ $totalDataEntry }}</span></strong></td>
+                        <td colspan="3" class="text-center"><strong><span id="entry-count">{{ $totalDataWithAffiliateCount + $totalDataWithEACount + $totalDataWithoutAffiliateCount }}</span></strong></td>
                         <td colspan="3" class="text-center"><strong><span id="preregister-count">{{ $totalDataPreRegister }}</span></strong></td>
                         <td colspan="4" class="text-center"><strong><span id="register-count">{{ $totalDataRegister }}</span></strong></td>
                     </tr>
