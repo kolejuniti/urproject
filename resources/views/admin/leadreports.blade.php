@@ -123,7 +123,7 @@
                         <th class="text-center"><span id="prenoaff-count">{{ $totalDataPreRegisterWithoutAffiliateCount }}</span></th>
                         <th class="text-center"><span id="regaff-count">{{ $totalDataRegisterWithAffiliateCount }}</span></th>
                         <th class="text-center"><span id="regotherea-count">{{ $totalDataRegisterWithOtherEACount }}</span></th>
-                        <th class="text-center"><span id="regea-count"></span>{{ $totalDataRegisterWithEACount }}</th>
+                        <th class="text-center"><span id="regea-count">{{ $totalDataRegisterWithEACount }}</span></th>
                         <th class="text-center"><span id="regnoaff-count">{{ $totalDataRegisterWithoutAffiliateCount }}</span></th>
                         <th rowspan="2" class="text-center"><span id="reject-count">{{ $totalDataRejectCount }}</span></th>
                         <th rowspan="2" class="text-center"><span id="balance-count">{{ $totalDataCount - $totalDataRejectCount }}</span></th>
@@ -222,21 +222,23 @@ document.getElementById('hideKolejbtmCheckbox').addEventListener('change', funct
 });
 
 function updateTotals() {
-    let total = 0, aff = 0, ea = 0, noaff = 0, preaff = 0, prenoaff = 0;
-    let regaff = 0, regnoaff = 0, reject = 0;
+    let total = 0, aff = 0, ea = 0, noaff = 0, preaff = 0, preea = 0, prenoaff = 0;
+    let regaff = 0, regotherea = 0, regea = 0, regnoaff = 0, reject = 0;
 
     document.querySelectorAll('tbody tr').forEach(row => {
         if (row.style.display !== 'none') {
-            total += parseInt(row.dataset.total);
-            aff += parseInt(row.dataset.aff);
-            ea += parseInt(row.dataset.ea);
-            noaff += parseInt(row.dataset.noaff);
-            preaff += parseInt(row.dataset.preaff);
-            preea += parseInt(row.dataset.preea);
-            prenoaff += parseInt(row.dataset.prenoaff);
+            total += parseInt(row.dataset.total || 0);
+            aff += parseInt(row.dataset.aff || 0);
+            ea += parseInt(row.dataset.ea || 0);
+            noaff += parseInt(row.dataset.noaff || 0);
+            preaff += parseInt(row.dataset.preaff || 0);
+            preea += parseInt(row.dataset.preea || 0);
+            prenoaff += parseInt(row.dataset.prenoaff || 0);
             regaff += parseInt(row.dataset.regaff);
-            regnoaff += parseInt(row.dataset.regnoaff);
-            reject += parseInt(row.dataset.reject);
+            regotherea += parseInt(row.dataset.regotherea || 0);
+            regea += parseInt(row.dataset.regea || 0);
+            regnoaff += parseInt(row.dataset.regnoaff || 0);
+            reject += parseInt(row.dataset.reject || 0);
         }
     });
 
@@ -249,13 +251,15 @@ function updateTotals() {
     document.getElementById('preea-count').innerText = preea;
     document.getElementById('prenoaff-count').innerText = prenoaff;
     document.getElementById('regaff-count').innerText = regaff;
+    document.getElementById('regotherea-count').innerText = regotherea;
+    document.getElementById('regea-count').innerText = regea;
     document.getElementById('regnoaff-count').innerText = regnoaff;
     document.getElementById('reject-count').innerText = reject;
     document.getElementById('balance-count').innerText = total - reject;
 
     document.getElementById('entry-count').innerText = aff + ea + noaff;
-    document.getElementById('preregister-count').innerText = preaff + prenoaff;
-    document.getElementById('register-count').innerText = regaff + regnoaff;
+    document.getElementById('preregister-count').innerText = preaff + preea + prenoaff;
+    document.getElementById('register-count').innerText = regaff + regotherea + regea + regnoaff;
 }
 </script>
 @endsection
