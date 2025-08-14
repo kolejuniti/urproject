@@ -20,9 +20,9 @@
                             <button class="btn btn-sm btn-primary" onclick="copyImage('{{ asset($item->file_path) }}')">
                                 <i class="bi bi-clipboard"></i> Copy Image
                             </button>
-                            <a href="{{ asset($item->file_path) }}" class="btn btn-sm btn-success" download>
+                            <button class="btn btn-sm btn-success" onclick="downloadImage('{{ asset($item->file_path) }}', '{{ $item->title }}.jpg')">
                                 <i class="bi bi-download"></i> Download
-                            </a>
+                            </button>
                         </div>
                     @else
                         <img src="{{ asset('images/placeholder.png') }}" 
@@ -58,7 +58,6 @@
 <script src="https://cdn.datatables.net/v/bs5/jq-3.7.0/jszip-3.10.1/dt-2.1.0/b-3.1.0/b-colvis-3.1.0/b-html5-3.1.0/b-print-3.1.0/cr-2.0.3/datatables.min.js"></script>
 
 {{-- Copy Functions --}}
-
 
 <script>
 function copyText(id) {
@@ -102,12 +101,18 @@ async function copyImage(url) {
 
 function downloadImage(url, filename) {
     fetch(url, { mode: 'cors' })
-        .then(response => response.blob())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.blob();
+        })
         .then(blob => {
             const blobUrl = URL.createObjectURL(blob);
             const link = document.createElement('a');
             link.href = blobUrl;
-            link.download = filename || 'download.jpg';
+            link.download = filename || 'image.jpg';
+            link.style.display = 'none';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
@@ -115,7 +120,14 @@ function downloadImage(url, filename) {
         })
         .catch(err => {
             console.error('Download failed:', err);
-            window.open(url, '_blank'); // fallback
+            // Fallback: try direct download with anchor tag
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = filename || 'image.jpg';
+            link.target = '_blank';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         });
 }
 </script>
