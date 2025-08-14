@@ -239,9 +239,10 @@ class UserController extends Controller
         $user = Auth::user();
 
         $ref = $user->referral_code;
+        $url = url('/').'?ref='.$ref;
 
         $contents = Content::orderBy('created_at', 'desc')->get();
 
-        return view('user.contents', compact('contents', 'ref'));
+        return view('user.contents', compact('contents', 'ref', 'url'));
     }
 }
