@@ -4,44 +4,42 @@
 <link href="https://cdn.datatables.net/v/bs5/jq-3.7.0/jszip-3.10.1/dt-2.1.0/b-3.1.0/b-colvis-3.1.0/b-html5-3.1.0/b-print-3.1.0/cr-2.0.3/datatables.min.css" rel="stylesheet">
 <div class="container">
     <div class="row g-4">
-    @foreach ($contents as $index => $item)
+    @foreach ($contents as $item)
         <div class="col-md-4">
             <div class="card h-100 shadow-sm">
-                <div class="card-body">
+                <div class="card-body text-center">
 
-                    {{-- Image with Copy Image & Download --}}
+                    {{-- Image --}}
                     @if($item->file_path && preg_match('/\.(jpg|jpeg|png|gif|webp)$/i', $item->file_path))
                         <img src="{{ asset($item->file_path) }}" 
-                            class="card-img-top" 
-                            alt="{{ $item->title }}" 
-                            style="object-fit: cover; height: 200px;">
+                             alt="{{ $item->title }}" 
+                             class="img-fluid mb-3" 
+                             style="max-height: 200px; object-fit: cover;">
 
-                        <div class="mt-2 d-flex gap-2">
-                            <!-- Copy Button -->
-                            <button class="btn btn-sm btn-outline-primary"
-                                id="copy-img-btn-{{ $loop->index }}"
-                                onclick="copyImageToClipboard('{{ url('/image-proxy') }}?url={{ urlencode($item->file_path) }}', 'copy-img-btn-{{ $loop->index }}')">
-                                📋 Copy Image
+                        <div class="btn-group mb-3">
+                            <button class="btn btn-sm btn-primary" onclick="copyImage('{{ asset($item->file_path) }}')">
+                                <i class="bi bi-clipboard"></i> Copy Image
                             </button>
-
-                            <!-- Download Button -->
-                            <a href="{{ url('/image-proxy') }}?url={{ urlencode($item->file_path) }}&download=1" 
-                            class="btn btn-sm btn-outline-success">
-                                ⬇ Download
+                            <a href="{{ asset($item->file_path) }}" class="btn btn-sm btn-success" download>
+                                <i class="bi bi-download"></i> Download
                             </a>
                         </div>
+                    @else
+                        <img src="{{ asset('images/placeholder.png') }}" 
+                             alt="No image" 
+                             class="img-fluid mb-3" 
+                             style="max-height: 200px; object-fit: cover;">
                     @endif
 
-                    {{-- Combined Title & Description --}}
-                    <label class="fw-bold">Content:</label>
-                    <textarea id="content_text_{{ $index }}" class="form-control mb-2" rows="4" readonly>{{ $item->title }}
-
-{{ $item->description }}</textarea>
-                    <button class="btn btn-sm btn-outline-primary" 
-                            id="copy-content-btn-{{ $index }}" 
-                            onclick="copyInputValue('content_text_{{ $index }}','copy-content-btn-{{ $index }}')">
-                        📋 Copy
+                    {{-- Title + Description --}}
+                    @php
+                        $textContent = $item->title . "\n\n" . $item->description;
+                    @endphp
+                    <textarea id="text-{{ $loop->index }}" class="form-control mb-2" rows="4" readonly>{{ $textContent }}</textarea>
+                    <button class="btn btn-sm btn-outline-secondary" onclick="copyText('text-{{ $loop->index }}')">
+                        <i class="bi bi-clipboard"></i> Copy Text
                     </button>
+
                 </div>
             </div>
         </div>
@@ -53,47 +51,46 @@
 <script src="https://cdn.datatables.net/v/bs5/jq-3.7.0/jszip-3.10.1/dt-2.1.0/b-3.1.0/b-colvis-3.1.0/b-html5-3.1.0/b-print-3.1.0/cr-2.0.3/datatables.min.js"></script>
 
 {{-- Copy Functions --}}
+
+
 <script>
-function copyInputValue(inputId, btnId) {
-    var copyField = document.getElementById(inputId);
-    copyField.select();
+function copyText(id) {
+    var copyText = document.getElementById(id);
+    copyText.select();
     document.execCommand("copy");
-
-    var btn = document.getElementById(btnId);
-    var originalHTML = btn.innerHTML;
-    btn.innerHTML = '✔';
-    setTimeout(() => btn.innerHTML = originalHTML, 1500);
+    alert("Text copied!");
 }
 
-function copyImageToClipboard(url, btnId) {
-    fetch(url)
-        .then(res => res.blob())
-        .then(blob => {
-            const item = new ClipboardItem({ [blob.type]: blob });
-            return navigator.clipboard.write([item]);
-        })
-        .then(() => {
-            let btn = document.getElementById(btnId);
-            let originalHTML = btn.innerHTML;
-            btn.innerHTML = '✔ Copied!';
-            setTimeout(() => btn.innerHTML = originalHTML, 1500);
-        })
-        .catch(err => {
-            alert("Copy image failed: " + err);
-            console.error(err);
-        });
-}
+async function copyImage(url) {
+    if (navigator.clipboard && window.ClipboardItem) {
+        try {
+            const response = await fetch(url, { mode: 'cors' });
+            const blob = await response.blob();
 
-function downloadFile(url) {
-    fetch(url)
-        .then(res => res.blob())
-        .then(blob => {
-            const link = document.createElement("a");
-            link.href = URL.createObjectURL(blob);
-            const ext = blob.type.split('/')[1] || 'png';
-            link.download = `image.${ext}`;
-            link.click();
-        });
+            // Convert to PNG if not PNG
+            let finalBlob = blob;
+            if (blob.type !== 'image/png') {
+                const imgBitmap = await createImageBitmap(blob);
+                const canvas = document.createElement('canvas');
+                canvas.width = imgBitmap.width;
+                canvas.height = imgBitmap.height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(imgBitmap, 0, 0);
+                finalBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+            }
+
+            await navigator.clipboard.write([
+                new ClipboardItem({ 'image/png': finalBlob })
+            ]);
+
+            alert('Image copied to clipboard!');
+        } catch (err) {
+            console.error('Copy image failed:', err);
+            window.open(url, '_blank'); // fallback
+        }
+    } else {
+        window.open(url, '_blank');
+    }
 }
 </script>
 @endsection
