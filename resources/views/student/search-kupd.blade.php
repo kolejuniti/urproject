@@ -218,13 +218,13 @@
                                         <small class="text-danger">* Saiz salinan SPM mestilah tidak melebihi 5MB.</small>
                                     </div>
                                 </div>
-                            @endif
-                            @if ($foundFile === null && (empty($student->address1) || trim($student->address1) === ''))
-                            <div class="mb-3">
-                                <div class="col-md-12 text-center">
-                                    <button type="submit" class="btn btn-sm btn-primary">Simpan / Kemaskini</button>
+
+                                {{-- Submit button --}}
+                                <div class="mb-3">
+                                    <div class="col-md-12 text-center">
+                                        <button type="submit" class="btn btn-sm btn-primary">Simpan / Kemaskini</button>
+                                    </div>
                                 </div>
-                            </div>
                             @endif
                             </form>
                             <div class="col-md-12 col-sm-12 mt-3 mb-3">
