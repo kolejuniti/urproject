@@ -15,6 +15,8 @@ class Content extends Model
     'external_link',
     'tags',
     'platform',
+    'start_date',
+    'end_date',
     ];
 
     protected $casts = [
