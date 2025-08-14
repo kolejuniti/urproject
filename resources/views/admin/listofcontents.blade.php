@@ -2,107 +2,96 @@
 
 @section('content')
 <div class="container my-4">
-    <h1 class="mb-4">Content Bank</h1>
-    <div class="row g-4">
-        @foreach($contents as $content)
-            <div class="col-md-4">
-                <div class="card shadow-sm h-100">
-                    <div class="card-body">
-                        <h5 class="card-title fw-bold">{{ $content->title }}</h5>
-                        <p class="card-text">{{ $content->description }}</p>
+    <h1 class="mb-4">Content List</h1>
 
-                        {{-- Display based on type --}}
-                        @if($content->type === 'image' && $content->file_path)
-                            <img src="{{ $content->file_path }}" alt="{{ $content->title }}" class="img-fluid rounded mb-2">
-                        @elseif($content->type === 'video' && $content->external_link)
+    <table class="table table-bordered table-striped align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Type</th>
+                <th>File</th>
+                <th>External Link</th>
+                <th>Tags</th>
+                <th>Platform</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($contents as $content)
+                <tr>
+                    <td>{{ $content->id }}</td>
+                    <td>{{ $content->title }}</td>
+                    <td>{{ Str::limit($content->description, 50) }}</td>
+                    <td>{{ ucfirst($content->type) }}</td>
+                    <td>
+                        @if($content->file_path)
+                            <a href="{{ $content->file_path }}" target="_blank">View</a>
+                        @endif
+                    </td>
+                    <td>
+                        @if($content->external_link)
+                            <a href="{{ $content->external_link }}" target="_blank">Open</a>
+                        @endif
+                    </td>
+                    <td>{{ Str::limit($content->tags, 30) }}</td>
+                    <td>
                         @php
-                            $videoUrl = $content->external_link;
+                            $platforms = is_array($content->platform) 
+                                ? $content->platform 
+                                : json_decode($content->platform, true);
 
-                            // YouTube Shorts
-                            if (preg_match('/youtube\.com\/shorts\/([a-zA-Z0-9_-]+)/', $videoUrl, $matches)) {
-                                $videoUrl = 'https://www.youtube.com/embed/' . $matches[1];
-                                $embedType = 'youtube';
-                            }
-                            // YouTube normal watch link
-                            elseif (preg_match('/youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/', $videoUrl, $matches)) {
-                                $videoUrl = 'https://www.youtube.com/embed/' . $matches[1];
-                                $embedType = 'youtube';
-                            }
-                            // YouTube short link (youtu.be)
-                            elseif (preg_match('/youtu\.be\/([a-zA-Z0-9_-]+)/', $videoUrl, $matches)) {
-                                $videoUrl = 'https://www.youtube.com/embed/' . $matches[1];
-                                $embedType = 'youtube';
-                            }
-                            // TikTok video
-                            elseif (preg_match('/tiktok\.com\/.*\/video\/(\d+)/', $videoUrl, $matches)) {
-                                $tiktokId = $matches[1];
-                                $embedType = 'tiktok';
-                            }
+                            $colors = [
+                                'facebook' => 'primary',
+                                'whatsapp' => 'success',
+                                'telegram' => 'info',
+                                'instagram' => 'danger',
+                                'tiktok' => 'dark',
+                            ];
                         @endphp
 
-                            @if(!empty($embedType) && $embedType === 'youtube')
-                                <div class="ratio ratio-16x9 mb-2">
-                                    <iframe src="{{ $videoUrl }}" allowfullscreen></iframe>
-                                </div>
-                            @elseif(!empty($embedType) && $embedType === 'tiktok')
-                                <blockquote class="tiktok-embed" cite="{{ $content->external_link }}" data-video-id="{{ $tiktokId }}" style="max-width: 605px; min-width: 325px;">
-                                    <section></section>
-                                </blockquote>
-                                <script async src="https://www.tiktok.com/embed.js"></script>
-                            @endif
-                        @elseif($content->type === 'link' && $content->external_link)
-                            <a href="{{ $content->external_link }}" target="_blank" class="btn btn-primary mb-2">
-                                🔗 Visit Link
-                            </a>
-                        @elseif($content->type === 'text')
-                            <div class="p-3 bg-light rounded mb-2">
-                                {!! nl2br(e($content->description)) !!}
-                            </div>
+                        @if(!empty($platforms))
+                            @foreach($platforms as $p)
+                                <span class="badge bg-{{ $colors[$p] ?? 'secondary' }}">
+                                    {{ ucfirst($p) }}
+                                </span>
+                            @endforeach
+                        @else
+                            <span class="text-muted">—</span>
                         @endif
-
-                        {{-- Tags --}}
-                        @if(!empty($content->tags))
-                            <p>
-                                @foreach(explode(',', $content->tags) as $tag)
-                                    <span class="badge bg-secondary">{{ trim($tag) }}</span>
-                                @endforeach
-                            </p>
+                    </td>
+                    <td>{{ $content->start_date }}</td>
+                    <td>{{ $content->end_date }}</td>
+                    <td>
+                        @if($content->status_id == 1)
+                            <span class="badge bg-success">Active</span>
+                        @elseif($content->status_id == 2)
+                            <span class="badge bg-warning">Pending</span>
+                        @else
+                            <span class="badge bg-secondary">Inactive</span>
                         @endif
+                    </td>
+                    {{-- <td>
+                        <a href="{{ route('contents.edit', $content->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                        <form action="{{ route('contents.destroy', $content->id) }}" method="POST" class="d-inline">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-sm btn-danger"
+                                onclick="return confirm('Are you sure?')">Delete</button>
+                        </form>
+                    </td> --}}
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
 
-                        {{-- Platforms --}}
-                        @if(!empty($content->platform) && is_array($content->platform))
-                            <div class="mt-2">
-                                @php
-                                    $shareLinks = [
-                                        'facebook' => 'https://www.facebook.com/sharer/sharer.php?u=',
-                                        'whatsapp' => 'https://wa.me/?text=',
-                                        'telegram' => 'https://t.me/share/url?url=',
-                                        'instagram' => '#',
-                                        'tiktok' => '#',
-                                    ];
-                                    $platformColors = [
-                                        'facebook' => 'primary',
-                                        'instagram' => 'danger',
-                                        'whatsapp' => 'success',
-                                        'telegram' => 'info',
-                                        'tiktok' => 'dark',
-                                    ];
-                                    $shareContent = $content->file_path ?? $content->external_link ?? '';
-                                @endphp
-                                @foreach($content->platform as $platform)
-                                    <a href="{{ $shareLinks[$platform] }}{{ urlencode($shareContent) }}"
-                                       target="_blank"
-                                       class="btn btn-sm btn-{{ $platformColors[$platform] ?? 'secondary' }} me-1">
-                                        Share on {{ ucfirst($platform) }}
-                                    </a>
-                                @endforeach
-                            </div>
-                        @endif
-
-                    </div>
-                </div>
-            </div>
-        @endforeach
+    {{-- Pagination --}}
+    <div class="mt-3">
+        {{ $contents->links() }}
     </div>
 </div>
 @endsection
