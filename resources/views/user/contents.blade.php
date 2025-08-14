@@ -4,47 +4,48 @@
 <link href="https://cdn.datatables.net/v/bs5/jq-3.7.0/jszip-3.10.1/dt-2.1.0/b-3.1.0/b-colvis-3.1.0/b-html5-3.1.0/b-print-3.1.0/cr-2.0.3/datatables.min.css" rel="stylesheet">
 <div class="container">
     <div class="row g-4">
-        @foreach ($contents as $item)
-            <div class="col-md-4">
-                <div class="card h-100 shadow-sm">
-                    <div class="card-body text-center">
+    @foreach ($contents as $item)
+        <div class="col-md-4 col-sm-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
 
-                        {{-- Image --}}
-                        @if($item->file_path && preg_match('/\.(jpg|jpeg|png|gif|webp)$/i', $item->file_path))
-                            <img src="{{ asset($item->file_path) }}" 
-                                alt="{{ $item->title }}" 
-                                class="img-fluid mb-3" 
-                                style="max-height: 200px; object-fit: cover;">
+                    {{-- Image --}}
+                    @if($item->file_path && preg_match('/\.(jpg|jpeg|png|gif|webp)$/i', $item->file_path))
+                        <img src="{{ asset($item->file_path) }}" 
+                            alt="{{ $item->title }}" 
+                            class="img-fluid mb-3" 
+                            style="max-height: 300px; object-fit: cover;">
 
-                            <div class="btn-group mb-3">
-                                <button class="btn btn-sm btn-primary" onclick="copyImage('{{ asset($item->file_path) }}')">
-                                    <i class="bi bi-clipboard"></i> Copy Image
-                                </button>
-                                <a href="{{ asset($item->file_path) }}" class="btn btn-sm btn-success" download>
-                                    <i class="bi bi-download"></i> Download
-                                </a>
-                            </div>
-                        @else
-                            <img src="{{ asset('images/placeholder.png') }}" 
-                                alt="No image" 
-                                class="img-fluid mb-3" 
-                                style="max-height: 200px; object-fit: cover;">
-                        @endif
+                        <div class="btn-group mb-3">
+                            <button class="btn btn-sm btn-primary" onclick="copyImage('{{ asset($item->file_path) }}')">
+                                <i class="bi bi-clipboard"></i> Copy Image
+                            </button>
+                            <a href="{{ asset($item->file_path) }}" class="btn btn-sm btn-success" download>
+                                <i class="bi bi-download"></i> Download
+                            </a>
+                        </div>
+                    @else
+                        <img src="{{ asset('images/placeholder.png') }}" 
+                            alt="No image" 
+                            class="img-fluid mb-3" 
+                            style="max-height: 200px; object-fit: cover;">
+                    @endif
 
-                        {{-- Title + Description --}}
-                        @php
-                            $textContent = $item->title . "\n\n" . $item->description;
-                        @endphp
-                        <textarea id="text-{{ $loop->index }}" class="form-control mb-2" rows="4" readonly>{{ $textContent }}</textarea>
-                        <button class="btn btn-sm btn-outline-secondary" onclick="copyText('text-{{ $loop->index }}')">
-                            <i class="bi bi-clipboard"></i> Copy Text
-                        </button>
+                    {{-- Title + Description --}}
+                    @php
+                        $textContent = $item->title . "\n\n" . $item->description . "\n\n" . $item->tags;
+                    @endphp
+                    <textarea id="text-{{ $loop->index }}" class="form-control mb-2" rows="4" readonly>{{ $textContent }}</textarea>
+                    <button class="btn btn-sm btn-outline-secondary" onclick="copyText('text-{{ $loop->index }}')">
+                        <i class="bi bi-clipboard"></i> Copy Text
+                    </button>
 
-                    </div>
                 </div>
             </div>
-        @endforeach
-    </div>
+        </div>
+    @endforeach
+</div>
+
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
