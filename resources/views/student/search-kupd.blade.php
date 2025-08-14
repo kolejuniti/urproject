@@ -219,7 +219,7 @@
                                     </div>
                                 </div>
                             @endif
-                            @if (empty($student->address1) || trim($student->address1) === '')
+                            @if ($foundFile === null && (empty($student->address1) || trim($student->address1) === ''))
                             <div class="mb-3">
                                 <div class="col-md-12 text-center">
                                     <button type="submit" class="btn btn-sm btn-primary">Simpan / Kemaskini</button>
