@@ -33,7 +33,7 @@
 
                     {{-- Title + Description --}}
                     @php
-                        $textContent = $item->title . "\n\n" . $item->description . "\n\n" . $item->tags;
+                        $textContent = $item->title . "\n\n" . $item->description . "\n\n" . $ref . "\n\n" . $item->tags;
                     @endphp
                     <textarea id="text-{{ $loop->index }}" class="form-control mb-2" rows="4" readonly>{{ $textContent }}</textarea>
                     <button class="btn btn-sm btn-outline-secondary" onclick="copyText('text-{{ $loop->index }}')">
