@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Carbon\Carbon;
+use App\Models\Content;
 
 class UserController extends Controller
 {
@@ -231,5 +232,12 @@ class UserController extends Controller
         $affiliates = User::where('leader_id', Auth::id())->orderBy('name')->get();
 
         return view('user.affiliate', compact('affiliates', 'url', 'qrCode'));
+    }
+
+    public function contents()
+    {     
+        $contents = Content::orderBy('created_at', 'desc')->get();
+
+        return view('user.contents', compact('contents'));
     }
 }

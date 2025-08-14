@@ -1744,18 +1744,22 @@ class AdminController extends Controller
         return view('admin.affiliateachievementDetails', compact('affiliate', 'applications', 'totalIncentive', 'totalCommission'));
     }
 
-    public function content()
+    public function contents()
     {     
-        return view('admin.registercontent');
+        $contents = Content::orderBy('created_at', 'desc')->get();
+
+        return view('admin.contents', compact('contents'));
     }
 
-    public function storeContent(Request $request)
+    public function addcontent(Request $request)
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'type' => 'required|in:image,video,link,text',
             'tags' => 'nullable|string|max:255',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
 
             // Platform validation
             'platform'   => 'required|array', // Must be an array
@@ -1785,16 +1789,30 @@ class AdminController extends Controller
         }
 
         Content::create($validated);
-
-        return redirect()->route('admin.content')->with('success', 'Kandungan media berjaya disimpan.');
+        
+        return redirect()->back()->with('success', 'Kandungan media yang baru berjaya ditambah ke dalam sistem.');
     }
 
-    public function listofcontent()
-    {     
-        // Fetch all contents from DB
-        $contents = Content::all();
+    public function destroy($id)
+    {
+        $content = Content::findOrFail($id);
 
-        return view('admin.listofcontents', compact('contents'));
+        if ($content->file_path) {
+            // Remove domain if full URL is stored
+            $filePath = str_replace(
+                'https://ku-storage-object.ap-south-1.linodeobjects.com/',
+                '',
+                $content->file_path
+            );
+
+            if (Storage::disk('linode')->exists($filePath)) {
+                Storage::disk('linode')->delete($filePath);
+            }
+        }
+
+        $content->delete();
+
+        return redirect()->back()->with('success', 'Kandungan berjaya dihapuskan.');
     }
 
 }
