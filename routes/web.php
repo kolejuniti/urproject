@@ -16,6 +16,42 @@ use Illuminate\Support\Str;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
 // use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Response;
+
+Route::get('/image-proxy', function (\Illuminate\Http\Request $request) {
+    $url = $request->query('url');
+    $download = $request->boolean('download');
+
+    if (!$url) {
+        abort(400, "Image URL is required.");
+    }
+
+    // Fetch remote image
+    $response = Http::withOptions(['stream' => true])->get($url);
+
+    if ($response->failed()) {
+        abort(404, "Image not found.");
+    }
+
+    $contentType = $response->header('Content-Type', 'image/jpeg');
+
+    // Extract filename from URL
+    $filename = basename(parse_url($url, PHP_URL_PATH));
+
+    $headers = [
+        "Content-Type" => $contentType,
+        "Cache-Control" => "public, max-age=86400",
+    ];
+
+    if ($download) {
+        $headers["Content-Disposition"] = "attachment; filename=\"$filename\"";
+    }
+
+    return Response::stream(function () use ($response) {
+        echo $response->body();
+    }, 200, $headers);
+});
 
 // Route::get('/db-check', function () {
 //     try {
@@ -156,9 +192,11 @@ Route::middleware(['auth', 'user-access:admin'])->group(function() {
     Route::get('/admin/maklumat/pencapaian/ea/{id}/{start_date?}/{end_date?}/{location?}', [AdminController::class, 'achievementDetails'])->name('admin.achievement.details');
     Route::match(['get', 'post'], '/admin/laporan/pencapaian/affiliate', [AdminController::class, 'affiliateAchievements'])->name('admin.affiliateachievements');
     Route::get('/admin/maklumat/pencapaian/affiliate/{id}/{start_date?}/{end_date?}/{location?}', [AdminController::class, 'affiliateAchievementDetails'])->name('admin.affiliate.achievement.details');
-    Route::get('/admin/content', [AdminController::class, 'content'])->name('admin.content');
-    Route::post('/admin/content', [AdminController::class, 'storeContent'])->name('admin.content.store');
-    Route::get('/admin/content/list', [AdminController::class, 'listofcontent'])->name('admin.content.list');
+    Route::match(['get', 'post'],'/admin/kandungan-media', [AdminController::class, 'contents'])->name('admin.content');
+    Route::post('/admin/content/add', [AdminController::class, 'addcontent'])->name('admin.content.add');
+    Route::delete('/admin/contents/{id}', [AdminController::class, 'destroy'])->name('admin.contents.destroy');
+
+
 });
 
 // advisor route
@@ -181,6 +219,7 @@ Route::middleware(['auth', 'user-access:user'])->group(function() {
     Route::put('/user/update/profile', [UserController::class, 'update'])->name('user.profile.update');
     Route::put('/user/update/password', [UserController::class, 'password'])->name('user.profile.password');
     Route::get('/user/list/affiliates', [UserController::class, 'affiliate'])->name('user.affiliate');
+    Route::match(['get', 'post'],'/user/kandungan-media', [UserController::class, 'contents'])->name('user.content');
 });
 
 // student route
