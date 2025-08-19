@@ -13,8 +13,8 @@
                     @if($item->file_path && preg_match('/\.(jpg|jpeg|png|gif|webp)$/i', $item->file_path))
                         <img src="{{ asset($item->file_path) }}" 
                             alt="{{ $item->title }}" 
-                            class="img-fluid mb-3" 
-                            style="max-height: 300px; object-fit: cover;">
+                            class="img-fluid rounded mb-3"
+                            style="object-fit: cover; height: 220px; width: 100%;">
 
                         <div class="btn-group mb-3">
                             <button class="btn btn-sm btn-primary" onclick="copyImage('{{ asset($item->file_path) }}')">
@@ -24,12 +24,45 @@
                                 <i class="bi bi-download"></i> Download
                             </button>
                         </div>
-                    @else
-                        <img src="{{ asset('images/placeholder.png') }}" 
-                            alt="No image" 
-                            class="img-fluid mb-3" 
-                            style="max-height: 200px; object-fit: cover;">
                     @endif
+
+                    {{-- YouTube Embed & URL --}}
+                    @if(strtolower($item->type) === 'video' && $item->external_link)
+                    @php
+                        // Convert YouTube link to embed format
+                        preg_match('/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^\&\?\/]+)/', $item->external_link, $matches);
+                        $youtubeId = $matches[1] ?? null;
+                    @endphp
+
+                    @if($youtubeId)
+                        <div class="ratio ratio-16x9 mb-2">
+                            <iframe src="https://www.youtube.com/embed/{{ $youtubeId }}" 
+                                    title="YouTube video player" 
+                                    frameborder="0" 
+                                    allowfullscreen></iframe>
+                        </div>
+                        <div class="mb-2 row align-items-center">
+                            <label class="col-auto col-form-label fw-bold">URL</label>
+                            <div class="col">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="url-input-{{ $loop->index }}" value="{{ $item->external_link }}" readonly>
+                                    <button class="btn btn-outline-secondary" type="button" onclick="copyInputValue('url-input-{{ $loop->index }}')">
+                                        <i class="bi bi-clipboard"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <script>
+                        function copyInputValue(id) {
+                            var input = document.getElementById(id);
+                            input.select();
+                            input.setSelectionRange(0, 99999); // For mobile devices
+                            document.execCommand("copy");
+                            alert("URL copied!");
+                        }
+                        </script>
+                    @endif
+                @endif
 
                     {{-- Title + Description --}}
                     @php
