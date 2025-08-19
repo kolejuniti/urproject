@@ -110,6 +110,16 @@
         </div>
     </section>
 
+    @if (now()->lte(\Carbon\Carbon::create(2025, 9, 16)))
+    <!-- Poster Section -->
+    <section class="my-5">
+        <div class="container text-center">
+            <h2 class="fw-bold mb-4">Tawaran Terhad</h2>
+            <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/img/tawaran_istimewa_affiliate_uniti.jpg" alt="Program Poster" class="img-fluid rounded shadow">
+        </div>
+    </section>
+    @endif
+
     <!-- Features Section -->
     <section class="features-section">
         <div class="container">
@@ -120,7 +130,7 @@
             </div>
             <div class="row g-4">
                 <div class="col-lg-4 col-md-6">
-                    <div class="feature-card">
+                    <div class="feature-card shadow">
                         <div class="feature-icon">
                             <i class="bi bi-cash-coin"></i>
                         </div>
@@ -129,7 +139,7 @@
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6">
-                    <div class="feature-card">
+                    <div class="feature-card shadow">
                         <div class="feature-icon">
                             <i class="bi bi-people"></i>
                         </div>
@@ -138,7 +148,7 @@
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6">
-                    <div class="feature-card">
+                    <div class="feature-card shadow">
                         <div class="feature-icon">
                             <i class="bi bi-link-45deg"></i>
                         </div>
@@ -149,7 +159,7 @@
             </div>
             <div class="row g-4 mt-2">
                 <div class="col-lg-4 col-md-6">
-                    <div class="feature-card">
+                    <div class="feature-card shadow">
                         <div class="feature-icon">
                             <i class="bi bi-bank"></i>
                         </div>
@@ -158,7 +168,7 @@
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6">
-                    <div class="feature-card">
+                    <div class="feature-card shadow">
                         <div class="feature-icon">
                             <i class="bi bi-mortarboard"></i>
                         </div>
@@ -167,7 +177,7 @@
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6">
-                    <div class="feature-card">
+                    <div class="feature-card shadow">
                         <div class="feature-icon">
                             <i class="bi bi-star"></i>
                         </div>
