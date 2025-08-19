@@ -140,104 +140,97 @@
         @foreach ($contents as $item)
             <div class="col-md-4">
                 <div class="card h-100 shadow-sm">
-                    
-                    {{-- Show file preview if it's an image --}}
-                    @if($item->file_path && preg_match('/\.(jpg|jpeg|png|gif|webp)$/i', $item->file_path))
-                        <img src="{{ asset($item->file_path) }}" 
-                            class="card-img-top" 
-                            alt="{{ $item->title }}" 
-                            style="object-fit: cover; height: 200px;">
-                    @endif
+    <div class="card-body">
 
-                    <div class="card-body">
-                        <h5 class="card-title fw-bold">{{ $item->title }}</h5>
-                        <p class="card-text text-muted">
-                            {{ Str::limit($item->description, 80) }}
-                        </p>
+        {{-- Image --}}
+        @if($item->file_path && preg_match('/\.(jpg|jpeg|png|gif|webp)$/i', $item->file_path))
+            <img src="{{ asset($item->file_path) }}" 
+                 alt="{{ $item->title }}" 
+                 class="img-fluid rounded mb-3"
+                 style="object-fit: cover; height: 220px; width: 100%;">
+        @endif
 
-                        <p class="mb-1">
-                            <strong>Jenis:</strong> {{ ucfirst($item->type) }}
-                        </p>
+        {{-- YouTube Embed & URL --}}
+        @if(strtolower($item->type) === 'video' && $item->external_link)
+            @php
+                // Convert YouTube link to embed format
+                preg_match('/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^\&\?\/]+)/', $item->external_link, $matches);
+                $youtubeId = $matches[1] ?? null;
+            @endphp
 
-                        @if(!$item->file_path || !preg_match('/\.(jpg|jpeg|png|gif|webp)$/i', $item->file_path))
-                            {{-- If it's not an image, still give a link --}}
-                            @if($item->file_path)
-                                <p class="mb-1">
-                                    <a href="{{ asset($item->file_path) }}" target="_blank" class="btn btn-sm btn-outline-primary">Paparan</a>
-                                </p>
-                            @endif
-                        @endif
-
-                        @if($item->external_link)
-                            <p class="mb-1">
-                                <a href="{{ $item->external_link }}" target="_blank" class="btn btn-sm btn-outline-info">Pautan</a>
-                            </p>
-                        @endif
-
-                        <p class="mb-1">
-                            <strong>Tag:</strong> {{ Str::limit($item->tags, 30) }}
-                        </p>
-
-                        {{-- Platform badges --}}
-                        <div class="mb-2">
-                            @php
-                                $platforms = is_array($item->platform) 
-                                    ? $item->platform 
-                                    : json_decode($item->platform, true);
-
-                                $colors = [
-                                    'facebook' => 'primary',
-                                    'whatsapp' => 'success',
-                                    'telegram' => 'info',
-                                    'instagram' => 'danger',
-                                    'tiktok' => 'dark',
-                                ];
-                            @endphp
-
-                            @if(!empty($platforms))
-                                @foreach($platforms as $p)
-                                    <span class="badge bg-{{ $colors[$p] ?? 'secondary' }}">
-                                        {{ ucfirst($p) }}
-                                    </span>
-                                @endforeach
-                            @else
-                                <span class="text-muted">—</span>
-                            @endif
-                        </div>
-
-                        @if($item->start_date)
-                            <!-- Tarikh Promosi -->
-                            <p class="mb-1">
-                                <strong>Tarikh Promosi:</strong>
-                                {{ \Carbon\Carbon::parse($item->start_date)->format('d/m/Y') }}
-                                -
-                                {{ \Carbon\Carbon::parse($item->end_date)->format('d/m/Y') }}
-                            </p>
-                        @endif
-
-                        {{-- Status --}}
-                        <p>
-                            @if($item->status_id == 1)
-                                <span class="badge bg-success">Aktif</span>
-                            @elseif($item->status_id == 0)
-                                <span class="badge bg-warning">Tidak Aktif</span>
-                            @endif
-                        </p>
-                    </div>
-
-                    <div class="card-footer text-end">
-                        <form action="{{ route('admin.contents.destroy', $item->id) }}" method="POST" class="d-inline">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" 
-                                    class="btn btn-sm btn-danger"
-                                    onclick="return confirm('Adakah anda pasti mahu hapuskan kandungan ini?')">
-                                Hapus
-                            </button>
-                        </form>
-                    </div>
-
+            @if($youtubeId)
+                <div class="ratio ratio-16x9 mb-2">
+                    <iframe src="https://www.youtube.com/embed/{{ $youtubeId }}" 
+                            title="YouTube video player" 
+                            frameborder="0" 
+                            allowfullscreen></iframe>
                 </div>
+            @endif
+        @endif
+
+        <h5 class="card-title fw-bold">{{ $item->title }}</h5>
+        <p class="card-text text-muted">
+            {{ Str::limit($item->description, 80) }}
+        </p>
+
+        <p class="mb-1"><strong>Jenis:</strong> {{ ucfirst($item->type) }}</p>
+        <p class="mb-1"> <strong>Tag:</strong> {{ $item->tags }} </p>
+
+        {{-- Platform badges --}}
+        @php
+            $platforms = is_array($item->platform) ? $item->platform : json_decode($item->platform, true);
+            $colors = [
+                'facebook' => 'primary',
+                'whatsapp' => 'success',
+                'telegram' => 'info',
+                'instagram' => 'danger',
+                'tiktok' => 'dark',
+            ];
+        @endphp
+        <div class="mb-2">
+            @if(!empty($platforms))
+                @foreach($platforms as $p)
+                    <span class="badge bg-{{ $colors[$p] ?? 'secondary' }}">
+                        {{ ucfirst($p) }}
+                    </span>
+                @endforeach
+            @else
+                <span class="text-muted">—</span>
+            @endif
+        </div>
+
+        @if($item->start_date)
+            <p class="mb-1">
+                <strong>Tarikh Promosi:</strong>
+                {{ \Carbon\Carbon::parse($item->start_date)->format('d/m/Y') }}
+                -
+                {{ \Carbon\Carbon::parse($item->end_date)->format('d/m/Y') }}
+            </p>
+        @endif
+
+        {{-- Status --}}
+        <p>
+            @if($item->status_id == 1)
+                <span class="badge bg-success">Aktif</span>
+            @elseif($item->status_id == 0)
+                <span class="badge bg-warning">Tidak Aktif</span>
+            @endif
+        </p>
+    </div>
+
+    <div class="card-footer text-end">
+        <form action="{{ route('admin.contents.destroy', $item->id) }}" method="POST" class="d-inline">
+            @csrf
+            @method('DELETE')
+            <button type="submit" 
+                    class="btn btn-sm btn-danger"
+                    onclick="return confirm('Adakah anda pasti mahu hapuskan kandungan ini?')">
+                Hapus
+            </button>
+        </form>
+    </div>
+</div>
+
             </div>
         @endforeach
     </div>
