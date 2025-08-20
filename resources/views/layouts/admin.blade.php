@@ -102,6 +102,9 @@
                                 <li>
                                     <a class="dropdown-item" href="{{ route('admin.program') }}">Program</a>
                                 </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('admin.content') }}">Kandungan Media</a>
+                                </li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
