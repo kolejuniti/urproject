@@ -18,7 +18,7 @@
                             style="object-fit: cover; height: 220px; width: 100%;">
 
                         <div class="btn-group mb-3">
-                            <button class="btn btn-sm btn-primary" 
+                            <button id="copyBtn" class="btn btn-sm btn-primary" 
                                 onclick="copyImage('{{ url('/image-proxy?url=' . urlencode($item->file_path)) }}')">
                                 <i class="bi bi-clipboard"></i> Copy Image
                             </button>
@@ -105,25 +105,62 @@ function copyText(id) {
     alert("Text copied!");
 }
 
+// Detect clipboard support on page load
+document.addEventListener("DOMContentLoaded", async () => {
+    let copyBtn = document.getElementById("copyBtn");
+
+    if (!(navigator.clipboard && window.ClipboardItem)) {
+        copyBtn.innerHTML = '<i class="bi bi-clipboard"></i> Copy URL';
+        copyBtn.dataset.mode = "url";
+    } else {
+        // Check permission status
+        try {
+            const result = await navigator.permissions.query({ name: "clipboard-write" });
+            if (result.state === "denied") {
+                copyBtn.innerHTML = '<i class="bi bi-clipboard"></i> Copy URL';
+                copyBtn.dataset.mode = "url";
+            }
+        } catch (err) {
+            // Some browsers (Brave, Safari) may not fully support query()
+            copyBtn.innerHTML = '<i class="bi bi-clipboard"></i> Copy URL';
+            copyBtn.dataset.mode = "url";
+        }
+    }
+});
+
 // Copy image to clipboard
 async function copyImage(url) {
-    if (navigator.clipboard && window.ClipboardItem) {
+    let copyBtn = document.getElementById("copyBtn");
+
+    if (copyBtn.dataset.mode === "url") {
+        // Fallback: copy URL as text
         try {
-            const response = await fetch(url, { mode: 'cors' });
-            const blob = await response.blob();
-
-            // Copy using original blob type (jpeg, png, etc.)
-            await navigator.clipboard.write([
-                new ClipboardItem({ [blob.type]: blob })
-            ]);
-
-            alert('Image copied to clipboard!');
+            await navigator.clipboard.writeText(url);
+            alert("Image URL copied to clipboard!");
         } catch (err) {
-            console.error('Copy image failed:', err);
-            alert('Copy failed. Your browser may not fully support image clipboard.');
+            alert("Copy failed. Clipboard not supported.");
         }
-    } else {
-        alert('Clipboard API not supported in this browser.');
+        return;
+    }
+
+    // Try full image copy
+    try {
+        const response = await fetch(url, { mode: "cors" });
+        const blob = await response.blob();
+
+        await navigator.clipboard.write([
+            new ClipboardItem({ [blob.type]: blob })
+        ]);
+
+        alert("Image copied to clipboard!");
+    } catch (err) {
+        console.warn("Image copy failed, fallback to URL:", err);
+        try {
+            await navigator.clipboard.writeText(url);
+            alert("Image URL copied to clipboard!");
+        } catch {
+            alert("Copy failed. Clipboard not supported.");
+        }
     }
 }
 
