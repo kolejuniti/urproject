@@ -132,24 +132,25 @@ document.addEventListener("DOMContentLoaded", async () => {
 async function copyImage(url) {
     let copyBtn = document.getElementById("copyBtn");
 
-    if (copyBtn.dataset.mode === "url") {
-        // Fallback: copy URL as text
-        try {
-            await navigator.clipboard.writeText(url);
-            alert("Image URL copied to clipboard!");
-        } catch (err) {
-            alert("Copy failed. Clipboard not supported.");
-        }
-        return;
-    }
-
-    // Try full image copy
     try {
         const response = await fetch(url, { mode: "cors" });
         const blob = await response.blob();
 
+        let finalBlob = blob;
+
+        // Convert non-PNG to PNG for better compatibility
+        if (blob.type !== "image/png") {
+            const imgBitmap = await createImageBitmap(blob);
+            const canvas = document.createElement("canvas");
+            canvas.width = imgBitmap.width;
+            canvas.height = imgBitmap.height;
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(imgBitmap, 0, 0);
+            finalBlob = await new Promise(resolve => canvas.toBlob(resolve, "image/png"));
+        }
+
         await navigator.clipboard.write([
-            new ClipboardItem({ [blob.type]: blob })
+            new ClipboardItem({ "image/png": finalBlob })
         ]);
 
         alert("Image copied to clipboard!");
