@@ -112,18 +112,23 @@ async function copyImage(url) {
             const response = await fetch(url, { mode: 'cors' });
             const blob = await response.blob();
 
-            // Copy using original blob type (jpeg, png, etc.)
             await navigator.clipboard.write([
                 new ClipboardItem({ [blob.type]: blob })
             ]);
 
             alert('Image copied to clipboard!');
+            return;
         } catch (err) {
-            console.error('Copy image failed:', err);
-            alert('Copy failed. Your browser may not fully support image clipboard.');
+            console.warn('Image copy failed, falling back to URL:', err);
         }
-    } else {
-        alert('Clipboard API not supported in this browser.');
+    }
+
+    // Fallback: copy URL as text
+    try {
+        await navigator.clipboard.writeText(url);
+        alert('Image URL copied to clipboard!');
+    } catch (err) {
+        alert('Copy failed. Clipboard not supported.');
     }
 }
 
