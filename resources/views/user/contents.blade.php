@@ -112,6 +112,7 @@ async function copyImage(url) {
             const response = await fetch(url, { mode: 'cors' });
             const blob = await response.blob();
 
+            // Copy using original blob type (jpeg, png, etc.)
             await navigator.clipboard.write([
                 new ClipboardItem({ [blob.type]: blob })
             ]);
@@ -119,7 +120,7 @@ async function copyImage(url) {
             alert('Image copied to clipboard!');
         } catch (err) {
             console.error('Copy image failed:', err);
-            alert('Copy failed. Please check permissions.');
+            alert('Copy failed. Your browser may not fully support image clipboard.');
         }
     } else {
         alert('Clipboard API not supported in this browser.');
