@@ -19,7 +19,7 @@ use Spatie\Sitemap\Tags\Url;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Response;
 
-Route::get('/image-proxy', function (\Illuminate\Http\Request $request) {
+Route::get('/image-proxy', function (Request $request) {
     $url = $request->query('url');
     $download = $request->boolean('download');
 
@@ -27,30 +27,33 @@ Route::get('/image-proxy', function (\Illuminate\Http\Request $request) {
         abort(400, "Image URL is required.");
     }
 
-    // Fetch remote image
-    $response = Http::withOptions(['stream' => true])->get($url);
+    try {
+        $response = Http::withOptions(['stream' => true])->get($url);
 
-    if ($response->failed()) {
-        abort(404, "Image not found.");
+        if ($response->failed()) {
+            abort(404, "Image not found.");
+        }
+
+        $contentType = $response->header('Content-Type', 'image/jpeg');
+        $filename = basename(parse_url($url, PHP_URL_PATH)) ?: 'image.jpg';
+
+        $headers = [
+            "Content-Type" => $contentType,
+            "Cache-Control" => "public, max-age=86400",
+        ];
+
+        if ($download) {
+            $headers["Content-Disposition"] = "attachment; filename=\"{$filename}\"";
+        }
+
+        return Response::stream(function () use ($response) {
+            // Stream chunks instead of loading entire file into memory
+            echo $response->getBody()->getContents();
+        }, 200, $headers);
+
+    } catch (\Exception $e) {
+        abort(500, "Error fetching image: " . $e->getMessage());
     }
-
-    $contentType = $response->header('Content-Type', 'image/jpeg');
-
-    // Extract filename from URL
-    $filename = basename(parse_url($url, PHP_URL_PATH));
-
-    $headers = [
-        "Content-Type" => $contentType,
-        "Cache-Control" => "public, max-age=86400",
-    ];
-
-    if ($download) {
-        $headers["Content-Disposition"] = "attachment; filename=\"$filename\"";
-    }
-
-    return Response::stream(function () use ($response) {
-        echo $response->body();
-    }, 200, $headers);
 });
 
 // Route::get('/db-check', function () {
