@@ -18,6 +18,14 @@
                         <input type="date" class="form-control" name="start_date">
                         <button class="btn btn-secondary" disabled>-</button>
                         <input type="date" class="form-control" name="end_date">
+                        <button class="btn btn-secondary" disabled>Lokasi</button>
+                        <select name="location" id="location" class="form-control">
+                            <option value="">Pilihan Lokasi</option>
+                            @foreach ($locations as $item)
+                                <option value="{{ $item->id }}">{{ $item->code }}</option>
+                            @endforeach
+                            <option value="3">KUPD & KUKB</option>
+                        </select>
                         <span class="input-group-text">
                             <input type="checkbox" name="show_affiliate_only" value="1" {{ request('show_affiliate_only') ? 'checked' : '' }}>
                             <span class="ms-2">Affiliate Sahaja</span>
