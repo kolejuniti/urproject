@@ -622,11 +622,28 @@ class AdminController extends Controller
         $start_date = $request->input('start_date');
         $end_date = $request->input('end_date');
         $show_affiliate_only = $request->input('show_affiliate_only');
+        $location = $request->input('location');
+
+        $locations = DB::table('location')->get();
+
+        if ($request->input('location') == 1) {
+            $location_name = 'KUPD';
+        } elseif ($request->input('location') == 2) {
+            $location_name = 'KUKB';
+        } elseif ($request->input('location') == 3) {
+            $location_name = 'KUPD & KUKB';
+        } else {
+            $location_name = '';
+        }
 
         // If both dates are null, set the default to last 7 days
         if (!$start_date && !$end_date) {
             $start_date = now()->subDays(7)->startOfDay()->format('Y-m-d'); 
             $end_date = now()->endOfDay()->format('Y-m-d');
+        }
+
+        if (is_null($location)) {
+            $location = 3;
         }
 
         $students = DB::table('students')
@@ -637,6 +654,12 @@ class AdminController extends Controller
                         $query->whereNotNull('students.ic')
                             ->where('students.ic', '!=', '');
                     });
+
+        if ($location == 3) {
+            $students ->whereIn('students.location_id', [1, 2]);
+        } else {
+            $students ->where('students.location_id', '=', $location);
+        }
 
         if ($show_affiliate_only == 1) {
             $students->join('users', 'students.referral_code', '=', 'users.referral_code')
@@ -675,7 +698,7 @@ class AdminController extends Controller
             
         }
 
-        return view('admin.studentlist', compact('students', 'affiliates', 'advisors', 'start_date', 'end_date'));
+        return view('admin.studentlist', compact('students', 'affiliates', 'advisors', 'start_date', 'end_date', 'locations', 'location_name'));
     }
 
     public function profile()
