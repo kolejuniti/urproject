@@ -46,6 +46,7 @@
                             <th>Email</th>
                             <th>Tarikh Permohonan</th>
                             <th>Lokasi</th>
+                            <th>Bandar/Daerah</th>
                             <th>Affiliate</th>
                             {{-- <th>Tarikh Agihan</th> --}}
                             <th>Education Advisor</th>
@@ -63,6 +64,7 @@
                             <td>{{ strtolower($student->email) }}</td>
                             <td>{{ \Carbon\Carbon::parse($student->created_at)->format('d-m-Y') }}</td>
                             <td>{{ $student->location }}</td>
+                            <td class="text-uppercase">{{ $student->city }}</td>
                             <td class="text-uppercase">
                                 @if (!empty($student->referral_code) && $student->referral_code !== 'null' && isset($affiliates[$student->id]))
                                     @foreach ($affiliates[$student->id] as $affiliate)
