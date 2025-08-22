@@ -11,28 +11,30 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('contents', function (Blueprint $table) {
-            $table->id();
+        if (!Schema::hasTable('contents')) {
+            Schema::create('contents', function (Blueprint $table) {
+                $table->id();
 
-            $table->string('title');
-            $table->text('description')->nullable();
+                $table->string('title');
+                $table->text('description')->nullable();
 
-            $table->enum('type', ['image', 'video', 'link', 'text', 'pdf']);
+                $table->enum('type', ['image', 'video', 'link', 'text', 'pdf']);
 
-            // For either file upload or external link
-            $table->string('file_path')->nullable();        // local storage path
-            $table->string('external_link')->nullable();    // e.g. YouTube/Vimeo/etc
+                // For either file upload or external link
+                $table->string('file_path')->nullable();        // local storage path
+                $table->string('external_link')->nullable();    // e.g. YouTube/Vimeo/etc
 
-            $table->string('tags')->nullable();             // simple comma-separated tag string
-            $table->json('platform')->nullable();           // store target platforms as array
+                $table->string('tags')->nullable();             // simple comma-separated tag string
+                $table->json('platform')->nullable();           // store target platforms as array
 
-            $table->boolean('is_published')->default(false);
+                $table->boolean('is_published')->default(false);
 
-            $table->date('start_date')->nullable();
-            $table->date('end_date')->nullable();
+                $table->date('start_date')->nullable();
+                $table->date('end_date')->nullable();
 
-            $table->timestamps();
-        });
+                $table->timestamps();
+            });
+        }
     }
 
     /**
