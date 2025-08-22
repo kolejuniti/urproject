@@ -313,6 +313,6 @@ Route::get('/test-slow-query', function () {
 });
 
 Route::get('/other-slow-query', function () {
-    $results = DB::connection('mysql2')->table('student_transcript')->get();
+    $results = DB::connection('mysql2')->table('student_subjek')->get();
     return $results;
 });
