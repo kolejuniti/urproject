@@ -306,3 +306,13 @@ Route::get('/sitemap.xml', function () {
 
     return $sitemap->toResponse(request());
 });
+
+Route::get('/test-slow-query', function () {
+    $results = DB::table('students')->get(); // adjust to your table
+    return $results;
+});
+
+Route::get('/other-slow-query', function () {
+    $results = DB::connection('mysql2')->table('student_transcript')->get();
+    return $results;
+});
