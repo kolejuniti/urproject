@@ -74,7 +74,9 @@
                             . "\n\n" 
                             . $item->description 
                             . "\n\n" 
-                            . "Sekiranya berminat mendaftar / belajar di Kolej UNITI, sila layari: " . $url 
+                            . "Sekiranya anda berminat menyambung pelajaran, Kolej UNITI menawarkan peluang pendidikan berkualiti untuk masa depan yang lebih cemerlang."
+                            . "\n\n" 
+                            . "Daftar melalui pautan rasmi: " . $url 
                             . "\n\n" 
                             . $item->tags;
                     @endphp
