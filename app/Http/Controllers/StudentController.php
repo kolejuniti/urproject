@@ -520,37 +520,65 @@ class StudentController extends Controller
                 $file = $request->file('file');
 
                 // 2. Ensure it’s really an image (skip for PDF)
-                $extension = strtolower($file->getClientOriginalExtension());
-                if (!in_array($extension, ['jpg', 'jpeg', 'png'])) {
-                    return back()->withErrors(['file' => 'Salinan SPM mestilah dalam bentuk fail jpg, jpeg atau png bagi proses pengesahan OCR.']);
-                }
+                // $extension = strtolower($file->getClientOriginalExtension());
+                // if (!in_array($extension, ['jpg', 'jpeg', 'png'])) {
+                //     return back()->withErrors(['file' => 'Salinan SPM mestilah dalam bentuk fail jpg, jpeg atau png bagi proses pengesahan OCR.']);
+                // }
 
-                // 3. OCR: Extract text from the image
-                try {
-                    $ocrText = (new \thiagoalessio\TesseractOCR\TesseractOCR($file->getPathname()))
-                        ->executable('C:\Program Files\Tesseract-OCR\tesseract.exe')
-                        ->tessdataDir('C:\Program Files\Tesseract-OCR\tessdata')
-                        ->lang('eng', 'msa')
-                        ->run();
-                } catch (\Exception $e) {
-                    return back()->withErrors(['file' => 'Pengesahan OCR tidak berjaya. Sila muat naik imej yang lebih jelas.']);
-                }
+                // // 3. OCR: Extract text from the image
+                // try {
+                //     $tesseract = new \thiagoalessio\TesseractOCR\TesseractOCR($file->getPathname());
 
-                // Normalize text: lowercase + remove spaces/newlines
-                $ocrTextLower = strtolower(preg_replace('/\s+/', ' ', $ocrText));
+                //     // 1. Prefer .env config if available
+                //     $execPath = env('TESSERACT_PATH');
+                //     $tessdataPath = env('TESSDATA_PATH');
 
-                // Optionally, log for debugging
-                // \Log::info('OCR result: ' . $ocrTextLower);
+                //     // 2. If not set in .env, auto-detect based on OS
+                //     if (!$execPath) {
+                //         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+                //             // Windows default install path
+                //             $execPath = 'C:\Program Files\Tesseract-OCR\tesseract.exe';
+                //         } else {
+                //             // Linux default install path
+                //             $execPath = '/usr/bin/tesseract';
+                //         }
+                //     }
 
-                // Check if OCR failed or text is too short
-                if (empty($ocrText) || strlen($ocrTextLower) < 10) {
-                    return back()->withErrors(['file' => 'Imej yang dimuat naik tidak mengandungi teks yang boleh dibaca. Sila hantar semula dengan imej yang lebih jelas.']);
-                }
+                //     if (!$tessdataPath) {
+                //         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+                //             $tessdataPath = 'C:\Program Files\Tesseract-OCR\tessdata';
+                //         } else {
+                //             $tessdataPath = '/usr/share/tesseract-ocr/4.00/tessdata';
+                //         }
+                //     }
 
-                // Use regex check (case-insensitive, whitespace-tolerant)
-                if (!preg_match('/sijil\s*pelajaran\s*malaysia/i', $ocrTextLower)) {
-                    return back()->withErrors(['file' => 'Fail yang dimuat naik tidak kelihatan seperti sijil SPM. Sila hantar semula dengan imej yang lebih jelas.']);
-                }
+                //     // Apply detected paths
+                //     $tesseract->executable($execPath)->tessdataDir($tessdataPath);
+
+                //     // Run OCR
+                //     $ocrText = $tesseract->lang('eng', 'msa')->run();
+
+                // } catch (\Exception $e) {
+                //     return back()->withErrors([
+                //         'file' => 'Pengesahan OCR tidak berjaya. Sila muat naik imej yang lebih jelas.'
+                //     ]);
+                // }
+
+                // // Normalize text: lowercase + remove spaces/newlines
+                // $ocrTextLower = strtolower(preg_replace('/\s+/', ' ', $ocrText));
+
+                // // Optionally, log for debugging
+                // // \Log::info('OCR result: ' . $ocrTextLower);
+
+                // // Check if OCR failed or text is too short
+                // if (empty($ocrText) || strlen($ocrTextLower) < 10) {
+                //     return back()->withErrors(['file' => 'Imej yang dimuat naik tidak mengandungi teks yang boleh dibaca. Sila hantar semula dengan imej yang lebih jelas.']);
+                // }
+
+                // // Use regex check (case-insensitive, whitespace-tolerant)
+                // if (!preg_match('/sijil\s*pelajaran\s*malaysia/i', $ocrTextLower)) {
+                //     return back()->withErrors(['file' => 'Fail yang dimuat naik tidak kelihatan seperti sijil SPM. Sila hantar semula dengan imej yang lebih jelas.']);
+                // }
 
                 // Force the extension to lowercase to prevent case sensitivity issues
                 $extension = strtolower($file->getClientOriginalExtension());
