@@ -86,6 +86,7 @@
                             <th>Tarikh Agihan</th>
                             <th>Education Advisor</th>
                             <th>Catatan</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -123,6 +124,7 @@
                             <td>{{$data->updated_at ? \Carbon\Carbon::parse($data->updated_at)->format('d-m-Y') : '' }}</td>
                             <td class="text-uppercase">{{ $data->user }}</td>
                             <td>{{ $data->note }}</td>
+                            <td>{{ $data->remark }}</td>
                         </tr>
                         @endforeach
                     </tbody>
