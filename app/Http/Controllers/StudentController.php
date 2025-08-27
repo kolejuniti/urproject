@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\StudentRegistrationNotification;
+use thiagoalessio\TesseractOCR\TesseractOCR;
 
 class StudentController extends Controller
 {
@@ -297,7 +298,7 @@ class StudentController extends Controller
                             ->select('users.name', 'users.id', DB::raw("SUBSTRING_INDEX(users.name, ' ', 1) AS advisor_code"))
                             ->where(function ($query) {
                                 $query->whereNotNull('students.referral_code')
-                                      ->where('students.referral_code', '!=', '');
+                                    ->where('students.referral_code', '!=', '');
                             })
                             ->where('users.type', '1')
                             ->where('users.name', 'LIKE', 'PD-%')
@@ -516,6 +517,52 @@ class StudentController extends Controller
                     $incentive = 0;
                 }   
 
+                $file = $request->file('file');
+
+                // 2. Ensure it’s really an image (skip for PDF)
+                $extension = strtolower($file->getClientOriginalExtension());
+                if (!in_array($extension, ['jpg', 'jpeg', 'png'])) {
+                    return back()->withErrors(['file' => 'Salinan SPM mestilah dalam bentuk fail jpg, jpeg atau png bagi proses pengesahan OCR.']);
+                }
+
+                // 3. OCR: Extract text from the image
+                try {
+                    $ocrText = (new \thiagoalessio\TesseractOCR\TesseractOCR($file->getPathname()))
+                        ->executable('C:\Program Files\Tesseract-OCR\tesseract.exe')
+                        ->tessdataDir('C:\Program Files\Tesseract-OCR\tessdata')
+                        ->lang('eng', 'msa')
+                        ->run();
+                } catch (\Exception $e) {
+                    return back()->withErrors(['file' => 'Pengesahan OCR tidak berjaya. Sila muat naik imej yang lebih jelas.']);
+                }
+
+                // Normalize text: lowercase + remove spaces/newlines
+                $ocrTextLower = strtolower(preg_replace('/\s+/', ' ', $ocrText));
+
+                // Optionally, log for debugging
+                // \Log::info('OCR result: ' . $ocrTextLower);
+
+                // Check if OCR failed or text is too short
+                if (empty($ocrText) || strlen($ocrTextLower) < 10) {
+                    return back()->withErrors(['file' => 'Imej yang dimuat naik tidak mengandungi teks yang boleh dibaca. Sila hantar semula dengan imej yang lebih jelas.']);
+                }
+
+                // Use regex check (case-insensitive, whitespace-tolerant)
+                if (!preg_match('/sijil\s*pelajaran\s*malaysia/i', $ocrTextLower)) {
+                    return back()->withErrors(['file' => 'Fail yang dimuat naik tidak kelihatan seperti sijil SPM. Sila hantar semula dengan imej yang lebih jelas.']);
+                }
+
+                // Force the extension to lowercase to prevent case sensitivity issues
+                $extension = strtolower($file->getClientOriginalExtension());
+
+                // Upload file to Linode and set it as public
+                $filePath = 'urproject/student/resultspm/' . $ic . '.' . $extension;
+
+                Storage::disk('linode')->put($filePath, file_get_contents($file), 'public');
+
+                // Get the file URL from Linode
+                $fileUrl = Storage::disk('linode')->url($filePath);
+
                 DB::table('students')->insert([
                     'name'=>$name,
                     'ic'=>$ic,
@@ -557,19 +604,6 @@ class StudentController extends Controller
                                 ->select('program.name', 'student_programs.status')
                                 ->where('student_programs.student_ic', $ic)
                                 ->get();
-
-                $file = $request->file('file');
-
-                // Force the extension to lowercase to prevent case sensitivity issues
-                $extension = strtolower($file->getClientOriginalExtension());
-
-                // Upload file to Linode and set it as public
-                $filePath = 'urproject/student/resultspm/' . $ic . '.' . $extension;
-
-                Storage::disk('linode')->put($filePath, file_get_contents($file), 'public');
-
-                // Get the file URL from Linode
-                $fileUrl = Storage::disk('linode')->url($filePath);
 
                 DB::table('student_url_path')->insert([
                     'student_ic'=>$ic,

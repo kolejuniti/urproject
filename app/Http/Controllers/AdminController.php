@@ -368,7 +368,7 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-     public function applications(Request $request)
+    public function applications(Request $request)
     {
         $user = Auth::user();
         $ref = $user->referral_code;
@@ -411,7 +411,7 @@ class AdminController extends Controller
                     'students.register_at',
                     'students.referral_code',
                     'students.status_id',
-                    'state.name AS state', 'users.name AS user', 'location.code AS location', 'student_foundations.foundation AS note')
+                    'state.name AS state', 'users.name AS user', 'location.code AS location', 'student_foundations.foundation AS note', 'students.remark AS remark')
                     ->where(function ($query) {
                         $query->whereNotNull('students.ic')
                             ->where('students.ic', '!=', '');
