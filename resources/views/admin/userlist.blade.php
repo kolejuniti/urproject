@@ -22,6 +22,8 @@
                             <th>No. Telefon</th>
                             <th>Email</th>
                             <th>Jawatan</th>
+                            <th>Bank</th>
+                            <th>No. Akaun</th>
                             <th>Status</th>
                             <th>Tarikh Daftar</th>
                             <th>Rujukan Oleh</th>
@@ -38,6 +40,8 @@
                             <td class="text-center">{{ $user->phone }}</td>
                             <td>{{ $user->email }}</td>
                             <td>{{ $user->position }}</td>
+                            <td>{{ $user->bank }}</td>
+                            <td>{{ $user->bank_account }}</td>
                             <td>{{ $user->status }}</td>
                             <td class="text-center">{{ \Carbon\Carbon::parse($user->created_at)->format('d-m-Y') }}</td>
                             <td>{{ isset($leaders[$user->leader_id]) ? $leaders[$user->leader_id]->name : '' }}</td>
