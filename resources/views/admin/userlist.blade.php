@@ -243,12 +243,12 @@
                             customize: function (xlsx) {
                                 var sheet = xlsx.xl.worksheets['sheet1.xml'];
 
-                                // force specific column(s) to text format
-                                $('row c[r^="C"]', sheet).attr('t', 'inlineStr'); // "C" = column letter
-                                $('row c[r^="C"] is', sheet).each(function () {
+                                // find the column for bank_account, e.g. column H
+                                $('row c[r^="H"]', sheet).attr('t', 'inlineStr');
+                                $('row c[r^="H"]', sheet).each(function () {
                                     var cell = $(this);
                                     var text = cell.text();
-                                    cell.empty().append('<t>' + text + '</t>');
+                                    cell.empty().append('<is><t>' + text + '</t></is>');
                                 });
                             }
                         },
