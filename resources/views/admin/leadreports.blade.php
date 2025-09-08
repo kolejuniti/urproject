@@ -25,37 +25,43 @@
                     </div>
                 </form>
             </div>
-            <div class="col-md-8 col-sm-8 col-12 ms-auto text-end">
+            {{-- <div class="col-md-8 col-sm-8 col-12 ms-auto text-end">
                 <label>
                         <input type="checkbox" id="hideKolejbtmCheckbox">&nbsp;Tidak termasuk DATA KOLEJBTM
                 </label>
-            </div>
+            </div> --}}
             <div class="table-responsive">
                 <table id="myTable" class="table table-bordered small table-sm text-center">
                     @if ($start_date === null)
                     @else
-                    <caption>Laporan yang dijana adalah bagi lokasi {{ $location_name }} bertarikh {{ $start_date ? \Carbon\Carbon::parse($start_date)->format('d-m-Y') : '' }} sehingga {{ $end_date ? \Carbon\Carbon::parse($end_date)->format('d-m-Y') : '' }}</caption>
+                    <caption>N = data baru, R = data ulang.<br>Laporan yang dijana adalah bagi lokasi {{ $location_name }} bertarikh {{ $start_date ? \Carbon\Carbon::parse($start_date)->format('d-m-Y') : '' }} sehingga {{ $end_date ? \Carbon\Carbon::parse($end_date)->format('d-m-Y') : '' }}</caption>
                     @endif
                     <thead class="table-dark">
                         <tr>
                             <th rowspan="3">#</th>
                             <th rowspan="3">Sumber</th>
                             <th colspan="2" class="text-center">Data</th>
-                            <th class="text-center" colspan="3">Data Masuk</th>
+                            <th class="text-center" colspan="6">Data Masuk</th>
                             <th class="text-center" colspan="7">Pendaftaran</th>
                             <th rowspan="3">Data Ditolak</th>
                             <th rowspan="3">Baki Data</th>
                         </tr>
                         <tr>
-                            <th rowspan="2">Baru</th>
-                            <th rowspan="2">Ulang</th>
-                            <th rowspan="2">Data Affiliate</th>
-                            <th rowspan="2">Data EA</th>
-                            <th rowspan="2">Tanpa Affiliate/EA</th>
+                            <th rowspan="2" class="text-center">N</th>
+                            <th rowspan="2" class="text-center">R</th>
+                            <th colspan="2" class="text-center">Data Affiliate</th>
+                            <th colspan="2" class="text-center">Data EA</th>
+                            <th colspan="2" class="text-center">Tanpa Affiliate/EA</th>
                             <th colspan="3" class="text-center">Pra Pendaftaran</th>
                             <th colspan="4" class="text-center">Daftar Kolej</th>
                         </tr>
                         <tr>
+                            <th class="text-center">N</th>
+                            <th class="text-center">R</th>
+                            <th class="text-center">N</th>
+                            <th class="text-center">R</th>
+                            <th class="text-center">N</th>
+                            <th class="text-center">R</th>
                             <th>Data Affiliate >> EA</th>
                             <th>Data EA</th>
                             <th>Tanpa Affiliate >> EA</th>
@@ -69,12 +75,17 @@
                         @foreach ($sources as $item)
                         @php
                             $source = $item->source;
-                            $total = $totalData[$source] ?? 0;
                             $totalN = $totalDataN[$source] ?? 0;
                             $totalR = $totalDataR[$source] ?? 0;
                             $withAffiliate = $totalDataWithAffiliate[$source] ?? 0;
+                            $withAffiliateN = $totalDataWithAffiliateN[$source] ?? 0;
+                            $withAffiliateR = $totalDataWithAffiliateR[$source] ?? 0;
                             $withEA = $totalDataWithEA[$source] ?? 0;
+                            $withNEA = $totalDataWithEAN[$source] ?? 0;
+                            $withREA = $totalDataWithEAR[$source] ?? 0;
                             $withoutAffiliate = $totalDataWithoutAffiliate[$source] ?? 0;
+                            $withoutAffiliateN = $totalDataWithoutAffiliateN[$source] ?? 0;
+                            $withoutAffiliateR = $totalDataWithoutAffiliateR[$source] ?? 0;
                             $preWithAff = $totalDataPreRegisterWithAffiliate[$source] ?? 0;
                             $preWithEA = $totalDataPreRegisterWithEA[$source] ?? 0;
                             $preWithoutAff = $totalDataPreRegisterWithoutAffiliate[$source] ?? 0;
@@ -85,10 +96,15 @@
                             $reject = $totalDataRejects[$source] ?? 0;
                         @endphp
                         <tr data-source="{{ $source }}"
-                            data-total="{{ $total }}"
                             data-aff="{{ $withAffiliate }}"
+                            data-affn="{{ $withAffiliateN }}"
+                            data-affr="{{ $withAffiliateR }}"
                             data-ea="{{ $withEA }}"
+                            data-ean="{{ $withNEA }}"
+                            data-ear="{{ $withREA }}"
                             data-noaff="{{ $withoutAffiliate }}"
+                            data-noaffn="{{ $withoutAffiliateN }}"
+                            data-noaffr="{{ $withoutAffiliateR }}"
                             data-preaff="{{ $preWithAff }}"
                             data-preea="{{ $preWithEA }}"
                             data-prenoaff="{{ $preWithoutAff }}"
@@ -101,9 +117,12 @@
                             {{-- <td class="text-center">{{ $total }}</td> --}}
                             <td class="text-center">{{ $totalN }}</td>
                             <td class="text-center">{{ $totalR }}</td>
-                            <td class="text-center">{{ $withAffiliate }}</td>
-                            <td class="text-center">{{ $withEA }}</td>
-                            <td class="text-center">{{ $withoutAffiliate }}</td>
+                            <td class="text-center">{{ $withAffiliateN }}</td>
+                            <td class="text-center">{{ $withAffiliateR }}</td>
+                            <td class="text-center">{{ $withNEA }}</td>
+                            <td class="text-center">{{ $withREA }}</td>
+                            <td class="text-center">{{ $withoutAffiliateN }}</td>
+                            <td class="text-center">{{ $withoutAffiliateR }}</td>
                             <td class="text-center">{{ $preWithAff }}</td>
                             <td class="text-center">{{ $preWithEA }}</td>
                             <td class="text-center">{{ $preWithoutAff }}</td>
@@ -112,7 +131,7 @@
                             <td class="text-center">{{ $regWithEA }}</td>
                             <td class="text-center">{{ $regWithoutAff }}</td>
                             <td class="text-center">{{ $reject }}</td>
-                            <td class="text-center">{{ $total - $reject }}</td>
+                            <td class="text-center">{{ ($totalN + $totalR) - $reject }}</td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -120,12 +139,14 @@
                     <tr>
                         <th rowspan="2"></th>
                         <th rowspan="2">Jumlah Keseluruhan</th>
-                        {{-- <th rowspan="2" class="text-center"><span id="total-count">{{ $totalDataCount }}</span></th> --}}
                         <th class="text-center">{{ $totalNDataCount }}</th>
                         <th class="text-center">{{ $totalRDataCount }}</th>
-                        <th class="text-center"><span id="aff-count">{{ $totalDataWithAffiliateCount }}</span></th>
-                        <th class="text-center"><span id="ea-count">{{ $totalDataWithEACount }}</span></th>
-                        <th class="text-center"><span id="noaff-count">{{ $totalDataWithoutAffiliateCount }}</span></th>
+                        <th class="text-center"><span id="aff-count">{{ $totalDataWithAffiliateNCount }}</span></th>
+                        <th class="text-center"><span id="aff-count">{{ $totalDataWithAffiliateRCount }}</span></th>
+                        <th class="text-center"><span id="ea-count">{{ $totalDataWithEANCount }}</span></th>
+                        <th class="text-center"><span id="ea-count">{{ $totalDataWithEARCount }}</span></th>
+                        <th class="text-center"><span id="noaff-count">{{ $totalDataWithoutAffiliateNCount }}</span></th>
+                        <th class="text-center"><span id="noaff-count">{{ $totalDataWithoutAffiliateRCount }}</span></th>
                         <th class="text-center"><span id="preaff-count">{{ $totalDataPreRegisterWithAffiliateCount }}</span></th>
                         <th class="text-center"><span id="preea-count">{{ $totalDataPreRegisterWithEACount }}</span></th>
                         <th class="text-center"><span id="prenoaff-count">{{ $totalDataPreRegisterWithoutAffiliateCount }}</span></th>
@@ -134,11 +155,11 @@
                         <th class="text-center"><span id="regea-count">{{ $totalDataRegisterWithEACount }}</span></th>
                         <th class="text-center"><span id="regnoaff-count">{{ $totalDataRegisterWithoutAffiliateCount }}</span></th>
                         <th rowspan="2" class="text-center"><span id="reject-count">{{ $totalDataRejectCount }}</span></th>
-                        <th rowspan="2" class="text-center"><span id="balance-count">{{ $totalDataCount - $totalDataRejectCount }}</span></th>
+                        <th rowspan="2" class="text-center"><span id="balance-count">{{ ($totalNDataCount + $totalRDataCount) - $totalDataRejectCount }}</span></th>
                     </tr>
                     <tr>
                         <td colspan="2" class="text-center"><strong><span id="entry-count">{{ $totalDataNR }}</span></strong></td>
-                        <td colspan="3" class="text-center"><strong><span id="entry-count">{{ $totalDataEntry }}</span></strong></td>
+                        <td colspan="6" class="text-center"><strong><span id="entry-count">{{ $totalDataEntryNR }}</span></strong></td>
                         <td colspan="3" class="text-center"><strong><span id="preregister-count">{{ $totalDataPreRegister }}</span></strong></td>
                         <td colspan="4" class="text-center"><strong><span id="register-count">{{ $totalDataRegister }}</span></strong></td>
                     </tr>
