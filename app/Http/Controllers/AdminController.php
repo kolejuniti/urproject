@@ -1037,12 +1037,17 @@ class AdminController extends Controller
                     })
             ->groupBy('students.source')->get();
 
-        $totalData = [];
         $totalDataN = [];
         $totalDataR = [];
         $totalDataWithAffiliate = [];
+        $totalDataWithAffiliateN = [];
+        $totalDataWithAffiliateR = [];
         $totalDataWithEA = [];
+        $totalDataWithEAN = [];
+        $totalDataWithEAR = [];
         $totalDataWithoutAffiliate = [];
+        $totalDataWithoutAffiliateN = [];
+        $totalDataWithoutAffiliateR = [];
         $totalDataPreRegisterWithAffiliate = [];
         $totalDataPreRegisterWithEA = [];
         $totalDataPreRegisterWithoutAffiliate = [];
@@ -1050,7 +1055,6 @@ class AdminController extends Controller
         $totalDataRegisterWithOtherEA = [];
         $totalDataRegisterWithEA = [];
         $totalDataRegisterWithoutAffiliate = [];
-        $totalDataEntry = [];
         $totalDataPreRegister = [];
         $totalDataRegister = [];
         $totalDataRejects = [];
@@ -1066,22 +1070,6 @@ class AdminController extends Controller
         }
 
         foreach ($sources as $source) {
-            $query = DB::table('students')
-                ->where('students.source', '=', $source->source)
-                ->where(function ($query) {
-                        $query->whereNotNull('students.ic')
-                            ->where('students.ic', '!=', '');
-                    })
-                ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
-
-                if ($location == 3) {
-                    $query ->whereIn('students.location_id', [1, 2]);
-                } else {
-                    $query ->where('students.location_id', '=', $location);
-                }
-            
-                $totalData[$source->source] = $query->count();
-
             $query = DB::table('students')
                 ->where('students.source', '=', $source->source)
                 ->where(function ($query) {
@@ -1134,6 +1122,46 @@ class AdminController extends Controller
                 }
 
                 $totalDataWithAffiliate[$source->source] = $query->count();
+            
+            $query  = DB::table('students')
+                ->join('users AS affiliate', 'students.referral_code', '=', 'affiliate.referral_code')
+                ->where('students.source', '=', $source->source)
+                ->where(function ($query) {
+                        $query->whereNotNull('students.ic')
+                            ->where('students.ic', '!=', '');
+                    })
+                ->whereNotNull('students.referral_code')
+                ->where('affiliate.type', '=', 0)
+                ->where('students.remark', 'LIKE', '%N%')
+                ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
+
+                if ($location == 3) {
+                    $query ->whereIn('students.location_id', [1, 2]);
+                } else {
+                    $query ->where('students.location_id', '=', $location);
+                }
+
+                $totalDataWithAffiliateN[$source->source] = $query->count();
+
+            $query  = DB::table('students')
+                ->join('users AS affiliate', 'students.referral_code', '=', 'affiliate.referral_code')
+                ->where('students.source', '=', $source->source)
+                ->where(function ($query) {
+                        $query->whereNotNull('students.ic')
+                            ->where('students.ic', '!=', '');
+                    })
+                ->whereNotNull('students.referral_code')
+                ->where('affiliate.type', '=', 0)
+                ->where('students.remark', 'LIKE', '%R%')
+                ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
+
+                if ($location == 3) {
+                    $query ->whereIn('students.location_id', [1, 2]);
+                } else {
+                    $query ->where('students.location_id', '=', $location);
+                }
+
+                $totalDataWithAffiliateR[$source->source] = $query->count();
 
             $query  = DB::table('students')
                 ->join('users AS advisor', 'students.referral_code', '=', 'advisor.referral_code')
@@ -1154,6 +1182,46 @@ class AdminController extends Controller
 
                 $totalDataWithEA[$source->source] = $query->count();
 
+            $query  = DB::table('students')
+                ->join('users AS advisor', 'students.referral_code', '=', 'advisor.referral_code')
+                ->where('students.source', '=', $source->source)
+                ->where(function ($query) {
+                        $query->whereNotNull('students.ic')
+                            ->where('students.ic', '!=', '');
+                    })
+                ->whereNotNull('students.referral_code')
+                ->whereIn('advisor.type', [1,2])
+                ->where('students.remark', 'LIKE', '%N%')
+                ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
+
+                if ($location == 3) {
+                    $query ->whereIn('students.location_id', [1, 2]);
+                } else {
+                    $query ->where('students.location_id', '=', $location);
+                }
+
+                $totalDataWithEAN[$source->source] = $query->count();
+
+            $query  = DB::table('students')
+                ->join('users AS advisor', 'students.referral_code', '=', 'advisor.referral_code')
+                ->where('students.source', '=', $source->source)
+                ->where(function ($query) {
+                        $query->whereNotNull('students.ic')
+                            ->where('students.ic', '!=', '');
+                    })
+                ->whereNotNull('students.referral_code')
+                ->whereIn('advisor.type', [1,2])
+                ->where('students.remark', 'LIKE', '%R%')
+                ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
+
+                if ($location == 3) {
+                    $query ->whereIn('students.location_id', [1, 2]);
+                } else {
+                    $query ->where('students.location_id', '=', $location);
+                }
+
+                $totalDataWithEAR[$source->source] = $query->count();
+
             $query = DB::table('students')
                 ->where('students.source', '=', $source->source)
                 ->where(function ($query) {
@@ -1170,6 +1238,42 @@ class AdminController extends Controller
                 }
 
                 $totalDataWithoutAffiliate[$source->source] = $query->count();
+
+            $query = DB::table('students')
+                ->where('students.source', '=', $source->source)
+                ->where(function ($query) {
+                        $query->whereNotNull('students.ic')
+                            ->where('students.ic', '!=', '');
+                    })
+                ->whereNull('students.referral_code')
+                ->where('students.remark', 'LIKE', '%N%')
+                ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
+
+                if ($location == 3) {
+                    $query ->whereIn('students.location_id', [1, 2]);
+                } else {
+                    $query ->where('students.location_id', '=', $location);
+                }
+
+                $totalDataWithoutAffiliateN[$source->source] = $query->count();
+
+            $query = DB::table('students')
+                ->where('students.source', '=', $source->source)
+                ->where(function ($query) {
+                        $query->whereNotNull('students.ic')
+                            ->where('students.ic', '!=', '');
+                    })
+                ->whereNull('students.referral_code')
+                ->where('students.remark', 'LIKE', '%R%')
+                ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
+
+                if ($location == 3) {
+                    $query ->whereIn('students.location_id', [1, 2]);
+                } else {
+                    $query ->where('students.location_id', '=', $location);
+                }
+
+                $totalDataWithoutAffiliateR[$source->source] = $query->count();
 
             $query = DB::table('students')
                 ->join('users AS affiliate', 'students.referral_code', '=', 'affiliate.referral_code')
@@ -1325,12 +1429,17 @@ class AdminController extends Controller
                 $totalDataRejects[$source->source] = $query->count();
         }
 
-        $totalDataCount = array_sum($totalData);
         $totalNDataCount = array_sum($totalDataN);
         $totalRDataCount = array_sum($totalDataR);
         $totalDataWithAffiliateCount = array_sum($totalDataWithAffiliate);
+        $totalDataWithAffiliateNCount = array_sum($totalDataWithAffiliateN);
+        $totalDataWithAffiliateRCount = array_sum($totalDataWithAffiliateR);
         $totalDataWithEACount = array_sum($totalDataWithEA);
+        $totalDataWithEANCount = array_sum($totalDataWithEAN);
+        $totalDataWithEARCount = array_sum($totalDataWithEAR);
         $totalDataWithoutAffiliateCount = array_sum($totalDataWithoutAffiliate);
+        $totalDataWithoutAffiliateNCount = array_sum($totalDataWithoutAffiliateN);
+        $totalDataWithoutAffiliateRCount = array_sum($totalDataWithoutAffiliateR);
         $totalDataPreRegisterWithAffiliateCount = array_sum($totalDataPreRegisterWithAffiliate);
         $totalDataPreRegisterWithEACount = array_sum($totalDataPreRegisterWithEA);
         $totalDataPreRegisterWithoutAffiliateCount = array_sum($totalDataPreRegisterWithoutAffiliate);
@@ -1341,11 +1450,11 @@ class AdminController extends Controller
         $totalDataRejectCount = array_sum($totalDataRejects);
 
         $totalDataNR = $totalNDataCount + $totalRDataCount;
-        $totalDataEntry = $totalDataWithAffiliateCount + $totalDataWithEACount + $totalDataWithoutAffiliateCount;
+        $totalDataEntryNR = $totalDataWithAffiliateNCount + $totalDataWithAffiliateRCount + $totalDataWithEANCount + $totalDataWithEARCount + $totalDataWithoutAffiliateNCount + $totalDataWithoutAffiliateRCount;
         $totalDataPreRegister = $totalDataPreRegisterWithAffiliateCount + $totalDataPreRegisterWithEACount + $totalDataPreRegisterWithoutAffiliateCount;
         $totalDataRegister = $totalDataRegisterWithAffiliateCount + $totalDataRegisterWithOtherEACount + $totalDataRegisterWithEACount + $totalDataRegisterWithoutAffiliateCount;
 
-        return view('admin.leadreports', compact('sources', 'start_date', 'end_date', 'locations', 'totalData', 'totalDataN', 'totalDataR', 'totalDataWithAffiliate', 'totalDataWithEA', 'totalDataWithoutAffiliate', 'totalDataPreRegisterWithAffiliate', 'totalDataPreRegisterWithoutAffiliate', 'totalDataPreRegisterWithEACount', 'totalDataRegisterWithAffiliate', 'totalDataRegisterWithOtherEA', 'totalDataRegisterWithEA', 'totalDataRegisterWithoutAffiliate', 'totalDataRegister', 'totalDataCount', 'totalNDataCount', 'totalRDataCount', 'totalDataWithAffiliateCount', 'totalDataWithEACount', 'totalDataWithoutAffiliateCount', 'totalDataPreRegisterWithAffiliateCount', 'totalDataPreRegisterWithoutAffiliateCount', 'totalDataRegisterWithAffiliateCount', 'totalDataRegisterWithOtherEACount', 'totalDataRegisterWithEACount', 'totalDataRegisterWithoutAffiliateCount', 'totalDataEntry', 'totalDataPreRegister', 'totalDataRegister', 'location_name', 'totalDataRejects', 'totalDataRejectCount', 'totalDataNR'));
+        return view('admin.leadreports', compact('sources', 'start_date', 'end_date', 'locations', 'totalDataN', 'totalDataR', 'totalDataWithAffiliate', 'totalDataWithAffiliateN', 'totalDataWithAffiliateR', 'totalDataWithEA', 'totalDataWithEAN', 'totalDataWithEAR', 'totalDataWithoutAffiliate', 'totalDataWithoutAffiliateN', 'totalDataWithoutAffiliateR', 'totalDataPreRegisterWithAffiliate', 'totalDataPreRegisterWithoutAffiliate', 'totalDataPreRegisterWithEACount', 'totalDataRegisterWithAffiliate', 'totalDataRegisterWithOtherEA', 'totalDataRegisterWithEA', 'totalDataRegisterWithoutAffiliate', 'totalDataRegister', 'totalNDataCount', 'totalRDataCount', 'totalDataWithAffiliateCount', 'totalDataWithAffiliateNCount', 'totalDataWithAffiliateRCount', 'totalDataWithEACount', 'totalDataWithEANCount', 'totalDataWithEARCount', 'totalDataWithoutAffiliateCount', 'totalDataWithoutAffiliateNCount', 'totalDataWithoutAffiliateRCount', 'totalDataPreRegisterWithAffiliateCount', 'totalDataPreRegisterWithoutAffiliateCount', 'totalDataRegisterWithAffiliateCount', 'totalDataRegisterWithOtherEACount', 'totalDataRegisterWithEACount', 'totalDataRegisterWithoutAffiliateCount', 'totalDataPreRegister', 'totalDataRegister', 'location_name', 'totalDataRejects', 'totalDataRejectCount', 'totalDataNR', 'totalDataEntryNR'));
     }
 
     public function yearReports(Request $request)
