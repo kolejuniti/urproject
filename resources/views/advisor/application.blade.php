@@ -59,6 +59,14 @@
             </div>
             <div class="table-responsive">
                 <table id="myTable" class="table table-bordered small table-sm text-center shadow-sm">
+                    <caption class="text-start">
+                        <p>Warna di bawah mewakili data / bilangan hari data direkodkan:</p>
+                        <span class="badge" style="background-color: #0d6efd;">&nbsp;&nbsp;</span> Tiada Status&nbsp;&nbsp;
+                        <span class="badge" style="background-color: #28a745;">&nbsp;&nbsp;</span> &le; 7 Hari&nbsp;&nbsp;
+                        <span class="badge" style="background-color: #ffc107;">&nbsp;&nbsp;</span> 8 - 14 Hari&nbsp;&nbsp;
+                        <span class="badge" style="background-color: #fd7e14;">&nbsp;&nbsp;</span> 15 - 21 Hari&nbsp;&nbsp;
+                        <span class="badge" style="background-color: #dc3545;">&nbsp;&nbsp;</span> &ge; 22 Hari
+                    </caption>
                     <thead class="table-dark">
                         <tr>
                             <th>#</th>
@@ -89,7 +97,23 @@
                         @else
                             <tr>
                         @endif
-                            <td>&nbsp;</td>
+                            @php
+
+                            if ($data->days_since_created <= 7 && in_array($data->status_id, [null])) {
+                                $style = 'background-color: #0d6efd;'; // blue
+                            } elseif ($data->days_since_created <= 7 && in_array($data->status_id, [7,8,9,10,11,12,13,14,15,16,17,18])) {
+                                $style = 'background-color: #28a745;'; // green
+                            } elseif ($data->days_since_created >= 8 && $data->days_since_created <= 14 && in_array($data->status_id, [null, 7,8,9,10,11,12,13,14,15,16,17,18])) {
+                                $style = 'background-color: #ffc107;'; // yellow
+                            } elseif ($data->days_since_created >= 15 && $data->days_since_created <= 21 && in_array($data->status_id, [null, 7,8,9,10,11,12,13,14,15,16,17,18])) {
+                                $style = 'background-color: #fd7e14;'; // orange
+                            } elseif ($data->days_since_created >= 22 && in_array($data->status_id, [null, 7,8,9,10,11,12,13,14,15,16,17,18])) {
+                                $style = 'background-color: #dc3545;'; // red
+                            } else {
+                                $style = '';
+                            }
+                            @endphp
+                            <td style="{{ $style }}">&nbsp;</td>
                             <td>
                                 <button type="button" class="btn btn-sm btn-link text-uppercase open-modal" data-ic="{{ $data->ic }}">{{ $data->name }}</button>
                             </td>
