@@ -1898,7 +1898,7 @@ class AdminController extends Controller
                             ->where('students.ic', '!=', '');
                     })
             ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date])
-            ->select('students.name', 'students.created_at', 'students.source', 'students.incentive', 'students.commission')
+            ->select('students.name', 'students.created_at', 'students.source', 'students.incentive', 'students.commission', 'students.remark',)
             ->orderByDesc('students.id');
 
                 if ($location == 3) {
