@@ -149,7 +149,7 @@
 
         <div
           class="col-12 col-md-5 d-flex flex-column justify-content-center align-items-center py-3 py-md-5 position-relative">
-          <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/img/tawaran_tablet_kukb.jpeg" alt="Tawaran Tablet" class="img-fluid services-img" />
+          <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/img/kukbmain.jpg" alt="Tawaran Tablet" class="img-fluid services-img" />
         </div>
 
         <div class="col-12 col-md-7">
