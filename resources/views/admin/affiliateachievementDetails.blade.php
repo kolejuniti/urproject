@@ -6,12 +6,14 @@
     <div class="row justify-content-center">
         <div class="table-responsive">
             <table id="myTable" class="table table-bordered small table-sm text-center">
+                <caption>N = data baru, R = data ulang</caption>
                 <thead class="table-dark">
                     <tr>
                         <th>#</th>
                         <th>Nama Pemohon</th>
                         <th>Tarikh Permohonan</th>
                         <th>Sumber</th>
+                        <th>Jenis Data</th>
                         <th>Insentif</th>
                         <th>Komisen</th>
                     </tr>
@@ -23,6 +25,7 @@
                         <td>{{ $item->name }}</td>
                         <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d-m-Y') }}</td>
                         <td class="text-uppercase">{{ $item->source }}</td>
+                        <td class="text-uppercase">{{ $item->remark }}</td>
                         <td class="text-center">{{ $item->incentive ?? '0.00' }}</td>
                         <td class="text-center">{{ $item->commission ?? '0.00' }}</td>
                     </tr>
@@ -34,6 +37,7 @@
                         <th></th>
                         <th></th>
                         <th class="text-center">Jumlah Keseluruhan</th>
+                        <th></th>
                         <th>{{ $totalIncentive ?? '0.00' }}</th>
                         <th>{{ $totalCommission ?? '0.00' }}</th>
                     </tr>
