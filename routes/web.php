@@ -18,6 +18,7 @@ use Spatie\Sitemap\Tags\Url;
 // use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/image-proxy', function (Request $request) {
     $url = $request->query('url');
@@ -129,8 +130,8 @@ if (!function_exists('determineSourceFromReferrer')) {
 }
 
 Route::get('/', function (Request $request) {
-    if (auth()->check()) {
-        switch (auth()->user()->type) {
+    if (Auth::check()) {
+        switch (Auth::user()->type) {
             case 'user':
                 return redirect('/user/dashboard');
             case 'advisor':
