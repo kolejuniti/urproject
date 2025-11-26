@@ -65,7 +65,7 @@ class User extends Authenticatable
         return new Attribute(
             get: fn ($value) => ["user", "advisor", "admin"][$value] ?? null,
 
-            set: fn ($value) => array_search($value, ["user", "advisor", "admin"])
+            set: fn ($value) => is_int($value) ? $value : array_search($value, ["user", "advisor", "admin"])
         );
     }
 }
