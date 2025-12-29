@@ -18,7 +18,7 @@
                                 <div class="input-group">
                                     <select name="year" class="form-select" onchange="this.form.submit()">
                                         @for ($year = now()->year; $year >= now()->year - 3; $year--)
-                                            <option value="{{ $year }}" {{ $currentYear == $year ? 'selected' : '' }}>{{ $year }}</option>
+                                        <option value="{{ $year }}" {{ $currentYear == $year ? 'selected' : '' }}>{{ $year }}</option>
                                         @endfor
                                     </select>
                                 </div>
@@ -27,156 +27,262 @@
                     </div>
                     <div class="row text-center">
                         @foreach ($monthlyStatsKUPD as $stat)
-                            <div class="col-md-1 mb-2">
-                                <div class="bg-light border rounded p-3 shadow-sm">
-                                    <h6 class="text-muted">{{ $stat['month_number'] }}/{{ $currentYear }}</h6>
-                                    <div class="fs-5 fw-bold">{{ $stat['count'] }}</div>
-                                </div>
+                        <div class="col-md-1 mb-2">
+                            <div class="bg-light border rounded p-3 shadow-sm">
+                                <h6 class="text-muted">{{ $stat['month_number'] }}/{{ $currentYear }}</h6>
+                                <div class="fs-5 fw-bold">{{ $stat['count'] }}</div>
                             </div>
+                        </div>
                         @endforeach
-                        <canvas id="monthlyApplicantsChartKUPD" height="200"></canvas>
-                        <script>
-                            const ctxKUPD = document.getElementById('monthlyApplicantsChartKUPD').getContext('2d');
 
-                            const chartKUPD = new Chart(ctxKUPD, {
-                                type: 'bar',
-                                data: {
-                                    labels: [
-                                        @foreach ($monthlyStatsKUPD as $stat)
-                                            '{{ $stat["month_name"] }}',
-                                        @endforeach
-                                    ],
-                                    datasets: [
-                                        {
-                                            type: 'line',
-                                            label: 'Jumlah Pemohon',
-                                            data: [
-                                                @foreach ($monthlyStatsKUPD as $stat)
-                                                    {{ $stat["count"] }},
-                                                @endforeach
-                                            ],
-                                            borderColor: '#ff9800',
-                                            backgroundColor: 'rgba(255,152,0,0.2)',
-                                            borderWidth: 2,
-                                            fill: false,
-                                            tension: 0.3,
-                                            pointBackgroundColor: '#ff9800'
-                                        },
-                                        {
-                                            type: 'bar',
-                                            label: 'Jumlah Pemohon',
-                                            data: [
-                                                @foreach ($monthlyStatsKUPD as $stat)
-                                                    {{ $stat["count"] }},
-                                                @endforeach
-                                            ],
-                                            backgroundColor: '#4682b4',
-                                            borderColor: '#2c6491',
-                                            borderWidth: 1
-                                        }
-                                    ]
-                                },
-                                options: {
-                                    responsive: true,
-                                    plugins: {
-                                        legend: {
-                                            display: false
-                                        },
-                                        title: {
-                                            display: true,
-                                            text: 'Graf Jumlah Pemohon KUPD',
-                                            font: {
-                                                size: 18
+                        <!-- KUPD Chart Container -->
+                        <div class="card mt-3 shadow-sm border-0">
+                            <div class="card-body">
+                                <canvas id="chartKUPD" height="100"></canvas>
+                            </div>
+                        </div>
+
+                        <script>
+                            document.addEventListener("DOMContentLoaded", function() {
+                                const ctx = document.getElementById('chartKUPD').getContext('2d');
+
+                                // Safely pass PHP data to JavaScript using json_encode
+                                const rawData = @json($monthlyStatsKUPD);
+
+                                // Extract labels and data
+                                const labels = rawData.map(item => item.month_name);
+                                const dataCounts = rawData.map(item => item.count);
+
+                                new Chart(ctx, {
+                                    type: 'bar',
+                                    data: {
+                                        labels: labels,
+                                        datasets: [{
+                                                type: 'line',
+                                                label: 'Trend Permohonan',
+                                                data: dataCounts,
+                                                borderColor: '#FF9800', // Orange
+                                                backgroundColor: 'rgba(255, 152, 0, 0.2)',
+                                                borderWidth: 3,
+                                                tension: 0.4, // Smooth curve
+                                                pointBackgroundColor: '#fff',
+                                                pointBorderColor: '#FF9800',
+                                                pointRadius: 5,
+                                                pointHoverRadius: 7,
+                                                fill: true,
+                                                order: 1 // Layer on top
+                                            },
+                                            {
+                                                type: 'bar',
+                                                label: 'Jumlah Pemohon',
+                                                data: dataCounts,
+                                                backgroundColor: 'rgba(70, 130, 180, 0.7)', // Steel Blue
+                                                borderColor: 'rgba(70, 130, 180, 1)',
+                                                borderWidth: 1,
+                                                borderRadius: 5, // Rounded corners for bars
+                                                barPercentage: 0.6,
+                                                order: 2
                                             }
-                                        }
+                                        ]
                                     },
-                                    scales: {
-                                        y: {
-                                            beginAtZero: true,
-                                            ticks: {
-                                                precision:0
+                                    options: {
+                                        responsive: true,
+                                        interaction: {
+                                            mode: 'index',
+                                            intersect: false,
+                                        },
+                                        plugins: {
+                                            legend: {
+                                                position: 'top',
+                                                labels: {
+                                                    usePointStyle: true,
+                                                    padding: 20,
+                                                    font: {
+                                                        family: "'Nunito', sans-serif",
+                                                        size: 12
+                                                    }
+                                                }
+                                            },
+                                            title: {
+                                                display: true,
+                                                text: 'Analisis Permohonan KUPD (Kolej UNITI Port Dickson)',
+                                                font: {
+                                                    size: 16,
+                                                    family: "'Nunito', sans-serif",
+                                                    weight: 'bold'
+                                                },
+                                                padding: {
+                                                    bottom: 20
+                                                }
+                                            },
+                                            tooltip: {
+                                                backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                                                titleColor: '#333',
+                                                bodyColor: '#666',
+                                                borderColor: '#ddd',
+                                                borderWidth: 1,
+                                                padding: 10,
+                                                usePointStyle: true
+                                            }
+                                        },
+                                        scales: {
+                                            y: {
+                                                beginAtZero: true,
+                                                grid: {
+                                                    drawBorder: false,
+                                                    color: '#f0f0f0'
+                                                },
+                                                ticks: {
+                                                    precision: 0,
+                                                    font: {
+                                                        family: "'Nunito', sans-serif"
+                                                    }
+                                                }
+                                            },
+                                            x: {
+                                                grid: {
+                                                    display: false
+                                                },
+                                                ticks: {
+                                                    font: {
+                                                        family: "'Nunito', sans-serif"
+                                                    }
+                                                }
                                             }
                                         }
                                     }
-                                }
+                                });
                             });
                         </script>
 
                         <hr class="my-4">
 
                         @foreach ($monthlyStatsKUKB as $stat)
-                            <div class="col-md-1 mb-2">
-                                <div class="bg-light border rounded p-3 shadow-sm">
-                                    <h6 class="text-muted">{{ $stat['month_number'] }}/{{ $currentYear }}</h6>
-                                    <div class="fs-5 fw-bold">{{ $stat['count'] }}</div>
-                                </div>
+                        <div class="col-md-1 mb-2">
+                            <div class="bg-light border rounded p-3 shadow-sm">
+                                <h6 class="text-muted">{{ $stat['month_number'] }}/{{ $currentYear }}</h6>
+                                <div class="fs-5 fw-bold">{{ $stat['count'] }}</div>
                             </div>
+                        </div>
                         @endforeach
-                        <canvas id="monthlyApplicantsChartKUKB" height="200"></canvas>
-                        <script>
-                            const ctxKUKB = document.getElementById('monthlyApplicantsChartKUKB').getContext('2d');
 
-                            const chartKUKB = new Chart(ctxKUKB, {
-                                type: 'bar',
-                                data: {
-                                    labels: [
-                                        @foreach ($monthlyStatsKUKB as $stat)
-                                            '{{ $stat["month_name"] }}',
-                                        @endforeach
-                                    ],
-                                    datasets: [
-                                        {
-                                            type: 'line',
-                                            label: 'Jumlah Pemohon',
-                                            data: [
-                                                @foreach ($monthlyStatsKUKB as $stat)
-                                                    {{ $stat["count"] }},
-                                                @endforeach
-                                            ],
-                                            borderColor: '#ff9800',
-                                            backgroundColor: 'rgba(255,152,0,0.2)',
-                                            borderWidth: 2,
-                                            fill: false,
-                                            tension: 0.3,
-                                            pointBackgroundColor: '#ff9800'
-                                        },
-                                        {
-                                            type: 'bar',
-                                            label: 'Jumlah Pemohon',
-                                            data: [
-                                                @foreach ($monthlyStatsKUKB as $stat)
-                                                    {{ $stat["count"] }},
-                                                @endforeach
-                                            ],
-                                            backgroundColor: '#e53935',
-                                            borderColor: '#b71c1c',
-                                            borderWidth: 1
-                                        }
-                                    ]
-                                },
-                                options: {
-                                    responsive: true,
-                                    plugins: {
-                                        legend: {
-                                            display: false
-                                        },
-                                        title: {
-                                            display: true,
-                                            text: 'Graf Jumlah Pemohon KUKB',
-                                            font: {
-                                                size: 18
+                        <!-- KUKB Chart Container -->
+                        <div class="card mt-3 shadow-sm border-0">
+                            <div class="card-body">
+                                <canvas id="chartKUKB" height="100"></canvas>
+                            </div>
+                        </div>
+
+                        <script>
+                            document.addEventListener("DOMContentLoaded", function() {
+                                const ctx = document.getElementById('chartKUKB').getContext('2d');
+
+                                // Safely pass PHP data to JavaScript using json_encode
+                                const rawData = @json($monthlyStatsKUKB);
+
+                                // Extract labels and data
+                                const labels = rawData.map(item => item.month_name);
+                                const dataCounts = rawData.map(item => item.count);
+
+                                new Chart(ctx, {
+                                    type: 'bar',
+                                    data: {
+                                        labels: labels,
+                                        datasets: [{
+                                                type: 'line',
+                                                label: 'Trend Permohonan',
+                                                data: dataCounts,
+                                                borderColor: '#FF9800', // Orange
+                                                backgroundColor: 'rgba(255, 152, 0, 0.2)',
+                                                borderWidth: 3,
+                                                tension: 0.4, // Smooth curve
+                                                pointBackgroundColor: '#fff',
+                                                pointBorderColor: '#FF9800',
+                                                pointRadius: 5,
+                                                pointHoverRadius: 7,
+                                                fill: true,
+                                                order: 1
+                                            },
+                                            {
+                                                type: 'bar',
+                                                label: 'Jumlah Pemohon',
+                                                data: dataCounts,
+                                                backgroundColor: 'rgba(229, 57, 53, 0.7)', // Red for KUKB
+                                                borderColor: 'rgba(183, 28, 28, 1)', // Dark Red
+                                                borderWidth: 1,
+                                                borderRadius: 5,
+                                                barPercentage: 0.6,
+                                                order: 2
                                             }
-                                        }
+                                        ]
                                     },
-                                    scales: {
-                                        y: {
-                                            beginAtZero: true,
-                                            ticks: {
-                                                precision:0
+                                    options: {
+                                        responsive: true,
+                                        interaction: {
+                                            mode: 'index',
+                                            intersect: false,
+                                        },
+                                        plugins: {
+                                            legend: {
+                                                position: 'top',
+                                                labels: {
+                                                    usePointStyle: true,
+                                                    padding: 20,
+                                                    font: {
+                                                        family: "'Nunito', sans-serif",
+                                                        size: 12
+                                                    }
+                                                }
+                                            },
+                                            title: {
+                                                display: true,
+                                                text: 'Analisis Permohonan KUKB (Kolej UNITI Kota Bharu)',
+                                                font: {
+                                                    size: 16,
+                                                    family: "'Nunito', sans-serif",
+                                                    weight: 'bold'
+                                                },
+                                                padding: {
+                                                    bottom: 20
+                                                }
+                                            },
+                                            tooltip: {
+                                                backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                                                titleColor: '#333',
+                                                bodyColor: '#666',
+                                                borderColor: '#ddd',
+                                                borderWidth: 1,
+                                                padding: 10,
+                                                usePointStyle: true
+                                            }
+                                        },
+                                        scales: {
+                                            y: {
+                                                beginAtZero: true,
+                                                grid: {
+                                                    drawBorder: false,
+                                                    color: '#f0f0f0'
+                                                },
+                                                ticks: {
+                                                    precision: 0,
+                                                    font: {
+                                                        family: "'Nunito', sans-serif"
+                                                    }
+                                                }
+                                            },
+                                            x: {
+                                                grid: {
+                                                    display: false
+                                                },
+                                                ticks: {
+                                                    font: {
+                                                        family: "'Nunito', sans-serif"
+                                                    }
+                                                }
                                             }
                                         }
                                     }
-                                }
+                                });
                             });
                         </script>
                     </div>
@@ -193,10 +299,10 @@
                                 <h6 class="text-muted mb-3">Permohonan Terakhir</h6>
                                 <ul class="list-group list-group-flush">
                                     @foreach ($lastRegisteredStudents as $location => $date)
-                                        <li class="list-group-item d-flex justify-content-between align-items-center px-3">
-                                            <span class="text-muted">{{ $location }}</span>
-                                            <span class="fw-semibold">{{ $date }}</span>
-                                        </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center px-3">
+                                        <span class="text-muted">{{ $location }}</span>
+                                        <span class="fw-semibold">{{ $date }}</span>
+                                    </li>
                                     @endforeach
                                 </ul>
                             </div>
@@ -206,10 +312,10 @@
                                 <h6 class="text-muted mb-3">Jumlah Permohonan ({{ $currentYear }})</h6>
                                 <ul class="list-group list-group-flush">
                                     @foreach ($totalRegisteredCurrentYear as $location => $count)
-                                        <li class="list-group-item d-flex justify-content-between align-items-center px-3">
-                                            <span class="text-muted">{{ $location }}</span>
-                                            <span class="fw-semibold">{{ $count }}</span>
-                                        </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center px-3">
+                                        <span class="text-muted">{{ $location }}</span>
+                                        <span class="fw-semibold">{{ $count }}</span>
+                                    </li>
                                     @endforeach
                                 </ul>
                             </div>
@@ -219,10 +325,10 @@
                                 <h6 class="text-muted mb-3">Jumlah Permohonan Daftar Kolej ({{ $currentYear }})</h6>
                                 <ul class="list-group list-group-flush">
                                     @foreach ($totalSuccessRegisteredCurrentYear as $location => $count)
-                                        <li class="list-group-item d-flex justify-content-between align-items-center px-3">
-                                            <span class="text-muted">{{ $location }}</span>
-                                            <span class="fw-semibold">{{ $count }}</span>
-                                        </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center px-3">
+                                        <span class="text-muted">{{ $location }}</span>
+                                        <span class="fw-semibold">{{ $count }}</span>
+                                    </li>
                                     @endforeach
                                 </ul>
                             </div>
@@ -234,10 +340,10 @@
                                 <h6 class="text-muted mb-3">Jumlah Permohonan</h6>
                                 <ul class="list-group list-group-flush">
                                     @foreach ($totalRegistered as $location => $count)
-                                        <li class="list-group-item d-flex justify-content-between align-items-center px-3">
-                                            <span class="text-muted">{{ $location }}</span>
-                                            <span class="fw-semibold">{{ $count }}</span>
-                                        </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center px-3">
+                                        <span class="text-muted">{{ $location }}</span>
+                                        <span class="fw-semibold">{{ $count }}</span>
+                                    </li>
                                     @endforeach
                                 </ul>
                             </div>
@@ -247,10 +353,10 @@
                                 <h6 class="text-muted mb-3">Jumlah Permohonan Daftar Kolej</h6>
                                 <ul class="list-group list-group-flush">
                                     @foreach ($totalSuccessRegistered as $location => $count)
-                                        <li class="list-group-item d-flex justify-content-between align-items-center px-3">
-                                            <span class="text-muted">{{ $location }}</span>
-                                            <span class="fw-semibold">{{ $count }}</span>
-                                        </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center px-3">
+                                        <span class="text-muted">{{ $location }}</span>
+                                        <span class="fw-semibold">{{ $count }}</span>
+                                    </li>
                                     @endforeach
                                 </ul>
                             </div>
@@ -277,16 +383,16 @@
                             </thead>
                             <tbody>
                                 @forelse ($topStudents as $index => $student)
-                                    <tr>
-                                        <td>{{ $index + 1 }}</td>
-                                        <td class="text-uppercase">{{ $student->name }}</td>
-                                        <td>{{ $student->email }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($student->created_at)->format('d-m-Y') }}</td>
-                                    </tr>
+                                <tr>
+                                    <td>{{ $index + 1 }}</td>
+                                    <td class="text-uppercase">{{ $student->name }}</td>
+                                    <td>{{ $student->email }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($student->created_at)->format('d-m-Y') }}</td>
+                                </tr>
                                 @empty
-                                    <tr>
-                                        <td colspan="4" class="text-center">Tiada permohonan pelajar.</td>
-                                    </tr>
+                                <tr>
+                                    <td colspan="4" class="text-center">Tiada permohonan pelajar.</td>
+                                </tr>
                                 @endforelse
                             </tbody>
                         </table>
