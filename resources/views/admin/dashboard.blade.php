@@ -38,7 +38,9 @@
                         <!-- KUPD Chart Container -->
                         <div class="card mt-3 shadow-sm border-0">
                             <div class="card-body">
-                                <canvas id="chartKUPD" height="100"></canvas>
+                                <div style="position: relative; height: 400px; width: 100%;">
+                                    <canvas id="chartKUPD"></canvas>
+                                </div>
                             </div>
                         </div>
 
@@ -87,6 +89,7 @@
                                     },
                                     options: {
                                         responsive: true,
+                                        maintainAspectRatio: false,
                                         interaction: {
                                             mode: 'index',
                                             intersect: false,
@@ -169,7 +172,9 @@
                         <!-- KUKB Chart Container -->
                         <div class="card mt-3 shadow-sm border-0">
                             <div class="card-body">
-                                <canvas id="chartKUKB" height="100"></canvas>
+                                <div style="position: relative; height: 400px; width: 100%;">
+                                    <canvas id="chartKUKB"></canvas>
+                                </div>
                             </div>
                         </div>
 
@@ -218,6 +223,7 @@
                                     },
                                     options: {
                                         responsive: true,
+                                        maintainAspectRatio: false,
                                         interaction: {
                                             mode: 'index',
                                             intersect: false,
