@@ -51,7 +51,6 @@ Route::get('/image-proxy', function (Request $request) {
             // Stream chunks instead of loading entire file into memory
             echo $response->getBody()->getContents();
         }, 200, $headers);
-
     } catch (\Exception $e) {
         abort(500, "Error fetching image: " . $e->getMessage());
     }
@@ -92,7 +91,7 @@ Route::get('/image-proxy', function (Request $request) {
 //     if (empty($source) || $source === 'other') {
 //         $source = 'e-Daftar';
 //     }
-    
+
 //     return view('welcome', compact('ref', 'source')); // Or any other public view
 // });
 
@@ -142,7 +141,7 @@ Route::get('/', function (Request $request) {
     }
 
     $ref = $request->query('ref');
-    
+
     // Get referrer from headers
     $referrer = $request->headers->get('referer', 'other');
 
@@ -170,9 +169,9 @@ Route::get('/affiliate/register', [RegisterController::class, 'showRegistrationF
 Route::post('/affiliate/register', [RegisterController::class, 'register']);
 
 // admin route
-Route::middleware(['auth', 'user-access:admin'])->group(function() {
+Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-    Route::match(['get', 'post'],'/admin/program', [AdminController::class, 'program'])->name('admin.program');
+    Route::match(['get', 'post'], '/admin/program', [AdminController::class, 'program'])->name('admin.program');
     Route::post('/admin/program/add', [AdminController::class, 'addprogram'])->name('admin.program.submit');
     Route::post('/admin/program/update/{id}', [AdminController::class, 'updateprogram'])->name('admin.program.update');
     Route::get('/admin/daftar/pengguna', [AdminController::class, 'showRegistrationForm'])->name('admin.register');
@@ -196,15 +195,13 @@ Route::middleware(['auth', 'user-access:admin'])->group(function() {
     Route::get('/admin/maklumat/pencapaian/ea/{id}/{start_date?}/{end_date?}/{location?}', [AdminController::class, 'achievementDetails'])->name('admin.achievement.details');
     Route::match(['get', 'post'], '/admin/laporan/pencapaian/affiliate', [AdminController::class, 'affiliateAchievements'])->name('admin.affiliateachievements');
     Route::get('/admin/maklumat/pencapaian/affiliate/{id}/{start_date?}/{end_date?}/{location?}', [AdminController::class, 'affiliateAchievementDetails'])->name('admin.affiliate.achievement.details');
-    Route::match(['get', 'post'],'/admin/kandungan-media', [AdminController::class, 'contents'])->name('admin.content');
+    Route::match(['get', 'post'], '/admin/kandungan-media', [AdminController::class, 'contents'])->name('admin.content');
     Route::post('/admin/content/add', [AdminController::class, 'addcontent'])->name('admin.content.add');
     Route::delete('/admin/contents/{id}', [AdminController::class, 'destroy'])->name('admin.contents.destroy');
-
-
 });
 
 // advisor route
-Route::middleware(['auth', 'user-access:advisor'])->group(function() {
+Route::middleware(['auth', 'user-access:advisor'])->group(function () {
     Route::get('/advisor/dashboard', [AdvisorController::class, 'dashboard'])->name('advisor.dashboard');
     Route::get('/advisor/list/applications', [AdvisorController::class, 'applications'])->name('advisor.application');
     Route::post('/advisor/application/detail', [AdvisorController::class, 'applicationDetail'])->name('advisor.application.detail');
@@ -216,18 +213,19 @@ Route::middleware(['auth', 'user-access:advisor'])->group(function() {
 });
 
 // user route
-Route::middleware(['auth', 'user-access:user'])->group(function() {
+Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::get('/user/dashboard', [UserController::class, 'dashboard'])->name('user.dashboard');
     Route::get('/user/list/applications', [UserController::class, 'applications'])->name('user.application');
     Route::get('/user/profile', [UserController::class, 'profile'])->name('user.profile');
     Route::put('/user/update/profile', [UserController::class, 'update'])->name('user.profile.update');
     Route::put('/user/update/password', [UserController::class, 'password'])->name('user.profile.password');
     Route::get('/user/list/affiliates', [UserController::class, 'affiliate'])->name('user.affiliate');
-    Route::match(['get', 'post'],'/user/kandungan-media', [UserController::class, 'contents'])->name('user.content');
+    // Route::match(['get', 'post'], '/user/kandungan-media', [UserController::class, 'contents'])->name('user.content');
+    Route::get('/user/kandungan-media', [UserController::class, 'contentsEnhanced'])->name('user.content.enhanced');
 });
 
 // student route
-Route::prefix('student')->group(function() {
+Route::prefix('student')->group(function () {
     // Route::get('/register', [App\Http\Controllers\StudentController::class, 'index'])->name('student.register');
     // Route::post('/register', [App\Http\Controllers\StudentController::class, 'register'])->name('student.register.post');
     // Route::get('/confirmation', [App\Http\Controllers\StudentController::class, 'confirmation'])->name('student.confirmation');
@@ -235,7 +233,7 @@ Route::prefix('student')->group(function() {
     // Route::get('/location/{id}', [App\Http\Controllers\StudentController::class, 'location']);
     // Route::get('/offerletter', [App\Http\Controllers\StudentController::class, 'offerletter'])->name('student.offerletter');
     // Route::get('/about', [App\Http\Controllers\StudentController::class, 'about'])->name('student.about');
-    
+
     // Test route
     Route::post('/register_test', [App\Http\Controllers\StudentController::class, 'registerTest'])->withoutMiddleware(VerifyCsrfToken::class);
 
@@ -245,7 +243,7 @@ Route::prefix('student')->group(function() {
 });
 
 // register route
-Route::prefix('daftar')->group(function() {
+Route::prefix('daftar')->group(function () {
     Route::get('/port-dickson', [App\Http\Controllers\StudentController::class, 'index_kupd'])->name('student.register-kupd');
     Route::post('/port-dickson', [App\Http\Controllers\StudentController::class, 'register_kupd'])->name('student.register-kupd.post');
     Route::get('/port-dickson/pengesahan', [App\Http\Controllers\StudentController::class, 'pengesahan_kupd'])->name('student.confirmation-kupd');
@@ -255,7 +253,7 @@ Route::prefix('daftar')->group(function() {
 });
 
 // semak permohonan route
-Route::prefix('semak-permohonan')->group(function() {
+Route::prefix('semak-permohonan')->group(function () {
     Route::get('/port-dickson', [App\Http\Controllers\StudentController::class, 'semak_permohonan_kupd'])->name('semak.permohonan.kupd');
     Route::get('/kota-bharu', [App\Http\Controllers\StudentController::class, 'semak_permohonan_kukb'])->name('semak.permohonan.kukb');
     Route::put('/kemaskini/kupd/{id}/{email}', [App\Http\Controllers\StudentController::class, 'kemaskini_permohonan_kupd'])->name('kemaskini.permohonan.kupd');
@@ -264,13 +262,13 @@ Route::prefix('semak-permohonan')->group(function() {
 });
 
 // campus route
-Route::prefix('kampus')->group(function() {
+Route::prefix('kampus')->group(function () {
     Route::get('/port-dickson', [App\Http\Controllers\StudentController::class, 'kupd'])->name('student.kupd');
     Route::get('/kota-bharu', [App\Http\Controllers\StudentController::class, 'kukb'])->name('student.kukb');
 });
 
 // test route
-Route::get('/test-route', function() {
+Route::get('/test-route', function () {
     return 'Route is working';
 });
 
@@ -284,7 +282,7 @@ Route::get('/logout', function () {
 //     $data = [
 //         'message' => 'This is a test message sent at ' . now()->format('Y-m-d H:i:s')
 //     ];
-    
+
 //     try {
 //         Mail::to('faizulsoknan@gmail.com')->send(new TestMail($data));
 //         return 'Email sent successfully! Check your inbox.';
