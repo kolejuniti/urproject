@@ -15,11 +15,11 @@ use App\Models\Content;
 class UserController extends Controller
 {
     /**
-    * Create a new controller instance.
+     * Create a new controller instance.
      *
      * @return void
      */
-     public function __construct()
+    public function __construct()
     {
         $this->middleware('auth');
     }
@@ -29,7 +29,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-     public function dashboard()
+    public function dashboard()
     {
         $user = Auth::user();
         $referralCode = $user->referral_code;
@@ -76,9 +76,9 @@ class UserController extends Controller
             ->latest('created_at')
             ->first();
 
-        $lastRegisteredDate = optional($lastRegisteredStudent)->created_at 
-        ? Carbon::parse($lastRegisteredStudent->created_at)->format('d-m-Y') 
-        : '-';
+        $lastRegisteredDate = optional($lastRegisteredStudent)->created_at
+            ? Carbon::parse($lastRegisteredStudent->created_at)->format('d-m-Y')
+            : '-';
 
         // Total registered students via user link
         $totalRegistered = DB::table('students')
@@ -112,12 +112,12 @@ class UserController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-     public function applications()
+    public function applications()
     {
         $user = Auth::user();
 
         $ref = $user->referral_code;
-        $url = url('/').'?ref='.$ref; // Generates the referral URL
+        $url = url('/') . '?ref=' . $ref; // Generates the referral URL
 
         // Generate and return the QR code as an SVG string for use in Blade
         $qrCode = QrCode::size(200)->generate($url);
@@ -128,30 +128,29 @@ class UserController extends Controller
             ->generate($url, public_path('qrcode.svg'));
 
         $applicants = DB::table('students')
-                    ->leftjoin('state', 'students.state_id', '=', 'state.id')
-                    ->leftjoin('users', 'students.user_id', '=', 'users.id')
-                    ->join('location', 'students.location_id', '=', 'location.id')
-                    ->leftjoin('status', 'students.status_id', '=', 'status.id')
-                    ->select('students.*', 'state.name AS state', 'users.name AS user', 'users.phone AS user_phone', 'location.name AS location', 'status.name AS status', DB::raw('DATE_ADD(students.register_at, INTERVAL 18 DAY) AS commission_date'))
-                    ->where('students.referral_code', $ref)
-                    ->orderBy('students.created_at', 'desc')
-                    ->get();
+            ->leftjoin('state', 'students.state_id', '=', 'state.id')
+            ->leftjoin('users', 'students.user_id', '=', 'users.id')
+            ->join('location', 'students.location_id', '=', 'location.id')
+            ->leftjoin('status', 'students.status_id', '=', 'status.id')
+            ->select('students.*', 'state.name AS state', 'users.name AS user', 'users.phone AS user_phone', 'location.name AS location', 'status.name AS status', DB::raw('DATE_ADD(students.register_at, INTERVAL 18 DAY) AS commission_date'))
+            ->where('students.referral_code', $ref)
+            ->orderBy('students.created_at', 'desc')
+            ->get();
 
         $applicantsWithPrograms = [];
 
         foreach ($applicants as $applicant) {
 
             $programs = DB::table('student_programs')
-                        ->join('program', 'student_programs.program_id', '=', 'program.id')
-                        ->select('program.name', 'student_programs.status', 'student_programs.notes')
-                        ->where('student_programs.student_ic', $applicant->ic)
-                        ->get();
+                ->join('program', 'student_programs.program_id', '=', 'program.id')
+                ->select('program.name', 'student_programs.status', 'student_programs.notes')
+                ->where('student_programs.student_ic', $applicant->ic)
+                ->get();
 
             $applicantsWithPrograms[] = [
                 'applicant' => $applicant,
                 'programs' => $programs
             ];
-
         }
 
         return view('user.application', ['applicantsWithPrograms' => $applicantsWithPrograms, 'url' => $url, 'qrCode' => $qrCode]);
@@ -163,19 +162,19 @@ class UserController extends Controller
         $professions = DB::table('profession')->get();
 
         $user = Auth::user()
-                ->join('religion', 'users.religion_id', '=', 'religion.id')
-                ->join('nation', 'users.nation_id', '=', 'nation.id')
-                ->join('sex', 'users.sex_id', '=', 'sex.id')
-                ->join('bank', 'users.bank_id', '=', 'bank.id')
-                ->select('users.*', 'religion.name AS religion', 'nation.name AS nation', 'sex.name AS sex', 'bank.name AS bank')
-                ->where('users.id', Auth::id())
-                ->first();
+            ->join('religion', 'users.religion_id', '=', 'religion.id')
+            ->join('nation', 'users.nation_id', '=', 'nation.id')
+            ->join('sex', 'users.sex_id', '=', 'sex.id')
+            ->join('bank', 'users.bank_id', '=', 'bank.id')
+            ->select('users.*', 'religion.name AS religion', 'nation.name AS nation', 'sex.name AS sex', 'bank.name AS bank')
+            ->where('users.id', Auth::id())
+            ->first();
 
         $userAddress = DB::table('user_address')
-                        ->join('state', 'user_address.state_id', '=', 'state.id')
-                        ->select('user_address.*', 'state.name AS state')
-                        ->where('user_address.user_ic', '=', $user->ic)
-                        ->first();
+            ->join('state', 'user_address.state_id', '=', 'state.id')
+            ->select('user_address.*', 'state.name AS state')
+            ->where('user_address.user_ic', '=', $user->ic)
+            ->first();
 
         return view('user.profile', compact('banks', 'user', 'userAddress', 'professions'));
     }
@@ -190,8 +189,8 @@ class UserController extends Controller
         $profession = $request->input('profession');
 
         $user = DB::table('users')
-                ->where('users.id', Auth::id())
-                ->update(['phone'=>$phone, 'bank_account'=>$bank_account, 'bank_id'=>$bank, 'profession'=>$profession]);
+            ->where('users.id', Auth::id())
+            ->update(['phone' => $phone, 'bank_account' => $bank_account, 'bank_id' => $bank, 'profession' => $profession]);
 
         return redirect()->route('user.profile')->with('success', 'Maklumat anda berjaya dikemaskini.');;
     }
@@ -215,11 +214,11 @@ class UserController extends Controller
     }
 
     public function affiliate()
-    {        
+    {
         $user = Auth::user();
 
         $ref = $user->referral_code;
-        $url = url('/affiliate').'?ref='.$ref; // Generates the referral URL
+        $url = url('/affiliate') . '?ref=' . $ref; // Generates the referral URL
 
         // Generate and return the QR code as an SVG string for use in Blade
         $qrCode = QrCode::size(200)->generate($url);
@@ -235,14 +234,26 @@ class UserController extends Controller
     }
 
     public function contents()
-    {     
+    {
         $user = Auth::user();
 
         $ref = $user->referral_code;
-        $url = url('/').'?ref='.$ref;
+        $url = url('/') . '?ref=' . $ref;
 
         $contents = Content::orderBy('created_at', 'desc')->get();
 
         return view('user.contents', compact('contents', 'ref', 'url'));
+    }
+
+    public function contentsEnhanced()
+    {
+        $user = Auth::user();
+
+        $ref = $user->referral_code;
+        $url = url('/') . '?ref=' . $ref;
+
+        $contents = Content::orderBy('created_at', 'desc')->get();
+
+        return view('user.kandungan-media-enhanced', compact('contents', 'ref', 'url'));
     }
 }
