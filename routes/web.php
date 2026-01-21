@@ -199,6 +199,7 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::post('/admin/content/add', [AdminController::class, 'addcontent'])->name('admin.content.add');
     Route::put('/admin/content/update/{id}', [AdminController::class, 'updatecontent'])->name('admin.content.update');
     Route::delete('/admin/contents/{id}', [AdminController::class, 'destroy'])->name('admin.contents.destroy');
+    Route::get('/admin/senarai-kandungan-media', [AdminController::class, 'contentsEnhanced'])->name('admin.content.list');
 });
 
 // advisor route
