@@ -1927,6 +1927,19 @@ class AdminController extends Controller
         return view('admin.contents', compact('contents'));
     }
 
+    public function contentsEnhanced()
+    {
+        $user = Auth::user();
+
+        // Admins might not rely on referral codes, but we pass it if available or a default
+        $ref = $user->referral_code ?? 'admin';
+        $url = url('/') . '?ref=' . $ref;
+
+        $contents = Content::orderBy('created_at', 'desc')->get();
+
+        return view('admin.kandungan-media-enhanced', compact('contents', 'ref', 'url'));
+    }
+
     public function addcontent(Request $request)
     {
         $validated = $request->validate([
