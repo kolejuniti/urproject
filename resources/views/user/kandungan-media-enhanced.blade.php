@@ -411,17 +411,17 @@
                 </div>
                 @endif
 
-                {{-- YouTube Video Section --}}
+                {{-- YouTube/Video Section --}}
                 @if(strtolower($item->type) === 'video' && $item->external_link)
                 @php
                 preg_match('/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^\&\?\/]+)/', $item->external_link, $matches);
                 $youtubeId = $matches[1] ?? null;
                 @endphp
 
-                @if($youtubeId)
                 <div class="media-card-body">
                     <h5 class="media-title">{{ $item->title }}</h5>
 
+                    @if($youtubeId)
                     <div class="video-container">
                         <div class="ratio ratio-16x9">
                             <iframe src="https://www.youtube.com/embed/{{ $youtubeId }}"
@@ -431,13 +431,25 @@
                                 allowfullscreen></iframe>
                         </div>
                     </div>
+                    @else
+                    {{-- Graphic/Icon for when video link is not YouTube --}}
+                    <div class="video-container bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                        <div class="text-center">
+                            <i class="bi bi-play-circle-fill text-danger display-1"></i>
+                            <p class="mt-2 text-muted small">Video External</p>
+                        </div>
+                    </div>
+                    @endif
 
                     <div class="url-input-group">
                         <div class="input-group">
                             <input type="text" class="form-control" id="url-input-{{ $loop->index }}" value="{{ $item->external_link }}" readonly>
-                            <button type="button" onclick="copyInputValue('url-input-{{ $loop->index }}')">
-                                <i class="bi bi-clipboard"></i> Copy URL
+                            <button type="button" class="btn btn-outline-secondary" onclick="copyInputValue('url-input-{{ $loop->index }}')" title="Copy URL">
+                                <i class="bi bi-clipboard"></i>
                             </button>
+                            <a href="{{ $item->external_link }}" target="_blank" class="btn btn-primary" title="Open Video">
+                                <i class="bi bi-box-arrow-up-right"></i>
+                            </a>
                         </div>
                     </div>
 
@@ -457,7 +469,6 @@
                         <i class="bi bi-clipboard-check"></i> Copy Text Content
                     </button>
                 </div>
-                @endif
                 @endif
 
             </div>
