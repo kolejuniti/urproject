@@ -197,6 +197,7 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::get('/admin/maklumat/pencapaian/affiliate/{id}/{start_date?}/{end_date?}/{location?}', [AdminController::class, 'affiliateAchievementDetails'])->name('admin.affiliate.achievement.details');
     Route::match(['get', 'post'], '/admin/kandungan-media', [AdminController::class, 'contents'])->name('admin.content');
     Route::post('/admin/content/add', [AdminController::class, 'addcontent'])->name('admin.content.add');
+    Route::put('/admin/content/update/{id}', [AdminController::class, 'updatecontent'])->name('admin.content.update');
     Route::delete('/admin/contents/{id}', [AdminController::class, 'destroy'])->name('admin.contents.destroy');
 });
 
