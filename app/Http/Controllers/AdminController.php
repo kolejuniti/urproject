@@ -1979,7 +1979,7 @@ class AdminController extends Controller
 
         Content::create($validated);
 
-        return redirect()->back()->with('success', 'Kandungan media yang baru berjaya ditambah ke dalam sistem.');
+        return redirect()->back()->with('success', 'Bahan media yang baru berjaya ditambah ke dalam sistem.');
     }
 
     public function destroy($id)
@@ -2001,7 +2001,7 @@ class AdminController extends Controller
 
         $content->delete();
 
-        return redirect()->back()->with('success', 'Kandungan berjaya dihapuskan.');
+        return redirect()->back()->with('success', 'Bahan media berjaya dihapuskan.');
     }
 
     public function updatecontent(Request $request, $id)
@@ -2061,6 +2061,6 @@ class AdminController extends Controller
         // Update the content
         $content->update($validated);
 
-        return redirect()->back()->with('success', 'Kandungan berjaya dikemaskini.');
+        return redirect()->back()->with('success', 'Bahan media berjaya dikemaskini.');
     }
 }
