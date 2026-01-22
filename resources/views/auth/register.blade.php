@@ -89,16 +89,28 @@
                                 <div class="mb-2">
                                     <label class="d-block form-label fw-bold">Kategori Profesion</label>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="profession_option" id="prof_opt1" value="Pelajar / Alumni KU">
-                                        <label class="form-check-label" for="prof_opt1">Pelajar / Alumni KU</label>
+                                        <input class="form-check-input" type="radio" name="profession_option" id="prof_opt1" value="Pelajar">
+                                        <label class="form-check-label" for="prof_opt1">Pelajar</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="profession_option" id="prof_opt2" value="Staff Uniti Asia">
-                                        <label class="form-check-label" for="prof_opt2">Staff Uniti Asia</label>
+                                        <input class="form-check-input" type="radio" name="profession_option" id="prof_opt2" value="Alumni KU">
+                                        <label class="form-check-label" for="prof_opt2">Alumni KU</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="profession_option" id="prof_opt3" value="Lain-Lain" checked>
-                                        <label class="form-check-label" for="prof_opt3">Lain-Lain</label>
+                                        <input class="form-check-input" type="radio" name="profession_option" id="prof_opt3" value="Staff KUPD">
+                                        <label class="form-check-label" for="prof_opt3">Staff KUPD</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="profession_option" id="prof_opt4" value="Staff KUKB">
+                                        <label class="form-check-label" for="prof_opt4">Staff KUKB</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="profession_option" id="prof_opt5" value="Staff Uniti Asia">
+                                        <label class="form-check-label" for="prof_opt5">Staff Uniti Asia</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="profession_option" id="prof_opt6" value="Lain-Lain" checked>
+                                        <label class="form-check-label" for="prof_opt6">Lain-Lain</label>
                                     </div>
                                 </div>
                                 <div class="form-floating" id="profession_container">
@@ -220,7 +232,7 @@
                 let selectedValue = checkedRadio.value;
                 if (selectedValue === 'Lain-Lain') {
                     professionContainer.style.display = 'block';
-                    if (professionInput.value === 'Pelajar / Alumni KU' || professionInput.value === 'Staff Uniti Asia') {
+                    if (professionInput.value === 'Pelajar' || professionInput.value === 'Alumni KU' || professionInput.value === 'Staff Uniti Asia' || professionInput.value === 'Staff KUKB' || professionInput.value === 'Staff KUPD') {
                         professionInput.value = '';
                     }
                 } else {
