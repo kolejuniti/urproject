@@ -23,7 +23,7 @@
 
             <div class="col-md-12 col-sm-12">
                 <div style="display: flex; justify-content: right; align-items: right;">
-                    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Tambah Kandungan Media</button>
+                    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Tambah Bahan Media</button>
                 </div>
             </div>
             <!-- Modal -->
