@@ -103,21 +103,22 @@
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="{{ route('user.dashboard') }}"><i class="bi bi-house"></i>&nbsp;Home</a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-database"></i>&nbsp;Data
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('user.content.enhanced') }}"><i class="bi bi-collection-play"></i>&nbsp;Bahan Media</a>
+                            <!-- <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-database"></i>&nbsp;Data
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
                                     <a class="dropdown-item" href="{{ route('user.content.enhanced') }}"><i class="bi bi-collection-play"></i>&nbsp;Kandungan Media</a>
                                 </li>
-                            </ul>
+                            </ul> -->
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-search"></i>&nbsp;Cari Pelajar
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-search"></i>&nbsp;Data Masuk
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a class="dropdown-item" href="{{ route('user.application') }}"><i class="bi bi-list-ol"></i>&nbsp;Senarai Permohonan</a>
+                                    <a class="dropdown-item" href="{{ route('user.application') }}"><i class="bi bi-list-ol"></i>&nbsp;Senarai Data Masuk</a>
                                 </li>
                             </ul>
                         </li>
