@@ -57,13 +57,9 @@
                             </div>
                         </div>
                         <div class="row g-2 mb-2 row-cols-1">
-                            <div class="col-md-6 col-sm-6 form-floating">
+                            <div class="col-md-12 col-sm-12 form-floating">
                                 <input type="text" name="phone" id="phone" class="form-control" placeholder="" maxlength="12" required>
                                 <label for="phone">No. Telefon</label>
-                            </div>
-                            <div class="col-md-6 col-sm-6 form-floating">
-                                <input type="text" name="email" id="email" class="form-control" placeholder="" required>
-                                <label for="email">Emel</label>
                             </div>
                         </div>
                         <div class="row g-2 mb-2 row-cols-1">
@@ -148,6 +144,31 @@
                                 <label for="state">Negeri</label>
                             </div>
                         </div>
+                        <div class="col-md-12 col-sm-12 mb-3 mt-3">
+                            <label for="" class="fw-bold">Maklumat Akaun</label>
+                        </div>
+                        <div class="row g-2 mb-2 row-cols-1">
+                            <div class="col-md-12 col-sm-12 form-floating">
+                                <input type="email" name="email" id="email" class="form-control" placeholder="" required>
+                                <label for="email">Emel</label>
+                            </div>
+                        </div>
+                        <div class="row g-2 mb-2 row-cols-1">
+                            <div class="col-md-6 col-sm-6 form-floating">
+                                <input type="password" name="password" id="password" class="form-control" placeholder="" required>
+                                <label for="password">Kata Laluan</label>
+                                <div id="passwordHelp" class="invalid-feedback">
+                                    Kata laluan mestilah sekurang-kurangnya 8 aksara.
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 form-floating">
+                                <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" placeholder="" required>
+                                <label for="password_confirmation">Pengesahan Kata Laluan</label>
+                                <div id="passwordMatchHelp" class="invalid-feedback">
+                                    Kata laluan tidak sepadan.
+                                </div>
+                            </div>
+                        </div>
                         @if ($ref !== null)
                         <div class="col-sm-12">
                             <hr>
@@ -214,6 +235,38 @@
 
             // Run on load
             updateProfessionField();
+
+            // Password Validation
+            const passwordInput = document.getElementById('password');
+            const passwordConfirmInput = document.getElementById('password_confirmation');
+
+            function validatePassword() {
+                if (passwordInput.value.length < 8) {
+                    passwordInput.setCustomValidity('Kata laluan mestilah sekurang-kurangnya 8 aksara.');
+                    passwordInput.classList.add('is-invalid');
+                } else {
+                    passwordInput.setCustomValidity('');
+                    passwordInput.classList.remove('is-invalid');
+                }
+            }
+
+            function validatePasswordMatch() {
+                if (passwordConfirmInput.value !== passwordInput.value) {
+                    passwordConfirmInput.setCustomValidity('Kata laluan tidak sepadan.');
+                    passwordConfirmInput.classList.add('is-invalid');
+                } else {
+                    passwordConfirmInput.setCustomValidity('');
+                    passwordConfirmInput.classList.remove('is-invalid');
+                }
+            }
+
+            passwordInput.addEventListener('input', function() {
+                validatePassword();
+                if (passwordConfirmInput.value) validatePasswordMatch();
+            });
+
+            passwordConfirmInput.addEventListener('input', validatePasswordMatch);
+
         }, false);
     })();
 </script>
