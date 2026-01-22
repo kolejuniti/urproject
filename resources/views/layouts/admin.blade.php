@@ -112,10 +112,10 @@
                                     <a class="dropdown-item" href="{{ route('admin.program') }}">Program</a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="{{ route('admin.content') }}">Tambah Kandungan Media</a>
+                                    <a class="dropdown-item" href="{{ route('admin.content') }}">Tambah Bahan Media</a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="{{ route('admin.content.list') }}">Senarai Kandungan Media</a>
+                                    <a class="dropdown-item" href="{{ route('admin.content.list') }}">Senarai Bahan Media</a>
                                 </li>
                             </ul>
                         </li>
