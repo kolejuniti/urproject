@@ -256,6 +256,11 @@
                 if (passwordInput.value.length < 8) {
                     passwordInput.setCustomValidity('Kata laluan mestilah sekurang-kurangnya 8 aksara.');
                     passwordInput.classList.add('is-invalid');
+                    document.getElementById('passwordHelp').textContent = 'Kata laluan mestilah sekurang-kurangnya 8 aksara.';
+                } else if (/\s/.test(passwordInput.value)) {
+                    passwordInput.setCustomValidity('Kata laluan tidak boleh mengandungi ruang kosong.');
+                    passwordInput.classList.add('is-invalid');
+                    document.getElementById('passwordHelp').textContent = 'Kata laluan tidak boleh mengandungi ruang kosong.';
                 } else {
                     passwordInput.setCustomValidity('');
                     passwordInput.classList.remove('is-invalid');
@@ -263,9 +268,14 @@
             }
 
             function validatePasswordMatch() {
-                if (passwordConfirmInput.value !== passwordInput.value) {
+                if (/\s/.test(passwordConfirmInput.value)) {
+                    passwordConfirmInput.setCustomValidity('Kata laluan tidak boleh mengandungi ruang kosong.');
+                    passwordConfirmInput.classList.add('is-invalid');
+                    document.getElementById('passwordMatchHelp').textContent = 'Kata laluan tidak boleh mengandungi ruang kosong.';
+                } else if (passwordConfirmInput.value !== passwordInput.value) {
                     passwordConfirmInput.setCustomValidity('Kata laluan tidak sepadan.');
                     passwordConfirmInput.classList.add('is-invalid');
+                    document.getElementById('passwordMatchHelp').textContent = 'Kata laluan tidak sepadan.';
                 } else {
                     passwordConfirmInput.setCustomValidity('');
                     passwordConfirmInput.classList.remove('is-invalid');
