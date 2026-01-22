@@ -31,7 +31,7 @@
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h6 class="modal-title fw-bold" id="cancelModalLabel">Maklumat Kandungan Media</h6>
+                            <h6 class="modal-title fw-bold" id="cancelModalLabel">Maklumat Bahan Media</h6>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
