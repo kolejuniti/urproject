@@ -56,6 +56,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
 
@@ -67,7 +68,7 @@ class RegisterController extends Controller
     }
 
     public function showRegistrationForm(Request $request)
-    {   
+    {
         $ref = $request->query('ref');
 
         $religions = DB::table('religion')->get();
@@ -91,7 +92,7 @@ class RegisterController extends Controller
         $checkIC = User::where('ic', $data['ic'])->first();
 
         if ($checkIC) {
-        // If the IC already exists, return a view with an error message
+            // If the IC already exists, return a view with an error message
             return redirect()->back()->with('msg_error', 'No. kad pengenalan telah didaftar di dalam sistem.')->withInput();;
         }
 
@@ -103,7 +104,7 @@ class RegisterController extends Controller
 
         $checkAddress = DB::table('user_address')->where('user_address.user_ic', $data['ic'])->first();
 
-        if($checkAddress === null) {
+        if ($checkAddress === null) {
 
             $address1 = $data['address1'];
             $address2 = $data['address2'];
@@ -119,7 +120,6 @@ class RegisterController extends Controller
                 'city' => $city,
                 'state_id' => $state,
             ]);
-
         }
 
         return User::create([
@@ -135,7 +135,7 @@ class RegisterController extends Controller
             'bank_id' => $data['bank'],
             'staff' => $data['staff'],
             'profession' => strtoupper($data['profession']),
-            'password' => Hash::make('12345678'),
+            'password' => Hash::make($data['password']),
             'referral_code' => Str::random(8),
             'leader_id' => $leaderID ? $leaderID->id : null,
             'status' => ('AKTIF'),
@@ -143,7 +143,7 @@ class RegisterController extends Controller
     }
 
     public function register(Request $request)
-    {   
+    {
         $ref = $request->query('ref');
 
         $this->validator($request->all())->validate();
