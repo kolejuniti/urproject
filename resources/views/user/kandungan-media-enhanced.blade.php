@@ -354,7 +354,7 @@
 
 <div class="page-header">
     <div class="container">
-        <h1><i class="bi bi-collection-play"></i>Bahan Media</h1>
+        <h1><i class="bi bi-collection-play"></i> Bahan Media</h1>
         <p>Kongsi bahan media menarik dengan mudah kepada orang ramai</p>
     </div>
 </div>
