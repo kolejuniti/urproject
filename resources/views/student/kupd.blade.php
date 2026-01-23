@@ -888,12 +888,12 @@
           class="col-md-3 d-flex flex-column align-items-center align-items-md-end justify-content-center text-md-end text-center mt-3 mt-md-0">
           <h5 class="fw-bold mb-3 text-light">Ikuti Kami</h5>
           <div class="d-flex gap-3 justify-content-center justify-content-md-end">
-            <a href="https://uniti.edu.my" class="text-light"><i class="bi bi-globe fs-1"></i></a>
-            <a href="https://www.facebook.com/kolejunitiportdickson" class="text-light"><i class="bi bi-facebook fs-1"></i></a>
-            <a href="https://www.instagram.com/kolejunitiportdickson/" class="text-light"><i class="bi bi-instagram fs-1"></i></a>
-            <a href="https://x.com/kolejuniti_pd" class="text-light"><i class="bi bi-twitter-x fs-1"></i></a>
-            <a href="https://www.tiktok.com/@kolejunitipd" class="text-light"><i class="bi bi-tiktok fs-1"></i></a>
-            <a href="https://www.youtube.com/@KolejUnitiPortDickson" class="text-light"><i class="bi bi-youtube fs-1"></i></a>
+            <a href="https://uniti.edu.my" target="_blank" class="text-light"><i class="bi bi-globe fs-1"></i></a>
+            <a href="https://www.facebook.com/kolejunitiportdickson" target="_blank" class="text-light"><i class="bi bi-facebook fs-1"></i></a>
+            <a href="https://www.instagram.com/kolejunitiportdickson/" target="_blank" class="text-light"><i class="bi bi-instagram fs-1"></i></a>
+            <a href="https://x.com/kolejuniti_pd" target="_blank" class="text-light"><i class="bi bi-twitter-x fs-1"></i></a>
+            <a href="https://www.tiktok.com/@kolejunitipd" target="_blank" class="text-light"><i class="bi bi-tiktok fs-1"></i></a>
+            <a href="https://www.youtube.com/@KolejUnitiPortDickson" target="_blank" class="text-light"><i class="bi bi-youtube fs-1"></i></a>
           </div>
         </div>
       </div><br>
