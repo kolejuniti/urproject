@@ -10,8 +10,8 @@
                 {{ session('success') }}
             </div>
             @endif
-            <div class="card mb-3">
-                <div class="card-header">{{ __('Pautan Rujukan') }}</div>
+            <div class="card mb-3 shadow-sm">
+                <div class="card-header" style="background-color: #8173b6; color: white; font-weight: bold;">{{ __('Pautan Rujukan') }}</div>
 
                 <div class="card-body">
                     @auth
@@ -57,9 +57,138 @@
                 </div>
             </div>
 
+            <style>
+                /* Custom Table Styling */
+                #myTable {
+                    border-collapse: separate;
+                    border-spacing: 0;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+                    font-size: 0.9rem;
+                }
+
+                #myTable thead th {
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    color: white;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                    padding: 16px 12px;
+                    border: none;
+                    position: sticky;
+                    top: 0;
+                    z-index: 10;
+                }
+
+                /* Column Width Adjustments */
+                #myTable thead th:nth-child(1) {
+                    width: 60px;
+                    min-width: 60px;
+                }
+
+                /* # */
+                #myTable thead th:nth-child(2) {
+                    width: 30%;
+                    min-width: 200px;
+                }
+
+                /* Nama */
+                #myTable thead th:nth-child(3) {
+                    width: 20%;
+                    min-width: 140px;
+                }
+
+                /* No. Telefon */
+                #myTable thead th:nth-child(4) {
+                    width: 30%;
+                    min-width: 200px;
+                }
+
+                /* Email */
+                #myTable thead th:nth-child(5) {
+                    width: 20%;
+                    min-width: 140px;
+                }
+
+                /* Tarikh Daftar */
+
+                #myTable tbody td {
+                    padding: 14px 12px;
+                    vertical-align: middle;
+                    border-bottom: 1px solid #e9ecef;
+                    transition: all 0.3s ease;
+                }
+
+                #myTable tbody tr {
+                    transition: all 0.3s ease;
+                    background-color: white;
+                }
+
+                #myTable tbody tr:hover {
+                    transform: scale(1.01);
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+                    z-index: 5;
+                    background-color: #f8f9fa;
+                }
+
+                /* Index Number Styling */
+                .index-cell {
+                    font-weight: 600;
+                    color: #6c757d;
+                    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+                }
+
+                /* Date Styling */
+                .date-cell {
+                    color: #495057;
+                    font-weight: 500;
+                }
+
+                /* Text Styling */
+                .text-cell {
+                    font-weight: 500;
+                    color: #212529;
+                }
+
+                /* DataTable wrapper styling */
+                .dataTables_wrapper {
+                    padding: 20px;
+                    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+                    border-radius: 12px;
+                    margin-top: 20px;
+                }
+
+                /* Search and filter styling */
+                .dataTables_filter input {
+                    border: 2px solid #667eea;
+                    border-radius: 8px;
+                    padding: 8px 16px;
+                    transition: all 0.3s ease;
+                }
+
+                .dataTables_filter input:focus {
+                    outline: none;
+                    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+                }
+
+                /* Pagination styling */
+                .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    border-color: #667eea;
+                    color: white !important;
+                }
+
+                .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+                    border-color: #667eea !important;
+                    color: white !important;
+                }
+            </style>
+
             <div class="table-responsive">
-                <table id="myTable" class="table table-bordered small table-sm text-center">
-                    <thead class="table-dark">
+                <table id="myTable" class="table table-bordered text-center">
+                    <thead>
                         <tr>
                             <th>#</th>
                             <th>Nama</th>
@@ -71,64 +200,39 @@
                     <tbody>
                         @foreach ( $affiliates as $affiliate )
                         <tr>
-                            <td class="text-center">{{ $loop->iteration }}</td>
-                            <td class="text-uppercase">{{ $affiliate->name }}
-                                {{-- <button type="button" class="btn btn-sm btn-link" data-bs-toggle="modal" data-bs-target="#modal">{{ $affiliate->name }}</button> --}}
+                            <td class="index-cell">{{ $loop->iteration }}</td>
+                            <td class="text-start">
+                                <div class="d-flex align-items-center">
+                                    <div class="rounded-circle bg-light d-flex align-items-center justify-content-center me-3" style="width: 35px; height: 35px; border: 1px solid #e9ecef;">
+                                        <i class="bi bi-person text-primary"></i>
+                                    </div>
+                                    <span class="text-uppercase fw-bold text-dark">{{ $affiliate->name }}</span>
+                                </div>
                             </td>
-                            <td class="text-center">{{ $affiliate->phone }}</td>
-                            <td class="text-center">{{ $affiliate->email }}</td>
-                            <td>{{ \Carbon\Carbon::parse($affiliate->created_at)->format('d-m-Y') }}</td>
+                            <td>
+                                @if($affiliate->phone)
+                                <i class="bi bi-telephone me-2 text-muted"></i>{{ $affiliate->phone }}
+                                @else
+                                <span class="text-muted">-</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if($affiliate->email)
+                                <i class="bi bi-envelope me-2 text-muted"></i>{{ $affiliate->email }}
+                                @else
+                                <span class="text-muted">-</span>
+                                @endif
+                            </td>
+                            <td class="date-cell">
+                                <i class="bi bi-calendar3 me-2"></i>{{ \Carbon\Carbon::parse($affiliate->created_at)->format('d-m-Y') }}
+                            </td>
                         </tr>
                         @endforeach
-                        <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="modalLabel"></h5>
-                                    </div>
-                                    <div class="modal-body small">
-                                        <div class="col-md-12 col-sm-12 mb-3">
-                                            <label for="" class="fw-bold">Maklumat Pemohon</label>
-                                        </div>
-                                        <div class="row mb-2">
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="">Nama Penuh</label>
-                                            </div>
-                                            <div class="col-md-9 col-sm-9">
-                                                <label for="name"></label>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-2">
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="">No. Kad Pengenalan</label>
-                                            </div>
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="name"></label>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-2">
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="">No. Telefon</label>
-                                            </div>
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="name"></label>
-                                            </div>
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="">Email</label>
-                                            </div>
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="name"></label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    </div>
-                                </div>
-                            </div>
                     </tbody>
                 </table>
             </div>
+
+            <!-- Modal code removed as it was non-functional and structurally incorrect -->
         </div>
     </div>
 </div>

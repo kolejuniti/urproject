@@ -52,9 +52,230 @@
                 </div>
             </div>
 
+            <style>
+                /* Custom Table Styling */
+                #myTable {
+                    border-collapse: separate;
+                    border-spacing: 0;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+                    font-size: 0.9rem;
+                }
+
+                #myTable thead th {
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    color: white;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                    padding: 16px 12px;
+                    border: none;
+                    position: sticky;
+                    top: 0;
+                    z-index: 10;
+                }
+
+                /* Column Width Adjustments */
+                #myTable thead th:nth-child(1) {
+                    width: 50px;
+                    min-width: 50px;
+                }
+
+                /* # */
+                #myTable thead th:nth-child(2) {
+                    width: 200px;
+                    min-width: 180px;
+                }
+
+                /* Nama */
+                #myTable thead th:nth-child(3) {
+                    width: 140px;
+                    min-width: 130px;
+                }
+
+                /* Tarikh Data Masuk */
+                #myTable thead th:nth-child(4) {
+                    width: 150px;
+                    min-width: 140px;
+                }
+
+                /* Status */
+                #myTable thead th:nth-child(5) {
+                    width: 100px;
+                    min-width: 90px;
+                }
+
+                /* Insentif */
+                #myTable thead th:nth-child(6) {
+                    width: 140px;
+                    min-width: 130px;
+                }
+
+                /* Tarikh Pendaftaran */
+                #myTable thead th:nth-child(7) {
+                    width: 140px;
+                    min-width: 130px;
+                }
+
+                /* Tarikh Komisen */
+                #myTable thead th:nth-child(8) {
+                    width: 120px;
+                    min-width: 110px;
+                }
+
+                /* Amaun Komisen */
+
+                #myTable tbody td {
+                    padding: 14px 10px;
+                    vertical-align: middle;
+                    border-bottom: 1px solid #e9ecef;
+                    transition: all 0.3s ease;
+                }
+
+                #myTable tbody tr {
+                    transition: all 0.3s ease;
+                    background-color: white;
+                }
+
+                #myTable tbody tr:hover {
+                    transform: scale(1.01);
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+                    z-index: 5;
+                }
+
+                /* Enhanced Row Colors with Gradients */
+                #myTable tbody tr.table-danger {
+                    background: linear-gradient(135deg, #fff5f5 0%, #ffe5e5 100%);
+                    border-left: 4px solid #dc3545;
+                }
+
+                #myTable tbody tr.table-info {
+                    background: linear-gradient(135deg, #f0f8ff 0%, #e0f2ff 100%);
+                    border-left: 4px solid #0dcaf0;
+                }
+
+                #myTable tbody tr.table-warning {
+                    background: linear-gradient(135deg, #fffef5 0%, #fff9e5 100%);
+                    border-left: 4px solid #ffc107;
+                }
+
+                #myTable tbody tr.table-success {
+                    background: linear-gradient(135deg, #f0fff4 0%, #e5ffe5 100%);
+                    border-left: 4px solid #198754;
+                }
+
+                /* Status Badge Styling */
+                .status-badge {
+                    display: inline-block;
+                    padding: 6px 14px;
+                    border-radius: 20px;
+                    font-size: 0.75rem;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                }
+
+                /* Name Button Styling */
+                #myTable .btn-link {
+                    color: #667eea;
+                    font-weight: 600;
+                    text-decoration: none;
+                    padding: 4px 8px;
+                    border-radius: 6px;
+                    transition: all 0.3s ease;
+                }
+
+                #myTable .btn-link:hover {
+                    background-color: #667eea;
+                    color: white;
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+                }
+
+                /* Amount Styling */
+                .amount-cell {
+                    font-weight: 700;
+                    color: #198754;
+                    font-size: 0.95rem;
+                }
+
+                /* Index Number Styling */
+                .index-cell {
+                    font-weight: 600;
+                    color: #6c757d;
+                    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+                }
+
+                /* Date Styling */
+                .date-cell {
+                    color: #495057;
+                    font-weight: 500;
+                }
+
+                /* Responsive adjustments */
+                @media (max-width: 768px) {
+                    #myTable {
+                        font-size: 0.8rem;
+                    }
+
+                    #myTable thead th,
+                    #myTable tbody td {
+                        padding: 10px 6px;
+                    }
+                }
+
+                /* DataTable wrapper styling */
+                .dataTables_wrapper {
+                    padding: 20px;
+                    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+                    border-radius: 12px;
+                    margin-top: 20px;
+                }
+
+                /* Search and filter styling */
+                .dataTables_filter input {
+                    border: 2px solid #667eea;
+                    border-radius: 8px;
+                    padding: 8px 16px;
+                    transition: all 0.3s ease;
+                }
+
+                .dataTables_filter input:focus {
+                    outline: none;
+                    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+                }
+
+                /* Pagination styling */
+                .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    border-color: #667eea;
+                    color: white !important;
+                }
+
+                .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    border-color: #667eea;
+                    color: white !important;
+                }
+
+                /* Modal enhancements */
+                .modal-footer .btn-secondary:hover {
+                    background: #5a6268 !important;
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+                }
+
+                .modal-content .btn-close:hover {
+                    transform: rotate(90deg);
+                    transition: transform 0.3s ease;
+                }
+            </style>
+
             <div class="table-responsive">
-                <table id="myTable" class="table table-bordered small table-sm text-center shadow-sm">
-                    <thead class="table-dark">
+                <table id="myTable" class="table table-bordered text-center">
+                    <thead>
                         <tr>
                             <th>#</th>
                             <th>Nama</th>
@@ -79,80 +300,139 @@
                             @else
                         <tr>
                             @endif
-                            <td>&nbsp;</td>
+                            <td class="index-cell">&nbsp;</td>
                             <td>
-                                <button type="button" class="btn btn-sm btn-link" data-bs-toggle="modal" data-bs-target="#modal{{ $data['applicant']->ic }}">{{ $data['applicant']->name }}</button>
+                                <button type="button" class="btn btn-sm btn-link" data-bs-toggle="modal" data-bs-target="#modal{{ $data['applicant']->ic }}">
+                                    <i class="bi bi-person-circle me-1"></i>{{ $data['applicant']->name }}
+                                </button>
                             </td>
-                            <td>{{ \Carbon\Carbon::parse($data['applicant']->created_at)->format('d-m-Y') }}</td>
-                            <td class="text-uppercase">{{ $data['applicant']->status }}</td>
-                            <td class="text-uppercase text-center">{{ $data['applicant']->incentive ?? '0.00' }}</td>
-                            <td>{{$data['applicant']->register_at ? \Carbon\Carbon::parse($data['applicant']->register_at)->format('d-m-Y') : '' }}</td>
-                            <td>{{$data['applicant']->commission_date ? \Carbon\Carbon::parse($data['applicant']->commission_date)->format('d-m-Y') : '' }}</td>
-                            <td class="text-center">{{ $data['applicant']->commission }}</td>
+                            <td class="date-cell">
+                                <i class="bi bi-calendar3 me-1"></i>{{ \Carbon\Carbon::parse($data['applicant']->created_at)->format('d-m-Y') }}
+                            </td>
+                            <td>
+                                <span class="status-badge">{{ $data['applicant']->status }}</span>
+                            </td>
+                            <td class="amount-cell">
+                                RM {{ number_format($data['applicant']->incentive ?? 0, 2) }}
+                            </td>
+                            <td class="date-cell">
+                                @if($data['applicant']->register_at)
+                                <i class="bi bi-calendar-check me-1"></i>{{ \Carbon\Carbon::parse($data['applicant']->register_at)->format('d-m-Y') }}
+                                @else
+                                <span class="text-muted">-</span>
+                                @endif
+                            </td>
+                            <td class="date-cell">
+                                @if($data['applicant']->commission_date)
+                                <i class="bi bi-calendar-event me-1"></i>{{ \Carbon\Carbon::parse($data['applicant']->commission_date)->format('d-m-Y') }}
+                                @else
+                                <span class="text-muted">-</span>
+                                @endif
+                            </td>
+                            <td class="amount-cell">
+                                RM {{ number_format($data['applicant']->commission ?? 0, 2) }}
+                            </td>
                         </tr>
                         <div class="modal fade" id="modal{{ $data['applicant']->ic }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ $data['applicant']->ic }}" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="modalLabel{{ $data['applicant']->ic }}"></h5>
+                                <div class="modal-content" style="border: none; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);">
+                                    <!-- Enhanced Modal Header -->
+                                    <div class="modal-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; padding: 16px 20px;">
+                                        <div class="d-flex align-items-center">
+                                            <div class="modal-icon me-2" style="width: 40px; height: 40px; background: rgba(255, 255, 255, 0.2); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                                <i class="bi bi-person-badge" style="font-size: 20px; color: white;"></i>
+                                            </div>
+                                            <div>
+                                                <h5 class="modal-title mb-0" style="color: white; font-weight: 700; font-size: 1.1rem;">{{ $data['applicant']->name }}</h5>
+                                                <small style="color: rgba(255, 255, 255, 0.9); font-size: 0.75rem;">
+                                                    <i class="bi bi-calendar3 me-1"></i>{{ \Carbon\Carbon::parse($data['applicant']->created_at)->format('d M Y') }}
+                                                </small>
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
-                                    <div class="modal-body small">
-                                        <div class="col-md-12 col-sm-12 mb-3">
-                                            <label for="" class="fw-bold">Maklumat Data</label>
-                                        </div>
-                                        <div class="row mb-2">
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="">Nama Penuh</label>
+
+                                    <!-- Enhanced Modal Body -->
+                                    <div class="modal-body" style="padding: 16px; background: #f8f9fa; max-height: 65vh; overflow-y: auto;">
+                                        <!-- Personal Information Card -->
+                                        <div class="info-card mb-2" style="background: white; border-radius: 8px; padding: 12px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);">
+                                            <div class="section-header mb-1" style="border-left: 3px solid #667eea; padding-left: 8px;">
+                                                <h6 class="mb-0" style="color: #667eea; font-weight: 700; font-size: 0.85rem;">
+                                                    <i class="bi bi-person-lines-fill me-1"></i>Maklumat Data
+                                                </h6>
                                             </div>
-                                            <div class="col-md-9 col-sm-9">
-                                                <label for="name">{{ $data['applicant']->name }}</label>
+
+                                            <div class="info-row d-flex align-items-start mb-1 pb-1" style="border-bottom: 1px solid #e9ecef;">
+                                                <div class="info-label" style="min-width: 140px; color: #6c757d; font-weight: 600; font-size: 0.75rem;">
+                                                    <i class="bi bi-person-fill me-1" style="color: #667eea; font-size: 0.8rem;"></i>Nama Penuh
+                                                </div>
+                                                <div class="info-value" style="color: #212529; font-weight: 500; flex: 1; font-size: 0.8rem;">
+                                                    {{ $data['applicant']->name }}
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="row mb-2">
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="">Tarikh Data Masuk</label>
-                                            </div>
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="name">{{ \Carbon\Carbon::parse( $data['applicant']->created_at )->format('d-m-Y') }}</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12 col-sm-12 mb-3 mt-3">
-                                            <label for="" class="fw-bold">Maklumat Program</label>
-                                        </div>
-                                        <div class="row mb-2">
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="">Lokasi</label>
-                                            </div>
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="name">{{ $data['applicant']->location }}</label>
+
+                                            <div class="info-row d-flex align-items-start">
+                                                <div class="info-label" style="min-width: 140px; color: #6c757d; font-weight: 600; font-size: 0.75rem;">
+                                                    <i class="bi bi-calendar-check me-1" style="color: #667eea; font-size: 0.8rem;"></i>Tarikh Data Masuk
+                                                </div>
+                                                <div class="info-value" style="color: #212529; font-weight: 500; font-size: 0.8rem;">
+                                                    {{ \Carbon\Carbon::parse($data['applicant']->created_at)->format('d-m-Y') }}
+                                                </div>
                                             </div>
                                         </div>
-                                        @foreach ($data['programs'] as $program)
-                                        <div class="row mb-2">
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="">Program Pilihan {{ $loop->iteration }}</label>
+
+                                        <!-- Program Information Card -->
+                                        <div class="info-card mb-2" style="background: white; border-radius: 8px; padding: 12px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);">
+                                            <div class="section-header mb-1" style="border-left: 3px solid #764ba2; padding-left: 8px;">
+                                                <h6 class="mb-0" style="color: #764ba2; font-weight: 700; font-size: 0.85rem;">
+                                                    <i class="bi bi-mortarboard-fill me-1"></i>Maklumat Program
+                                                </h6>
                                             </div>
-                                            <div class="col-md-9 col-sm-9">
-                                                <label for="name">{{ $program->name }}</label>
+
+                                            <div class="info-row d-flex align-items-start mb-1 pb-1" style="border-bottom: 1px solid #e9ecef;">
+                                                <div class="info-label" style="min-width: 140px; color: #6c757d; font-weight: 600; font-size: 0.75rem;">
+                                                    <i class="bi bi-geo-alt-fill me-1" style="color: #764ba2; font-size: 0.8rem;"></i>Lokasi
+                                                </div>
+                                                <div class="info-value" style="color: #212529; font-weight: 500; font-size: 0.8rem;">
+                                                    {{ $data['applicant']->location }}
+                                                </div>
                                             </div>
+
+                                            @foreach ($data['programs'] as $program)
+                                            <div class="info-row d-flex align-items-start {{ !$loop->last ? 'mb-1 pb-1' : '' }}" style="{{ !$loop->last ? 'border-bottom: 1px solid #e9ecef;' : '' }}">
+                                                <div class="info-label" style="min-width: 140px; color: #6c757d; font-weight: 600; font-size: 0.75rem;">
+                                                    <i class="bi bi-bookmark-star-fill me-1" style="color: #764ba2; font-size: 0.8rem;"></i>Program {{ $loop->iteration }}
+                                                </div>
+                                                <div class="info-value" style="color: #212529; font-weight: 500; flex: 1; font-size: 0.8rem;">
+                                                    {{ $program->name }}
+                                                </div>
+                                            </div>
+                                            @endforeach
                                         </div>
-                                        @endforeach
+
+                                        <!-- Status Information Card -->
                                         @if ($data['applicant']->status !== null)
-                                        <div class="col-md-12 col-sm-12">
-                                            <hr>
-                                        </div>
-                                        <div class="row mb-2">
-                                            <div class="col-md-3 col-sm-3">
-                                                <label for="">Status Terkini</label>
+                                        <div class="info-card" style="background: white; border-radius: 8px; padding: 12px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);">
+                                            <div class="section-header mb-1" style="border-left: 3px solid #198754; padding-left: 8px;">
+                                                <h6 class="mb-0" style="color: #198754; font-weight: 700; font-size: 0.85rem;">
+                                                    <i class="bi bi-info-circle-fill me-1"></i>Status Terkini
+                                                </h6>
                                             </div>
-                                            <div class="col-md-9 col-sm-9">
-                                                <label for="" class="text-uppercase">{{ $data['applicant']->status }}</label>
+
+                                            <div class="info-row">
+                                                <span class="status-badge" style="display: inline-block; padding: 5px 14px; border-radius: 14px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; box-shadow: 0 2px 6px rgba(102, 126, 234, 0.3);">
+                                                    <i class="bi bi-check-circle-fill me-1"></i>{{ $data['applicant']->status }}
+                                                </span>
                                             </div>
                                         </div>
                                         @endif
                                     </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                                    <!-- Enhanced Modal Footer -->
+                                    <div class="modal-footer" style="background: white; border: none; padding: 12px 20px;">
+                                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal" style="padding: 8px 20px; border-radius: 6px; font-weight: 600; background: #6c757d; border: none; transition: all 0.3s ease;">
+                                            <i class="bi bi-x-circle me-1"></i>Tutup
+                                        </button>
                                     </div>
                                 </div>
                             </div>
