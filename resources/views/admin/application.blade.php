@@ -7,17 +7,17 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             @if(session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
             @endif
-            
+
             <div class="card mb-3 shadow-sm">
                 <div class="card-header" style="background-color: #4682b4; color: white; font-weight: bold;">{{ __('Pautan Rujukan') }}</div>
 
                 <div class="card-body">
                     @auth
-                    
+
                     <div class="row col-12 col-sm-12 col-md-12">
                         <div class="col-12 col-sm-3 col-md-3 text-center mb-3">
                             <div class="qr-container position-relative">
@@ -61,7 +61,7 @@
             </div>
             <div class="col-md-6 col-sm-6 col-12 ms-auto">
                 <form method="POST" action="{{ route('admin.application') }}">
-                @csrf
+                    @csrf
                     <div class="input-group mb-3">
                         <button class="btn btn-secondary" disabled>Tarikh</button>
                         <input type="date" class="form-control" name="start_date">
@@ -77,10 +77,10 @@
                     <thead class="table-dark">
                         <tr>
                             <th>#</th>
-                            <th>Nama Pemohon</th>
+                            <th>Nama</th>
                             <th>No. Kad Pengenalan</th>
                             <th>No. Telefon</th>
-                            <th>Tarikh Permohonan</th>
+                            <th>Tarikh Data Masuk</th>
                             <th>Lokasi</th>
                             <th>Affiliate</th>
                             <th>Tarikh Agihan</th>
@@ -92,18 +92,18 @@
                     <tbody>
                         @foreach ($applicants as $data)
                         @if ($data->user_id !== null && $data->register_at === null && in_array($data->status_id, [1, 2, 3, 4, 5, 24, 26, 27]))
-                            <tr class="table-danger">
-                        @elseif ($data->user_id !== null && $data->register_at === null && $data->status_id === 19)
-                            <tr class="table-info">
-                        @elseif (in_array($data->user_id, [0, '0'], true) && $data->register_at === null)
-                            <tr>
-                        @elseif ($data->user_id !== null && $data->register_at === null)
-                            <tr class="table-warning">
-                        @elseif ($data->user_id !== null && $data->register_at !== null)
-                            <tr class="table-success">
-                        @else
-                            <tr>
-                        @endif
+                        <tr class="table-danger">
+                            @elseif ($data->user_id !== null && $data->register_at === null && $data->status_id === 19)
+                        <tr class="table-info">
+                            @elseif (in_array($data->user_id, [0, '0'], true) && $data->register_at === null)
+                        <tr>
+                            @elseif ($data->user_id !== null && $data->register_at === null)
+                        <tr class="table-warning">
+                            @elseif ($data->user_id !== null && $data->register_at !== null)
+                        <tr class="table-success">
+                            @else
+                        <tr>
+                            @endif
                             <td>&nbsp;</td>
                             <td>
                                 <button type="button" class="btn btn-sm btn-link text-uppercase open-modal" data-ic="{{ $data->ic }}">{{ $data->name }}</button>
@@ -114,11 +114,11 @@
                             <td class="text-center">{{ $data->location }}</td>
                             <td class="text-uppercase">
                                 @if (!empty($data->referral_code) && $data->referral_code !== 'null' && isset($affiliates[$data->id]))
-                                    @foreach ($affiliates[$data->id] as $affiliate)
-                                        {{ $affiliate->name }}
-                                    @endforeach
+                                @foreach ($affiliates[$data->id] as $affiliate)
+                                {{ $affiliate->name }}
+                                @endforeach
                                 @else
-                                    {{ __('TIADA AFFILIATE') }}
+                                {{ __('TIADA AFFILIATE') }}
                                 @endif
                             </td>
                             <td>{{$data->updated_at ? \Carbon\Carbon::parse($data->updated_at)->format('d-m-Y') : '' }}</td>
@@ -135,7 +135,7 @@
                     <div class="modal-content">
                         <div class="modal-body small">
                             <div class="col-md-12 col-sm-12 mb-3">
-                                <label for="" class="fw-bold">Maklumat Pemohon</label>
+                                <label for="" class="fw-bold">Maklumat Data</label>
                             </div>
                             <div class="row mb-2">
                                 <div class="col-md-12">
@@ -223,7 +223,7 @@
                             </div>
                             <div class="row mb-2">
                                 <div class="col-md-12">
-                                    <label for="applicant-created_at" class="fw-bold">Tarikh Permohonan</label>
+                                    <label for="applicant-created_at" class="fw-bold">Tarikh Data Masuk</label>
                                 </div>
                                 <div class="col-md-12">
                                     <label id="applicant-created_at"></label>
@@ -241,8 +241,8 @@
                                             <!-- File content will be injected here -->
                                         </div>
                                     </div>
-                                </div> 
-                            </div>                          
+                                </div>
+                            </div>
                             <div class="col-md-12 col-sm-12 mb-3 mt-3">
                                 <label for="" class="fw-bold">Program Yang Dipohon</label>
                             </div>
@@ -258,22 +258,22 @@
                                 <!-- Programs will be loaded here dynamically -->
                             </div>
                             <form id="application-form" action="" method="POST">
-                            @csrf
-                            @method('PUT')  
-                            <div id="status-container">
-                                <!-- Status will be loaded here -->
-                            </div>
-                            <div id="register_at-container">
-                                <!-- Register at will be loaded here -->
-                            </div>
-                            <div class="mt-3">
-                                <div class="col-sm-3 col-md-3">
-                                    <label for="" class="fw-bold">Pegawai Perhubungan</label>
+                                @csrf
+                                @method('PUT')
+                                <div id="status-container">
+                                    <!-- Status will be loaded here -->
                                 </div>
-                            </div>
-                            <div id="pic-container">
-                                <!-- Advisor will be loaded here -->
-                            </div>
+                                <div id="register_at-container">
+                                    <!-- Register at will be loaded here -->
+                                </div>
+                                <div class="mt-3">
+                                    <div class="col-sm-3 col-md-3">
+                                        <label for="" class="fw-bold">Pegawai Perhubungan</label>
+                                    </div>
+                                </div>
+                                <div id="pic-container">
+                                    <!-- Advisor will be loaded here -->
+                                </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -294,35 +294,32 @@
     $(document).ready(function() {
         // Initialize DataTables
         var t = $('#myTable').DataTable({
-        columnDefs: [
-            {
+            columnDefs: [{
                 targets: ['_all'],
                 className: 'dt-head-center'
-            }
-        ],
-        layout: {
+            }],
+            layout: {
                 top1Start: {
                     div: {
-                        html: '<h2>Senarai Permohonan</h2>'
+                        html: '<h2>Senarai Data Masuk</h2>'
                     }
                 },
                 top1End: {
-                    buttons: [
-                        {
+                    buttons: [{
                             extend: 'copy',
-                            title: 'Senarai Permohonan'
+                            title: 'Senarai Data Masuk'
                         },
                         {
                             extend: 'excelHtml5',
-                            title: 'Senarai Permohonan'
+                            title: 'Senarai Data Masuk'
                         },
                         {
                             extend: 'pdfHtml5',
-                            title: 'Senarai Permohonan'
+                            title: 'Senarai Data Masuk'
                         },
                         {
                             extend: 'print',
-                            title: 'Senarai Permohonan'
+                            title: 'Senarai Data Masuk'
                         }
                     ]
                 },
@@ -334,10 +331,13 @@
         });
 
         // Add row numbering
-        t.on('order.dt search.dt', function () {
+        t.on('order.dt search.dt', function() {
             let i = 1;
-            
-            t.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
+
+            t.cells(null, 0, {
+                search: 'applied',
+                order: 'applied'
+            }).every(function(cell) {
                 this.data(i++);
             });
         }).draw();
@@ -357,7 +357,7 @@
                     console.log(response); // Debugging: log the response
 
                     if (response.applicants) {
-                        $('#application-form').attr('action', "{{ url('admin/kemaskini/permohonan') }}/" + response.applicants.id);
+                        $('#application-form').attr('action', "{{ url('admin/kemaskini/Data Masuk') }}/" + response.applicants.id);
                         // Populate the modal with the returned data
                         $('#applicant-name').text(response.applicants.name);
                         $('#applicant-ic').text(response.applicants.ic);
@@ -373,15 +373,15 @@
                         $('#applicant-location').text(response.applicants.location);
 
                         // Handle applicant status
-                        let statusOptions = response.statusApplications.map((statusApplication) => 
+                        let statusOptions = response.statusApplications.map((statusApplication) =>
                             `<option value="${statusApplication.id}">${statusApplication.name}</option>`
                         ).join('');
-                        
+
                         if (response.applicants.status_id) {
                             $('#status-container').html(`
                                 <div class="mb-2">
                                     <div class="col-md-12">
-                                        <label for="applicant-status" class="fw-bold">Status Permohonan</label>
+                                        <label for="applicant-status" class="fw-bold">Status Terkini</label>
                                     </div>
                                     <div class="col-md-12">
                                         <select name="statusApplication" id="applicant-status" class="form-control form-control-sm text-uppercase" required>
@@ -395,7 +395,7 @@
                             $('#status-container').html(`
                                 <div class="mb-2">
                                     <div class="col-md-12">
-                                        <label for="applicant-status" class="fw-bold">Status Permohonan</label>
+                                        <label for="applicant-status" class="fw-bold">Status Terkini</label>
                                     </div>
                                     <div class="col-md-12">
                                         <select name="statusApplication" id="applicant-status" class="form-control form-control-sm text-uppercase">
@@ -539,14 +539,14 @@
         var copyText = document.getElementById("referral_url");
         copyText.select();
         document.execCommand("copy");
-        
+
         var copyBtn = document.getElementById("copy-btn");
         var originalText = copyBtn.innerHTML;
         copyBtn.innerHTML = '<i class="bi bi-check-circle"></i>';
-        
+
         var copyAlert = document.getElementById("copy-alert");
         copyAlert.style.display = "block";
-        
+
         setTimeout(function() {
             copyBtn.innerHTML = originalText;
             copyAlert.style.display = "none";
@@ -572,57 +572,57 @@
         window.open("https://t.me/share/url?url=" + encodeURIComponent(document.getElementById("referral_url").value) + "&text=" + encodeURIComponent(text));
     }
 
-// Make QR code clickable to download
-document.addEventListener('DOMContentLoaded', function() {
-    var qrContainer = document.querySelector('.qr-container');
-    var qrOverlay = document.querySelector('.qr-overlay');
-    
-    if (qrContainer) {
-        qrContainer.addEventListener('mouseenter', function() {
-            qrOverlay.style.opacity = '1';
-        });
-        
-        qrContainer.addEventListener('mouseleave', function() {
-            qrOverlay.style.opacity = '0';
-        });
-        
-        qrContainer.addEventListener('click', function() {
-            // Get the SVG element
-            var svg = qrContainer.querySelector('svg');
-            if (!svg) {
-                console.error('SVG not found in container');
-                return;
-            }
-            
-            // Create a canvas element
-            var canvas = document.createElement('canvas');
-            var context = canvas.getContext('2d');
-            
-            // Set canvas dimensions to match SVG
-            canvas.width = svg.clientWidth || 200;
-            canvas.height = svg.clientHeight || 200;
-            
-            // Create an image from the SVG
-            var image = new Image();
-            var svgData = new XMLSerializer().serializeToString(svg);
-            var svgURL = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgData);
-            
-            image.onload = function() {
-                // Draw the image on the canvas
-                context.drawImage(image, 0, 0);
-                
-                // Create download link
-                var downloadLink = document.createElement('a');
-                downloadLink.download = 'UNITI-QR-Code.png';
-                downloadLink.href = canvas.toDataURL('image/png');
-                document.body.appendChild(downloadLink);
-                downloadLink.click();
-                document.body.removeChild(downloadLink);
-            };
-            
-            image.src = svgURL;
-        });
-    }
-});
+    // Make QR code clickable to download
+    document.addEventListener('DOMContentLoaded', function() {
+        var qrContainer = document.querySelector('.qr-container');
+        var qrOverlay = document.querySelector('.qr-overlay');
+
+        if (qrContainer) {
+            qrContainer.addEventListener('mouseenter', function() {
+                qrOverlay.style.opacity = '1';
+            });
+
+            qrContainer.addEventListener('mouseleave', function() {
+                qrOverlay.style.opacity = '0';
+            });
+
+            qrContainer.addEventListener('click', function() {
+                // Get the SVG element
+                var svg = qrContainer.querySelector('svg');
+                if (!svg) {
+                    console.error('SVG not found in container');
+                    return;
+                }
+
+                // Create a canvas element
+                var canvas = document.createElement('canvas');
+                var context = canvas.getContext('2d');
+
+                // Set canvas dimensions to match SVG
+                canvas.width = svg.clientWidth || 200;
+                canvas.height = svg.clientHeight || 200;
+
+                // Create an image from the SVG
+                var image = new Image();
+                var svgData = new XMLSerializer().serializeToString(svg);
+                var svgURL = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgData);
+
+                image.onload = function() {
+                    // Draw the image on the canvas
+                    context.drawImage(image, 0, 0);
+
+                    // Create download link
+                    var downloadLink = document.createElement('a');
+                    downloadLink.download = 'UNITI-QR-Code.png';
+                    downloadLink.href = canvas.toDataURL('image/png');
+                    document.body.appendChild(downloadLink);
+                    downloadLink.click();
+                    document.body.removeChild(downloadLink);
+                };
+
+                image.src = svgURL;
+            });
+        }
+    });
 </script>
 @endsection

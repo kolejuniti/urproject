@@ -10,8 +10,8 @@
                 <thead class="table-dark">
                     <tr>
                         <th>#</th>
-                        <th>Nama Pemohon</th>
-                        <th>Tarikh Permohonan</th>
+                        <th>Nama</th>
+                        <th>Tarikh Data Masuk</th>
                         <th>Sumber</th>
                         <th>Jenis Data</th>
                         <th>Insentif</th>
@@ -52,21 +52,18 @@
 <script>
     $(document).ready(function() {
         var t = $('#myTable').DataTable({
-        columnDefs: [
-            {
+            columnDefs: [{
                 targets: ['_all'],
                 className: 'dt-head-center'
-            }
-        ],
-        layout: {
+            }],
+            layout: {
                 top1Start: {
                     div: {
                         html: '<h2>Pencapaian Affiliate {{ $affiliate->name }}</h2>'
                     }
                 },
                 top1End: {
-                    buttons: [
-                        {
+                    buttons: [{
                             extend: 'copy',
                             title: 'Pencapaian Affiliate'
                         },
@@ -90,10 +87,13 @@
                 bottomEnd: 'paging'
             }
         });
-        t.on('order.dt search.dt', function () {
+        t.on('order.dt search.dt', function() {
             let i = 1;
-        
-            t.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
+
+            t.cells(null, 0, {
+                search: 'applied',
+                order: 'applied'
+            }).every(function(cell) {
                 this.data(i++);
             });
         }).draw();

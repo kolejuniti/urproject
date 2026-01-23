@@ -10,7 +10,7 @@
 
             <!-- Student Registrations by Month -->
             <div class="card mb-4 shadow-sm">
-                <div class="card-header" style="background-color: #4682b4; color: white; font-weight: bold;">Jumlah Pemohon Mengikut Bulan</div>
+                <div class="card-header" style="background-color: #4682b4; color: white; font-weight: bold;">Jumlah Data Masuk Mengikut Bulan</div>
                 <div class="card-body" style="background-color: #e7f1f9;">
                     <div class="d-flex justify-content-end mb-3">
                         <div style="min-width: 120px;">
@@ -61,7 +61,7 @@
                                         labels: labels,
                                         datasets: [{
                                                 type: 'line',
-                                                label: 'Trend Permohonan',
+                                                label: 'Trend Data Masuk',
                                                 data: dataCounts,
                                                 borderColor: '#FF9800', // Orange
                                                 backgroundColor: 'rgba(255, 152, 0, 0.2)',
@@ -76,7 +76,7 @@
                                             },
                                             {
                                                 type: 'bar',
-                                                label: 'Jumlah Pemohon',
+                                                label: 'Jumlah Data Masuk',
                                                 data: dataCounts,
                                                 backgroundColor: 'rgba(70, 130, 180, 0.7)', // Steel Blue
                                                 borderColor: 'rgba(70, 130, 180, 1)',
@@ -108,7 +108,7 @@
                                             },
                                             title: {
                                                 display: true,
-                                                text: 'Analisis Permohonan KUPD (Kolej UNITI Port Dickson)',
+                                                text: 'Analisis Data Masuk KUPD (Kolej UNITI Port Dickson)',
                                                 font: {
                                                     size: 16,
                                                     family: "'Nunito', sans-serif",
@@ -195,7 +195,7 @@
                                         labels: labels,
                                         datasets: [{
                                                 type: 'line',
-                                                label: 'Trend Permohonan',
+                                                label: 'Trend Data Masuk',
                                                 data: dataCounts,
                                                 borderColor: '#FF9800', // Orange
                                                 backgroundColor: 'rgba(255, 152, 0, 0.2)',
@@ -210,7 +210,7 @@
                                             },
                                             {
                                                 type: 'bar',
-                                                label: 'Jumlah Pemohon',
+                                                label: 'Jumlah Data Masuk',
                                                 data: dataCounts,
                                                 backgroundColor: 'rgba(229, 57, 53, 0.7)', // Red for KUKB
                                                 borderColor: 'rgba(183, 28, 28, 1)', // Dark Red
@@ -242,7 +242,7 @@
                                             },
                                             title: {
                                                 display: true,
-                                                text: 'Analisis Permohonan KUKB (Kolej UNITI Kota Bharu)',
+                                                text: 'Analisis Data Masuk KUKB (Kolej UNITI Kota Bharu)',
                                                 font: {
                                                     size: 16,
                                                     family: "'Nunito', sans-serif",
@@ -297,12 +297,12 @@
 
             <!-- User Link Info Styled Like Monthly Cards -->
             <div class="card mb-4 shadow-sm">
-                <div class="card-header" style="background-color: #4682b4; color: white; font-weight: bold;">Maklumat Permohonan</div>
+                <div class="card-header" style="background-color: #4682b4; color: white; font-weight: bold;">Maklumat Data Masuk</div>
                 <div class="card-body" style="background-color: #e7f1f9;">
                     <div class="row text-center">
                         <div class="col-md-4 mb-3">
                             <div class="border rounded shadow-sm p-3 bg-white h-100">
-                                <h6 class="text-muted mb-3">Permohonan Terakhir</h6>
+                                <h6 class="text-muted mb-3">Data Masuk Terakhir</h6>
                                 <ul class="list-group list-group-flush">
                                     @foreach ($lastRegisteredStudents as $location => $date)
                                     <li class="list-group-item d-flex justify-content-between align-items-center px-3">
@@ -315,7 +315,7 @@
                         </div>
                         <div class="col-md-4 mb-3">
                             <div class="border rounded shadow-sm p-3 bg-white h-100">
-                                <h6 class="text-muted mb-3">Jumlah Permohonan ({{ $currentYear }})</h6>
+                                <h6 class="text-muted mb-3">Jumlah Data Masuk ({{ $currentYear }})</h6>
                                 <ul class="list-group list-group-flush">
                                     @foreach ($totalRegisteredCurrentYear as $location => $count)
                                     <li class="list-group-item d-flex justify-content-between align-items-center px-3">
@@ -328,7 +328,7 @@
                         </div>
                         <div class="col-md-4 mb-3">
                             <div class="border rounded shadow-sm p-3 bg-white h-100">
-                                <h6 class="text-muted mb-3">Jumlah Permohonan Daftar Kolej ({{ $currentYear }})</h6>
+                                <h6 class="text-muted mb-3">Jumlah Data Daftar Kolej ({{ $currentYear }})</h6>
                                 <ul class="list-group list-group-flush">
                                     @foreach ($totalSuccessRegisteredCurrentYear as $location => $count)
                                     <li class="list-group-item d-flex justify-content-between align-items-center px-3">
@@ -343,7 +343,7 @@
                     <div class="row text-center">
                         <div class="col-md-4 mb-3">
                             <div class="border rounded shadow-sm p-3 bg-white h-100">
-                                <h6 class="text-muted mb-3">Jumlah Permohonan</h6>
+                                <h6 class="text-muted mb-3">Jumlah Data Masuk</h6>
                                 <ul class="list-group list-group-flush">
                                     @foreach ($totalRegistered as $location => $count)
                                     <li class="list-group-item d-flex justify-content-between align-items-center px-3">
@@ -356,7 +356,7 @@
                         </div>
                         <div class="col-md-4 mb-3">
                             <div class="border rounded shadow-sm p-3 bg-white h-100">
-                                <h6 class="text-muted mb-3">Jumlah Permohonan Daftar Kolej</h6>
+                                <h6 class="text-muted mb-3">Jumlah Data Daftar Kolej</h6>
                                 <ul class="list-group list-group-flush">
                                     @foreach ($totalSuccessRegistered as $location => $count)
                                     <li class="list-group-item d-flex justify-content-between align-items-center px-3">
@@ -374,7 +374,7 @@
             <!-- Top 5 Students Table -->
             <div class="card shadow-sm">
                 <div class="card-header" style="background-color: #4682b4; color: white; font-weight: bold;">
-                    5 Pemohon Terkini
+                    5 Data Masuk Terkini
                 </div>
                 <div class="card-body p-0">
                     <div class="table-responsive">
@@ -384,7 +384,7 @@
                                     <th>#</th>
                                     <th>Nama</th>
                                     <th>Emel</th>
-                                    <th>Tarikh Permohonan</th>
+                                    <th>Tarikh Data Masuk</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -397,7 +397,7 @@
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="4" class="text-center">Tiada permohonan pelajar.</td>
+                                    <td colspan="4" class="text-center">Tiada Data Masuk pelajar.</td>
                                 </tr>
                                 @endforelse
                             </tbody>

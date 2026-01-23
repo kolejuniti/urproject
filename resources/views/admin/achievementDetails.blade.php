@@ -9,8 +9,8 @@
                 <thead class="table-dark">
                     <tr>
                         <th rowspan="2">#</th>
-                        <th rowspan="2">Nama Pemohon</th>
-                        <th rowspan="2">Tarikh Permohonan</th>
+                        <th rowspan="2">Nama</th>
+                        <th rowspan="2">Tarikh Data Masuk</th>
                         <th rowspan="2">Tarikh Diagihkan</th>
                         <th rowspan="2">Affiliate</th>
                         <th rowspan="2">Sumber</th>
@@ -37,37 +37,37 @@
                         <td class="text-uppercase">{{ $item->status ?? 'PERMOHONAN BARU' }}</td>
                         {{-- Group 1: status_id in [7–18] --}}
                         @php
-                            $days_process = in_array($item->status_id, range(7, 18)) ? $item->days_since_update : 0;
+                        $days_process = in_array($item->status_id, range(7, 18)) ? $item->days_since_update : 0;
 
-                            if ($days_process < 7) {
-                                $class = 'table-success';
-                            } elseif ($days_process <= 14) {
-                                $class = 'table-warning';
-                            } elseif ($days_process >= 15) {
-                                $class = 'table-danger';
+                        if ($days_process < 7) {
+                            $class='table-success' ;
+                            } elseif ($days_process <=14) {
+                            $class='table-warning' ;
+                            } elseif ($days_process>= 15) {
+                            $class = 'table-danger';
                             } else {
-                                $class = '';
+                            $class = '';
                             }
-                        @endphp
-                        <td class="text-center {{ $class }}">
-                            {{ $days_process }}
-                        </td>
-                        {{-- Group 2: status_id === 19 --}}
-                        <td class="text-center">
-                            {{ $item->status_id === 19 ? $item->days_since_update : 0 }}
-                        </td>
-                        {{-- Group 3: status_id in [20, 21, 22] --}}
-                        <td class="text-center">
-                            {{ in_array($item->status_id, [20, 21]) ? $item->days_since_update : 0 }}
-                        </td>
-                        {{-- Group 3: status_id in [22] --}}
-                        <td class="text-center">
-                            {{ $item->status_id === 22 ? $item->days_since_update : 0 }}
-                        </td>
-                        {{-- Group 4: status_id in [1–5, 24, 26, 27] --}}
-                        <td class="text-center">
-                            {{ in_array($item->status_id, [1,2,3,4,5,24,26,27]) ? $item->days_since_update : 0 }}
-                        </td>
+                            @endphp
+                            <td class="text-center {{ $class }}">
+                                {{ $days_process }}
+                            </td>
+                            {{-- Group 2: status_id === 19 --}}
+                            <td class="text-center">
+                                {{ $item->status_id === 19 ? $item->days_since_update : 0 }}
+                            </td>
+                            {{-- Group 3: status_id in [20, 21, 22] --}}
+                            <td class="text-center">
+                                {{ in_array($item->status_id, [20, 21]) ? $item->days_since_update : 0 }}
+                            </td>
+                            {{-- Group 3: status_id in [22] --}}
+                            <td class="text-center">
+                                {{ $item->status_id === 22 ? $item->days_since_update : 0 }}
+                            </td>
+                            {{-- Group 4: status_id in [1–5, 24, 26, 27] --}}
+                            <td class="text-center">
+                                {{ in_array($item->status_id, [1,2,3,4,5,24,26,27]) ? $item->days_since_update : 0 }}
+                            </td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -81,21 +81,18 @@
 <script>
     $(document).ready(function() {
         var t = $('#myTable').DataTable({
-        columnDefs: [
-            {
+            columnDefs: [{
                 targets: ['_all'],
                 className: 'dt-head-center'
-            }
-        ],
-        layout: {
+            }],
+            layout: {
                 top1Start: {
                     div: {
                         html: '<h2>Pencapaian EA {{ $user->name }}</h2>'
                     }
                 },
                 top1End: {
-                    buttons: [
-                        {
+                    buttons: [{
                             extend: 'copy',
                             title: 'Pencapaian EA'
                         },
@@ -119,10 +116,13 @@
                 bottomEnd: 'paging'
             }
         });
-        t.on('order.dt search.dt', function () {
+        t.on('order.dt search.dt', function() {
             let i = 1;
-        
-            t.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
+
+            t.cells(null, 0, {
+                search: 'applied',
+                order: 'applied'
+            }).every(function(cell) {
                 this.data(i++);
             });
         }).draw();

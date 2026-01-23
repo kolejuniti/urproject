@@ -7,7 +7,7 @@
         <div class="col-md-12">
             <div class="col-md-6 col-sm-6 col-12 ms-auto">
                 <form method="POST" action="{{ route('admin.summary') }}">
-                @csrf
+                    @csrf
                     <div class="input-group mb-3">
                         <button class="btn btn-secondary" disabled>Tarikh</button>
                         <input type="date" class="form-control" name="start_date" value="{{ request('start_date') }}">
@@ -17,7 +17,7 @@
                     </div>
                 </form>
             </div>
-            <h2 class="mb-3">Statistik Permohonan</h2>
+            <h2 class="mb-3">Statistik Data Masuk</h2>
             {{-- <div>
                 <div class="col-md-12">
                     <table id="myTable4" class="table table-bordered table-sm text-center">
@@ -29,234 +29,234 @@
                             <tr>
                                 @foreach ($monthlyData as $data)
                                     <th class="text-center">{{ $data['month'] }}</th>
-                                @endforeach
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <td class="text-center">{{ $currentYear }}</td>
-                            @foreach ($monthlyData as $data)
-                                <td class="text-center">{{ $data['total'] }}</td>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div> --}}
-            <div class="row">
-                <div class="col-md-6">
-                    <table id="myTable" class="table table-bordered table-sm text-center">
-                        <thead class="table-dark">
-                            <tr>
-                                <th>#</th>
-                                <th>Status</th>
-                                <th>Jumlah</th>
-                                <th>%</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($statusWithPercentage as $data)
-                            <tr>
-                                <td></td>
-                                {{-- <td class="text-uppercase">{{ $data->status }}</td> --}}
-                                <td>
-                                    <button type="button" class="btn btn-sm btn-link text-uppercase open-modal" data-status_id="{{ $data->status_id }}">{{ $data->status }}</button>
-                                </td>
-                                <td class="text-center">{{ $data->total }}</td>
-                                <td class="text-center">{{ number_format($data->percentage, 2) }}%</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                        <tfoot class="table-danger">
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td>{{ $totalStudents }}</td>
-                                <td></td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-                <div class="col-md-6">
-                    <table id="myTable2" class="table table-bordered table-sm text-center">
-                        <thead class="table-dark">
-                            <tr>
-                                <th>#</th>
-                                <th>Lokasi</th>
-                                <th>Jumlah</th>
-                                <th>%</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($locationsWithPercentage as $data2)
-                            <tr>
-                                <td></td>
-                                <td class="text-uppercase">{{ $data2->location }}</td>
-                                <td class="text-center">{{ $data2->total }}</td>
-                                <td class="text-center">{{ number_format($data2->percentage, 2) }}%</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                        <tfoot class="table-danger">
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td>{{ $totalStudents }}</td>
-                                <td></td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                    <table id="myTable3" class="table table-bordered table-sm text-center">
-                        <thead class="table-dark">
-                            <tr>
-                                <th rowspan="2">#</th>
-                                <th rowspan="2">Sumber</th>
-                                <th colspan="4" class="text-center">Data Masuk</th>
-                                <th colspan="4" class="text-center">Daftar Kolej</th>
-                            </tr>
-                            <tr>
-                                <th>KUPD</th>
-                                <th>KUKB</th>
-                                <th>Jumlah</th>
-                                <th>%</th>
-                                <th>KUPD</th>
-                                <th>KUKB</th>
-                                <th>Jumlah</th>
-                                <th>%</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($sourcessWithPercentage as $data3)
-                            <tr>
-                                <td></td>
-                                <td class="text-uppercase">{{ $data3->source }}</td>
-                                <td class="text-center table-warning">{{ $data3->total_kupd }}</td>
-                                <td class="text-center table-warning">{{ $data3->total_kukb }}</td>
-                                <td class="text-center table-warning">{{ $data3->total }}</td>
-                                <td class="text-center table-warning">{{ number_format($data3->percentage, 2) }}%</td>
-                                <td class="text-center table-success">{{ $data3->total_kupd_register }}</td>
-                                <td class="text-center table-success">{{ $data3->total_kukb_register }}</td>
-                                <td class="text-center table-success">{{ $data3->total_register }}</td>
-                                <td class="text-center table-success">{{ number_format($data3->register_percentage, 2) }}%</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                        <tfoot style="border-width:2px;border-style:solid;">
-                            <tr>
-                                <td class="table-danger" style="border-width:2px;border-style:solid;"></td>
-                                <td class="table-danger" style="border-width:2px;border-style:solid;"></td>
-                                <td class="table-warning" style="border-width:2px;border-style:solid;">{{ $totalSourceKupdSum }}</td>
-                                <td class="table-warning" style="border-width:2px;border-style:solid;">{{ $totalSourceKukbSum }}</td>
-                                <td class="table-warning" style="border-width:2px;border-style:solid;">{{ $totalStudents }}</td>
-                                <td class="table-warning" style="border-width:2px;border-style:solid;"></td>
-                                <td class="table-success" style="border-width:2px;border-style:solid;">{{ $totalSourceKupdRegisterSum }}</td>
-                                <td class="table-success" style="border-width:2px;border-style:solid;">{{ $totalSourceKukbRegisterSum }}</td>
-                                <td class="table-success" style="border-width:2px;border-style:solid;">{{ $totalSourceRegisterSum }}</td>
-                                <td class="table-success" style="border-width:2px;border-style:solid;">
-                                    {{ $totalSourceSum > 0 ? number_format(($totalSourceRegisterSum / $totalSourceSum) * 100, 2) . '%' : '0.00%' }}
-                                </td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                    
-                    <table id="myTable5" class="table table-bordered table-sm text-center">
-                        <thead class="table-dark">
-                            <tr>
-                                <th rowspan="2">#</th>
-                                <th rowspan="2">Negeri</th>
-                                <th colspan="4" class="text-center">Data Masuk</th>
-                                <th colspan="4" class="text-center">Daftar Kolej</th>
-                            </tr>
-                            <tr>
-                                <th>KUPD</th>
-                                <th>KUKB</th>
-                                <th>Jumlah</th>
-                                <th>%</th>
-                                <th>KUPD</th>
-                                <th>KUKB</th>
-                                <th>Jumlah</th>
-                                <th>%</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($statesWithPercentage as $data4)
-                            <tr>
-                                <td></td>
-                                <td class="text-uppercase">{{ $data4->state }}</td>
-                                <td class="text-center table-warning">{{ $data4->total_kupd }}</td>
-                                <td class="text-center table-warning">{{ $data4->total_kukb }}</td>
-                                <td class="text-center table-warning">{{ $data4->total }}</td>
-                                <td class="text-center table-warning">{{ number_format($data4->percentage, 2) }}%</td>
-                                <td class="text-center table-success">{{ $data4->total_kupd_register }}</td>
-                                <td class="text-center table-success">{{ $data4->total_kukb_register }}</td>
-                                <td class="text-center table-success">{{ $data4->total_register }}</td>
-                                <td class="text-center table-success">{{ number_format($data4->register_percentage, 2) }}%</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                        <tfoot style="border-width:2px;border-style:solid;">
-                            <tr>
-                                <td class="table-danger" style="border-width:2px;border-style:solid;"></td>
-                                <td class="table-danger" style="border-width:2px;border-style:solid;"></td>
-                                <td class="table-warning" style="border-width:2px;border-style:solid;">{{ $totalStateKupdSum }}</td>
-                                <td class="table-warning" style="border-width:2px;border-style:solid;">{{ $totalStateKukbSum }}</td>
-                                <td class="table-warning" style="border-width:2px;border-style:solid;">{{ $totalStateSum }}</td>
-                                <td class="table-warning" style="border-width:2px;border-style:solid;"></td>
-                                <td class="table-success" style="border-width:2px;border-style:solid;">{{ $totalStateKupdRegisterSum }}</td>
-                                <td class="table-success" style="border-width:2px;border-style:solid;">{{ $totalStateKukbRegisterSum }}</td>
-                                <td class="table-success" style="border-width:2px;border-style:solid;">{{ $totalStateRegisterSum }}</td>
-                                <td class="table-success" style="border-width:2px;border-style:solid;">
-                                    {{ $totalStateSum > 0 ? number_format(($totalStateRegisterSum / $totalStateSum) * 100, 2) . '%' : '0.00%' }}
-                                </td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-            </div>
+            @endforeach
+            </tr>
+            </thead>
+            <tbody>
+                <td class="text-center">{{ $currentYear }}</td>
+                @foreach ($monthlyData as $data)
+                <td class="text-center">{{ $data['total'] }}</td>
+                @endforeach
+            </tbody>
+            </table>
+        </div>
+    </div> --}}
+    <div class="row">
+        <div class="col-md-6">
+            <table id="myTable" class="table table-bordered table-sm text-center">
+                <thead class="table-dark">
+                    <tr>
+                        <th>#</th>
+                        <th>Status</th>
+                        <th>Jumlah</th>
+                        <th>%</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($statusWithPercentage as $data)
+                    <tr>
+                        <td></td>
+                        {{-- <td class="text-uppercase">{{ $data->status }}</td> --}}
+                        <td>
+                            <button type="button" class="btn btn-sm btn-link text-uppercase open-modal" data-status_id="{{ $data->status_id }}">{{ $data->status }}</button>
+                        </td>
+                        <td class="text-center">{{ $data->total }}</td>
+                        <td class="text-center">{{ number_format($data->percentage, 2) }}%</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+                <tfoot class="table-danger">
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>{{ $totalStudents }}</td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div class="col-md-6">
+            <table id="myTable2" class="table table-bordered table-sm text-center">
+                <thead class="table-dark">
+                    <tr>
+                        <th>#</th>
+                        <th>Lokasi</th>
+                        <th>Jumlah</th>
+                        <th>%</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($locationsWithPercentage as $data2)
+                    <tr>
+                        <td></td>
+                        <td class="text-uppercase">{{ $data2->location }}</td>
+                        <td class="text-center">{{ $data2->total }}</td>
+                        <td class="text-center">{{ number_format($data2->percentage, 2) }}%</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+                <tfoot class="table-danger">
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>{{ $totalStudents }}</td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+            <table id="myTable3" class="table table-bordered table-sm text-center">
+                <thead class="table-dark">
+                    <tr>
+                        <th rowspan="2">#</th>
+                        <th rowspan="2">Sumber</th>
+                        <th colspan="4" class="text-center">Data Masuk</th>
+                        <th colspan="4" class="text-center">Daftar Kolej</th>
+                    </tr>
+                    <tr>
+                        <th>KUPD</th>
+                        <th>KUKB</th>
+                        <th>Jumlah</th>
+                        <th>%</th>
+                        <th>KUPD</th>
+                        <th>KUKB</th>
+                        <th>Jumlah</th>
+                        <th>%</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($sourcessWithPercentage as $data3)
+                    <tr>
+                        <td></td>
+                        <td class="text-uppercase">{{ $data3->source }}</td>
+                        <td class="text-center table-warning">{{ $data3->total_kupd }}</td>
+                        <td class="text-center table-warning">{{ $data3->total_kukb }}</td>
+                        <td class="text-center table-warning">{{ $data3->total }}</td>
+                        <td class="text-center table-warning">{{ number_format($data3->percentage, 2) }}%</td>
+                        <td class="text-center table-success">{{ $data3->total_kupd_register }}</td>
+                        <td class="text-center table-success">{{ $data3->total_kukb_register }}</td>
+                        <td class="text-center table-success">{{ $data3->total_register }}</td>
+                        <td class="text-center table-success">{{ number_format($data3->register_percentage, 2) }}%</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+                <tfoot style="border-width:2px;border-style:solid;">
+                    <tr>
+                        <td class="table-danger" style="border-width:2px;border-style:solid;"></td>
+                        <td class="table-danger" style="border-width:2px;border-style:solid;"></td>
+                        <td class="table-warning" style="border-width:2px;border-style:solid;">{{ $totalSourceKupdSum }}</td>
+                        <td class="table-warning" style="border-width:2px;border-style:solid;">{{ $totalSourceKukbSum }}</td>
+                        <td class="table-warning" style="border-width:2px;border-style:solid;">{{ $totalStudents }}</td>
+                        <td class="table-warning" style="border-width:2px;border-style:solid;"></td>
+                        <td class="table-success" style="border-width:2px;border-style:solid;">{{ $totalSourceKupdRegisterSum }}</td>
+                        <td class="table-success" style="border-width:2px;border-style:solid;">{{ $totalSourceKukbRegisterSum }}</td>
+                        <td class="table-success" style="border-width:2px;border-style:solid;">{{ $totalSourceRegisterSum }}</td>
+                        <td class="table-success" style="border-width:2px;border-style:solid;">
+                            {{ $totalSourceSum > 0 ? number_format(($totalSourceRegisterSum / $totalSourceSum) * 100, 2) . '%' : '0.00%' }}
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+
+            <table id="myTable5" class="table table-bordered table-sm text-center">
+                <thead class="table-dark">
+                    <tr>
+                        <th rowspan="2">#</th>
+                        <th rowspan="2">Negeri</th>
+                        <th colspan="4" class="text-center">Data Masuk</th>
+                        <th colspan="4" class="text-center">Daftar Kolej</th>
+                    </tr>
+                    <tr>
+                        <th>KUPD</th>
+                        <th>KUKB</th>
+                        <th>Jumlah</th>
+                        <th>%</th>
+                        <th>KUPD</th>
+                        <th>KUKB</th>
+                        <th>Jumlah</th>
+                        <th>%</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($statesWithPercentage as $data4)
+                    <tr>
+                        <td></td>
+                        <td class="text-uppercase">{{ $data4->state }}</td>
+                        <td class="text-center table-warning">{{ $data4->total_kupd }}</td>
+                        <td class="text-center table-warning">{{ $data4->total_kukb }}</td>
+                        <td class="text-center table-warning">{{ $data4->total }}</td>
+                        <td class="text-center table-warning">{{ number_format($data4->percentage, 2) }}%</td>
+                        <td class="text-center table-success">{{ $data4->total_kupd_register }}</td>
+                        <td class="text-center table-success">{{ $data4->total_kukb_register }}</td>
+                        <td class="text-center table-success">{{ $data4->total_register }}</td>
+                        <td class="text-center table-success">{{ number_format($data4->register_percentage, 2) }}%</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+                <tfoot style="border-width:2px;border-style:solid;">
+                    <tr>
+                        <td class="table-danger" style="border-width:2px;border-style:solid;"></td>
+                        <td class="table-danger" style="border-width:2px;border-style:solid;"></td>
+                        <td class="table-warning" style="border-width:2px;border-style:solid;">{{ $totalStateKupdSum }}</td>
+                        <td class="table-warning" style="border-width:2px;border-style:solid;">{{ $totalStateKukbSum }}</td>
+                        <td class="table-warning" style="border-width:2px;border-style:solid;">{{ $totalStateSum }}</td>
+                        <td class="table-warning" style="border-width:2px;border-style:solid;"></td>
+                        <td class="table-success" style="border-width:2px;border-style:solid;">{{ $totalStateKupdRegisterSum }}</td>
+                        <td class="table-success" style="border-width:2px;border-style:solid;">{{ $totalStateKukbRegisterSum }}</td>
+                        <td class="table-success" style="border-width:2px;border-style:solid;">{{ $totalStateRegisterSum }}</td>
+                        <td class="table-success" style="border-width:2px;border-style:solid;">
+                            {{ $totalStateSum > 0 ? number_format(($totalStateRegisterSum / $totalStateSum) * 100, 2) . '%' : '0.00%' }}
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
         </div>
     </div>
-    
-    <div class="modal fade" id="statusModal" tabindex="-1" aria-labelledby="statusModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-            <div class="modal-content">
-                <div class="modal-header small">
-                    <label class="fw-bold" id="statusDetail-status"></label>
-                </div>
-                <div class="modal-body small">
-                    <div class="row mb-2">
-                        <div class="col-md-2">
-                            <label class="fw-bold">#&nbsp;&nbsp;&nbsp;Nama Pemohon</label>
-                        </div>
-                        <div class="col-md-2">
-                            <label class="fw-bold">No. Kad Pengenalan</label>
-                        </div>
-                        <div class="col-md-2">
-                            <label class="fw-bold">Tarikh Mohon</label>
-                        </div>
-                        <div class="col-md-2">
-                            <label class="fw-bold">Affiliate</label>
-                        </div>
-                        <div class="col-md-2">
-                            <label class="fw-bold">Education Advisor</label>
-                        </div>
-                        <div class="col-md-2">
-                            <label class="fw-bold">Tarikh Daftar Kolej</label>
-                        </div>
-                    </div>
-                    <div id="statusDetailsContainer" class="mb-2">
-                        <!-- Records will be appended here by JavaScript -->
-                    </div>
-                    <div>
-                        <div class="col-md-12">
-                            <label><em>*Data pemohon yang dipaparkan adalah data yang berdaftar menggunakan link yang dikongsi oleh affiliate sahaja.</em></label>
-                        </div>
-                    </div>                    
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-                </form>
+</div>
+</div>
+
+<div class="modal fade" id="statusModal" tabindex="-1" aria-labelledby="statusModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header small">
+                <label class="fw-bold" id="statusDetail-status"></label>
             </div>
+            <div class="modal-body small">
+                <div class="row mb-2">
+                    <div class="col-md-2">
+                        <label class="fw-bold">#&nbsp;&nbsp;&nbsp;Nama Pemohon</label>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="fw-bold">No. Kad Pengenalan</label>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="fw-bold">Tarikh Mohon</label>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="fw-bold">Affiliate</label>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="fw-bold">Education Advisor</label>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="fw-bold">Tarikh Daftar Kolej</label>
+                    </div>
+                </div>
+                <div id="statusDetailsContainer" class="mb-2">
+                    <!-- Records will be appended here by JavaScript -->
+                </div>
+                <div>
+                    <div class="col-md-12">
+                        <label><em>*Data pemohon yang dipaparkan adalah data yang berdaftar menggunakan link yang dikongsi oleh affiliate sahaja.</em></label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+            </form>
         </div>
     </div>
+</div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
@@ -265,22 +265,19 @@
 <script>
     $(document).ready(function() {
         var t = $('#myTable').DataTable({
-        pageLength: 50,
-        columnDefs: [
-            {
+            pageLength: 50,
+            columnDefs: [{
                 targets: ['_all'],
                 className: 'dt-head-center'
-            }
-        ],
-        layout: {
+            }],
+            layout: {
                 top1Start: {
                     div: {
                         html: '<h2>Status</h2>'
                     }
                 },
                 top1End: {
-                    buttons: [
-                        {
+                    buttons: [{
                             extend: 'copy',
                             title: 'Statistik Permohonan - Status'
                         },
@@ -304,10 +301,13 @@
                 bottomEnd: 'paging'
             }
         });
-        t.on('order.dt search.dt', function () {
+        t.on('order.dt search.dt', function() {
             let i = 1;
-        
-            t.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
+
+            t.cells(null, 0, {
+                search: 'applied',
+                order: 'applied'
+            }).every(function(cell) {
                 this.data(i++);
             });
         }).draw();
@@ -387,21 +387,18 @@
 <script>
     $(document).ready(function() {
         var t = $('#myTable2').DataTable({
-        columnDefs: [
-            {
+            columnDefs: [{
                 targets: ['_all'],
                 className: 'dt-head-center'
-            }
-        ],
-        layout: {
+            }],
+            layout: {
                 top1Start: {
                     div: {
                         html: '<h2>Lokasi</h2>'
                     }
                 },
                 top1End: {
-                    buttons: [
-                        {
+                    buttons: [{
                             extend: 'copy',
                             title: 'Statistik Permohonan - Lokasi'
                         },
@@ -425,10 +422,13 @@
                 bottomEnd: null
             }
         });
-        t.on('order.dt search.dt', function () {
+        t.on('order.dt search.dt', function() {
             let i = 1;
-        
-            t.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
+
+            t.cells(null, 0, {
+                search: 'applied',
+                order: 'applied'
+            }).every(function(cell) {
                 this.data(i++);
             });
         }).draw();
@@ -438,21 +438,18 @@
 <script>
     $(document).ready(function() {
         var t = $('#myTable3').DataTable({
-        columnDefs: [
-            {
+            columnDefs: [{
                 targets: ['_all'],
                 className: 'dt-head-center'
-            }
-        ],
-        layout: {
+            }],
+            layout: {
                 top1Start: {
                     div: {
                         html: '<h2>Sumber</h2>'
                     }
                 },
                 top1End: {
-                    buttons: [
-                        {
+                    buttons: [{
                             extend: 'copy',
                             title: 'Statistik Permohonan - Sumber'
                         },
@@ -476,10 +473,13 @@
                 bottomEnd: null
             }
         });
-        t.on('order.dt search.dt', function () {
+        t.on('order.dt search.dt', function() {
             let i = 1;
-        
-            t.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
+
+            t.cells(null, 0, {
+                search: 'applied',
+                order: 'applied'
+            }).every(function(cell) {
                 this.data(i++);
             });
         }).draw();
@@ -489,22 +489,19 @@
 <script>
     $(document).ready(function() {
         var t = $('#myTable5').DataTable({
-        pageLength: 20,
-        columnDefs: [
-            {
+            pageLength: 20,
+            columnDefs: [{
                 targets: ['_all'],
                 className: 'dt-head-center'
-            }
-        ],
-        layout: {
+            }],
+            layout: {
                 top1Start: {
                     div: {
                         html: '<h2>Negeri</h2>'
                     }
                 },
                 top1End: {
-                    buttons: [
-                        {
+                    buttons: [{
                             extend: 'copy',
                             title: 'Statistik Permohonan - Negeri'
                         },
@@ -528,10 +525,13 @@
                 bottomEnd: null
             }
         });
-        t.on('order.dt search.dt', function () {
+        t.on('order.dt search.dt', function() {
             let i = 1;
-        
-            t.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
+
+            t.cells(null, 0, {
+                search: 'applied',
+                order: 'applied'
+            }).every(function(cell) {
                 this.data(i++);
             });
         }).draw();
@@ -541,22 +541,19 @@
 <script>
     $(document).ready(function() {
         var t = $('#myTable4').DataTable({
-        ordering: false,
-        columnDefs: [
-            {
+            ordering: false,
+            columnDefs: [{
                 targets: ['_all'],
                 className: 'dt-head-center'
-            }
-        ],
-        layout: {
+            }],
+            layout: {
                 top1Start: {
                     div: {
                         html: '<h2>Tahun & Bulan</h2>'
                     }
                 },
                 top1End: {
-                    buttons: [
-                        {
+                    buttons: [{
                             extend: 'copy',
                             title: 'Statistik Permohonan - Tahun & Bulan'
                         },
@@ -582,7 +579,7 @@
         });
         // t.on('order.dt search.dt', function () {
         //     let i = 1;
-        
+
         //     t.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
         //         this.data(i++);
         //     });

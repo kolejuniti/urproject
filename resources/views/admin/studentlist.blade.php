@@ -6,13 +6,13 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             @if(isset($success))
-                <div class="alert alert-success">
-                    {{ $success }}
-                </div>
+            <div class="alert alert-success">
+                {{ $success }}
+            </div>
             @endif
             <div class="col-md-8 col-sm-8 col-12 ms-auto">
                 <form method="POST" action="{{ route('admin.studentlist') }}">
-                @csrf
+                    @csrf
                     <div class="input-group mb-3">
                         <button class="btn btn-secondary" disabled>Tarikh</button>
                         <input type="date" class="form-control" name="start_date">
@@ -22,7 +22,7 @@
                         <select name="location" id="location" class="form-control">
                             <option value="">Pilihan Lokasi</option>
                             @foreach ($locations as $item)
-                                <option value="{{ $item->id }}">{{ $item->code }}</option>
+                            <option value="{{ $item->id }}">{{ $item->code }}</option>
                             @endforeach
                             <option value="3">KUPD & KUKB</option>
                         </select>
@@ -40,11 +40,11 @@
                     <thead class="table-dark">
                         <tr>
                             <th>#</th>
-                            <th>Nama Pelajar</th>
+                            <th>Nama</th>
                             <th>No. Kad Pengenalan</th>
                             <th>No. Telefon</th>
                             <th>Email</th>
-                            <th>Tarikh Permohonan</th>
+                            <th>Tarikh Data Masuk</th>
                             <th>Lokasi</th>
                             <th>Bandar/Daerah</th>
                             <th>Affiliate</th>
@@ -67,17 +67,17 @@
                             <td class="text-uppercase">{{ $student->city }}</td>
                             <td class="text-uppercase">
                                 @if (!empty($student->referral_code) && $student->referral_code !== 'null' && isset($affiliates[$student->id]))
-                                    @foreach ($affiliates[$student->id] as $affiliate)
-                                        {{ $affiliate->name }}
-                                    @endforeach
+                                @foreach ($affiliates[$student->id] as $affiliate)
+                                {{ $affiliate->name }}
+                                @endforeach
                                 @else
-                                    {{ __('TIADA AFFILIATE') }}
+                                {{ __('TIADA AFFILIATE') }}
                                 @endif
                             </td>
                             {{-- <td>{{ $student->updated_at ? \Carbon\Carbon::parse($student->updated_at)->format('d-m-Y') : '' }}</td> --}}
                             <td class="text-uppercase">
                                 @foreach ($advisors[$student->id] as $advisor)
-                                    {{ $advisor->name }}
+                                {{ $advisor->name }}
                                 @endforeach
                             </td>
                             <td class="text-uppercase">{{ $student->status }}</td>
@@ -97,35 +97,32 @@
 <script>
     $(document).ready(function() {
         var t = $('#myTable').DataTable({
-        columnDefs: [
-            {
+            columnDefs: [{
                 targets: ['_all'],
                 className: 'dt-head-center'
-            }
-        ],
-        layout: {
+            }],
+            layout: {
                 top1Start: {
                     div: {
-                        html: '<h2>Senarai Permohonan Pelajar</h2>'
+                        html: '<h2>Senarai Data Masuk</h2>'
                     }
                 },
                 top1End: {
-                    buttons: [
-                        {
+                    buttons: [{
                             extend: 'copy',
-                            title: 'Senarai Permohonan Pelajar'
+                            title: 'Senarai Data Masuk'
                         },
                         {
                             extend: 'excelHtml5',
-                            title: 'Senarai Permohonan Pelajar'
+                            title: 'Senarai Data Masuk'
                         },
                         {
                             extend: 'pdfHtml5',
-                            title: 'Senarai Permohonan Pelajar'
+                            title: 'Senarai Data Masuk'
                         },
                         {
                             extend: 'print',
-                            title: 'Senarai Permohonan Pelajar'
+                            title: 'Senarai Data Masuk'
                         }
                     ]
                 },
@@ -135,10 +132,13 @@
                 bottomEnd: 'paging'
             }
         });
-        t.on('order.dt search.dt', function () {
+        t.on('order.dt search.dt', function() {
             let i = 1;
-        
-            t.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
+
+            t.cells(null, 0, {
+                search: 'applied',
+                order: 'applied'
+            }).every(function(cell) {
                 this.data(i++);
             });
         }).draw();
