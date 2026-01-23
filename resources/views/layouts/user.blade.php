@@ -122,15 +122,15 @@
                                 </li>
                             </ul>
                         </li>
-                        {{-- <li class="nav-item dropdown">
+                        <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-search"></i>&nbsp;Cari Affiliate
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
                                     <a class="dropdown-item" href="{{ route('user.affiliate') }}"><i class="bi bi-list-ol"></i>&nbsp;Senarai Affiliates</a>
+                                </li>
+                            </ul>
                         </li>
-                    </ul>
-                    </li> --}}
                     </ul>
 
                     <!-- Right Side Of Navbar -->
