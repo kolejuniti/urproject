@@ -132,11 +132,11 @@
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person-lines-fill"></i>&nbsp;Pelajar
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person-lines-fill"></i>&nbsp;Data Masuk
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a class="dropdown-item" href="{{ route('admin.application') }}">Senarai Permohonan</a>
+                                    <a class="dropdown-item" href="{{ route('admin.application') }}">Senarai Data Masuk</a>
                                 </li>
                             </ul>
                         </li>
@@ -145,8 +145,8 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a class="dropdown-item" href="{{ route('admin.studentlist') }}">Laporan Permohonan</a>
-                                    <a class="dropdown-item" href="{{ route('admin.summary') }}">Statistik Permohonan</a>
+                                    <a class="dropdown-item" href="{{ route('admin.studentlist') }}">Laporan Data Masuk</a>
+                                    <a class="dropdown-item" href="{{ route('admin.summary') }}">Statistik Data Masuk</a>
                                     <a class="dropdown-item" href="{{ route('admin.yearreports') }}">Laporan Tahunan</a>
                                     <a class="dropdown-item" href="{{ route('admin.leadreports') }}">Data Masuk & Sumber</a>
                                     <a class="dropdown-item" href="{{ route('admin.achievements') }}">Pencapaian EA</a>
