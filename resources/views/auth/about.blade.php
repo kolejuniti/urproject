@@ -272,7 +272,7 @@
             </div>
             <div class="col-lg-5 d-none d-lg-block text-center">
                 <!-- Abstract 3D Illustration or Image representation -->
-                <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/img/poster_affiliate.png" onerror="this.src='https://placehold.co/500x500/png?text=Affiliate+Marketing'" alt="Affiliate Marketing" class="img-fluid animate__animated animate__fadeInRight" style="filter: drop-shadow(0 20px 40px rgba(0,0,0,0.3)); max-height: 500px;">
+                <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/img/poster_affiliate.webp" onerror="this.src='https://placehold.co/500x500/png?text=Affiliate+Marketing'" alt="Affiliate Marketing" class="img-fluid animate__animated animate__fadeInRight" style="filter: drop-shadow(0 20px 40px rgba(0,0,0,0.3)); max-height: 500px;">
             </div>
         </div>
     </div>
