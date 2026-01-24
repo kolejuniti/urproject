@@ -1,350 +1,438 @@
 @extends('layouts.app')
 
 @section('content')
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<!-- Custom CSS for Premium Look -->
 <style>
-    body {
-        background: #f5f7fa;
+    :root {
+        --primary-color: #4f46e5;
+        /* Indigo 600 */
+        --secondary-color: #ec4899;
+        /* Pink 500 */
+        --accent-color: #8b5cf6;
+        /* Violet 500 */
+        --dark-bg: #0f172a;
+        /* Slate 900 */
+        --light-bg: #f8fafc;
+        /* Slate 50 */
+        --text-color: #334155;
+        /* Slate 700 */
     }
 
+    body {
+        font-family: 'Outfit', 'Nunito', sans-serif;
+        /* utilizing existing font or fallback */
+        background-color: var(--light-bg);
+        overflow-x: hidden;
+    }
+
+    /* Hero Section */
     .hero-section {
-        background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
+        background: radial-gradient(circle at top right, #4338ca, transparent),
+            radial-gradient(circle at bottom left, #be185d, transparent),
+            linear-gradient(135deg, #1e1b4b, #312e81);
         color: white;
-        padding: 50px 0;
+        padding: 100px 0;
         position: relative;
         overflow: hidden;
     }
 
-    .hero-section::before {
+    .hero-shapes div {
+        position: absolute;
+        border-radius: 50%;
+        opacity: 0.2;
+        filter: blur(50px);
+        animation: float 10s infinite ease-in-out;
+    }
+
+    .shape-1 {
+        width: 300px;
+        height: 300px;
+        top: -50px;
+        left: -50px;
+        background: var(--secondary-color);
+    }
+
+    .shape-2 {
+        width: 200px;
+        height: 200px;
+        bottom: 10%;
+        right: 10%;
+        background: var(--primary-color);
+        animation-delay: 2s;
+    }
+
+    .shape-3 {
+        width: 150px;
+        height: 150px;
+        top: 20%;
+        right: 20%;
+        background: var(--accent-color);
+        animation-delay: 4s;
+    }
+
+    @keyframes float {
+
+        0%,
+        100% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-20px);
+        }
+    }
+
+    .hero-content h1 {
+        font-size: 3.5rem;
+        font-weight: 800;
+        background: linear-gradient(to right, #fff, #cecece);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        line-height: 1.2;
+        margin-bottom: 1.5rem;
+    }
+
+    .hero-content p {
+        font-size: 1.25rem;
+        color: #cbd5e1;
+        margin-bottom: 2rem;
+        max-width: 600px;
+    }
+
+    .btn-glow {
+        background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
+        color: white;
+        padding: 15px 40px;
+        border-radius: 50px;
+        font-weight: 700;
+        font-size: 1.1rem;
+        border: none;
+        box-shadow: 0 0 20px rgba(236, 72, 153, 0.5);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .btn-glow::before {
         content: '';
         position: absolute;
         top: 0;
         left: 0;
-        right: 0;
-        bottom: 0;
-        background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>');
-        opacity: 0.3;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        z-index: -1;
+        transition: opacity 0.3s ease;
+        opacity: 0;
     }
 
-    .hero-section .container {
-        position: relative;
-        z-index: 1;
+    .btn-glow:hover::before {
+        opacity: 1;
     }
 
-    .hero-section h1 {
-        font-size: 1.8rem;
-        font-weight: 700;
+    .btn-glow:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(236, 72, 153, 0.7);
+        color: white;
+    }
+
+    /* Stats/Commission Section */
+    .commission-card {
+        background: white;
+        border-radius: 20px;
+        padding: 2rem;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s ease;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        height: 100%;
+    }
+
+    .commission-card:hover {
+        transform: translateY(-10px);
+    }
+
+    .commission-amount {
+        font-size: 3rem;
+        font-weight: 800;
+        color: var(--primary-color);
         margin-bottom: 0.5rem;
     }
 
-    .hero-section p {
-        font-size: 0.95rem;
-        margin-bottom: 1.2rem;
-        opacity: 0.95;
-    }
-
-    .btn-hero {
-        padding: 10px 28px;
-        font-size: 0.9rem;
+    .commission-label {
+        font-size: 1.1rem;
+        color: var(--text-color);
         font-weight: 600;
-        border-radius: 25px;
-        background: white;
-        color: #6366f1;
-        border: none;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        transition: all 0.3s ease;
     }
 
-    .btn-hero:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-        color: #8b5cf6;
-        background: white;
-    }
-
-    .poster-section {
-        padding: 30px 0;
-        background: white;
-    }
-
-    .poster-section h2 {
-        font-size: 1.3rem;
-        font-weight: 700;
-        color: #1e293b;
-        margin-bottom: 1.5rem;
-    }
-
-    .features-section {
-        padding: 40px 0;
-        background: #f5f7fa;
-    }
-
-    .section-title {
-        font-size: 1.4rem;
-        font-weight: 700;
-        color: #1e293b;
-        margin-bottom: 2rem;
+    /* Process Section */
+    .process-step {
         position: relative;
-        display: inline-block;
-    }
-
-    .section-title::after {
-        content: '';
-        position: absolute;
-        bottom: -8px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 60px;
-        height: 3px;
-        background: linear-gradient(90deg, #6366f1, #8b5cf6);
-        border-radius: 2px;
-    }
-
-    .feature-card {
+        padding: 2rem;
         background: white;
-        padding: 20px;
-        border-radius: 12px;
-        text-align: left;
+        border-radius: 16px;
+        z-index: 1;
         border: 1px solid #e2e8f0;
-        transition: all 0.3s ease;
-        height: 100%;
-        display: flex;
-        align-items: flex-start;
-        gap: 15px;
+        transition: all 0.3s;
     }
 
-    .feature-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 25px rgba(99, 102, 241, 0.15);
-        border-color: #6366f1;
+    .process-step:hover {
+        border-color: var(--primary-color);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     }
 
-    .feature-icon {
-        width: 45px;
-        height: 45px;
-        min-width: 45px;
-        background: linear-gradient(135deg, #6366f1, #8b5cf6);
-        border-radius: 10px;
+    .step-icon {
+        width: 60px;
+        height: 60px;
+        background: #e0e7ff;
+        color: var(--primary-color);
+        border-radius: 12px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.2rem;
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    /* Features/Benefits */
+    .benefit-item {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 2rem;
+    }
+
+    .benefit-icon {
+        flex-shrink: 0;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+        display: flex;
+        align-items: center;
+        justify-content: center;
         color: white;
-        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        margin-right: 1rem;
+        margin-top: 5px;
     }
 
-    .feature-content h3 {
-        font-size: 0.95rem;
-        font-weight: 700;
-        color: #1e293b;
-        margin-bottom: 0.4rem;
-    }
-
-    .feature-content p {
-        font-size: 0.85rem;
-        color: #64748b;
-        margin: 0;
-        line-height: 1.5;
-    }
-
-    .cta-section {
-        background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+    /* CTA Bottom */
+    .cta-bottom {
+        background: linear-gradient(135deg, #0f172a, #334155);
+        border-radius: 30px;
+        padding: 4rem 2rem;
+        text-align: center;
         color: white;
-        padding: 40px 0;
         position: relative;
         overflow: hidden;
     }
 
-    .cta-section::before {
-        content: '';
-        position: absolute;
-        top: -50%;
-        right: -10%;
-        width: 400px;
-        height: 400px;
-        background: radial-gradient(circle, rgba(99, 102, 241, 0.2) 0%, transparent 70%);
-        border-radius: 50%;
-    }
-
-    .cta-section .container {
-        position: relative;
-        z-index: 1;
-    }
-
-    .cta-section h2 {
-        font-size: 1.5rem;
-        font-weight: 700;
-        margin-bottom: 0.8rem;
-    }
-
-    .cta-section p {
-        font-size: 0.9rem;
-        margin-bottom: 1.5rem;
-        opacity: 0.9;
-    }
-
-    .btn-cta {
-        padding: 11px 32px;
-        font-size: 0.9rem;
-        font-weight: 600;
-        border-radius: 25px;
-        background: linear-gradient(135deg, #6366f1, #8b5cf6);
-        border: none;
-        color: white;
-        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
-        transition: all 0.3s ease;
-    }
-
-    .btn-cta:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
-        background: linear-gradient(135deg, #8b5cf6, #6366f1);
-    }
-
+    /* Responsive */
     @media (max-width: 768px) {
-        .hero-section h1 {
-            font-size: 1.5rem;
+        .hero-content h1 {
+            font-size: 2.5rem;
         }
 
-        .feature-card {
-            flex-direction: column;
-            text-align: center;
-            align-items: center;
-        }
-
-        .feature-content h3 {
-            text-align: center;
-        }
-
-        .feature-content p {
-            text-align: center;
-        }
-
-        .cta-section h2 {
-            font-size: 1.3rem;
+        .commission-amount {
+            font-size: 2.5rem;
         }
     }
 </style>
 
-<!-- Hero Section -->
-<section class="hero-section">
-    <div class="container">
-        <div class="row justify-content-center text-center">
-            <div class="col-lg-8">
-                <h1><i class="fas fa-handshake me-2"></i>Program Affiliate UNITI</h1>
-                <p>Jana pendapatan pasif dengan berkongsi peluang pendidikan berkualiti</p>
-                <a href="{{ route('affiliate.register', ['ref' => old('ref', $ref)]) }}" class="btn btn-hero">
-                    <i class="fas fa-rocket me-2"></i>Daftar Sekarang
-                </a>
-            </div>
-        </div>
-    </div>
-</section>
+<!-- Navbar spacer if needed (depends on layout) -->
+<!-- <div style="height: 70px;"></div> -->
 
-@if (now()->lte(\Carbon\Carbon::create(2025, 9, 16)))
-<!-- Poster Section -->
-<section class="poster-section">
-    <div class="container text-center">
-        <h2><i class="fas fa-gift me-2"></i>Tawaran Terhad</h2>
-        <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/img/tawaran_istimewa_affiliate_uniti.jpg" alt="Program Poster" class="img-fluid rounded shadow">
+<div class="hero-section">
+    <div class="hero-shapes">
+        <div class="shape-1"></div>
+        <div class="shape-2"></div>
+        <div class="shape-3"></div>
     </div>
-</section>
-@endif
-
-<!-- Features Section -->
-<section class="features-section">
-    <div class="container">
-        <div class="row">
-            <div class="col-12 text-center mb-4">
-                <h2 class="section-title">Kenapa Pilih Program Kami?</h2>
-            </div>
-        </div>
-        <div class="row g-3">
-            <div class="col-lg-4 col-md-6">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-wallet"></i>
+    <div class="container position-relative">
+        <div class="row align-items-center">
+            <div class="col-lg-7">
+                <div class="hero-content">
+                    <h1>Jana Pendapatan Pasif <br> Tanpa Modal</h1>
+                    <p>Sertai Komuniti Affiliate Kolej UNITI. Kongsi pautan pendidikan di media sosial anda dan nikmati ganjaran lumayan bagi setiap pendaftaran.</p>
+                    <div class="d-flex gap-3 flex-wrap">
+                        <a href="{{ route('affiliate.register', ['ref' => old('ref', $ref)]) }}" class="btn btn-glow">
+                            Daftar Affiliate Sekarang <i class="fas fa-arrow-right ms-2"></i>
+                        </a>
+                        <!-- <a href="#how-it-works" class="btn btn-outline-light rounded-pill px-4 py-3 fw-bold">Ketahui Lebih Lanjut</a> -->
                     </div>
-                    <div class="feature-content">
-                        <h3>Pendapatan Tambahan</h3>
-                        <p>Terima komisen untuk setiap pelajar yang mendaftar melalui rujukan anda</p>
+                    <div class="mt-4 d-flex align-items-center text-white-50">
+                        <i class="fas fa-check-circle text-success me-2"></i> Percuma Seumur Hidup
+                        <span class="mx-3">|</span>
+                        <i class="fas fa-check-circle text-success me-2"></i> Bahan Pemasaran Disediakan
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-users"></i>
+            <div class="col-lg-5 d-none d-lg-block text-center">
+                <!-- Abstract 3D Illustration or Image representation -->
+                <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/img/poster_affiliate.png" onerror="this.src='https://placehold.co/500x500/png?text=Affiliate+Marketing'" alt="Affiliate Marketing" class="img-fluid animate__animated animate__fadeInRight" style="filter: drop-shadow(0 20px 40px rgba(0,0,0,0.3)); max-height: 500px;">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container py-5 mt-5">
+    <div class="text-center mb-5">
+        <span class="text-uppercase fw-bold text-primary tracking-wider">Potensi Pendapatan</span>
+        <h2 class="fw-bold mt-2 display-6">Struktur Komisen Kami</h2>
+        <p class="text-muted">Ganjaran lumayan menanti usaha anda</p>
+    </div>
+
+    <div class="row justify-content-center g-4">
+        <div class="col-md-5">
+            <div class="commission-card">
+                <div class="icon mb-3">
+                    <i class="fas fa-database fa-2x text-primary opacity-50"></i>
+                </div>
+                <div class="commission-amount">RM 5.00</div>
+                <h3 class="h5 fw-bold text-dark">Setiap Data Prospek</h3>
+                <p class="text-muted">Dibayar apabila prospek mendaftar minat menggunakan kod rujukan anda.</p>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="commission-card border-2 border-primary" style="background: #fdf2f8;">
+                <div class="icon mb-3">
+                    <i class="fas fa-graduation-cap fa-2x text-secondary opacity-50"></i>
+                </div>
+                <div class="commission-amount text-secondary">RM 300.00</div>
+                <h3 class="h5 fw-bold text-dark">Setiap Pendaftaran Pelajar</h3>
+                <p class="text-muted">Bonus besar apabila prospek berjaya mendaftar masuk ke Kolej UNITI.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section id="how-it-works" class="py-5 bg-white">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="text-uppercase fw-bold text-secondary tracking-wider">Mudah & Pantas</span>
+            <h2 class="fw-bold mt-2 display-6">Bagaimana Ia Berfungsi?</h2>
+        </div>
+
+        <div class="row g-4 position-relative">
+            <!-- Connecting line for desktop could be added here purely with CSS -->
+            <div class="col-lg-3 col-md-6">
+                <div class="process-step h-100">
+                    <div class="step-icon">
+                        <i class="fas fa-user-plus"></i>
                     </div>
-                    <div class="feature-content">
-                        <h3>Rangkaian Luas</h3>
-                        <p>Manfaatkan rangkaian anda dalam kalangan pelajar, ibu bapa dan komuniti</p>
-                    </div>
+                    <h4 class="fw-bold h5">1. Daftar Akaun</h4>
+                    <p class="text-muted small">Daftar akaun Affiliate anda secara percuma. Hanya perlukan butiran asas.</p>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="feature-card">
-                    <div class="feature-icon">
+            <div class="col-lg-3 col-md-6">
+                <div class="process-step h-100">
+                    <div class="step-icon" style="background-color: #fce7f3; color: var(--secondary-color);">
                         <i class="fas fa-link"></i>
                     </div>
-                    <div class="feature-content">
-                        <h3>Mudah & Fleksibel</h3>
-                        <p>Kongsi pautan di media sosial bila-bila masa, di mana sahaja</p>
-                    </div>
+                    <h4 class="fw-bold h5">2. Dapat Kod Rujukan Unik</h4>
+                    <p class="text-muted small">Sistem akan menjana kod rujukan dan pautan unik automatik untuk anda.</p>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-piggy-bank"></i>
+            <div class="col-lg-3 col-md-6">
+                <div class="process-step h-100">
+                    <div class="step-icon" style="background-color: #ede9fe; color: var(--accent-color);">
+                        <i class="fas fa-share-alt"></i>
                     </div>
-                    <div class="feature-content">
-                        <h3>Tanpa Modal</h3>
-                        <p>Tiada kos permulaan diperlukan, hanya promosi dan berkongsi</p>
-                    </div>
+                    <h4 class="fw-bold h5">3. Kongsi & Promosi</h4>
+                    <p class="text-muted small">Gunakan bahan media yang kami sediakan. Kongsi di TikTok, Facebook, WhatsApp, dll.</p>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-graduation-cap"></i>
+            <div class="col-lg-3 col-md-6">
+                <div class="process-step h-100">
+                    <div class="step-icon" style="background-color: #d1fae5; color: #059669;">
+                        <i class="fas fa-wallet"></i>
                     </div>
-                    <div class="feature-content">
-                        <h3>Pendidikan Berkualiti</h3>
-                        <p>Bantu pelajar akses pendidikan berkualiti di Kolej UNITI</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-trophy"></i>
-                    </div>
-                    <div class="feature-content">
-                        <h3>Ganjaran & Bonus</h3>
-                        <p>Bonus prestasi, sijil penghargaan dan pengiktirafan istimewa</p>
-                    </div>
+                    <h4 class="fw-bold h5">4. Terima Bayaran</h4>
+                    <p class="text-muted small">Pantau prestasi anda di dashboard dan terima bayaran komisen anda.</p>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- CTA Section -->
-<section class="cta-section">
+<section class="py-5" style="background-color: #f8fafc;">
     <div class="container">
-        <div class="row justify-content-center text-center">
-            <div class="col-lg-8">
-                <h2><i class="fas fa-chart-line me-2"></i>Mula Jana Pendapatan Hari Ini</h2>
-                <p>Sertai ribuan ahli yang berjaya. Tiada pengalaman diperlukan - kami akan membimbing anda!</p>
-                <a href="{{ route('affiliate.register', ['ref' => old('ref', $ref)]) }}" class="btn btn-cta">
-                    <i class="fas fa-user-plus me-2"></i>Daftar Sekarang
-                </a>
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <h2 class="fw-bold display-6 mb-4">Kenapa Anda Perlu Sertai Kami?</h2>
+
+                <div class="benefit-item">
+                    <div class="benefit-icon"><i class="fas fa-ban"></i></div>
+                    <div>
+                        <h5 class="fw-bold">Tiada Yuran & Risiko Sifar</h5>
+                        <p class="text-muted mb-0">Pendaftaran adalah 100% PERCUMA. Anda tidak perlu mengeluarkan sebarang modal untuk bermula.</p>
+                    </div>
+                </div>
+
+                <div class="benefit-item">
+                    <div class="benefit-icon"><i class="fas fa-photo-video"></i></div>
+                    <div>
+                        <h5 class="fw-bold">Bahan Media Disediakan</h5>
+                        <p class="text-muted mb-0">Tak pandai design? Tak pandai copywriting? Jangan risau. Kami sediakan 'Bank Media' dengan poster dan ayat iklan untuk anda 'copy & paste'.</p>
+                    </div>
+                </div>
+
+                <div class="benefit-item">
+                    <div class="benefit-icon"><i class="fas fa-hands-helping"></i></div>
+                    <div>
+                        <h5 class="fw-bold">Bantu Masyarakat Pendidikan</h5>
+                        <p class="text-muted mb-0">Sambil menjana pendapatan, anda membantu pelajar lepasan sekolah menyambung pengajian ke peringkat yang lebih tinggi.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="p-4 bg-white rounded-4 shadow-sm border">
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="rounded-circle bg-light p-3 me-3">
+                            <i class="fas fa-quote-left fa-2x text-primary"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-0">Apa Kata Affiliate Kami?</h5>
+                            <small class="text-muted">Real stories form real people</small>
+                        </div>
+                    </div>
+
+                    <div class="card border-0 bg-light mb-3 p-3">
+                        <p class="mb-2 fst-italic">"Saya student IPTA, buat affiliate ni simple sangat. Share link di status WhatsApp kawan-kawan sekolah dulu. Bulan lepas dapat RM600, lepas duit poket!"</p>
+                        <div class="d-flex align-items-center">
+                            <div class="fw-bold small text-dark">- Aiman, Pelajar</div>
+                        </div>
+                    </div>
+
+                    <div class="card border-0 bg-light p-3">
+                        <p class="mb-2 fst-italic">"Suri rumah macam saya pun boleh buat. Kolej sediakan gambar cantik-cantik, saya post je kat FB Group. Alhamdulillah rezeki anak-anak."</p>
+                        <div class="d-flex align-items-center">
+                            <div class="fw-bold small text-dark">- Pn. Sarah, Suri Rumah</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<div class="container pb-5 mb-5">
+    <div class="cta-bottom shadow-lg">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <h2 class="fw-bold mb-3">Bersedia Untuk Mula?</h2>
+                <p class="lead mb-4 opacity-75">Sertai kami hari ini dan mula jana pendapatan sampingan dengan mudah.</p>
+                <a href="{{ route('affiliate.register', ['ref' => old('ref', $ref)]) }}" class="btn btn-glow">
+                    Daftar Sebagai Affiliate Sekarang
+                </a>
+                <p class="mt-3 small opacity-50">Tertakluk kepada terma & syarat.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
 @endsection
