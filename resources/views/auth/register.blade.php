@@ -298,6 +298,17 @@
                 <i class="fas fa-briefcase"></i> Kategori Profesion
             </div>
 
+
+            <div class="row g-3 mb-4">
+                <div class="col-md-12 form-floating">
+                    <select name="staff" id="staff" class="form-select" required>
+                        <option value="0" selected>Tidak</option>
+                        <option value="1">Ya</option>
+                    </select>
+                    <label for="staff">Adakah anda staff UNITI?</label>
+                </div>
+            </div>
+
             <div class="mb-3 p-3 bg-light rounded-3">
                 <label class="d-block form-label fw-bold mb-3 text-secondary">Anda Termasuk Dalam Kategori?</label>
                 <div class="profession-options d-flex flex-wrap">
@@ -335,16 +346,6 @@
                             @endforeach
                     </datalist>
                     <label for="profession">Nyatakan Pekerjaan / Profesion</label>
-                </div>
-            </div>
-
-            <div class="row g-3 mb-4">
-                <div class="col-md-12 form-floating">
-                    <select name="staff" id="staff" class="form-select" required>
-                        <option value="0" selected>Tidak</option>
-                        <option value="1">Ya</option>
-                    </select>
-                    <label for="staff">Adakah anda staff UNITI?</label>
                 </div>
             </div>
 
