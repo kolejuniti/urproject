@@ -195,6 +195,19 @@
     </div>
     @endif
 
+    @if($errors->any())
+    <div class="alert alert-danger shadow-sm rounded-4 mb-4 border-0 d-flex align-items-center">
+        <i class="fas fa-exclamation-circle me-3 fa-lg"></i>
+        <div>
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    </div>
+    @endif
+
     <div class="register-card">
         <div class="card-header-custom">
             <h2>Pendaftaran Affiliate UNITI</h2>
