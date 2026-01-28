@@ -16,7 +16,7 @@ use thiagoalessio\TesseractOCR\TesseractOCR;
 class StudentController extends Controller
 {
     public function index(Request $request)
-    {   
+    {
         $states = DB::table('state')->get();
         $locations = DB::table('location')->get();
         $ref = $request->query('ref');
@@ -31,7 +31,7 @@ class StudentController extends Controller
     }
 
     public function index_kupd(Request $request)
-    {   
+    {
         $states = DB::table('state')->get();
         $locations = DB::table('location')->where('location.id', 1)->get();
         $ref = $request->query('ref');
@@ -51,7 +51,7 @@ class StudentController extends Controller
     }
 
     public function index_kukb(Request $request)
-    {   
+    {
         $states = DB::table('state')->get();
         $locations = DB::table('location')->where('location.id', 2)->get();
         $ref = $request->query('ref');
@@ -83,7 +83,7 @@ class StudentController extends Controller
     // {
     //     $ref = $request->query('ref');
     //     $source = $request->input('source');
-        
+
     //     $request->validate([
     //         'file' => 'required|file|mimes:jpg,png,pdf|max:5120', // max 5MB
     //     ], [
@@ -124,7 +124,7 @@ class StudentController extends Controller
     //         $students = DB::table('students')
     //                     ->where('ic', $ic)
     //                     ->first();
-                        
+
     //         if ($students === null)
     //         {
     //             $name = strtoupper($request->input('name'));
@@ -173,7 +173,7 @@ class StudentController extends Controller
     //             ]);
 
     //             $stateName = DB::table('state')->where('id', $state)->value('name');
-                
+
     //             $locationName = DB::table('location')->where('id', $location)->value('name');
 
     //             $programNames = DB::table('student_programs')
@@ -201,22 +201,22 @@ class StudentController extends Controller
     //             // Send data to UChatWebhook
     //             try {
     //                 $webhookUrl = env('UCHAT_WEBHOOK_URL');
-                    
-                    
+
+
     //                 if (!$webhookUrl) {
     //                     throw new \Exception('Webhook URL not configured');
     //                 }
-                
+
     //                 $webhook = Http::post($webhookUrl, [
     //                     'name' => $name,
     //                     'phone' => $phone,
     //                     'email' => $email
     //                 ]);
-                    
+
     //                 if (!$webhook->successful()) {
     //                     throw new \Exception('Webhook request failed: ' . $webhook->status());
     //                 }
-                    
+
     //             } catch (\Exception $e) {
     //                 \Log::error('UChatWebhook Error: ' . $e->getMessage());
     //             }
@@ -253,7 +253,7 @@ class StudentController extends Controller
     {
         $ref = $request->query('ref');
         $source = $request->input('source');
-        
+
         $request->validate([
             'file' => 'required|file|mimes:jpg,png,pdf|max:5120', // max 5MB
         ], [
@@ -307,111 +307,111 @@ class StudentController extends Controller
                             ->limit(1)
                             ->first();
 
-                            $userID = null;
+                        $userID = null;
 
-                            if ($currentUserID && isset($currentUserID->advisor_code)) {
-                
-                                // Step 1: Assume you already have the current code
-                                $userIDCode = $currentUserID->advisor_code;
-                
-                                // Step 1: Extract the first part (PD-18-A10), then explode by '-' to get pieces
-                                $parts = explode('-', $userIDCode);
+                        if ($currentUserID && isset($currentUserID->advisor_code)) {
 
-                                // Step 2: Get the part that starts with 'A' (assumed to be at index 2)
-                                $advisorCode = $parts[2] ?? ''; // e.g., "A10"
+                            // Step 1: Assume you already have the current code
+                            $userIDCode = $currentUserID->advisor_code;
 
-                                // Step 3: Remove the "A" and cast to int
-                                $prefix = 'PD-';
-                                $startNumber = (int) ltrim($advisorCode, 'A');
-                
-                                $maxNumber = DB::table('users')
-                                            ->select(DB::raw("SUBSTRING(SUBSTRING_INDEX(users.name, ' ', 1), LOCATE('-A', users.name) + 2) as code"))
-                                            ->where('type', 1)
-                                            ->where('name', 'like', 'PD-%')
-                                            ->where('affiliate_data', 1)
-                                            ->whereIn('accept_data', [0,1])
-                                            ->orderByDesc(DB::raw("CAST(SUBSTRING(SUBSTRING_INDEX(users.name, ' ', 1), LOCATE('-A', users.name) + 2) AS UNSIGNED)"))
-                                            ->limit(1)
-                                            ->value('code');
-                
-                                $maxNumber = (int) $maxNumber;
-                                $found = false;
-                                $nextId = null;
-                
-                                // First loop: search from startNumber+1 to maxNumber
+                            // Step 1: Extract the first part (PD-18-A10), then explode by '-' to get pieces
+                            $parts = explode('-', $userIDCode);
 
-                                for ($i = $startNumber + 1; $i <= $maxNumber; $i++) {
-                                    $newCode = 'A' . $i; // e.g., A12
-                                    
-                                    // Search for exact code match using CONCAT to add word boundaries
+                            // Step 2: Get the part that starts with 'A' (assumed to be at index 2)
+                            $advisorCode = $parts[2] ?? ''; // e.g., "A10"
+
+                            // Step 3: Remove the "A" and cast to int
+                            $prefix = 'PD-';
+                            $startNumber = (int) ltrim($advisorCode, 'A');
+
+                            $maxNumber = DB::table('users')
+                                ->select(DB::raw("SUBSTRING(SUBSTRING_INDEX(users.name, ' ', 1), LOCATE('-A', users.name) + 2) as code"))
+                                ->where('type', 1)
+                                ->where('name', 'like', 'PD-%')
+                                ->where('affiliate_data', 1)
+                                ->whereIn('accept_data', [0, 1])
+                                ->orderByDesc(DB::raw("CAST(SUBSTRING(SUBSTRING_INDEX(users.name, ' ', 1), LOCATE('-A', users.name) + 2) AS UNSIGNED)"))
+                                ->limit(1)
+                                ->value('code');
+
+                            $maxNumber = (int) $maxNumber;
+                            $found = false;
+                            $nextId = null;
+
+                            // First loop: search from startNumber+1 to maxNumber
+
+                            for ($i = $startNumber + 1; $i <= $maxNumber; $i++) {
+                                $newCode = 'A' . $i; // e.g., A12
+
+                                // Search for exact code match using CONCAT to add word boundaries
+                                $users = DB::table('users')
+                                    ->where('name', 'like', 'PD-%')  // Starts with "PD-"
+                                    ->where('type', '1')
+                                    ->where('affiliate_data', 1)
+                                    ->whereIn('accept_data', [0, 1])
+                                    ->get();
+
+                                // Filter results manually to ensure exact code match
+                                foreach ($users as $user) {
+                                    // Extract all A-codes from the name
+                                    preg_match_all('/A\d+/', $user->name, $matches);
+
+                                    if (in_array($newCode, $matches[0])) {
+                                        $nextId = $user->id;
+                                        $found = true;
+                                        break 2; // Break out of both loops
+                                    }
+                                }
+                            }
+
+                            // If not found, search from 1 to startNumber
+                            if (!$found) {
+                                for ($i = 1; $i <= $startNumber; $i++) {
+                                    $newCode = 'A' . $i; // e.g., A1
+
+                                    // Search for exact code match
                                     $users = DB::table('users')
                                         ->where('name', 'like', 'PD-%')  // Starts with "PD-"
                                         ->where('type', '1')
                                         ->where('affiliate_data', 1)
-                                        ->whereIn('accept_data', [0,1])
+                                        ->whereIn('accept_data', [0, 1])
                                         ->get();
-                                    
+
                                     // Filter results manually to ensure exact code match
                                     foreach ($users as $user) {
                                         // Extract all A-codes from the name
                                         preg_match_all('/A\d+/', $user->name, $matches);
-                                        
+
                                         if (in_array($newCode, $matches[0])) {
                                             $nextId = $user->id;
-                                            $found = true;
                                             break 2; // Break out of both loops
                                         }
                                     }
                                 }
-
-                                // If not found, search from 1 to startNumber
-                                if (!$found) {
-                                    for ($i = 1; $i <= $startNumber; $i++) {
-                                        $newCode = 'A' . $i; // e.g., A1
-                                        
-                                        // Search for exact code match
-                                        $users = DB::table('users')
-                                            ->where('name', 'like', 'PD-%')  // Starts with "PD-"
-                                            ->where('type', '1')
-                                            ->where('affiliate_data', 1)
-                                            ->whereIn('accept_data', [0,1])
-                                            ->get();
-                                        
-                                        // Filter results manually to ensure exact code match
-                                        foreach ($users as $user) {
-                                            // Extract all A-codes from the name
-                                            preg_match_all('/A\d+/', $user->name, $matches);
-                                            
-                                            if (in_array($newCode, $matches[0])) {
-                                                $nextId = $user->id;
-                                                break 2; // Break out of both loops
-                                            }
-                                        }
-                                    }
-                                }
-                
-                                // Optional: Handle when no advisor found
-                                if ($nextId !== null) {
-                                    $userID = $nextId;
-                                    $update = date('Y-m-d H:i:s');
-                                    $auto_assign = 1; // Set auto_assign to 1 for advisors
-                                } else {
-                                    $userID = null;
-                                }
                             }
+
+                            // Optional: Handle when no advisor found
+                            if ($nextId !== null) {
+                                $userID = $nextId;
+                                $update = date('Y-m-d H:i:s');
+                                $auto_assign = 1; // Set auto_assign to 1 for advisors
+                            } else {
+                                $userID = null;
+                            }
+                        }
                     }
                 }
             }
         } else {
             $currentUserID = DB::table('students')
-                        ->join('users', 'students.user_id', '=', 'users.id')
-                        ->select('users.name', 'users.id', DB::raw("SUBSTRING_INDEX(users.name, ' ', 1) AS advisor_code"))
-                        ->whereNull('students.referral_code')
-                        ->where('users.type', '1')
-                        ->where('users.name', 'LIKE', 'PD-%')
-                        ->orderByDesc('students.id')
-                        ->limit(1)
-                        ->first();
+                ->join('users', 'students.user_id', '=', 'users.id')
+                ->select('users.name', 'users.id', DB::raw("SUBSTRING_INDEX(users.name, ' ', 1) AS advisor_code"))
+                ->whereNull('students.referral_code')
+                ->where('users.type', '1')
+                ->where('users.name', 'LIKE', 'PD-%')
+                ->orderByDesc('students.id')
+                ->limit(1)
+                ->first();
 
             $userID = null;
 
@@ -425,13 +425,13 @@ class StudentController extends Controller
                 $startNumber = (int) str_replace($prefix, '', $userIDCode);
 
                 $maxNumber = DB::table('users')
-                            ->select(DB::raw('SUBSTRING(name, 4, 2) as code'))
-                            ->where('type', 1)
-                            ->where('name', 'like', 'PD-%')
-                            ->where('accept_data', 1)
-                            ->orderByDesc(DB::raw('SUBSTRING(name, 4, 2)'))
-                            ->limit(1)
-                            ->value('code');
+                    ->select(DB::raw('SUBSTRING(name, 4, 2) as code'))
+                    ->where('type', 1)
+                    ->where('name', 'like', 'PD-%')
+                    ->where('accept_data', 1)
+                    ->orderByDesc(DB::raw('SUBSTRING(name, 4, 2)'))
+                    ->limit(1)
+                    ->value('code');
 
                 $maxNumber = (int) $maxNumber;
                 $found = false;
@@ -485,17 +485,15 @@ class StudentController extends Controller
 
         $ic = trim($request->input('ic')); // trims any accidental spaces
         $studentlists = DB::connection('mysql2')->table('students')->where('ic', $ic)
-        ->first();
+            ->first();
 
-        if($studentlists === null)
-        {
+        if ($studentlists === null) {
             $ic = $request->input('ic');
             $students = DB::table('students')
-                        ->where('ic', $ic)
-                        ->first();
-                        
-            if ($students === null)
-            {
+                ->where('ic', $ic)
+                ->first();
+
+            if ($students === null) {
                 $name = strtoupper($request->input('name'));
                 $ic = $request->input('ic');
                 $phone = $request->input('phone');
@@ -512,10 +510,10 @@ class StudentController extends Controller
                 $programB = $request->input('programB');
 
                 if ($ref !== null) {
-                    $incentive = 5;
+                    $incentive = 10;
                 } else {
                     $incentive = 0;
-                }   
+                }
 
                 $file = $request->file('file');
 
@@ -592,51 +590,51 @@ class StudentController extends Controller
                 $fileUrl = Storage::disk('linode')->url($filePath);
 
                 DB::table('students')->insert([
-                    'name'=>$name,
-                    'ic'=>$ic,
-                    'phone'=>$phone,
-                    'email'=>$email,
-                    'address1'=>$address1,
-                    'address2'=>$address2,
-                    'postcode'=>$postcode,
-                    'city'=>$city,
-                    'state_id'=>$state,
-                    'spm_year'=>$year,
-                    'location_id'=>$location,
-                    'referral_code'=>$ref,
-                    'user_id'=>$userID,
-                    'source'=>$source,
-                    'updated_at'=> $update,
-                    'auto_assign'=> $auto_assign,
-                    'incentive'=> $incentive
+                    'name' => $name,
+                    'ic' => $ic,
+                    'phone' => $phone,
+                    'email' => $email,
+                    'address1' => $address1,
+                    'address2' => $address2,
+                    'postcode' => $postcode,
+                    'city' => $city,
+                    'state_id' => $state,
+                    'spm_year' => $year,
+                    'location_id' => $location,
+                    'referral_code' => $ref,
+                    'user_id' => $userID,
+                    'source' => $source,
+                    'updated_at' => $update,
+                    'auto_assign' => $auto_assign,
+                    'incentive' => $incentive
                 ]);
 
                 $student = DB::table('students')->where('ic', $ic)->first();
 
                 DB::table('student_programs')->insert([
-                    'student_ic'=>$ic,
-                    'program_id'=>$programA
+                    'student_ic' => $ic,
+                    'program_id' => $programA
                 ]);
 
                 DB::table('student_programs')->insert([
-                    'student_ic'=>$ic,
-                    'program_id'=>$programB
+                    'student_ic' => $ic,
+                    'program_id' => $programB
                 ]);
 
                 $stateName = DB::table('state')->where('id', $state)->value('name');
-                
+
                 $locationName = DB::table('location')->where('id', $location)->value('name');
 
                 $programNames = DB::table('student_programs')
-                                ->join('program', 'student_programs.program_id', '=', 'program.id')
-                                ->select('program.name', 'student_programs.status')
-                                ->where('student_programs.student_ic', $ic)
-                                ->get();
+                    ->join('program', 'student_programs.program_id', '=', 'program.id')
+                    ->select('program.name', 'student_programs.status')
+                    ->where('student_programs.student_ic', $ic)
+                    ->get();
 
                 DB::table('student_url_path')->insert([
-                    'student_ic'=>$ic,
-                    'email'=>$email,
-                    'path'=>$fileUrl
+                    'student_ic' => $ic,
+                    'email' => $email,
+                    'path' => $fileUrl
                 ]);
 
                 $programA_name = DB::table('program')->where('id', $programA)->value('name');
@@ -665,50 +663,46 @@ class StudentController extends Controller
                 // Send data to UChatWebhook
                 try {
                     $webhookUrl = env('UCHAT_WEBHOOK_URL');
-                    
-                    
+
+
                     if (!$webhookUrl) {
                         throw new \Exception('Webhook URL not configured');
                     }
-                
+
                     $webhook = Http::post($webhookUrl, [
                         'name' => $name,
                         'phone' => $phone,
                         'email' => $email
                     ]);
-                    
+
                     if (!$webhook->successful()) {
                         throw new \Exception('Webhook request failed: ' . $webhook->status());
                     }
-                    
                 } catch (\Exception $e) {
                     \Log::error('UChatWebhook Error: ' . $e->getMessage());
                 }
 
                 return redirect()->route('student.confirmation-kupd', ['embed' => 'true'])
-                ->with([
-                    'name'=>$name, 
-                    'ic'=>$ic,
-                    'phone'=>$phone,
-                    'email'=>$email,
-                    'address1'=>$address1,
-                    'address2'=>$address2,
-                    'postcode'=>$postcode,
-                    'city'=>$city,
-                    'state'=>$stateName,
-                    'year'=>$year,
-                    'location'=>$locationName,
-                    'program'=>$programNames,
-                    'created_at' => $student->created_at,
-                    'msg_reg' => 'Maklumat berjaya didaftarkan.'
-                ]);
-            }
-            else
-            {
+                    ->with([
+                        'name' => $name,
+                        'ic' => $ic,
+                        'phone' => $phone,
+                        'email' => $email,
+                        'address1' => $address1,
+                        'address2' => $address2,
+                        'postcode' => $postcode,
+                        'city' => $city,
+                        'state' => $stateName,
+                        'year' => $year,
+                        'location' => $locationName,
+                        'program' => $programNames,
+                        'created_at' => $student->created_at,
+                        'msg_reg' => 'Maklumat berjaya didaftarkan.'
+                    ]);
+            } else {
                 return redirect()->back()->with('msg_error', 'No. kad pengenalan telah didaftar di dalam sistem.');
             }
-        }
-        else {
+        } else {
             return redirect()->back()->with('msg_error', 'No. kad pengenalan telah didaftar di dalam Sistem Maklumat Pelajar Kolej UNITI.');
         }
     }
@@ -717,7 +711,7 @@ class StudentController extends Controller
     {
         $ref = $request->query('ref');
         $source = $request->input('source');
-        
+
         $request->validate([
             'file' => 'required|file|mimes:jpg,png,pdf|max:5120', // max 5MB
         ], [
@@ -762,7 +756,7 @@ class StudentController extends Controller
                             ->select('users.name', 'users.id', DB::raw("SUBSTRING_INDEX(users.name, ' ', 1) AS advisor_code"))
                             ->where(function ($query) {
                                 $query->whereNotNull('students.referral_code')
-                                      ->where('students.referral_code', '!=', '');
+                                    ->where('students.referral_code', '!=', '');
                             })
                             ->where('users.type', '1')
                             ->where('users.name', 'LIKE', 'KB-%')
@@ -771,111 +765,111 @@ class StudentController extends Controller
                             ->limit(1)
                             ->first();
 
-                            $userID = null;
+                        $userID = null;
 
-                            if ($currentUserID && isset($currentUserID->advisor_code)) {
-                
-                                // Step 1: Assume you already have the current code
-                                $userIDCode = $currentUserID->advisor_code;
-                
-                                // Step 1: Extract the first part (PD-18-A10), then explode by '-' to get pieces
-                                $parts = explode('-', $userIDCode);
+                        if ($currentUserID && isset($currentUserID->advisor_code)) {
 
-                                // Step 2: Get the part that starts with 'A' (assumed to be at index 2)
-                                $advisorCode = $parts[2] ?? ''; // e.g., "A10"
+                            // Step 1: Assume you already have the current code
+                            $userIDCode = $currentUserID->advisor_code;
 
-                                // Step 3: Remove the "A" and cast to int
-                                $prefix = 'KB-';
-                                $startNumber = (int) ltrim($advisorCode, 'A');
-                
-                                $maxNumber = DB::table('users')
-                                            ->select(DB::raw("SUBSTRING(SUBSTRING_INDEX(users.name, ' ', 1), LOCATE('-A', users.name) + 2) as code"))
-                                            ->where('type', 1)
-                                            ->where('name', 'like', 'KB-%')
-                                            ->where('affiliate_data', 1)
-                                            ->where('accept_data', 1)
-                                            ->orderByDesc(DB::raw("CAST(SUBSTRING(SUBSTRING_INDEX(users.name, ' ', 1), LOCATE('-A', users.name) + 2) AS UNSIGNED)"))
-                                            ->limit(1)
-                                            ->value('code');
-                
-                                $maxNumber = (int) $maxNumber;
-                                $found = false;
-                                $nextId = null;
-                
-                                // First loop: search from startNumber+1 to maxNumber
+                            // Step 1: Extract the first part (PD-18-A10), then explode by '-' to get pieces
+                            $parts = explode('-', $userIDCode);
 
-                                for ($i = $startNumber + 1; $i <= $maxNumber; $i++) {
-                                    $newCode = 'A' . $i; // e.g., A12
-                                    
-                                    // Search for exact code match using CONCAT to add word boundaries
+                            // Step 2: Get the part that starts with 'A' (assumed to be at index 2)
+                            $advisorCode = $parts[2] ?? ''; // e.g., "A10"
+
+                            // Step 3: Remove the "A" and cast to int
+                            $prefix = 'KB-';
+                            $startNumber = (int) ltrim($advisorCode, 'A');
+
+                            $maxNumber = DB::table('users')
+                                ->select(DB::raw("SUBSTRING(SUBSTRING_INDEX(users.name, ' ', 1), LOCATE('-A', users.name) + 2) as code"))
+                                ->where('type', 1)
+                                ->where('name', 'like', 'KB-%')
+                                ->where('affiliate_data', 1)
+                                ->where('accept_data', 1)
+                                ->orderByDesc(DB::raw("CAST(SUBSTRING(SUBSTRING_INDEX(users.name, ' ', 1), LOCATE('-A', users.name) + 2) AS UNSIGNED)"))
+                                ->limit(1)
+                                ->value('code');
+
+                            $maxNumber = (int) $maxNumber;
+                            $found = false;
+                            $nextId = null;
+
+                            // First loop: search from startNumber+1 to maxNumber
+
+                            for ($i = $startNumber + 1; $i <= $maxNumber; $i++) {
+                                $newCode = 'A' . $i; // e.g., A12
+
+                                // Search for exact code match using CONCAT to add word boundaries
+                                $users = DB::table('users')
+                                    ->where('name', 'like', 'KB-%')  // Starts with "KB-"
+                                    ->where('type', '1')
+                                    ->where('affiliate_data', 1)
+                                    ->where('accept_data', 1)
+                                    ->get();
+
+                                // Filter results manually to ensure exact code match
+                                foreach ($users as $user) {
+                                    // Extract all A-codes from the name
+                                    preg_match_all('/A\d+/', $user->name, $matches);
+
+                                    if (in_array($newCode, $matches[0])) {
+                                        $nextId = $user->id;
+                                        $found = true;
+                                        break 2; // Break out of both loops
+                                    }
+                                }
+                            }
+
+                            // If not found, search from 1 to startNumber
+                            if (!$found) {
+                                for ($i = 1; $i <= $startNumber; $i++) {
+                                    $newCode = 'A' . $i; // e.g., A1
+
+                                    // Search for exact code match
                                     $users = DB::table('users')
                                         ->where('name', 'like', 'KB-%')  // Starts with "KB-"
                                         ->where('type', '1')
                                         ->where('affiliate_data', 1)
                                         ->where('accept_data', 1)
                                         ->get();
-                                    
+
                                     // Filter results manually to ensure exact code match
                                     foreach ($users as $user) {
                                         // Extract all A-codes from the name
                                         preg_match_all('/A\d+/', $user->name, $matches);
-                                        
+
                                         if (in_array($newCode, $matches[0])) {
                                             $nextId = $user->id;
-                                            $found = true;
                                             break 2; // Break out of both loops
                                         }
                                     }
                                 }
-
-                                // If not found, search from 1 to startNumber
-                                if (!$found) {
-                                    for ($i = 1; $i <= $startNumber; $i++) {
-                                        $newCode = 'A' . $i; // e.g., A1
-                                        
-                                        // Search for exact code match
-                                        $users = DB::table('users')
-                                            ->where('name', 'like', 'KB-%')  // Starts with "KB-"
-                                            ->where('type', '1')
-                                            ->where('affiliate_data', 1)
-                                            ->where('accept_data', 1)
-                                            ->get();
-                                        
-                                        // Filter results manually to ensure exact code match
-                                        foreach ($users as $user) {
-                                            // Extract all A-codes from the name
-                                            preg_match_all('/A\d+/', $user->name, $matches);
-                                            
-                                            if (in_array($newCode, $matches[0])) {
-                                                $nextId = $user->id;
-                                                break 2; // Break out of both loops
-                                            }
-                                        }
-                                    }
-                                }
-                
-                                // Optional: Handle when no advisor found
-                                if ($nextId !== null) {
-                                    $userID = $nextId;
-                                    $update = date('Y-m-d H:i:s');
-                                    $auto_assign = 1; // Set auto_assign to 1 for advisors
-                                } else {
-                                    $userID = null;
-                                }
                             }
+
+                            // Optional: Handle when no advisor found
+                            if ($nextId !== null) {
+                                $userID = $nextId;
+                                $update = date('Y-m-d H:i:s');
+                                $auto_assign = 1; // Set auto_assign to 1 for advisors
+                            } else {
+                                $userID = null;
+                            }
+                        }
                     }
                 }
             }
         } else {
             $currentUserID = DB::table('students')
-                        ->join('users', 'students.user_id', '=', 'users.id')
-                        ->select('users.name', 'users.id', DB::raw("SUBSTRING_INDEX(users.name, ' ', 1) AS advisor_code"))
-                        ->whereNull('students.referral_code')
-                        ->where('users.type', '1')
-                        ->where('users.name', 'LIKE', 'KB-%')
-                        ->orderByDesc('students.id')
-                        ->limit(1)
-                        ->first();
+                ->join('users', 'students.user_id', '=', 'users.id')
+                ->select('users.name', 'users.id', DB::raw("SUBSTRING_INDEX(users.name, ' ', 1) AS advisor_code"))
+                ->whereNull('students.referral_code')
+                ->where('users.type', '1')
+                ->where('users.name', 'LIKE', 'KB-%')
+                ->orderByDesc('students.id')
+                ->limit(1)
+                ->first();
 
             $userID = null;
 
@@ -889,13 +883,13 @@ class StudentController extends Controller
                 $startNumber = (int) str_replace($prefix, '', $userIDCode);
 
                 $maxNumber = DB::table('users')
-                            ->select(DB::raw('SUBSTRING(name, 4, 2) as code'))
-                            ->where('type', 1)
-                            ->where('name', 'like', 'KB-%')
-                            ->where('accept_data', 1)
-                            ->orderByDesc(DB::raw('SUBSTRING(name, 4, 2)'))
-                            ->limit(1)
-                            ->value('code');
+                    ->select(DB::raw('SUBSTRING(name, 4, 2) as code'))
+                    ->where('type', 1)
+                    ->where('name', 'like', 'KB-%')
+                    ->where('accept_data', 1)
+                    ->orderByDesc(DB::raw('SUBSTRING(name, 4, 2)'))
+                    ->limit(1)
+                    ->value('code');
 
                 $maxNumber = (int) $maxNumber;
                 $found = false;
@@ -949,17 +943,15 @@ class StudentController extends Controller
 
         $ic = $request->input('ic');
         $studentlists = DB::connection('mysql3')->table('students')->where('ic', $ic)
-        ->first();
+            ->first();
 
-        if($studentlists === null)
-        {
+        if ($studentlists === null) {
             $ic = trim($request->input('ic')); // trims any accidental spaces
             $students = DB::table('students')
-                        ->where('ic', $ic)
-                        ->first();
-                        
-            if ($students === null)
-            {
+                ->where('ic', $ic)
+                ->first();
+
+            if ($students === null) {
                 $name = strtoupper($request->input('name'));
                 $ic = $request->input('ic');
                 $phone = $request->input('phone');
@@ -976,52 +968,52 @@ class StudentController extends Controller
                 $programB = $request->input('programB');
 
                 if ($ref !== null) {
-                    $incentive = 5;
+                    $incentive = 10;
                 } else {
                     $incentive = 0;
-                } 
+                }
 
                 DB::table('students')->insert([
-                    'name'=>$name,
-                    'ic'=>$ic,
-                    'phone'=>$phone,
-                    'email'=>$email,
-                    'address1'=>$address1,
-                    'address2'=>$address2,
-                    'postcode'=>$postcode,
-                    'city'=>$city,
-                    'state_id'=>$state,
-                    'spm_year'=>$year,
-                    'location_id'=>$location,
-                    'referral_code'=>$ref,
-                    'user_id'=>$userID,
-                    'source'=>$source,
-                    'updated_at'=> $update,
-                    'auto_assign'=> $auto_assign,
-                    'incentive'=> $incentive
+                    'name' => $name,
+                    'ic' => $ic,
+                    'phone' => $phone,
+                    'email' => $email,
+                    'address1' => $address1,
+                    'address2' => $address2,
+                    'postcode' => $postcode,
+                    'city' => $city,
+                    'state_id' => $state,
+                    'spm_year' => $year,
+                    'location_id' => $location,
+                    'referral_code' => $ref,
+                    'user_id' => $userID,
+                    'source' => $source,
+                    'updated_at' => $update,
+                    'auto_assign' => $auto_assign,
+                    'incentive' => $incentive
                 ]);
 
                 $student = DB::table('students')->where('ic', $ic)->first();
 
                 DB::table('student_programs')->insert([
-                    'student_ic'=>$ic,
-                    'program_id'=>$programA
+                    'student_ic' => $ic,
+                    'program_id' => $programA
                 ]);
 
                 DB::table('student_programs')->insert([
-                    'student_ic'=>$ic,
-                    'program_id'=>$programB
+                    'student_ic' => $ic,
+                    'program_id' => $programB
                 ]);
 
                 $stateName = DB::table('state')->where('id', $state)->value('name');
-                
+
                 $locationName = DB::table('location')->where('id', $location)->value('name');
 
                 $programNames = DB::table('student_programs')
-                                ->join('program', 'student_programs.program_id', '=', 'program.id')
-                                ->select('program.name', 'student_programs.status')
-                                ->where('student_programs.student_ic', $ic)
-                                ->get();
+                    ->join('program', 'student_programs.program_id', '=', 'program.id')
+                    ->select('program.name', 'student_programs.status')
+                    ->where('student_programs.student_ic', $ic)
+                    ->get();
 
                 $file = $request->file('file');
 
@@ -1037,9 +1029,9 @@ class StudentController extends Controller
                 $fileUrl = Storage::disk('linode')->url($filePath);
 
                 DB::table('student_url_path')->insert([
-                    'student_ic'=>$ic,
-                    'email'=>$email,
-                    'path'=>$fileUrl
+                    'student_ic' => $ic,
+                    'email' => $email,
+                    'path' => $fileUrl
                 ]);
 
                 $programA_name = DB::table('program')->where('id', $programA)->value('name');
@@ -1068,50 +1060,46 @@ class StudentController extends Controller
                 // Send data to UChatWebhook
                 try {
                     $webhookUrl = env('UCHAT_WEBHOOK_URL');
-                    
-                    
+
+
                     if (!$webhookUrl) {
                         throw new \Exception('Webhook URL not configured');
                     }
-                
+
                     $webhook = Http::post($webhookUrl, [
                         'name' => $name,
                         'phone' => $phone,
                         'email' => $email
                     ]);
-                    
+
                     if (!$webhook->successful()) {
                         throw new \Exception('Webhook request failed: ' . $webhook->status());
                     }
-                    
                 } catch (\Exception $e) {
                     \Log::error('UChatWebhook Error: ' . $e->getMessage());
                 }
 
                 return redirect()->route('student.confirmation-kukb', ['embed' => 'true'])
-                ->with([
-                    'name'=>$name, 
-                    'ic'=>$ic,
-                    'phone'=>$phone,
-                    'email'=>$email,
-                    'address1'=>$address1,
-                    'address2'=>$address2,
-                    'postcode'=>$postcode,
-                    'city'=>$city,
-                    'state'=>$stateName,
-                    'year'=>$year,
-                    'location'=>$locationName,
-                    'program'=>$programNames,
-                    'created_at' => $student->created_at,
-                    'msg_reg' => 'Maklumat berjaya didaftarkan.'
-                ]);
-            }
-            else
-            {
+                    ->with([
+                        'name' => $name,
+                        'ic' => $ic,
+                        'phone' => $phone,
+                        'email' => $email,
+                        'address1' => $address1,
+                        'address2' => $address2,
+                        'postcode' => $postcode,
+                        'city' => $city,
+                        'state' => $stateName,
+                        'year' => $year,
+                        'location' => $locationName,
+                        'program' => $programNames,
+                        'created_at' => $student->created_at,
+                        'msg_reg' => 'Maklumat berjaya didaftarkan.'
+                    ]);
+            } else {
                 return redirect()->back()->with('msg_error', 'No. kad pengenalan telah didaftar di dalam sistem.');
             }
-        }
-        else {
+        } else {
             return redirect()->back()->with('msg_error', 'No. kad pengenalan telah didaftar di dalam Sistem Maklumat Pelajar Kolej UNITI.');
         }
     }
@@ -1119,9 +1107,9 @@ class StudentController extends Controller
     public function pengesahan_kupd(Request $request)
     {
         $ref = $request->query('ref');
-        
+
         $isEmbedded = $request->query('embed') === 'true';
-        
+
         if (!$request->session()->has('ic')) {
             return redirect()->route('student.register-kupd')->with('msg_error', 'Tiada data pelajar. Sila daftar terlebih dahulu.')->with('canonical', 'https://edaftarkolej.uniticms.edu.my/https://edaftarkolej.uniticms.edu.my/daftar/port-dickson/pengesahan');
         }
@@ -1132,9 +1120,9 @@ class StudentController extends Controller
     public function pengesahan_kukb(Request $request)
     {
         $ref = $request->query('ref');
-        
+
         $isEmbedded = $request->query('embed') === 'true';
-        
+
         if (!$request->session()->has('ic')) {
             return redirect()->route('student.register-kukb')->with('msg_error', 'Tiada data pelajar. Sila daftar terlebih dahulu.')->with('canonical', 'https://edaftarkolej.uniticms.edu.my/https://edaftarkolej.uniticms.edu.my/daftar/kota-bharu/pengesahan');
         }
@@ -1146,25 +1134,25 @@ class StudentController extends Controller
     {
         $ref = $request->query('ref');
         $ic = $request->input('ic');
-        
+
         $states = DB::table('state')->get();
 
         $currentYear = date('Y');
         $years = range($currentYear, $currentYear - 10);
-        
+
         $students = DB::table('students')
-                    ->leftjoin('state', 'students.state_id', '=', 'state.id')
-                    ->leftjoin('users', 'students.user_id', '=', 'users.id')
-                    ->join('location', 'students.location_id', '=', 'location.id')
-                    ->select('students.*', 'state.name AS state', 'users.name AS user', 'users.phone AS user_phone', 'location.name AS location')
-                    ->where('students.ic', 'LIKE', "{$ic}")
-                    ->get();
+            ->leftjoin('state', 'students.state_id', '=', 'state.id')
+            ->leftjoin('users', 'students.user_id', '=', 'users.id')
+            ->join('location', 'students.location_id', '=', 'location.id')
+            ->select('students.*', 'state.name AS state', 'users.name AS user', 'users.phone AS user_phone', 'location.name AS location')
+            ->where('students.ic', 'LIKE', "{$ic}")
+            ->get();
 
         $studentPrograms = DB::table('student_programs')
-                            ->join('program', 'student_programs.program_id', '=', 'program.id')
-                            ->select('program.name AS program', 'student_programs.status AS status', 'student_programs.notes')
-                            ->where('student_programs.student_ic', 'LIKE', "{$ic}")
-                            ->get();
+            ->join('program', 'student_programs.program_id', '=', 'program.id')
+            ->select('program.name AS program', 'student_programs.status AS status', 'student_programs.notes')
+            ->where('student_programs.student_ic', 'LIKE', "{$ic}")
+            ->get();
 
         return view('student.search', compact('ref', 'students', 'states', 'years', 'ic', 'studentPrograms'));
     }
@@ -1175,22 +1163,22 @@ class StudentController extends Controller
         $ic = $request->input('ic');
 
         $students = DB::table('students')
-                    ->leftjoin('state', 'students.state_id', '=', 'state.id')
-                    ->join('users', 'students.user_id', '=', 'users.id')
-                    ->select('students.*', 'state.name AS state', 'users.name AS advisor', 'users.phone')
-                    ->where('students.ic', 'LIKE', "{$ic}")
-                    ->get();
-        
+            ->leftjoin('state', 'students.state_id', '=', 'state.id')
+            ->join('users', 'students.user_id', '=', 'users.id')
+            ->select('students.*', 'state.name AS state', 'users.name AS advisor', 'users.phone')
+            ->where('students.ic', 'LIKE', "{$ic}")
+            ->get();
+
         foreach ($students as $student) {
             $studentprograms = DB::table('student_programs')
-                            ->join('program', 'student_programs.program_id', '=', 'program.id')
-                            ->select('program.name AS program')
-                            ->where('student_programs.student_ic', $student->ic)
-                            ->where('student_programs.status', '=', 'layak' )
-                            ->get();
+                ->join('program', 'student_programs.program_id', '=', 'program.id')
+                ->select('program.name AS program')
+                ->where('student_programs.student_ic', $student->ic)
+                ->where('student_programs.status', '=', 'layak')
+                ->get();
         }
 
-        return view('student.offerletter', compact('ref','students', 'studentprograms'))->with('canonical', 'https://edaftarkolej.uniticms.edu.my/semak-permohonan/surat-tawaran');
+        return view('student.offerletter', compact('ref', 'students', 'studentprograms'))->with('canonical', 'https://edaftarkolej.uniticms.edu.my/semak-permohonan/surat-tawaran');
     }
 
     public function about(Request $request)
@@ -1366,13 +1354,15 @@ class StudentController extends Controller
 
         try {
             // Get program value by checking all possible program field IDs
-            $program = $request->input('4') ?? 
-                      $request->input('5') ?? 
-                      $request->input('6') ?? null;
+            $program = $request->input('4') ??
+                $request->input('5') ??
+                $request->input('6') ?? null;
 
             // Validate that required fields are present
-            if (!$request->input('3') || !$program || !$request->input('7') || 
-                !$request->input('8') || !$request->input('1')) {
+            if (
+                !$request->input('3') || !$program || !$request->input('7') ||
+                !$request->input('8') || !$request->input('1')
+            ) {
                 \Log::warning('Missing required fields in form submission', [
                     'faculty' => $request->input('3'),
                     'program' => $program,
@@ -1415,19 +1405,19 @@ class StudentController extends Controller
             if ($existingStudent) {
                 return response()->json(['error' => 'Student with this IC already exists'], 409);
             }
-            
+
             $userID = null;
             $update = null;
 
             $currentUserID = DB::table('students')
-                        ->join('users', 'students.user_id', '=', 'users.id')
-                        ->select('users.name', 'users.id', DB::raw("SUBSTRING_INDEX(users.name, ' ', 1) AS advisor_code"))
-                        ->whereNull('students.referral_code')
-                        ->where('users.type', '1')
-                        ->where('users.name', 'LIKE', 'PD-%')
-                        ->orderByDesc('students.id')
-                        ->limit(1)
-                        ->first();
+                ->join('users', 'students.user_id', '=', 'users.id')
+                ->select('users.name', 'users.id', DB::raw("SUBSTRING_INDEX(users.name, ' ', 1) AS advisor_code"))
+                ->whereNull('students.referral_code')
+                ->where('users.type', '1')
+                ->where('users.name', 'LIKE', 'PD-%')
+                ->orderByDesc('students.id')
+                ->limit(1)
+                ->first();
 
             if ($currentUserID && isset($currentUserID->advisor_code)) {
 
@@ -1439,13 +1429,13 @@ class StudentController extends Controller
                 $startNumber = (int) str_replace($prefix, '', $userIDCode);
 
                 $maxNumber = DB::table('users')
-                            ->select(DB::raw('SUBSTRING(name, 4, 2) as code'))
-                            ->where('type', 1)
-                            ->where('name', 'like', 'PD-%')
-                            ->where('accept_data', 1)
-                            ->orderByDesc(DB::raw('SUBSTRING(name, 4, 2)'))
-                            ->limit(1)
-                            ->value('code');
+                    ->select(DB::raw('SUBSTRING(name, 4, 2) as code'))
+                    ->where('type', 1)
+                    ->where('name', 'like', 'PD-%')
+                    ->where('accept_data', 1)
+                    ->orderByDesc(DB::raw('SUBSTRING(name, 4, 2)'))
+                    ->limit(1)
+                    ->value('code');
 
                 $maxNumber = (int) $maxNumber;
                 $found = false;
@@ -1505,8 +1495,8 @@ class StudentController extends Controller
                 'location_id' => 1,
                 'source' => 'website',
                 'created_at' => now(),
-                'updated_at'=> $update,
-                'auto_assign'=> 1
+                'updated_at' => $update,
+                'auto_assign' => 1
             ]);
 
             // 1st program choice
@@ -1542,12 +1532,10 @@ class StudentController extends Controller
             }
 
             return response()->json(['success' => true, 'message' => 'Data stored successfully']);
-            
         } catch (\Exception $e) {
             \Log::error('Error storing mini form data: ' . $e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);
         }
-
     }
     public function miniForm_kukb(Request $request)
     {
@@ -1564,19 +1552,19 @@ class StudentController extends Controller
             if ($existingStudent) {
                 return response()->json(['error' => 'Student with this IC already exists'], 409);
             }
-            
+
             $userID = null;
             $update = null;
 
             $currentUserID = DB::table('students')
-                        ->join('users', 'students.user_id', '=', 'users.id')
-                        ->select('users.name', 'users.id', DB::raw("SUBSTRING_INDEX(users.name, ' ', 1) AS advisor_code"))
-                        ->whereNull('students.referral_code')
-                        ->where('users.type', '1')
-                        ->where('users.name', 'LIKE', 'KB-%')
-                        ->orderByDesc('students.id')
-                        ->limit(1)
-                        ->first();
+                ->join('users', 'students.user_id', '=', 'users.id')
+                ->select('users.name', 'users.id', DB::raw("SUBSTRING_INDEX(users.name, ' ', 1) AS advisor_code"))
+                ->whereNull('students.referral_code')
+                ->where('users.type', '1')
+                ->where('users.name', 'LIKE', 'KB-%')
+                ->orderByDesc('students.id')
+                ->limit(1)
+                ->first();
 
             if ($currentUserID && isset($currentUserID->advisor_code)) {
 
@@ -1588,13 +1576,13 @@ class StudentController extends Controller
                 $startNumber = (int) str_replace($prefix, '', $userIDCode);
 
                 $maxNumber = DB::table('users')
-                            ->select(DB::raw('SUBSTRING(name, 4, 2) as code'))
-                            ->where('type', 1)
-                            ->where('name', 'like', 'KB-%')
-                            ->where('accept_data', 1)
-                            ->orderByDesc(DB::raw('SUBSTRING(name, 4, 2)'))
-                            ->limit(1)
-                            ->value('code');
+                    ->select(DB::raw('SUBSTRING(name, 4, 2) as code'))
+                    ->where('type', 1)
+                    ->where('name', 'like', 'KB-%')
+                    ->where('accept_data', 1)
+                    ->orderByDesc(DB::raw('SUBSTRING(name, 4, 2)'))
+                    ->limit(1)
+                    ->value('code');
 
                 $maxNumber = (int) $maxNumber;
                 $found = false;
@@ -1654,8 +1642,8 @@ class StudentController extends Controller
                 'location_id' => 2,
                 'source' => 'website',
                 'created_at' => now(),
-                'updated_at'=> $update,
-                'auto_assign'=> 1
+                'updated_at' => $update,
+                'auto_assign' => 1
             ]);
 
             // 1st program choice
@@ -1691,48 +1679,46 @@ class StudentController extends Controller
             }
 
             return response()->json(['success' => true, 'message' => 'Data stored successfully']);
-            
         } catch (\Exception $e) {
             \Log::error('Error storing mini form data: ' . $e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);
         }
-
     }
     public function semak_permohonan(Request $request)
     {
         $ref = $request->query('ref');
         $ic = $request->input('ic');
-        
+
         $states = DB::table('state')->get();
 
         $currentYear = date('Y');
         $years = range($currentYear, $currentYear - 10);
-        
+
         $students = DB::table('students')
-                    ->leftjoin('state', 'students.state_id', '=', 'state.id')
-                    ->leftjoin('users', 'students.user_id', '=', 'users.id')
-                    ->join('location', 'students.location_id', '=', 'location.id')
-                    ->select('students.*', 'state.name AS state', 'users.name AS user', 'users.phone AS user_phone', 'location.name AS location')
-                    ->where('students.ic', 'LIKE', "{$ic}")
-                    ->get();
+            ->leftjoin('state', 'students.state_id', '=', 'state.id')
+            ->leftjoin('users', 'students.user_id', '=', 'users.id')
+            ->join('location', 'students.location_id', '=', 'location.id')
+            ->select('students.*', 'state.name AS state', 'users.name AS user', 'users.phone AS user_phone', 'location.name AS location')
+            ->where('students.ic', 'LIKE', "{$ic}")
+            ->get();
 
         $studentPrograms = DB::table('student_programs')
-                            ->join('program', 'student_programs.program_id', '=', 'program.id')
-                            ->select('program.name AS program', 'student_programs.status AS status', 'student_programs.notes')
-                            ->where('student_programs.student_ic', 'LIKE', "{$ic}")
-                            ->get();
-                            
+            ->join('program', 'student_programs.program_id', '=', 'program.id')
+            ->select('program.name AS program', 'student_programs.status AS status', 'student_programs.notes')
+            ->where('student_programs.student_ic', 'LIKE', "{$ic}")
+            ->get();
+
         $extensions = ['jpg', 'jpeg', 'png', 'pdf'];
         $foundFile = null;
-        
+
         foreach ($extensions as $ext) {
             $filePath = 'urproject/student/resultspm/' . $ic . '.' . $ext; // Path without disk URL
-        
+
             if (Storage::disk('linode')->exists($filePath)) {
                 $foundFile = Storage::disk('linode')->url($filePath); // Get the actual URL
                 break;
             }
-        }                            
+        }
 
         return view('student.search', compact('ref', 'students', 'states', 'years', 'ic', 'studentPrograms', 'foundFile'));
     }
@@ -1741,44 +1727,44 @@ class StudentController extends Controller
     {
         $ref = $request->query('ref');
         $ic = $request->input('ic');
-        
+
         $states = DB::table('state')->get();
 
         $currentYear = date('Y');
         $years = range($currentYear, $currentYear - 10);
-        
+
         $students = DB::table('students')
-                    ->leftjoin('state', 'students.state_id', '=', 'state.id')
-                    ->leftjoin('users', 'students.user_id', '=', 'users.id')
-                    ->join('location', 'students.location_id', '=', 'location.id')
-                    ->select('students.*', 'state.name AS state', 'users.name AS user', 'users.phone AS user_phone', 'location.name AS location')
-                    ->where('students.ic', 'LIKE', "{$ic}")
-                    ->where('location.id', '=', 1)
-                    ->get();
+            ->leftjoin('state', 'students.state_id', '=', 'state.id')
+            ->leftjoin('users', 'students.user_id', '=', 'users.id')
+            ->join('location', 'students.location_id', '=', 'location.id')
+            ->select('students.*', 'state.name AS state', 'users.name AS user', 'users.phone AS user_phone', 'location.name AS location')
+            ->where('students.ic', 'LIKE', "{$ic}")
+            ->where('location.id', '=', 1)
+            ->get();
 
         $studentPrograms = DB::table('student_programs')
-                            ->join('program', 'student_programs.program_id', '=', 'program.id')
-                            ->select('program.name AS program', 'student_programs.status AS status', 'student_programs.notes')
-                            ->where('student_programs.student_ic', 'LIKE', "{$ic}")
-                            ->get();
-                            
+            ->join('program', 'student_programs.program_id', '=', 'program.id')
+            ->select('program.name AS program', 'student_programs.status AS status', 'student_programs.notes')
+            ->where('student_programs.student_ic', 'LIKE', "{$ic}")
+            ->get();
+
         $extensions = ['jpg', 'jpeg', 'png', 'pdf'];
         $foundFile = null;
-        
+
         foreach ($extensions as $ext) {
             $filePath = 'urproject/student/resultspm/' . $ic . '.' . $ext; // Path without disk URL
-        
+
             if (Storage::disk('linode')->exists($filePath)) {
                 $foundFile = Storage::disk('linode')->url($filePath); // Get the actual URL
                 break;
             }
-        }                            
+        }
 
         return view('student.search-kupd', compact('ref', 'students', 'states', 'years', 'ic', 'studentPrograms', 'foundFile'))->with('canonical', 'https://edaftarkolej.uniticms.edu.my/semak-permohonan/port-dickson');
     }
 
     public function kemaskini_permohonan_kupd($id, $email, Request $request)
-    {   
+    {
         $address1 = $request->input('address1');
         $address2 = $request->input('address2');
         $postcode = $request->input('postcode');
@@ -1787,10 +1773,10 @@ class StudentController extends Controller
         $year = $request->input('year');
 
         $update_student = DB::table('students')
-                            ->where('students.ic', $id)
-                            ->update(['address1'=>$address1, 'address2'=>$address2, 'postcode'=>$postcode, 'city'=>$city, 'state_id'=>$state, 'spm_year'=>$year]);
+            ->where('students.ic', $id)
+            ->update(['address1' => $address1, 'address2' => $address2, 'postcode' => $postcode, 'city' => $city, 'state_id' => $state, 'spm_year' => $year]);
 
-        
+
 
         $file = $request->file('file');
 
@@ -1803,9 +1789,9 @@ class StudentController extends Controller
         $fileUrl = Storage::disk('linode')->url($filePath);
 
         DB::table('student_url_path')->insert([
-            'student_ic'=>$id,
-            'email'=>$email,
-            'path'=>$fileUrl
+            'student_ic' => $id,
+            'email' => $email,
+            'path' => $fileUrl
         ]);
 
         return redirect()->route('semak.permohonan.kupd');
@@ -1815,44 +1801,44 @@ class StudentController extends Controller
     {
         $ref = $request->query('ref');
         $ic = $request->input('ic');
-        
+
         $states = DB::table('state')->get();
 
         $currentYear = date('Y');
         $years = range($currentYear, $currentYear - 10);
-        
+
         $students = DB::table('students')
-                    ->leftjoin('state', 'students.state_id', '=', 'state.id')
-                    ->leftjoin('users', 'students.user_id', '=', 'users.id')
-                    ->join('location', 'students.location_id', '=', 'location.id')
-                    ->select('students.*', 'state.name AS state', 'users.name AS user', 'users.phone AS user_phone', 'location.name AS location')
-                    ->where('students.ic', 'LIKE', "{$ic}")
-                    ->where('location.id', '=', 2)
-                    ->get();
+            ->leftjoin('state', 'students.state_id', '=', 'state.id')
+            ->leftjoin('users', 'students.user_id', '=', 'users.id')
+            ->join('location', 'students.location_id', '=', 'location.id')
+            ->select('students.*', 'state.name AS state', 'users.name AS user', 'users.phone AS user_phone', 'location.name AS location')
+            ->where('students.ic', 'LIKE', "{$ic}")
+            ->where('location.id', '=', 2)
+            ->get();
 
         $studentPrograms = DB::table('student_programs')
-                            ->join('program', 'student_programs.program_id', '=', 'program.id')
-                            ->select('program.name AS program', 'student_programs.status AS status', 'student_programs.notes')
-                            ->where('student_programs.student_ic', 'LIKE', "{$ic}")
-                            ->get();
-                            
+            ->join('program', 'student_programs.program_id', '=', 'program.id')
+            ->select('program.name AS program', 'student_programs.status AS status', 'student_programs.notes')
+            ->where('student_programs.student_ic', 'LIKE', "{$ic}")
+            ->get();
+
         $extensions = ['jpg', 'jpeg', 'png', 'pdf'];
         $foundFile = null;
-        
+
         foreach ($extensions as $ext) {
             $filePath = 'urproject/student/resultspm/' . $ic . '.' . $ext; // Path without disk URL
-        
+
             if (Storage::disk('linode')->exists($filePath)) {
                 $foundFile = Storage::disk('linode')->url($filePath); // Get the actual URL
                 break;
             }
-        }                            
+        }
 
         return view('student.search-kukb', compact('ref', 'students', 'states', 'years', 'ic', 'studentPrograms', 'foundFile'))->with('canonical', 'https://edaftarkolej.uniticms.edu.my/semak-permohonan/kota-bharu');
     }
 
     public function kemaskini_permohonan_kukb($id, $email, Request $request)
-    {   
+    {
         $address1 = $request->input('address1');
         $address2 = $request->input('address2');
         $postcode = $request->input('postcode');
@@ -1861,10 +1847,10 @@ class StudentController extends Controller
         $year = $request->input('year');
 
         $update_student = DB::table('students')
-                            ->where('students.ic', $id)
-                            ->update(['address1'=>$address1, 'address2'=>$address2, 'postcode'=>$postcode, 'city'=>$city, 'state_id'=>$state, 'spm_year'=>$year]);
+            ->where('students.ic', $id)
+            ->update(['address1' => $address1, 'address2' => $address2, 'postcode' => $postcode, 'city' => $city, 'state_id' => $state, 'spm_year' => $year]);
 
-        
+
 
         $file = $request->file('file');
 
@@ -1877,12 +1863,11 @@ class StudentController extends Controller
         $fileUrl = Storage::disk('linode')->url($filePath);
 
         DB::table('student_url_path')->insert([
-            'student_ic'=>$id,
-            'email'=>$email,
-            'path'=>$fileUrl
+            'student_ic' => $id,
+            'email' => $email,
+            'path' => $fileUrl
         ]);
 
         return redirect()->route('semak.permohonan.kukb');
     }
-
 }
