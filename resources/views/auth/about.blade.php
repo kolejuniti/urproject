@@ -272,7 +272,7 @@
             </div>
             <div class="col-lg-5 text-center mt-4 mt-lg-0">
                 <!-- Abstract 3D Illustration or Image representation -->
-                <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/img/poster_affiliate.webp" onerror="this.src='https://placehold.co/500x500/png?text=Affiliate+Marketing'" alt="Affiliate Marketing" class="img-fluid animate__animated animate__fadeInRight" style="filter: drop-shadow(0 20px 40px rgba(0,0,0,0.3)); max-height: 500px;">
+                <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/img/poster_affiliate_3.webp" onerror="this.src='https://placehold.co/500x500/png?text=Affiliate+Marketing'" alt="Affiliate Marketing" class="img-fluid animate__animated animate__fadeInRight" style="filter: drop-shadow(0 20px 40px rgba(0,0,0,0.3)); max-height: 500px;">
             </div>
         </div>
     </div>
@@ -291,7 +291,7 @@
                 <div class="icon mb-3">
                     <i class="fas fa-database fa-2x text-primary opacity-50"></i>
                 </div>
-                <div class="commission-amount">RM 5.00</div>
+                <div class="commission-amount">RM 10.00</div>
                 <h3 class="h5 fw-bold text-dark">Setiap Data Prospek</h3>
                 <p class="text-muted">Dibayar apabila prospek mendaftar minat menggunakan kod rujukan anda.</p>
             </div>
@@ -301,7 +301,7 @@
                 <div class="icon mb-3">
                     <i class="fas fa-graduation-cap fa-2x text-secondary opacity-50"></i>
                 </div>
-                <div class="commission-amount text-secondary">RM 300.00</div>
+                <div class="commission-amount text-secondary">RM 500.00</div>
                 <h3 class="h5 fw-bold text-dark">Setiap Pendaftaran Pelajar</h3>
                 <p class="text-muted">Bonus besar apabila prospek berjaya mendaftar masuk ke Kolej UNITI.</p>
             </div>
@@ -367,7 +367,7 @@
                 <div class="benefit-item">
                     <div class="benefit-icon"><i class="fas fa-ban"></i></div>
                     <div>
-                        <h5 class="fw-bold">Tiada Yuran & Risiko Sifar</h5>
+                        <h5 class="fw-bold">Tiada Yuran Pendaftaran</h5>
                         <p class="text-muted mb-0">Pendaftaran adalah 100% PERCUMA. Anda tidak perlu mengeluarkan sebarang modal untuk bermula.</p>
                     </div>
                 </div>
