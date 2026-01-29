@@ -97,13 +97,25 @@ class UserController extends Controller
             ->limit(5)
             ->get();
 
+        // Total incentive
+        $totalIncentive = DB::table('students')
+            ->where('referral_code', $referralCode)
+            ->sum('incentive');
+
+        // Total commission
+        $totalCommission = DB::table('students')
+            ->where('referral_code', $referralCode)
+            ->sum('commission');
+
         return view('user.dashboard', compact(
             'user',
             'monthlyStats',
             'lastRegisteredDate',
             'totalRegistered',
             'topStudents',
-            'totalSuccessRegistered'
+            'totalSuccessRegistered',
+            'totalIncentive',
+            'totalCommission'
         ));
     }
 
