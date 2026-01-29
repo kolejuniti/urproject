@@ -5,50 +5,187 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
-            <div class="card mb-3 shadow-sm">
-                <div class="card-header" style="background-color: #8173b6; color: white; font-weight: bold;">{{ __('Pautan Rujukan')}}</div>
+            <style>
+                .referral-card {
+                    background: #ffffff;
+                    border-radius: 20px;
+                    border: none;
+                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+                    overflow: hidden;
+                    transition: transform 0.3s ease, box-shadow 0.3s ease;
+                }
 
-                <div class="card-body">
-                    @auth
-                    <div class="row col-12 col-sm-12 col-md-12">
-                        <div class="col-12 col-sm-3 col-md-3 text-center mb-3">
-                            <div class="qr-container position-relative">
-                                {!! $qrCode !!}
-                                <div class="qr-overlay position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center" style="opacity: 0; background-color: rgba(0,0,0,0.7); transition: opacity 0.3s ease;">
-                                    <span class="text-white fw-bold">Klik untuk muat turun</span>
+                .referral-card:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+                }
+
+                .text-gradient {
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    -webkit-background-clip: text;
+                    background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                }
+
+                .input-group-modern {
+                    background: #f8f9fa;
+                    border: 2px solid #e9ecef;
+                    border-radius: 12px;
+                    padding: 5px;
+                    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+                }
+
+                .input-group-modern:focus-within {
+                    border-color: #667eea;
+                    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+                }
+
+                .input-group-modern input {
+                    border: none;
+                    background: transparent;
+                    font-weight: 500;
+                    color: #495057;
+                    box-shadow: none !important;
+                }
+
+                .btn-gradient {
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    color: white;
+                    border: none;
+                    font-weight: 600;
+                    padding: 10px 24px;
+                    border-radius: 8px;
+                    transition: all 0.3s ease;
+                }
+
+                .btn-gradient:hover {
+                    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+                    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+                    color: white;
+                }
+
+                .social-btn {
+                    width: 45px;
+                    height: 45px;
+                    border-radius: 12px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                    border: 1px solid #e9ecef;
+                    background: white;
+                    color: #6c757d;
+                    font-size: 1.2rem;
+                }
+
+                .social-btn:hover {
+                    transform: translateY(-3px);
+                    color: white;
+                    border-color: transparent;
+                }
+
+                .social-btn.whatsapp:hover {
+                    background: #25D366;
+                    box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+                }
+
+                .social-btn.facebook:hover {
+                    background: #1877F2;
+                    box-shadow: 0 5px 15px rgba(24, 119, 242, 0.3);
+                }
+
+                .social-btn.telegram:hover {
+                    background: #0088cc;
+                    box-shadow: 0 5px 15px rgba(0, 136, 204, 0.3);
+                }
+
+                .qr-wrapper {
+                    background: white;
+                    padding: 15px;
+                    border-radius: 16px;
+                    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+                    display: inline-block;
+                    border: 1px solid #f0f0f0;
+                }
+
+                .section-badge {
+                    display: inline-block;
+                    padding: 6px 16px;
+                    background: rgba(102, 126, 234, 0.1);
+                    color: #667eea;
+                    border-radius: 50px;
+                    font-size: 0.85rem;
+                    font-weight: 700;
+                    margin-bottom: 20px;
+                    letter-spacing: 0.5px;
+                }
+            </style>
+
+            <div class="col-md-12 mb-4">
+                <div class="referral-card p-4 p-md-5">
+                    <div class="row align-items-center">
+                        <div class="col-lg-8 order-2 order-lg-1">
+                            <div class="pe-lg-5">
+                                <div class="section-badge">
+                                    <i class="bi bi-stars me-1"></i> Program Affiliate
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-sm-9 col-md-9">
-                            <div class="col-md-12 col-sm-12 mb-3">
-                                <h5 class="card-title fw-bold">Kongsi Peluang Untuk Bersama Kolej UNITI</h5>
-                                <p class="card-text">Kongsi pautan ini kepada yang berminat mendaftar / belajar di Kolej UNITI.</p>
-                            </div>
-                            <div class="input-group mb-3">
-                                <input type="text" id="referral_url" name="url" class="form-control" value="{{ $url }}" readonly>
-                                <div class="input-group-append">
-                                    <button class="btn btn-primary" id="copy-btn" onclick="copyToClipboard()">
-                                        <i class="bi bi-clipboard"></i>
+                                <h2 class="fw-bold mb-3 display-6" style="color: #2d3748;">
+                                    Jana Pendapatan Dengan <span class="text-gradient">Berkongsi Peluang Belajar di Kolej UNITI</span>
+                                </h2>
+                                <p class="text-muted mb-4 lead" style="font-size: 1.1rem;">
+                                    Kongsi pautan ini kepada yang berminat mendaftar / belajar di Kolej UNITI.
+                                </p>
+
+                                @auth
+                                <div class="input-group-modern d-flex align-items-center mb-4">
+                                    <span class="ps-3 text-muted"><i class="bi bi-link-45deg fs-4"></i></span>
+                                    <input type="text" id="referral_url" name="url" class="form-control" value="{{ $url }}" readonly>
+                                    <button class="btn btn-gradient m-1" id="copy-btn" onclick="copyToClipboard()">
+                                        Salin Pautan
                                     </button>
                                 </div>
-                            </div>
-                            <div class="share-buttons mt-3 d-flex gap-2">
-                                <button class="btn btn-sm btn-outline-success" onclick="shareOnWhatsApp()">
-                                    <i class="bi bi-whatsapp"></i> WhatsApp
-                                </button>
-                                <button class="btn btn-sm btn-outline-primary" onclick="shareOnFacebook()">
-                                    <i class="bi bi-facebook"></i> Facebook
-                                </button>
-                                <button class="btn btn-sm btn-outline-info" onclick="shareOnTelegram()">
-                                    <i class="bi bi-telegram"></i> Telegram
-                                </button>
-                            </div>
-                            <div id="copy-alert" class="alert alert-success mt-3" style="display: none;">
-                                Pautan telah disalin!
+
+                                <div class="d-flex align-items-center flex-wrap gap-3">
+                                    <span class="text-muted fw-bold me-2">Kongsi ke:</span>
+                                    <button class="social-btn whatsapp" onclick="shareOnWhatsApp()" title="Share on WhatsApp">
+                                        <i class="bi bi-whatsapp"></i>
+                                    </button>
+                                    <button class="social-btn facebook" onclick="shareOnFacebook()" title="Share on Facebook">
+                                        <i class="bi bi-facebook"></i>
+                                    </button>
+                                    <button class="social-btn telegram" onclick="shareOnTelegram()" title="Share on Telegram">
+                                        <i class="bi bi-telegram"></i>
+                                    </button>
+                                </div>
+
+                                <!-- <div id="copy-alert" class="alert alert-success mt-4 mb-0 border-0 shadow-sm d-inline-flex align-items-center" style="display: none; background: #d1e7dd; color: #0f5132; border-radius: 12px;">
+                                    <i class="bi bi-check-circle-fill me-2"></i> Pautan rujukan telah berjaya disalin!
+                                </div> -->
+                                @endauth
                             </div>
                         </div>
+
+                        <div class="col-lg-4 order-1 order-lg-2 text-center mb-4 mb-lg-0">
+                            @auth
+                            <div class="position-relative d-inline-block">
+                                <div class="qr-wrapper">
+                                    <div class="qr-container position-relative">
+                                        {!! $qrCode !!}
+                                        <div class="qr-overlay position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center rounded" style="opacity: 0; background-color: rgba(102, 126, 234, 0.9); transition: opacity 0.3s ease; cursor: pointer;">
+                                            <div class="text-center text-white">
+                                                <i class="bi bi-download fs-2 mb-1"></i>
+                                                <div class="fw-bold small">Muat Turun</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-3 text-muted small fw-bold">
+                                    <i class="bi bi-qr-code-scan me-1"></i> Imbas Kod QR
+                                </div>
+                            </div>
+                            @endauth
+                        </div>
                     </div>
-                    @endauth
                 </div>
             </div>
 
