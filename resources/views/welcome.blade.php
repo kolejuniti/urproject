@@ -23,63 +23,91 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
   <link rel="icon" type="image/png" href="img/ku1.png">
   <title>UTAMA - Kolej UNITI</title>
-  
+
   <!-- Load gtag.js only ONCE -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-B4BRS3VJS0"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
     gtag('js', new Date());
 
     // Configure BOTH tags using the same gtag instance
-    gtag('config', 'G-B4BRS3VJS0');      // Your GA4
-    gtag('config', 'AW-11015826304');    // Your Google Ads
+    gtag('config', 'G-B4BRS3VJS0'); // Your GA4
+    gtag('config', 'AW-11015826304'); // Your Google Ads
   </script>
 </head>
 
 <body>
 
-  <!-- CAMPUS Section START -->
-  <section class="campus py-3" id="campus">
-    <div class="container py-5">
-      <div class="row align-items-center justify-content-center text-center text-md-start">
-        <h1 class="text-center mb-1 fw-bold text-uppercase text-red">
-          Jom Masuk <span class="text-green">Kolej Uniti!</span>
-        </h1>
-        <p class="text-center fw-bold">
-          Pilih Kampus Dan Mulakan Perjalanan Anda
-        </p>
+  <!-- Navbar -->
+  <!-- <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+    <div class="container">
+      <a class="navbar-brand fw-bold d-flex align-items-center" href="#">
+        <span>KOLEJ UNITI</span>
+      </a>
+    </div>
+  </nav> -->
 
+  <!-- Hero Section -->
+  <section class="hero-section d-flex align-items-center position-relative overflow-hidden">
+    <div class="container position-relative z-1">
+      <div class="row justify-content-center text-center">
+        <div class="col-lg-10">
+          <span class="badge bg-soft-primary text-primary fw-bold px-3 py-2 rounded-pill mb-2 animate__animated animate__fadeInDown">
+            Pendidikan Masa Depan Anda Bermula Di Sini
+          </span>
+          <h1 class="display-5 fw-bold mb-2 animate__animated animate__fadeInUp text-dark">
+            Jom Masuk <span class="text-gradient">Kolej UNITI!</span>
+          </h1>
+          <p class="lead text-muted mb-4 animate__animated animate__fadeInUp animate__delay-1s fs-6">
+            Pilih kampus pilihan anda dan bina masa depan yang cerah bersama kami.
+            <br class="d-none d-md-block">Program berkualiti, pensyarah berpengalaman dan suasana pembelajaran yang menyokong kejayaan anda.
+          </p>
+        </div>
+      </div>
+
+      <div class="row justify-content-center animate__animated animate__fadeInUp animate__delay-2s">
 
         <!-- Kolej UNITI Port Dickson -->
-        <div class="col-md-3 col-sm-6 py-3">
-          <div class="card border-0 h-100">
-            <div class="position-relative">
-              <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/img/sd1.png" class="card-img-top rounded-top" alt="Kolej UNITI Port Dickson">
+        <div class="col-md-5 col-lg-4 mb-3">
+          <div class="card campus-card h-100 border-0 shadow-lg">
+            <div class="card-img-wrapper">
+              <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/img/sd1.png" class="card-img-top" alt="Kolej UNITI Port Dickson">
+              <div class="overlay"></div>
             </div>
-            <div class="card-body d-flex flex-column text-center">
-              <h6 class="fw-bold mb-3">KOLEJ UNITI PORT DICKSON</h6>
-              <p class="text-muted small mb-4">Terdapat 16 program diploma yang terdiri daripada tiga fakulti.</p>
-              <div class="mt-auto">
-                <a href="{{ route('student.kupd') . (isset($source) ? '?source=' . $source : '') . (isset($ref) ? (isset($source) ? '&' : '?') . 'ref=' . $ref : '') }}" class="btn card-btn-outline-primary w-100 mb-2">Info Lanjut</a>
-                <a href="{{ route('student.register-kupd') . (isset($source) ? '?source=' . $source : '') . (isset($ref) ? (isset($source) ? '&' : '?') . 'ref=' . $ref : '') }}" class="btn card-btn-primary w-100">Daftar Sekarang</a>
+            <div class="card-body text-center p-3">
+              <div class="icon-box mb-2 mx-auto bg-soft-red text-red">
+                <i class="fa-solid fa-graduation-cap"></i>
+              </div>
+              <h5 class="fw-bold mb-1">Kolej UNITI Port Dickson</h5>
+              <p class="text-muted small mb-3">Terdapat 16 program diploma yang terdiri daripada tiga fakulti.</p>
+              <div class="d-grid gap-2">
+                <a href="{{ route('student.kupd') . (isset($source) ? '?source=' . $source : '') . (isset($ref) ? (isset($source) ? '&' : '?') . 'ref=' . $ref : '') }}" class="btn btn-sm btn-outline-primary fw-semibold">Info Lanjut</a>
+                <a href="{{ route('student.register-kupd') . (isset($source) ? '?source=' . $source : '') . (isset($ref) ? (isset($source) ? '&' : '?') . 'ref=' . $ref : '') }}" class="btn btn-sm btn-primary fw-semibold shadow-sm">Daftar Sekarang</a>
               </div>
             </div>
           </div>
         </div>
 
         <!-- Kolej UNITI Kota Bharu -->
-        <div class="col-md-3 col-sm-6 py-3">
-          <div class="card border-0 h-100">
-            <div class="position-relative">
-              <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/img/stkukb.png" class="card-img-top rounded-top" alt="Kolej UNITI Kota Bharu">
+        <div class="col-md-5 col-lg-4 mb-3">
+          <div class="card campus-card h-100 border-0 shadow-lg">
+            <div class="card-img-wrapper">
+              <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/img/stkukb.png" class="card-img-top" alt="Kolej UNITI Kota Bharu">
+              <div class="overlay"></div>
             </div>
-            <div class="card-body d-flex flex-column text-center">
-              <h6 class="fw-bold mb-3">KOLEJ UNITI KOTA BHARU</h6>
-              <p class="text-muted small mb-4">Menawarkan 7 program diploma dalam pelbagai bidang.</p>
-              <div class="mt-auto">
-                <a href="{{ route('student.kukb') . (isset($source) ? '?source=' . $source : '') . (isset($ref) ? (isset($source) ? '&' : '?') . 'ref=' . $ref : '') }}" class="btn card-btn-outline-primary w-100 mb-2">Info Lanjut</a>
-                <a href="{{ route('student.register-kukb') . (isset($source) ? '?source=' . $source : '') . (isset($ref) ? (isset($source) ? '&' : '?') . 'ref=' . $ref : '') }}" class="btn card-btn-primary w-100">Daftar Sekarang</a>
+            <div class="card-body text-center p-3">
+              <div class="icon-box mb-2 mx-auto bg-soft-green text-green">
+                <i class="fa-solid fa-graduation-cap"></i>
+              </div>
+              <h5 class="fw-bold mb-1">Kolej UNITI Kota Bharu</h5>
+              <p class="text-muted small mb-3">Menawarkan 7 program diploma dalam pelbagai bidang.</p>
+              <div class="d-grid gap-2">
+                <a href="{{ route('student.kukb') . (isset($source) ? '?source=' . $source : '') . (isset($ref) ? (isset($source) ? '&' : '?') . 'ref=' . $ref : '') }}" class="btn btn-sm btn-outline-success fw-semibold">Info Lanjut</a>
+                <a href="{{ route('student.register-kukb') . (isset($source) ? '?source=' . $source : '') . (isset($ref) ? (isset($source) ? '&' : '?') . 'ref=' . $ref : '') }}" class="btn btn-sm btn-success fw-semibold shadow-sm">Daftar Sekarang</a>
               </div>
             </div>
           </div>
@@ -87,13 +115,16 @@
 
       </div>
     </div>
+
+    <!-- Decorative Background Elements -->
+    <div class="bg-shape user-select-none"></div>
+    <div class="bg-shape-2 user-select-none"></div>
   </section>
-  <!-- CAMPUS Section END -->
 
   <!-- Footer Section Start -->
-  <footer class="footer bg-dark">
+  <footer class="footer py-4 bg-white border-top">
     <div class="container text-center">
-      <p class="text-light mb-0">Hak Cipta Terpelihara <span id="current-year"></span> © Kolej UNITI</p>
+      <p class="text-muted mb-0 small">Hak Cipta Terpelihara <span id="current-year"></span> © <strong>Kolej UNITI</strong>.</p>
     </div>
   </footer>
   <!-- Footer Section End -->
@@ -103,7 +134,7 @@
     crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-  <script src="{{ asset('js/custom.js') }}"></script>
+  <script src="{{ asset('js/home.js') }}"></script>
 </body>
 
 </html>
