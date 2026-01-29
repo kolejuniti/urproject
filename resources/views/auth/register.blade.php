@@ -364,7 +364,7 @@
 
             <!-- Financial Info -->
             <div class="form-section-title">
-                <i class="fas fa-university"></i> Maklumat Kewangan
+                <i class="fas fa-university"></i> Maklumat Perbankan
                 <small class="ms-auto text-muted fw-normal" style="font-size: 0.8rem;">(Untuk pembayaran komisen)</small>
             </div>
 
