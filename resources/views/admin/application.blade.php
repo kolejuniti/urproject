@@ -357,7 +357,7 @@
                     console.log(response); // Debugging: log the response
 
                     if (response.applicants) {
-                        $('#application-form').attr('action', "{{ url('admin/kemaskini/Data Masuk') }}/" + response.applicants.id);
+                        $('#application-form').attr('action', "{{ url('admin/kemaskini/permohonan') }}/" + response.applicants.id);
                         // Populate the modal with the returned data
                         $('#applicant-name').text(response.applicants.name);
                         $('#applicant-ic').text(response.applicants.ic);
