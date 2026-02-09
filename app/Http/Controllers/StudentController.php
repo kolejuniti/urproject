@@ -1256,7 +1256,7 @@ class StudentController extends Controller
 
         $ref = $request->query('ref');
 
-        return view('student.kupd', compact('ref', 'source'));
+        return view('student.kupd_new', compact('ref', 'source'));
     }
 
     public function kukb(Request $request)
@@ -1295,7 +1295,7 @@ class StudentController extends Controller
 
         $ref = $request->query('ref');
 
-        return view('student.kukb', compact('ref', 'source'));
+        return view('student.kukb_new', compact('ref', 'source'));
     }
 
     private function determineSource($referrer)
@@ -1758,6 +1758,11 @@ class StudentController extends Controller
                 $foundFile = Storage::disk('linode')->url($filePath); // Get the actual URL
                 break;
             }
+        }
+
+        // Set default to "e-Daftar" if source is empty or still "other"
+        if (empty($source) || $source === 'other') {
+            $source = 'e-Daftar';
         }
 
         return view('student.search-kupd', compact('ref', 'students', 'states', 'years', 'ic', 'studentPrograms', 'foundFile'))->with('canonical', 'https://edaftarkolej.uniticms.edu.my/semak-permohonan/port-dickson');

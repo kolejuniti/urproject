@@ -1,152 +1,283 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!--Canonical Tag-->
-    <link rel="canonical" href="{{ $canonical ?? url()->current() }}">
+  <!--Canonical Tag-->
+  <link rel="canonical" href="{{ $canonical ?? url()->current() }}">
 
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+  <!-- CSRF Token -->
+  <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title', 'Kolej UNITI Port Dickson')</title>
+  <title>@yield('title', 'Kolej UNITI Port Dickson')</title>
 
-    <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
+  <link rel="icon" type="image/png" href="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/img/ku1.png">
 
-    <!-- Fonts -->
-    {{-- <link rel="dns-prefetch" href="//fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet"> --}}
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-     <!-- Inline Critical CSS -->
-     <style>
-        body {
-            font-family: 'Nunito', sans-serif;
-            /* Add other critical styles here */
-        }
-    </style>
-    
-    {{-- <!-- Preconnect to Font Provider -->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" as="style" onload="this.rel='stylesheet'">
-    <noscript>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap">
-    </noscript> --}}
-    
-    <!-- Fonts & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Scripts -->
+  @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
-    <!-- Scripts -->
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
-    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"> --}}
+  <!-- Inline Critical CSS & Shared Theme Styles -->
+  <style>
+    :root {
+      /* KUPD Theme: Royal Blue & Gold */
+      --primary: #1e40af;
+      /* Blue 800 */
+      --primary-dark: #1e3a8a;
+      /* Blue 900 */
+      --accent: #d97706;
+      /* Amber 600 */
+      --accent-hover: #b45309;
+      --secondary: #334155;
+      --light: #eff6ff;
+      /* Light Blue Tint */
+      --surface: #ffffff;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --font-main: 'Outfit', sans-serif;
+      --radius-sm: 8px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    }
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="{{ asset('css/kupd-style.css') }}">
-  
-    <!-- Load gtag.js only ONCE -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-B4BRS3VJS0"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+    body {
+      font-family: var(--font-main);
+      color: var(--text-main);
+      background-color: var(--light);
+      line-height: 1.6;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
 
-      // Configure BOTH tags using the same gtag instance
-      gtag('config', 'G-B4BRS3VJS0');      // Your GA4
-      gtag('config', 'AW-11015826304');    // Your Google Ads
-    </script>
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: var(--primary);
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    a {
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    main {
+      flex: 1;
+      /* Padding top for fixed navbar */
+      padding-top: 80px;
+    }
+
+    /* Navbar */
+    .navbar {
+      padding: 1rem 0;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .navbar-brand img {
+      height: 50px;
+    }
+
+    .nav-link {
+      font-weight: 500;
+      color: var(--secondary);
+      padding: 0.5rem 1rem !important;
+      font-size: 1rem;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      color: var(--primary);
+    }
+
+    .btn-primary-custom {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      border: none;
+      color: white;
+      padding: 0.75rem 2rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1rem;
+      box-shadow: 0 4px 15px rgba(30, 64, 175, 0.3);
+      transition: transform 0.2s;
+      display: inline-block;
+    }
+
+    .btn-primary-custom:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(30, 64, 175, 0.4);
+      color: white;
+    }
+
+    /* Footer */
+    footer {
+      background: #1e3a8a;
+      color: #cbd5e1;
+      padding: 4rem 0 2rem;
+      font-size: 0.9rem;
+      margin-top: auto;
+    }
+
+    footer h5 {
+      color: white;
+      margin-bottom: 1.5rem;
+    }
+
+    footer a {
+      color: #94a3b8;
+    }
+
+    footer a:hover {
+      color: white;
+    }
+
+    .social-link {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid #64748b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+    }
+
+    .social-link:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+    }
+
+    /* Utility */
+    .text-accent {
+      color: var(--accent) !important;
+    }
+
+    .bg-surface {
+      background-color: var(--surface);
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
+
+  <!-- Load gtag.js only ONCE -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-B4BRS3VJS0"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    // Configure BOTH tags using the same gtag instance
+    gtag('config', 'G-B4BRS3VJS0'); // Your GA4
+    gtag('config', 'AW-11015826304'); // Your Google Ads
+  </script>
 </head>
-<body class="bg-white">
-    <div id="app">
-        
-        <!--Top Start-->
-        <div class="top-class p-1">
-            <div class="container d-flex justify-content-between align-items-center">
-                <h7>UNITI Pilihan Terbaik Anda</h7>
-                <h7>No. Pendaftaran: DK036(N)</h7>
-            </div>
-        </div>
-        <!--Top End-->
 
-        <!-- Nav Start -->
-        <nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top">
-          <div class="container">
-            <!-- Logo -->
-            <a class="navbar-brand ms-0 me-auto" href="#">
-              <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/img/kupdonly.png" alt="Logo" style="max-width: 100%; height: 50px;">
-            </a>
+<body>
 
-            <!-- Hamburger Toggler -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <!-- Menu Items -->
-            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-              <ul class="navbar-nav align-items-center gap-lg-4 gap-2">
-                <li class="nav-item">
-                  <a class="nav-link d-flex justify-content-end" href="{{ url('/') . (isset($source) ? '?source=' . $source : '') . (isset($ref) ? (isset($source) ? '&' : '?') . 'ref=' . $ref : '')}}">PILIH KAMPUS</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link d-flex justify-content-end" href="{{ route('semak.permohonan.kupd') }}">SEMAK PERMOHONAN</a>
-                </li>
-              </ul>
-            </div>
-
-          </div>
-        </nav>
-        <!-- Nav End -->
-
-        <main class="py-3 bg-white">
-            @yield('content')
-        </main>
-
-        <footer class="footer bg-dark py-5">
-            <div class="container">
-              <div class="row">
-        
-                <div class="col-md-9 d-flex gap-3">
-                  <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/img/ku1.png" alt="Logo Kolej UNITI" class="me-3 mb-3 mb-md-0"
-                    style="max-width: 100px; height: auto;">
-                  <div>
-                    <h5 class="fw-bold mb-1 text-light">Kolej UNITI Port Dickson</h5>
-                    <p class="mb-1 text-light">UNITI Village, Persiaran UNITI, Tanjung Agas 71250 Port Dickson, Negeri Sembilan
-                    </p>
-                    <p class="mb-1 text-light"><i class="bi bi-telephone text-light"></i> +06-602 0303</p>
-                    <p class="mb-1 text-light"><i class="bi bi-envelope text-light"></i> info@uniti.edu.my</p>
-                  </div>
-                </div>
-        
-                <div
-                  class="col-md-3 d-flex flex-column align-items-center align-items-md-end justify-content-center text-md-end text-center mt-3 mt-md-0">
-                  <h5 class="fw-bold mb-3 text-light">Ikuti Kami</h5>
-                  <div class="d-flex gap-3 justify-content-center justify-content-md-end">
-                    <a href="https://www.facebook.com/kolejunitiportdickson" class="text-light"><i
-                        class="bi bi-facebook fs-1"></i></a>
-                    <a href="https://www.instagram.com/kolejunitiportdickson/" class="text-light"><i
-                        class="bi bi-instagram fs-1"></i></a>
-                    <a href="https://x.com/kolejuniti_pd" class="text-light"><i class="bi bi-twitter-x fs-1"></i></a>
-                    <a href="https://www.tiktok.com/@kolejunitipd" class="text-light"><i class="bi bi-tiktok fs-1"></i></a>
-                    <a href="https://www.youtube.com/@KolejUnitiPortDickson" class="text-light"><i
-                        class="bi bi-youtube fs-1"></i></a>
-                  </div>
-                </div>
-            </div><br>
-      
-            <hr class="border-light my-4">
-      
-            <p class="text-center text-light mb-0">Hak Cipta Terpelihara <span id="current-year"></span> © Kolej UNITI</p>
-          </div>
-        </footer>
-
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/img/kupdonly.png" alt="Kolej UNITI Port Dickson">
+      </a>
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
+          <li class="nav-item"><a class="nav-link" href="{{ url('/') . (request()->has('source') ? '?source=' . request('source') : '') . (request()->has('ref') ? (request()->has('source') ? '&' : '?') . 'ref=' . request('ref') : '') }}">Pilih Kampus</a></li>
+        </ul>
+      </div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js" integrity="sha512-7Pi/otdlbbCR+LnW+F7PwFcSDJOuUJB3OxtEHbg4vSMvzvJjde4Po1v4BR9Gdc9aXNUNFVUY+SK51wWT8WF0Gg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  </nav>
+
+  <main>
+    @yield('content')
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-5">
+          <!-- <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/img/ku1.png" alt="Logo" class="mb-3" style="height:60px;"> -->
+          <h5 class="fw-bold">Kolej UNITI Port Dickson</h5>
+          <p>UNITI Village, Persiaran UNITI, Tanjung Agas<br>71250 Port Dickson, Negeri Sembilan</p>
+          <p><i class="bi bi-telephone me-2"></i> +06-602 0303</p>
+          <p><i class="bi bi-envelope me-2"></i> info@uniti.edu.my</p>
+        </div>
+        <div class="col-lg-3">
+          <h5 class="fw-bold">Pautan Pantas</h5>
+          <ul class="list-unstyled">
+            <li class="mb-2"><a href="{{ url('/') . (request()->has('source') ? '?source=' . request('source') : '') . (request()->has('ref') ? (request()->has('source') ? '&' : '?') . 'ref=' . request('ref') : '') }}">Laman Utama</a></li>
+            <li class="mb-2"><a href="{{ route('student.kupd') . (request()->has('source') ? '?source=' . request('source') : '') . (request()->has('ref') ? (request()->has('source') ? '&' : '?') . 'ref=' . request('ref') : '') }}#programmes">Program</a></li>
+            <li class="mb-2"><a href="{{ route('semak.permohonan.kupd') . (request()->has('source') ? '?source=' . request('source') : '') . (request()->has('ref') ? (request()->has('source') ? '&' : '?') . 'ref=' . request('ref') : '') }}">Semak Permohonan</a></li>
+            <li class="mb-2"><a href="{{ route('student.register-kupd') . (request()->has('source') ? '?source=' . request('source') : '') . (request()->has('ref') ? (request()->has('source') ? '&' : '?') . 'ref=' . request('ref') : '') }}">Daftar Online</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-4">
+          <h5 class="fw-bold">Ikuti Kami</h5>
+          <div class="d-flex gap-3 mt-3">
+            <a href="https://uniti.edu.my/" class="social-link"><i class="bi bi-globe"></i></a>
+            <a href="https://www.facebook.com/kolejunitiportdickson" class="social-link"><i class="bi bi-facebook"></i></a>
+            <a href="https://www.instagram.com/kolejunitiportdickson/" class="social-link"><i class="bi bi-instagram"></i></a>
+            <a href="https://www.tiktok.com/@kolejunitipd" class="social-link"><i class="bi bi-tiktok"></i></a>
+            <a href="https://www.youtube.com/@KolejUnitiPortDickson" class="social-link"><i class="bi bi-youtube"></i></a>
+          </div>
+        </div>
+      </div>
+      <hr class="border-secondary my-4 opacity-50">
+      <div class="text-center opacity-75">
+        <small>Hak Cipta Terpelihara &copy; {{ date('Y') }} Kolej UNITI. All Rights Reserved.</small>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

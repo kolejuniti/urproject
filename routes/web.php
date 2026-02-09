@@ -152,7 +152,8 @@ Route::get('/', function (Request $request) {
         $source = determineSourceFromReferrer($referrer);
     }
 
-    return view('welcome', compact('ref', 'source'));
+    // return view('welcome', compact('ref', 'source'));
+    return view('welcome_new', compact('ref', 'source'));
 });
 
 // Route::get('/example', function () {
@@ -266,7 +267,26 @@ Route::prefix('semak-permohonan')->group(function () {
 // campus route
 Route::prefix('kampus')->group(function () {
     Route::get('/port-dickson', [App\Http\Controllers\StudentController::class, 'kupd'])->name('student.kupd');
+
+    // Route::get('/port-dickson', function () {
+    //     $source = request('source');
+    //     $ref = request('ref');
+    //     return view('student.kupd_new', compact('source', 'ref'));
+    // })->name('student.kupd_new');
+
     Route::get('/kota-bharu', [App\Http\Controllers\StudentController::class, 'kukb'])->name('student.kukb');
+
+    // Route::get('/kota-bharu', function () {
+    //     $source = request('source');
+    //     $ref = request('ref');
+    //     return view('student.kukb_new', compact('source', 'ref'));
+    // })->name('student.kukb_new');
+
+    // Route::get('/welcome-new', function () {
+    //     $source = request('source');
+    //     $ref = request('ref');
+    //     return view('welcome_new', compact('source', 'ref'));
+    // });
 });
 
 // test route
