@@ -378,6 +378,55 @@
 
                 <div class="media-card-body">
                     <h5 class="media-title">{{ $item->title }}</h5>
+                    <p class="text-muted mb-3" style="font-size: 0.9rem;">{{ Str::limit($item->description, 100) }}</p>
+
+                    {{-- Tags --}}
+                    @if($item->tags)
+                    <div class="mb-2">
+                        <small class="text-muted fw-bold">Tag:</small>
+                        <div class="mt-1">
+                            <span class="badge bg-secondary">{{ $item->tags }}</span>
+                        </div>
+                    </div>
+                    @endif
+
+                    {{-- Location --}}
+                    @if($item->location)
+                    <div class="mb-2">
+                        <small class="text-muted fw-bold">Lokasi:</small>
+                        <div class="mt-1">
+                            @if($item->location == 'kupd')
+                            <span class="badge bg-primary">KUPD - Kolej UNITI Port Dickson</span>
+                            @elseif($item->location == 'kukb')
+                            <span class="badge bg-success">KUKB - Kolej UNITI Kota Bahru</span>
+                            @endif
+                        </div>
+                    </div>
+                    @endif
+
+                    {{-- Platform badges --}}
+                    @php
+                    $platforms = is_array($item->platform) ? $item->platform : json_decode($item->platform, true);
+                    $platformColors = [
+                    'facebook' => 'primary',
+                    'whatsapp' => 'success',
+                    'telegram' => 'info',
+                    'instagram' => 'danger',
+                    'tiktok' => 'dark',
+                    ];
+                    @endphp
+                    @if(!empty($platforms))
+                    <div class="mb-3">
+                        <small class="text-muted fw-bold">Platform:</small>
+                        <div class="mt-1">
+                            @foreach($platforms as $p)
+                            <span class="badge bg-{{ $platformColors[$p] ?? 'secondary' }} me-1">
+                                {{ ucfirst($p) }}
+                            </span>
+                            @endforeach
+                        </div>
+                    </div>
+                    @endif
 
                     <div class="action-btn-group">
                         <button class="action-btn btn-copy-image"
@@ -420,6 +469,55 @@
 
                 <div class="media-card-body">
                     <h5 class="media-title">{{ $item->title }}</h5>
+                    <p class="text-muted mb-3" style="font-size: 0.9rem;">{{ Str::limit($item->description, 100) }}</p>
+
+                    {{-- Tags --}}
+                    @if($item->tags)
+                    <div class="mb-2">
+                        <small class="text-muted fw-bold">Tag:</small>
+                        <div class="mt-1">
+                            <span class="badge bg-secondary">{{ $item->tags }}</span>
+                        </div>
+                    </div>
+                    @endif
+
+                    {{-- Location --}}
+                    @if($item->location)
+                    <div class="mb-2">
+                        <small class="text-muted fw-bold">Lokasi:</small>
+                        <div class="mt-1">
+                            @if($item->location == 'kupd')
+                            <span class="badge bg-primary">KUPD - Kolej UNITI Port Dickson</span>
+                            @elseif($item->location == 'kukb')
+                            <span class="badge bg-success">KUKB - Kolej UNITI Kota Bahru</span>
+                            @endif
+                        </div>
+                    </div>
+                    @endif
+
+                    {{-- Platform badges --}}
+                    @php
+                    $platforms = is_array($item->platform) ? $item->platform : json_decode($item->platform, true);
+                    $platformColors = [
+                    'facebook' => 'primary',
+                    'whatsapp' => 'success',
+                    'telegram' => 'info',
+                    'instagram' => 'danger',
+                    'tiktok' => 'dark',
+                    ];
+                    @endphp
+                    @if(!empty($platforms))
+                    <div class="mb-3">
+                        <small class="text-muted fw-bold">Platform:</small>
+                        <div class="mt-1">
+                            @foreach($platforms as $p)
+                            <span class="badge bg-{{ $platformColors[$p] ?? 'secondary' }} me-1">
+                                {{ ucfirst($p) }}
+                            </span>
+                            @endforeach
+                        </div>
+                    </div>
+                    @endif
 
                     @if($youtubeId)
                     <div class="video-container">
