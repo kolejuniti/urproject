@@ -1949,6 +1949,7 @@ class AdminController extends Controller
             'tags' => 'nullable|string|max:255',
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
+            'location' => 'required|in:kupd,kukb',
 
             // Platform validation
             'platform'   => 'required|array', // Must be an array
@@ -2015,6 +2016,7 @@ class AdminController extends Controller
             'tags' => 'nullable|string|max:255',
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
+            'location' => 'required|in:kupd,kukb',
 
             // Platform validation
             'platform'   => 'required|array', // Must be an array

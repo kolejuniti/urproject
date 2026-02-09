@@ -105,6 +105,23 @@
                                     <div class="form-text">Tekan Ctrl (Cmd pada Mac) untuk memilih lebih daripada 1.</div>
                                 </div>
 
+                                <!-- Location -->
+                                <div class="mb-3">
+                                    <label class="form-label">Lokasi</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="location" id="location_kupd" value="kupd" required>
+                                        <label class="form-check-label" for="location_kupd">
+                                            Kolej UNITI Port Dickson
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="location" id="location_kukb" value="kukb" required>
+                                        <label class="form-check-label" for="location_kukb">
+                                            Kolej UNITI Kota Bahru
+                                        </label>
+                                    </div>
+                                </div>
+
                                 <!-- Publish Toggle -->
                                 <div class="form-check form-switch mb-2">
                                     <input class="form-check-input" type="checkbox" name="is_published" id="is_published" checked>
@@ -175,6 +192,18 @@
 
                     <p class="mb-1"><strong>Jenis:</strong> {{ ucfirst($item->type) }}</p>
                     <p class="mb-1"> <strong>Tag:</strong> {{ $item->tags }} </p>
+
+                    {{-- Location --}}
+                    <p class="mb-1">
+                        <strong>Lokasi:</strong>
+                        @if($item->location == 'kupd')
+                        <span class="badge bg-primary">KUPD</span>
+                        @elseif($item->location == 'kukb')
+                        <span class="badge bg-success">KUKB</span>
+                        @else
+                        <span class="text-muted">—</span>
+                        @endif
+                    </p>
 
                     {{-- Platform badges --}}
                     @php
@@ -330,6 +359,23 @@
                                     <option value="telegram" {{ in_array('telegram', $selectedPlatforms) ? 'selected' : '' }}>Telegram</option>
                                 </select>
                                 <div class="form-text">Tekan Ctrl (Cmd pada Mac) untuk memilih lebih daripada 1.</div>
+                            </div>
+
+                            <!-- Location -->
+                            <div class="mb-3">
+                                <label class="form-label">Lokasi</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="location" id="location_kupd{{ $item->id }}" value="kupd" {{ $item->location == 'kupd' ? 'checked' : '' }} required>
+                                    <label class="form-check-label" for="location_kupd{{ $item->id }}">
+                                        Kolej UNITI Port Dickson
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="location" id="location_kukb{{ $item->id }}" value="kukb" {{ $item->location == 'kukb' ? 'checked' : '' }} required>
+                                    <label class="form-check-label" for="location_kukb{{ $item->id }}">
+                                        Kolej UNITI Kota Bahru
+                                    </label>
+                                </div>
                             </div>
 
                             <!-- Publish Toggle -->
