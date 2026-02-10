@@ -326,28 +326,32 @@
                 <label class="d-block form-label fw-bold mb-3 text-secondary">Anda Termasuk Dalam Kategori?</label>
                 <div class="profession-options d-flex flex-wrap">
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="profession_option" id="prof_opt1" value="Pelajar">
-                        <label class="form-check-label" for="prof_opt1">Pelajar</label>
+                        <input class="form-check-input" type="radio" name="profession_option" id="prof_opt1" value="Pelajar KUPD">
+                        <label class="form-check-label" for="prof_opt1">Pelajar KUPD</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="profession_option" id="prof_opt2" value="Alumni KU">
-                        <label class="form-check-label" for="prof_opt2">Alumni KU</label>
+                        <input class="form-check-input" type="radio" name="profession_option" id="prof_opt2" value="Pelajar KUKB">
+                        <label class="form-check-label" for="prof_opt2">Pelajar KUKB</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="profession_option" id="prof_opt3" value="Staff KUPD">
-                        <label class="form-check-label" for="prof_opt3">Staff KUPD</label>
+                        <input class="form-check-input" type="radio" name="profession_option" id="prof_opt3" value="Alumni KU">
+                        <label class="form-check-label" for="prof_opt3">Alumni KU</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="profession_option" id="prof_opt4" value="Staff KUKB">
-                        <label class="form-check-label" for="prof_opt4">Staff KUKB</label>
+                        <input class="form-check-input" type="radio" name="profession_option" id="prof_opt4" value="Staff KUPD">
+                        <label class="form-check-label" for="prof_opt4">Staff KUPD</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="profession_option" id="prof_opt5" value="Staff Uniti Asia">
-                        <label class="form-check-label" for="prof_opt5">Staff Uniti Asia</label>
+                        <input class="form-check-input" type="radio" name="profession_option" id="prof_opt5" value="Staff KUKB">
+                        <label class="form-check-label" for="prof_opt5">Staff KUKB</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="profession_option" id="prof_opt6" value="Lain-Lain" checked>
-                        <label class="form-check-label" for="prof_opt6">Lain-Lain</label>
+                        <input class="form-check-input" type="radio" name="profession_option" id="prof_opt6" value="Staff Uniti Asia">
+                        <label class="form-check-label" for="prof_opt6">Staff Uniti Asia</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="profession_option" id="prof_opt7" value="Lain-Lain" checked>
+                        <label class="form-check-label" for="prof_opt7">Lain-Lain</label>
                     </div>
                 </div>
 
@@ -447,10 +451,59 @@
                 }, false);
             });
 
-            // Profession Option Logic
+            // Staff Dropdown Logic
+            const staffDropdown = document.getElementById('staff');
             const professionRadios = document.querySelectorAll('input[name="profession_option"]');
             const professionInput = document.getElementById('profession');
             const professionContainer = document.getElementById('profession_container');
+
+            // Get all radio button containers
+            const profOpt1 = document.getElementById('prof_opt1').closest('.form-check'); // Pelajar KUPD
+            const profOpt2 = document.getElementById('prof_opt2').closest('.form-check'); // Pelajar KUKB
+            const profOpt3 = document.getElementById('prof_opt3').closest('.form-check'); // Alumni KU
+            const profOpt4 = document.getElementById('prof_opt4').closest('.form-check'); // Staff KUPD
+            const profOpt5 = document.getElementById('prof_opt5').closest('.form-check'); // Staff KUKB
+            const profOpt6 = document.getElementById('prof_opt6').closest('.form-check'); // Staff Uniti Asia
+            const profOpt7 = document.getElementById('prof_opt7').closest('.form-check'); // Lain-Lain
+
+            function updateProfessionOptions() {
+                const isStaff = staffDropdown.value === '1'; // Ya = 1, Tidak = 0
+
+                if (isStaff) {
+                    // Show staff options only
+                    profOpt1.style.display = 'none'; // Hide Pelajar KUPD
+                    profOpt2.style.display = 'none'; // Hide Pelajar KUKB
+                    profOpt3.style.display = 'none'; // Hide Alumni KU
+                    profOpt4.style.display = 'inline-block'; // Show Staff KUPD
+                    profOpt5.style.display = 'inline-block'; // Show Staff KUKB
+                    profOpt6.style.display = 'inline-block'; // Show Staff Uniti Asia
+                    profOpt7.style.display = 'none'; // Hide Lain-Lain
+
+                    // Auto-select first staff option if currently selected option is hidden
+                    const currentChecked = document.querySelector('input[name="profession_option"]:checked');
+                    if (!currentChecked || ['Pelajar KUPD', 'Pelajar KUKB', 'Alumni KU', 'Lain-Lain'].includes(currentChecked.value)) {
+                        document.getElementById('prof_opt4').checked = true; // Select Staff KUPD by default
+                    }
+                } else {
+                    // Show student/alumni options only
+                    profOpt1.style.display = 'inline-block'; // Show Pelajar KUPD
+                    profOpt2.style.display = 'inline-block'; // Show Pelajar KUKB
+                    profOpt3.style.display = 'inline-block'; // Show Alumni KU
+                    profOpt4.style.display = 'none'; // Hide Staff KUPD
+                    profOpt5.style.display = 'none'; // Hide Staff KUKB
+                    profOpt6.style.display = 'none'; // Hide Staff Uniti Asia
+                    profOpt7.style.display = 'inline-block'; // Show Lain-Lain
+
+                    // Auto-select Lain-Lain if currently selected option is hidden
+                    const currentChecked = document.querySelector('input[name="profession_option"]:checked');
+                    if (!currentChecked || ['Staff KUPD', 'Staff KUKB', 'Staff Uniti Asia'].includes(currentChecked.value)) {
+                        document.getElementById('prof_opt7').checked = true; // Select Lain-Lain by default
+                    }
+                }
+
+                // Update profession field after changing options
+                updateProfessionField();
+            }
 
             function updateProfessionField() {
                 const checkedRadio = document.querySelector('input[name="profession_option"]:checked');
@@ -460,7 +513,7 @@
                 if (selectedValue === 'Lain-Lain') {
                     professionContainer.style.display = 'block';
                     // Clear if previously auto-filled with an option value
-                    if (['Pelajar', 'Alumni KU', 'Staff Uniti Asia', 'Staff KUKB', 'Staff KUPD'].includes(professionInput.value)) {
+                    if (['Pelajar KUPD', 'Pelajar KUKB', 'Alumni KU', 'Staff Uniti Asia', 'Staff KUKB', 'Staff KUPD'].includes(professionInput.value)) {
                         professionInput.value = '';
                     }
                 } else {
@@ -469,11 +522,15 @@
                 }
             }
 
+            // Listen to staff dropdown changes
+            staffDropdown.addEventListener('change', updateProfessionOptions);
+
             professionRadios.forEach(radio => {
                 radio.addEventListener('change', updateProfessionField);
             });
 
             // Run on load
+            updateProfessionOptions();
             updateProfessionField();
 
             // Password Validation
