@@ -213,6 +213,7 @@ Route::middleware(['auth', 'user-access:advisor'])->group(function () {
     Route::put('/advisor/update/profile', [AdvisorController::class, 'updateProfile'])->name('advisor.profile.update');
     Route::put('/advisor/update/password', [AdvisorController::class, 'password'])->name('advisor.profile.password');
     Route::get('/advisor/list/affiliates', [AdvisorController::class, 'affiliate'])->name('advisor.affiliate');
+    Route::get('/advisor/kandungan-media', [AdvisorController::class, 'contentsEnhanced'])->name('advisor.content.enhanced');
 });
 
 // user route

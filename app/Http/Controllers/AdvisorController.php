@@ -11,6 +11,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use App\Models\Content;
 
 class AdvisorController extends Controller
 {
@@ -349,5 +350,17 @@ class AdvisorController extends Controller
         $affiliates = User::where('leader_id', Auth::id())->orderBy('name')->get();
 
         return view('advisor.affiliate', compact('affiliates', 'url', 'qrCode'));
+    }
+
+    public function contentsEnhanced()
+    {
+        $user = Auth::user();
+
+        $ref = $user->referral_code;
+        $url = url('/') . '?ref=' . $ref;
+
+        $contents = Content::orderBy('created_at', 'desc')->get();
+
+        return view('advisor.kandungan-media-enhanced', compact('contents', 'ref', 'url'));
     }
 }

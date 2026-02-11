@@ -103,6 +103,9 @@
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="{{ route('advisor.dashboard') }}"><i class="bi bi-house"></i>&nbsp;Home</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('advisor.content.enhanced') }}"><i class="bi bi-collection-play"></i>&nbsp;Bahan Media</a>
+                        </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person-lines-fill"></i>&nbsp;Data Masuk
                             </a>
@@ -205,68 +208,6 @@
                 </div>
             </div>
         </nav>
-
-        <div class="container-fluid">
-            <div class="row">
-                {{-- <div class="col-sm-2">
-                    <div class="flex-shrink-0 p-3 bg-white" style="width: 230px; height: 90vh;">
-                        <label class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
-                            <span class="fs-5 fw-semibold">Menu</span>
-                        </label>
-                        <ul class="list-unstyled ps-0">
-                        <li class="mb-1">
-                            <a href="{{ route('advisor.dashboard') }}" class="btn btn-toggle align-items-center rounded collapsed" aria-expanded="true">Home</a>
-                </li>
-                <li class="mb-1">
-                    <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
-                        Permohonan
-                    </button>
-                    <div class="collapse" id="dashboard-collapse">
-                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                            <li>
-                                <a href="{{ route('advisor.application') }}" class="btn btn-link">Senarai Permohonan</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="mb-1">
-                    <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-affiliate" aria-expanded="false">
-                        Affiliates
-                    </button>
-                    <div class="collapse" id="dashboard-affiliate">
-                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                            <li>
-                                <a href="{{ route('advisor.affiliate') }}" class="btn btn-link">Senarai Affiliates</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="border-top my-3"></li>
-                <li class="mb-1">
-                    <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
-                        Akaun
-                    </button>
-                    <div class="collapse" id="account-collapse">
-                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                            <li>
-                                <a href="{{ route('advisor.profile') }}" class="btn btn-link">Profil</a>
-                            </li>
-                            <li>
-                                <a href="{{ route('logout') }}" class="btn btn-link"
-                                    onclick="event.preventDefault();
-                                                         document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
-                                </a>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                    @csrf
-                                </form>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                </ul>
-            </div> --}}
-        </div>
         <div class="col-sm-12">
             <main class="py-4" style="max-height: 90vh; overflow-y: auto;">
                 @yield('content')

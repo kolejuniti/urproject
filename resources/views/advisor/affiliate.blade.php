@@ -5,61 +5,236 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
-            @if(session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
-            @endif
-            <div class="card mb-3">
-                <div class="card-header">{{ __('Pautan Rujukan') }}</div>
+            <style>
+                .referral-card {
+                    background: #ffffff;
+                    border-radius: 20px;
+                    border: none;
+                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+                    overflow: hidden;
+                    transition: transform 0.3s ease, box-shadow 0.3s ease;
+                }
 
-                <div class="card-body">
-                    @auth
-                    
-                    <div class="row col-12 col-sm-12 col-md-12">
-                        <div class="col-12 col-sm-3 col-md-3 text-center mb-3">
-                            <div class="qr-container position-relative">
-                                {!! $qrCode !!}
-                                <div class="qr-overlay position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center" style="opacity: 0; background-color: rgba(0,0,0,0.7); transition: opacity 0.3s ease;">
-                                    <span class="text-white fw-bold">Klik untuk muat turun</span>
+                .referral-card:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+                }
+
+                .text-gradient {
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    -webkit-background-clip: text;
+                    background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                }
+
+                .input-group-modern {
+                    background: #f8f9fa;
+                    border: 2px solid #e9ecef;
+                    border-radius: 12px;
+                    padding: 5px;
+                    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+                }
+
+                .input-group-modern:focus-within {
+                    border-color: #667eea;
+                    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+                }
+
+                .input-group-modern input {
+                    border: none;
+                    background: transparent;
+                    font-weight: 500;
+                    color: #495057;
+                    box-shadow: none !important;
+                }
+
+                .btn-gradient {
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    color: white;
+                    border: none;
+                    font-weight: 600;
+                    padding: 10px 24px;
+                    border-radius: 8px;
+                    transition: all 0.3s ease;
+                }
+
+                .btn-gradient:hover {
+                    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+                    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+                    color: white;
+                }
+
+                .social-btn {
+                    width: 45px;
+                    height: 45px;
+                    border-radius: 12px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                    border: 1px solid #e9ecef;
+                    background: white;
+                    color: #6c757d;
+                    font-size: 1.2rem;
+                }
+
+                .social-btn:hover {
+                    transform: translateY(-3px);
+                    color: white;
+                    border-color: transparent;
+                }
+
+                .social-btn.whatsapp:hover {
+                    background: #25D366;
+                    box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+                }
+
+                .social-btn.facebook:hover {
+                    background: #1877F2;
+                    box-shadow: 0 5px 15px rgba(24, 119, 242, 0.3);
+                }
+
+                .social-btn.telegram:hover {
+                    background: #0088cc;
+                    box-shadow: 0 5px 15px rgba(0, 136, 204, 0.3);
+                }
+
+                .qr-wrapper {
+                    background: white;
+                    padding: 15px;
+                    border-radius: 16px;
+                    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+                    display: inline-block;
+                    border: 1px solid #f0f0f0;
+                }
+
+                .section-badge {
+                    display: inline-block;
+                    padding: 6px 16px;
+                    background: rgba(102, 126, 234, 0.1);
+                    color: #667eea;
+                    border-radius: 50px;
+                    font-size: 0.85rem;
+                    font-weight: 700;
+                    margin-bottom: 20px;
+                    letter-spacing: 0.5px;
+                }
+
+                /* Table Styles */
+                #myTable {
+                    border-collapse: separate;
+                    border-spacing: 0;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+                    font-size: 0.85rem;
+                }
+
+                #myTable thead th {
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    color: white;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                    padding: 16px 12px;
+                    border: none;
+                    vertical-align: middle;
+                }
+
+                #myTable tbody td {
+                    padding: 14px 10px;
+                    vertical-align: middle;
+                    border-bottom: 1px solid #e9ecef;
+                    transition: all 0.3s ease;
+                }
+
+                #myTable tbody tr:hover {
+                    background-color: #f8f9fa;
+                    transform: scale(1.005);
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+                    z-index: 5;
+                    position: relative;
+                }
+            </style>
+
+            @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show rounded-3 shadow-sm border-0 mb-4" role="alert">
+                <i class="bi bi-check-circle-fill me-2"></i> {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            @endif
+
+            <div class="col-md-12 mb-4">
+                <div class="referral-card p-4 p-md-5">
+                    <div class="row align-items-center">
+                        <div class="col-lg-8 order-2 order-lg-1">
+                            <div class="pe-lg-5">
+                                <div class="section-badge">
+                                    <i class="bi bi-stars me-1"></i> Program Affiliate
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-sm-9 col-md-9">
-                            <div class="col-md-12 col-sm-12 mb-3">
-                                <h5 class="card-title fw-bold">Kongsi Peluang Untuk Bersama Kolej UNITI</h5>
-                                <p class="card-text">Kongsi pautan ini kepada yang berminat untuk mendaftar sebagai affiliate Kolej UNITI.</p>
-                            </div>
-                            <div class="input-group mb-3">
-                                <input type="text" id="referral_url" name="url" class="form-control" value="{{ $url }}" readonly>
-                                <div class="input-group-append">
-                                    <button class="btn btn-primary" id="copy-btn" onclick="copyToClipboard()">
-                                        <i class="bi bi-clipboard"></i>
+                                <h2 class="fw-bold mb-3 display-6" style="color: #2d3748;">
+                                    Kongsi Peluang Untuk <span class="text-gradient">Bersama Kolej UNITI</span>
+                                </h2>
+                                <p class="text-muted mb-4 lead" style="font-size: 1.1rem;">
+                                    Kongsi pautan ini kepada yang berminat untuk mendaftar sebagai affiliate Kolej UNITI.
+                                </p>
+
+                                @auth
+                                <div class="input-group-modern d-flex align-items-center mb-4">
+                                    <span class="ps-3 text-muted"><i class="bi bi-link-45deg fs-4"></i></span>
+                                    <input type="text" id="referral_url" name="url" class="form-control" value="{{ $url }}" readonly>
+                                    <button class="btn btn-gradient m-1" id="copy-btn" onclick="copyToClipboard()">
+                                        Salin Pautan
                                     </button>
                                 </div>
-                            </div>
-                            <div class="share-buttons mt-3 d-flex gap-2">
-                                <button class="btn btn-sm btn-outline-success" onclick="shareOnWhatsApp()">
-                                    <i class="bi bi-whatsapp"></i> WhatsApp
-                                </button>
-                                <button class="btn btn-sm btn-outline-primary" onclick="shareOnFacebook()">
-                                    <i class="bi bi-facebook"></i> Facebook
-                                </button>
-                                <button class="btn btn-sm btn-outline-info" onclick="shareOnTelegram()">
-                                    <i class="bi bi-telegram"></i> Telegram
-                                </button>
-                            </div>
-                            <div id="copy-alert" class="alert alert-success mt-3" style="display: none;">
-                                Pautan telah disalin!
+
+                                <div class="d-flex align-items-center flex-wrap gap-3">
+                                    <span class="text-muted fw-bold me-2">Kongsi ke:</span>
+                                    <button class="social-btn whatsapp" onclick="shareOnWhatsApp()" title="Share on WhatsApp">
+                                        <i class="bi bi-whatsapp"></i>
+                                    </button>
+                                    <button class="social-btn facebook" onclick="shareOnFacebook()" title="Share on Facebook">
+                                        <i class="bi bi-facebook"></i>
+                                    </button>
+                                    <button class="social-btn telegram" onclick="shareOnTelegram()" title="Share on Telegram">
+                                        <i class="bi bi-telegram"></i>
+                                    </button>
+                                </div>
+
+                                <div id="copy-alert" class="alert alert-success mt-3 border-0 shadow-sm" style="display: none; background: #d1e7dd; color: #0f5132; border-radius: 12px;">
+                                    <i class="bi bi-check-circle-fill me-2"></i> Pautan rujukan telah berjaya disalin!
+                                </div>
+                                @endauth
                             </div>
                         </div>
+
+                        <div class="col-lg-4 order-1 order-lg-2 text-center mb-4 mb-lg-0">
+                            @auth
+                            <div class="position-relative d-inline-block">
+                                <div class="qr-wrapper">
+                                    <div class="qr-container position-relative">
+                                        {!! $qrCode !!}
+                                        <div class="qr-overlay position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center rounded" style="opacity: 0; background-color: rgba(102, 126, 234, 0.9); transition: opacity 0.3s ease; cursor: pointer;">
+                                            <div class="text-center text-white">
+                                                <i class="bi bi-download fs-2 mb-1"></i>
+                                                <div class="fw-bold small">Muat Turun</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-3 text-muted small fw-bold">
+                                    <i class="bi bi-qr-code-scan me-1"></i> Imbas Kod QR
+                                </div>
+                            </div>
+                            @endauth
+                        </div>
                     </div>
-                    @endauth
                 </div>
             </div>
+
             <div class="table-responsive">
-                <table id="myTable" class="table table-bordered small table-sm text-center">
-                    <thead class="table-dark">
+                <table id="myTable" class="table table-hover text-center">
+                    <thead>
                         <tr>
                             <th>#</th>
                             <th>Nama Pemohon</th>
@@ -71,96 +246,79 @@
                     <tbody>
                         @foreach ( $affiliates as $affiliate )
                         <tr>
-                            <td class="text-center">{{ $loop->iteration }}</td>
-                            <td class="text-uppercase">{{ $affiliate->name }}
-                                {{-- <button type="button" class="btn btn-sm btn-link" data-bs-toggle="modal" data-bs-target="#modal">{{ $affiliate->name }}</button> --}}
-                            </td>
-                            <td class="text-center">{{ $affiliate->phone }}</td>
-                            <td class="text-center">{{ $affiliate->email }}</td>
+                            <td>{{ $loop->iteration }}</td>
+                            <td class="text-uppercase">{{ $affiliate->name }}</td>
+                            <td>{{ $affiliate->phone }}</td>
+                            <td>{{ $affiliate->email }}</td>
                             <td>{{ \Carbon\Carbon::parse($affiliate->created_at)->format('d-m-Y') }}</td>
                         </tr>
                         @endforeach
-                        <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                                <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="modalLabel"></h5>
-                                </div>  
-                                <div class="modal-body small">
-                                    <div class="col-md-12 col-sm-12 mb-3">
-                                        <label for="" class="fw-bold">Maklumat Pemohon</label>
-                                    </div>
-                                    <div class="row mb-2">
-                                        <div class="col-md-3 col-sm-3">
-                                            <label for="">Nama Penuh</label>
-                                        </div>
-                                        <div class="col-md-9 col-sm-9">
-                                            <label for="name"></label>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-2">
-                                        <div class="col-md-3 col-sm-3">
-                                            <label for="">No. Kad Pengenalan</label>
-                                        </div>
-                                        <div class="col-md-3 col-sm-3">
-                                            <label for="name"></label>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-2">
-                                        <div class="col-md-3 col-sm-3">
-                                            <label for="">No. Telefon</label>
-                                        </div>
-                                        <div class="col-md-3 col-sm-3">
-                                            <label for="name"></label>
-                                        </div>
-                                        <div class="col-md-3 col-sm-3">
-                                            <label for="">Email</label>
-                                        </div>
-                                        <div class="col-md-3 col-sm-3">
-                                            <label for="name"></label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
-                                </div>
-                            </div>
-                        </div>
                     </tbody>
                 </table>
             </div>
+
         </div>
     </div>
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/v/bs5/jq-3.7.0/jszip-3.10.1/dt-2.1.0/b-3.1.0/b-colvis-3.1.0/b-html5-3.1.0/b-print-3.1.0/cr-2.0.3/datatables.min.js"></script>
+
 <script>
-    function toggleTextarea(uniqueId) {
-        const layakRadio = document.getElementById('layak' + uniqueId);
-        const container = document.getElementById('notes-container' + uniqueId);
-        
-        if (layakRadio.checked) {
-            container.style.display = 'none';
-        } else {
-            container.style.display = 'block';
-        }
-    }
-</script>
-<script>
+    $(document).ready(function() {
+        var t = $('#myTable').DataTable({
+            columnDefs: [{
+                targets: ['_all'],
+                className: 'dt-head-center'
+            }],
+            layout: {
+                top1Start: {
+                    div: {
+                        html: '<h5 class="fw-bold text-secondary mb-0">Senarai Affiliate</h5>'
+                    }
+                },
+                top1End: null,
+                topStart: {
+                    pageLength: {
+                        menu: [10, 25, 50, 100],
+                    }
+                },
+                topEnd: 'search',
+                bottomStart: 'info',
+                bottomEnd: 'paging'
+            }
+        });
+
+        // Add row numbering
+        t.on('order.dt search.dt', function() {
+            let i = 1;
+            t.cells(null, 0, {
+                search: 'applied',
+                order: 'applied'
+            }).every(function(cell) {
+                this.data(i++);
+            });
+        }).draw();
+    });
+
     function copyToClipboard() {
         var copyText = document.getElementById("referral_url");
         copyText.select();
         document.execCommand("copy");
-        
+
         var copyBtn = document.getElementById("copy-btn");
         var originalText = copyBtn.innerHTML;
-        copyBtn.innerHTML = '<i class="bi bi-check-circle"></i>';
-        
+        copyBtn.innerHTML = '<i class="bi bi-check-circle"></i> Disalin';
+
         var copyAlert = document.getElementById("copy-alert");
-        copyAlert.style.display = "block";
-        
-        setTimeout(function() {
-            copyBtn.innerHTML = originalText;
-            copyAlert.style.display = "none";
-        }, 2000);
+        if (copyAlert) {
+            copyAlert.style.display = "block";
+            setTimeout(function() {
+                copyBtn.innerHTML = 'Salin Pautan';
+                copyAlert.style.display = "none";
+            }, 3000);
+        }
     }
 
     function shareOnWhatsApp() {
@@ -177,91 +335,57 @@
         window.open("https://t.me/share/url?url=" + encodeURIComponent(document.getElementById("referral_url").value) + "&text=" + encodeURIComponent(text));
     }
 
-// Make QR code clickable to download
-document.addEventListener('DOMContentLoaded', function() {
-    var qrContainer = document.querySelector('.qr-container');
-    var qrOverlay = document.querySelector('.qr-overlay');
-    
-    if (qrContainer) {
-        qrContainer.addEventListener('mouseenter', function() {
-            qrOverlay.style.opacity = '1';
-        });
-        
-        qrContainer.addEventListener('mouseleave', function() {
-            qrOverlay.style.opacity = '0';
-        });
-        
-        qrContainer.addEventListener('click', function() {
-            // Get the SVG element
-            var svg = qrContainer.querySelector('svg');
-            if (!svg) {
-                console.error('SVG not found in container');
-                return;
-            }
-            
-            // Create a canvas element
-            var canvas = document.createElement('canvas');
-            var context = canvas.getContext('2d');
-            
-            // Set canvas dimensions to match SVG
-            canvas.width = svg.clientWidth || 200;
-            canvas.height = svg.clientHeight || 200;
-            
-            // Create an image from the SVG
-            var image = new Image();
-            var svgData = new XMLSerializer().serializeToString(svg);
-            var svgURL = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgData);
-            
-            image.onload = function() {
-                // Draw the image on the canvas
-                context.drawImage(image, 0, 0);
-                
-                // Create download link
-                var downloadLink = document.createElement('a');
-                downloadLink.download = 'UNITI-QR-Code.png';
-                downloadLink.href = canvas.toDataURL('image/png');
-                document.body.appendChild(downloadLink);
-                downloadLink.click();
-                document.body.removeChild(downloadLink);
-            };
-            
-            image.src = svgURL;
-        });
-    }
-});
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
-<script src="https://cdn.datatables.net/v/bs5/jq-3.7.0/jszip-3.10.1/dt-2.1.0/b-3.1.0/b-colvis-3.1.0/b-html5-3.1.0/b-print-3.1.0/cr-2.0.3/datatables.min.js"></script>
-<script>
-    $(document).ready(function() {
-        var t = $('#myTable').DataTable({
-            columnDefs: [
-                {
-                    targets: ['_all'],
-                    className: 'dt-head-center'
-                }
-            ],
-            layout: {
-                top1Start: {
-                    div: {
-                        html: '<h2>Senarai Affiliate</h2>'
-                    }
-                },
-                top1End: null,
-                topStart: 'pageLength',
-                topEnd: 'search',
-                bottomStart: 'info',
-                bottomEnd: 'paging'
-            }
-        });
-        t.on('order.dt search.dt', function () {
-            let i = 1;
-        
-            t.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
-                this.data(i++);
+    // Make QR code clickable to download
+    document.addEventListener('DOMContentLoaded', function() {
+        var qrContainer = document.querySelector('.qr-container');
+        var qrOverlay = document.querySelector('.qr-overlay');
+
+        if (qrContainer) {
+            qrContainer.addEventListener('mouseenter', function() {
+                qrOverlay.style.opacity = '1';
             });
-        }).draw();
+
+            qrContainer.addEventListener('mouseleave', function() {
+                qrOverlay.style.opacity = '0';
+            });
+
+            qrContainer.addEventListener('click', function() {
+                // Get the SVG element
+                var svg = qrContainer.querySelector('svg');
+                if (!svg) {
+                    console.error('SVG not found in container');
+                    return;
+                }
+
+                // Create a canvas element
+                var canvas = document.createElement('canvas');
+                var context = canvas.getContext('2d');
+
+                // Set canvas dimensions to match SVG
+                canvas.width = svg.clientWidth || 200;
+                canvas.height = svg.clientHeight || 200;
+
+                // Create an image from the SVG
+                var image = new Image();
+                var svgData = new XMLSerializer().serializeToString(svg);
+                var svgURL = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgData);
+
+                image.onload = function() {
+                    // Draw the image on the canvas
+                    context.drawImage(image, 0, 0);
+
+                    // Create download link
+                    var downloadLink = document.createElement('a');
+                    downloadLink.download = 'UNITI-QR-Code.png';
+                    downloadLink.href = canvas.toDataURL('image/png');
+                    document.body.appendChild(downloadLink);
+                    downloadLink.click();
+                    document.body.removeChild(downloadLink);
+                };
+
+                image.src = svgURL;
+            });
+        }
     });
 </script>
 @endsection
