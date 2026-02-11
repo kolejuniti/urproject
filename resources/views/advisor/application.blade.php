@@ -646,15 +646,15 @@
                         if (response.applicants.reason) {
                             $('#reason-container').html(`
                             <div class="mb-3">
-                                <label for="reason" class="label-custom mb-1">Sebab Menolak Tawaran</label>
+                                <label for="reason" class="label-custom mb-1">Catatan</label>
                                 <textarea name="reason" id="reason" rows="3" class="form-control form-control-sm">${response.applicants.reason}</textarea>    
                             </div>
                         `);
                         } else {
                             $('#reason-container').html(`
                              <div class="mb-3">
-                                <label for="reason" class="label-custom mb-1">Sebab Menolak Tawaran</label>
-                                <textarea name="reason" id="reason" rows="3" class="form-control form-control-sm" placeholder="Nyatakan sebab (jika ada)"></textarea>    
+                                <label for="reason" class="label-custom mb-1">Catatan</label>
+                                <textarea name="reason" id="reason" rows="3" class="form-control form-control-sm" placeholder="Nyatakan catatan (jika ada)"></textarea>    
                             </div>
                         `);
                         }

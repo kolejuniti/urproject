@@ -506,7 +506,13 @@ class AdminController extends Controller
             ->where('student_programs.student_ic', 'LIKE', "{$ic}")
             ->get();
 
-        $statusApplications = DB::table('status')->get();
+        $ids = [29, 30, 31, 19, 20, 21, 22, 32, 33, 25];
+        $placeholders = implode(',', array_fill(0, count($ids), '?'));
+
+        $statusApplications = DB::table('status')
+            ->whereIn('id', $ids)
+            ->orderByRaw("FIELD(id, $placeholders)", $ids)
+            ->get();
 
         if ($request->ajax()) {
             return response()->json(['applicants' => $applicants, 'fileUrl' => $fileUrl, 'programs' => $programs, 'users' => $users, 'statusApplications' => $statusApplications]);
