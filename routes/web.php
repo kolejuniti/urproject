@@ -117,8 +117,58 @@ Route::get('/', function (Request $request) {
     // Check if source is in query, else determine from referrer
     $source = $request->query('source');
 
+    $determineSourceFromReferrer = static function ($referrer) {
+        $referrer = strtolower((string) $referrer);
+
+        if ($referrer === 'other') {
+            return 'e-Daftar';
+        }
+
+        if ($referrer === 'tiktok') {
+            return 'tiktok';
+        }
+
+        if (str_contains($referrer, 'facebook.com')) {
+            return 'facebook';
+        }
+
+        if (str_contains($referrer, 'whatsapp.com')) {
+            return 'whatsapp';
+        }
+
+        if (
+            str_contains($referrer, 'tiktok.com') ||
+            str_contains($referrer, 'pangleglobal.com') ||
+            str_contains($referrer, 'pangle.io')
+        ) {
+            return 'tiktok';
+        }
+
+        if (str_contains($referrer, 'instagram.com')) {
+            return 'instagram';
+        }
+
+        if (str_contains($referrer, 'edaftarkolej.uniticms.edu.my')) {
+            return 'e-Daftar';
+        }
+
+        if (str_contains($referrer, 'uniti.edu.my')) {
+            return 'website';
+        }
+
+        if (str_contains($referrer, 'google.com') || str_contains($referrer, 'google.com.my')) {
+            return 'google';
+        }
+
+        if (str_contains($referrer, 'youtube.com')) {
+            return 'youtube';
+        }
+
+        return 'e-Daftar';
+    };
+
     if (empty($source)) {
-        $source = determineSourceFromReferrer($referrer);
+        $source = $determineSourceFromReferrer($referrer);
     }
 
     // return view('welcome', compact('ref', 'source'));
