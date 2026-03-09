@@ -350,6 +350,10 @@
             transform: rotate(360deg);
         }
     }
+
+    .location-filter-btn.active {
+        font-weight: 700;
+    }
 </style>
 
 <div class="page-header">
@@ -360,9 +364,16 @@
 </div>
 
 <div class="container pb-5">
+    <div class="d-flex flex-wrap align-items-center gap-2 mb-4">
+        <span class="text-muted fw-bold">Filter Lokasi:</span>
+        <button type="button" class="btn btn-outline-secondary btn-sm location-filter-btn active" data-location-filter="all">Semua</button>
+        <button type="button" class="btn btn-outline-primary btn-sm location-filter-btn" data-location-filter="kupd">KUPD</button>
+        <button type="button" class="btn btn-outline-success btn-sm location-filter-btn" data-location-filter="kukb">KUKB</button>
+    </div>
+
     <div class="row g-4">
         @foreach ($contents as $item)
-        <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="col-lg-4 col-md-6 col-sm-12 content-item" data-content-location="{{ strtolower((string) $item->location) }}">
             <div class="media-card">
 
                 {{-- Image Section --}}
@@ -573,6 +584,10 @@
         </div>
         @endforeach
     </div>
+
+    <div id="locationFilterEmptyState" class="alert alert-light border text-center mt-4 d-none">
+        Tiada kandungan untuk lokasi yang dipilih.
+    </div>
 </div>
 
 {{-- Toast Container --}}
@@ -714,7 +729,33 @@
 
     // Initialize Bootstrap tooltips if needed
     document.addEventListener('DOMContentLoaded', function() {
-        // Any initialization code here
+        const filterButtons = document.querySelectorAll('.location-filter-btn');
+        const contentItems = document.querySelectorAll('.content-item');
+        const emptyState = document.getElementById('locationFilterEmptyState');
+
+        function applyLocationFilter(location) {
+            let visibleCount = 0;
+
+            contentItems.forEach(item => {
+                const itemLocation = (item.dataset.contentLocation || '').toLowerCase();
+                const shouldShow = location === 'all' || itemLocation === location;
+
+                item.classList.toggle('d-none', !shouldShow);
+                if (shouldShow) visibleCount++;
+            });
+
+            emptyState.classList.toggle('d-none', visibleCount > 0);
+        }
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                applyLocationFilter(this.dataset.locationFilter);
+            });
+        });
+
+        applyLocationFilter('all');
         console.log('Media content page loaded successfully!');
     });
 </script>
