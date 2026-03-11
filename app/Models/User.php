@@ -29,12 +29,13 @@ class User extends Authenticatable
         'bank_account',
         'bank_id',
         'staff',
-        'profession',  
+        'profession',
         'password',
         'type',
         'referral_code',
         'leader_id',
-        'status',        
+        'status',
+        'last_login_at',
     ];
 
     /**
@@ -56,16 +57,17 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            'last_login_at'     => 'datetime',
+            'password'          => 'hashed',
         ];
     }
 
     protected function type(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => ["user", "advisor", "admin"][$value] ?? null,
+            get: fn($value) => ["user", "advisor", "admin"][$value] ?? null,
 
-            set: fn ($value) => is_int($value) ? $value : array_search($value, ["user", "advisor", "admin"])
+            set: fn($value) => is_int($value) ? $value : array_search($value, ["user", "advisor", "admin"])
         );
     }
 }
