@@ -47,7 +47,7 @@ class LoginController extends Controller
             'password' => 'required'
         ]);
 
-        if(auth()->attempt(array('email'=>$input['email'], 'password'=>$input['password']))){
+        if (auth()->attempt(array('email' => $input['email'], 'password' => $input['password']))) {
             $user = auth()->user();
 
             if ($user->status != 'AKTIF') {
@@ -55,16 +55,15 @@ class LoginController extends Controller
                 return redirect()->route('login')->with('error', 'Akaun anda tidak aktif. Sila hubungi pihak pentadbir sistem.');
             }
 
-            if(auth()->user()->type == 'admin')
-            {
+            // Record the last login datetime
+            $user->last_login_at = now();
+            $user->save();
+
+            if (auth()->user()->type == 'admin') {
                 return redirect()->route('admin.dashboard');
-            }
-            else if(auth()->user()->type == 'advisor')
-            {
+            } else if (auth()->user()->type == 'advisor') {
                 return redirect()->route('advisor.dashboard');
-            } 
-            else 
-            {
+            } else {
                 return redirect()->route('user.dashboard');
             }
         } else {
