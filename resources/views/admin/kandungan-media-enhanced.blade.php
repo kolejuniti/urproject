@@ -1,64 +1,118 @@
 @extends('layouts.admin')
 
 @section('content')
-<link href="https://cdn.datatables.net/v/bs5/jq-3.7.0/jszip-3.10.1/dt-2.1.0/b-3.1.0/b-colvis-3.1.0/b-html5-3.1.0/b-print-3.1.0/cr-2.0.3/datatables.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 
 <style>
     :root {
-        --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        --success-gradient: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-        --danger-gradient: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%);
-        --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        --card-hover-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        --admin-primary: #1e293b;
+        --admin-secondary: #334155;
+        --admin-accent: #3b82f6;
+        --admin-accent-hover: #2563eb;
+        --admin-success: #10b981;
+        --admin-warning: #f59e0b;
+        --admin-danger: #ef4444;
+        --admin-bg: #f8fafc;
+        --admin-card-bg: #ffffff;
+        --admin-border: #e2e8f0;
+        --admin-text: #1e293b;
+        --admin-text-muted: #64748b;
+        --admin-gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --admin-gradient-2: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        --admin-gradient-3: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%);
     }
 
     body {
-        /* background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); */
-        /* min-height: 100vh; */
+        font-family: 'Inter', sans-serif;
+        background: var(--admin-bg);
+        color: var(--admin-text);
     }
 
+    .admin-media-page {
+        padding: 2rem 0;
+    }
+
+    /* Page Header */
     .page-header {
-        /* background: var(--primary-gradient);
-        color: white; */
-        padding: 1rem 0;
-        /* margin-bottom: 3rem;
-        border-radius: 0 0 50px 50px; */
-        /* box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3); */
-    }
-
-    .page-header h1 {
-        font-weight: 700;
-        font-size: 2.5rem;
-        margin-bottom: 0.5rem;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-    }
-
-    .page-header p {
-        font-size: 1.1rem;
-        opacity: 0.95;
-    }
-
-    .media-card {
-        background: white;
-        border-radius: 20px;
+        background: var(--admin-gradient-1);
+        border-radius: 16px;
+        padding: 2rem 2.5rem;
+        margin-bottom: 2rem;
+        color: white;
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+        position: relative;
         overflow: hidden;
-        box-shadow: var(--card-shadow);
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .page-header::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -10%;
+        width: 300px;
+        height: 300px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+    }
+
+    .page-header h2 {
+        font-weight: 700;
+        font-size: 1.75rem;
+        margin: 0;
+        position: relative;
+        z-index: 1;
+    }
+
+    .page-header .btn-add {
+        background: white;
+        color: var(--admin-primary);
         border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 10px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        position: relative;
+        z-index: 1;
+    }
+
+    .page-header .btn-add:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .page-header .btn-add i {
+        margin-right: 0.5rem;
+    }
+
+    /* Media Cards */
+    .media-card {
+        background: var(--admin-card-bg);
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        border: 1px solid var(--admin-border);
         height: 100%;
+        display: flex;
+        flex-direction: column;
     }
 
     .media-card:hover {
-        transform: translateY(-10px);
-        box-shadow: var(--card-hover-shadow);
+        transform: translateY(-8px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
     }
 
     .media-image-container {
         position: relative;
         overflow: hidden;
         height: 250px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: var(--admin-gradient-1);
         cursor: pointer;
     }
 
@@ -79,7 +133,7 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background: rgba(0, 0, 0, 0.5);
+        background: rgba(0, 0, 0, 0.6);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -98,13 +152,16 @@
 
     .media-card-body {
         padding: 1.5rem;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
     }
 
     .media-title {
         font-weight: 700;
-        font-size: 1.2rem;
-        color: #2d3748;
-        margin-bottom: 1rem;
+        font-size: 1.15rem;
+        color: var(--admin-primary);
+        margin-bottom: 0.75rem;
         display: -webkit-box;
         -webkit-line-clamp: 2;
         line-clamp: 2;
@@ -112,74 +169,122 @@
         overflow: hidden;
     }
 
+    .media-description {
+        color: var(--admin-text-muted);
+        font-size: 0.9rem;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+    }
+
+    /* Info Labels */
+    .info-section {
+        margin-bottom: 0.75rem;
+    }
+
+    .info-label {
+        font-weight: 600;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: var(--admin-text-muted);
+        display: block;
+        margin-bottom: 0.25rem;
+    }
+
+    /* Badges */
+    .badge-modern {
+        padding: 0.35rem 0.75rem;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 0.75rem;
+        margin-right: 0.25rem;
+        margin-bottom: 0.25rem;
+        display: inline-block;
+    }
+
+    .badge-kupd {
+        background: #dbeafe;
+        color: #1e40af;
+    }
+
+    .badge-kukb {
+        background: #d1fae5;
+        color: #065f46;
+    }
+
+    /* Action Buttons */
     .action-btn-group {
         display: flex;
         gap: 0.5rem;
         flex-wrap: wrap;
         margin-bottom: 1rem;
+        margin-top: auto;
     }
 
     .action-btn {
         flex: 1;
         min-width: 120px;
-        padding: 0.6rem 1rem;
-        border-radius: 12px;
+        padding: 0.65rem 1rem;
+        border-radius: 10px;
         border: none;
         font-weight: 600;
-        font-size: 0.9rem;
+        font-size: 0.875rem;
         transition: all 0.3s ease;
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 0.5rem;
         cursor: pointer;
+        color: white;
     }
 
     .btn-copy-image {
-        background: var(--primary-gradient);
-        color: white;
+        background: var(--admin-accent);
     }
 
     .btn-copy-image:hover {
+        background: var(--admin-accent-hover);
         transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
     }
 
     .btn-download {
-        background: var(--success-gradient);
-        color: white;
+        background: var(--admin-success);
     }
 
     .btn-download:hover {
+        background: #059669;
         transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(17, 153, 142, 0.4);
+        box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
     }
 
+    /* Text Content Area */
     .text-content-area {
-        background: #f7fafc;
-        border: 2px solid #e2e8f0;
-        border-radius: 12px;
+        background: #f8fafc;
+        border: 1px solid var(--admin-border);
+        border-radius: 10px;
         padding: 1rem;
-        font-size: 0.9rem;
+        font-size: 0.875rem;
         line-height: 1.6;
-        color: #4a5568;
+        color: var(--admin-text);
         resize: none;
         transition: all 0.3s ease;
+        font-family: 'Inter', sans-serif;
     }
 
     .text-content-area:focus {
         outline: none;
-        border-color: #667eea;
-        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        border-color: var(--admin-accent);
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
     }
 
     .btn-copy-text {
         width: 100%;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: var(--admin-gradient-1);
         color: white;
         border: none;
         padding: 0.75rem;
-        border-radius: 12px;
+        border-radius: 10px;
         font-weight: 600;
         transition: all 0.3s ease;
         margin-top: 0.5rem;
@@ -188,6 +293,35 @@
     .btn-copy-text:hover {
         transform: translateY(-2px);
         box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    }
+
+    /* Video Container */
+    .video-container {
+        border-radius: 12px;
+        overflow: hidden;
+        margin-bottom: 1rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .url-input-group {
+        background: #f8fafc;
+        border-radius: 10px;
+        padding: 0.75rem;
+        margin-bottom: 1rem;
+        border: 1px solid var(--admin-border);
+    }
+
+    .url-input-group input {
+        background: white;
+        border: 1px solid var(--admin-border);
+        border-radius: 8px;
+        padding: 0.5rem;
+        font-size: 0.875rem;
+    }
+
+    .url-input-group .btn {
+        border-radius: 8px;
+        font-weight: 600;
     }
 
     /* Toast Notification */
@@ -209,6 +343,7 @@
         gap: 1rem;
         min-width: 300px;
         animation: slideIn 0.3s ease;
+        border: 1px solid var(--admin-border);
     }
 
     @keyframes slideIn {
@@ -224,11 +359,11 @@
     }
 
     .toast-success {
-        border-left: 4px solid #38ef7d;
+        border-left: 4px solid var(--admin-success);
     }
 
     .toast-error {
-        border-left: 4px solid #ff6a00;
+        border-left: 4px solid var(--admin-danger);
     }
 
     .toast-icon {
@@ -236,49 +371,11 @@
     }
 
     .toast-success .toast-icon {
-        color: #38ef7d;
+        color: var(--admin-success);
     }
 
     .toast-error .toast-icon {
-        color: #ff6a00;
-    }
-
-    /* Video Container */
-    .video-container {
-        border-radius: 12px;
-        overflow: hidden;
-        margin-bottom: 1rem;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    }
-
-    .url-input-group {
-        background: #f7fafc;
-        border-radius: 12px;
-        padding: 0.75rem;
-        margin-bottom: 1rem;
-    }
-
-    .url-input-group input {
-        background: white;
-        border: 2px solid #e2e8f0;
-        border-radius: 8px;
-        padding: 0.5rem;
-        font-size: 0.9rem;
-    }
-
-    .url-input-group button {
-        background: var(--primary-gradient);
-        color: white;
-        border: none;
-        border-radius: 8px;
-        padding: 0.5rem 1rem;
-        font-weight: 600;
-        transition: all 0.3s ease;
-    }
-
-    .url-input-group button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        color: var(--admin-danger);
     }
 
     /* Image Preview Modal */
@@ -317,23 +414,6 @@
         z-index: 10;
     }
 
-    /* Responsive */
-    @media (max-width: 768px) {
-        .page-header h1 {
-            font-size: 2rem;
-        }
-
-        .action-btn {
-            min-width: 100px;
-            font-size: 0.8rem;
-            padding: 0.5rem 0.75rem;
-        }
-
-        .social-share-buttons {
-            grid-template-columns: 1fr;
-        }
-    }
-
     /* Loading Animation */
     .loading-spinner {
         display: inline-block;
@@ -350,228 +430,275 @@
             transform: rotate(360deg);
         }
     }
+
+    /* Animation */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .media-card {
+        animation: fadeInUp 0.5s ease-out;
+    }
+
+    /* Platform Badges */
+    .bg-facebook {
+        background: #1877f2 !important;
+        color: white !important;
+    }
+
+    .bg-instagram {
+        background: #e4405f !important;
+        color: white !important;
+    }
+
+    .bg-whatsapp {
+        background: #25d366 !important;
+        color: white !important;
+    }
+
+    .bg-telegram {
+        background: #0088cc !important;
+        color: white !important;
+    }
+
+    .bg-tiktok {
+        background: #000000 !important;
+        color: white !important;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .page-header h2 {
+            font-size: 1.75rem;
+        }
+
+        .action-btn {
+            min-width: 100px;
+            font-size: 0.8rem;
+            padding: 0.5rem 0.75rem;
+        }
+    }
 </style>
 
-<div class="page-header">
-    <div class="container">
-        <h1><i class="bi bi-collection-play"></i> Bahan Media</h1>
-        <p>Kongsi bahan media menarik dengan mudah kepada orang ramai</p>
-    </div>
-</div>
+<div class="container-fluid admin-media-page">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <div class="page-header">
+                <h2><i class="bi bi-collection-play me-2"></i>Bahan Media</h2>
+            </div>
 
-<div class="container pb-5">
-    <div class="row g-4">
-        @foreach ($contents as $item)
-        <div class="col-lg-4 col-md-6 col-sm-12">
-            <div class="media-card">
+            <div class="row g-4">
+                @foreach ($contents as $item)
+                <div class="col-lg-4 col-md-6 col-sm-12">
+                    <div class="media-card">
 
-                {{-- Image Section --}}
-                @if($item->file_path && preg_match('/\.(jpg|jpeg|png|gif|webp)$/i', $item->file_path))
-                <div class="media-image-container" onclick="previewImage('{{ url('/image-proxy?url=' . urlencode($item->file_path)) }}', {{ json_encode($item->title) }})">
-                    <img src="{{ url('/image-proxy?url=' . urlencode($item->file_path)) }}"
-                        alt="{{ $item->title }}"
-                        loading="lazy">
-                    <div class="image-overlay">
-                        <i class="bi bi-zoom-in"></i>
-                    </div>
-                </div>
-
-                <div class="media-card-body">
-                    <h5 class="media-title">{{ $item->title }}</h5>
-                    <p class="text-muted mb-3" style="font-size: 0.9rem;">{{ Str::limit($item->description, 100) }}</p>
-
-                    {{-- Tags --}}
-                    @if($item->tags)
-                    <div class="mb-2">
-                        <small class="text-muted fw-bold">Tag:</small>
-                        <div class="mt-1">
-                            <span class="badge bg-secondary">{{ $item->tags }}</span>
+                        {{-- Image Section --}}
+                        @if($item->file_path && preg_match('/\.(jpg|jpeg|png|gif|webp)$/i', $item->file_path))
+                        <div class="media-image-container" onclick="previewImage('{{ url('/image-proxy?url=' . urlencode($item->file_path)) }}', {{ json_encode($item->title) }})">
+                            <img src="{{ url('/image-proxy?url=' . urlencode($item->file_path)) }}"
+                                alt="{{ $item->title }}"
+                                loading="lazy">
+                            <div class="image-overlay">
+                                <i class="bi bi-zoom-in"></i>
+                            </div>
                         </div>
-                    </div>
-                    @endif
 
-                    {{-- Location --}}
-                    @if($item->location)
-                    <div class="mb-2">
-                        <small class="text-muted fw-bold">Lokasi:</small>
-                        <div class="mt-1">
-                            @if($item->location == 'kupd')
-                            <span class="badge bg-primary">KUPD - Kolej UNITI Port Dickson</span>
-                            @elseif($item->location == 'kukb')
-                            <span class="badge bg-success">KUKB - Kolej UNITI Kota Bahru</span>
+                        <div class="media-card-body">
+                            <h5 class="media-title">{{ $item->title }}</h5>
+                            <p class="media-description">{{ Str::limit($item->description, 100) }}</p>
+
+                            {{-- Tags --}}
+                            @if($item->tags)
+                            <div class="info-section">
+                                <span class="info-label">Tag</span>
+                                <span class="badge badge-modern bg-secondary text-white">
+                                    <i class="fas fa-tag me-1"></i>{{ $item->tags }}
+                                </span>
+                            </div>
                             @endif
-                        </div>
-                    </div>
-                    @endif
 
-                    {{-- Platform badges --}}
-                    @php
-                    $platforms = is_array($item->platform) ? $item->platform : json_decode($item->platform, true);
-                    $platformColors = [
-                    'facebook' => 'primary',
-                    'whatsapp' => 'success',
-                    'telegram' => 'info',
-                    'instagram' => 'danger',
-                    'tiktok' => 'dark',
-                    ];
-                    @endphp
-                    @if(!empty($platforms))
-                    <div class="mb-3">
-                        <small class="text-muted fw-bold">Platform:</small>
-                        <div class="mt-1">
-                            @foreach($platforms as $p)
-                            <span class="badge bg-{{ $platformColors[$p] ?? 'secondary' }} me-1">
-                                {{ ucfirst($p) }}
-                            </span>
-                            @endforeach
-                        </div>
-                    </div>
-                    @endif
-
-                    <div class="action-btn-group">
-                        <button class="action-btn btn-copy-image"
-                            onclick="copyImage('{{ url('/image-proxy?url=' . urlencode($item->file_path)) }}', this)">
-                            <i class="bi bi-clipboard"></i>
-                            <span>Copy Image</span>
-                        </button>
-
-                        <button class="action-btn btn-download"
-                            onclick="downloadImage('{{ url('/image-proxy?url=' . urlencode($item->file_path)) }}', {{ json_encode($item->title . '.jpg') }})">
-                            <i class="bi bi-download"></i>
-                            <span>Download</span>
-                        </button>
-                    </div>
-
-                    @php
-                    $textContent = $item->title
-                    . "\n\n"
-                    . $item->description
-                    . "\n\n"
-                    . "Sekiranya anda berminat menyambung pelajaran, Kolej UNITI menawarkan peluang pendidikan berkualiti untuk masa depan yang lebih cemerlang."
-                    . "\n\n"
-                    . "Daftar melalui pautan rasmi: " . $url
-                    . "\n\n"
-                    . $item->tags;
-                    @endphp
-                    <textarea id="text-{{ $loop->index }}" class="form-control text-content-area" rows="5" readonly>{{ $textContent }}</textarea>
-                    <button class="btn-copy-text" onclick="copyText('text-{{ $loop->index }}')">
-                        <i class="bi bi-clipboard-check"></i> Copy Text Content
-                    </button>
-                </div>
-                @endif
-
-                {{-- YouTube/Video Section --}}
-                @if(strtolower($item->type) === 'video' && $item->external_link)
-                @php
-                preg_match('/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^\&\?\/]+)/', $item->external_link, $matches);
-                $youtubeId = $matches[1] ?? null;
-                @endphp
-
-                <div class="media-card-body">
-                    <h5 class="media-title">{{ $item->title }}</h5>
-                    <p class="text-muted mb-3" style="font-size: 0.9rem;">{{ Str::limit($item->description, 100) }}</p>
-
-                    {{-- Tags --}}
-                    @if($item->tags)
-                    <div class="mb-2">
-                        <small class="text-muted fw-bold">Tag:</small>
-                        <div class="mt-1">
-                            <span class="badge bg-secondary">{{ $item->tags }}</span>
-                        </div>
-                    </div>
-                    @endif
-
-                    {{-- Location --}}
-                    @if($item->location)
-                    <div class="mb-2">
-                        <small class="text-muted fw-bold">Lokasi:</small>
-                        <div class="mt-1">
-                            @if($item->location == 'kupd')
-                            <span class="badge bg-primary">KUPD - Kolej UNITI Port Dickson</span>
-                            @elseif($item->location == 'kukb')
-                            <span class="badge bg-success">KUKB - Kolej UNITI Kota Bahru</span>
+                            {{-- Location --}}
+                            @if($item->location)
+                            <div class="info-section">
+                                <span class="info-label">Lokasi</span>
+                                @if($item->location == 'kupd')
+                                <span class="badge badge-kupd">
+                                    <i class="fas fa-map-marker-alt me-1"></i>KUPD - Kolej UNITI Port Dickson
+                                </span>
+                                @elseif($item->location == 'kukb')
+                                <span class="badge badge-kukb">
+                                    <i class="fas fa-map-marker-alt me-1"></i>KUKB - Kolej UNITI Kota Bahru
+                                </span>
+                                @endif
+                            </div>
                             @endif
-                        </div>
-                    </div>
-                    @endif
 
-                    {{-- Platform badges --}}
-                    @php
-                    $platforms = is_array($item->platform) ? $item->platform : json_decode($item->platform, true);
-                    $platformColors = [
-                    'facebook' => 'primary',
-                    'whatsapp' => 'success',
-                    'telegram' => 'info',
-                    'instagram' => 'danger',
-                    'tiktok' => 'dark',
-                    ];
-                    @endphp
-                    @if(!empty($platforms))
-                    <div class="mb-3">
-                        <small class="text-muted fw-bold">Platform:</small>
-                        <div class="mt-1">
-                            @foreach($platforms as $p)
-                            <span class="badge bg-{{ $platformColors[$p] ?? 'secondary' }} me-1">
-                                {{ ucfirst($p) }}
-                            </span>
-                            @endforeach
-                        </div>
-                    </div>
-                    @endif
+                            {{-- Platform badges --}}
+                            @php
+                            $platforms = is_array($item->platform) ? $item->platform : json_decode($item->platform, true);
+                            @endphp
+                            @if(!empty($platforms))
+                            <div class="info-section">
+                                <span class="info-label">Platform</span>
+                                <div>
+                                    @foreach($platforms as $p)
+                                    <span class="badge badge-modern bg-{{ $p }}">
+                                        <i class="fab fa-{{ $p }} me-1"></i>{{ ucfirst($p) }}
+                                    </span>
+                                    @endforeach
+                                </div>
+                            </div>
+                            @endif
 
-                    @if($youtubeId)
-                    <div class="video-container">
-                        <div class="ratio ratio-16x9">
-                            <iframe src="https://www.youtube.com/embed/{{ $youtubeId }}"
-                                title="YouTube video player"
-                                frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen></iframe>
-                        </div>
-                    </div>
-                    @else
-                    {{-- Graphic/Icon for when video link is not YouTube --}}
-                    <div class="video-container bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
-                        <div class="text-center">
-                            <i class="bi bi-play-circle-fill text-danger display-1"></i>
-                            <p class="mt-2 text-muted small">Video External</p>
-                        </div>
-                    </div>
-                    @endif
+                            <div class="action-btn-group">
+                                <button class="action-btn btn-copy-image"
+                                    onclick="copyImage('{{ url('/image-proxy?url=' . urlencode($item->file_path)) }}', this)">
+                                    <i class="bi bi-clipboard"></i>
+                                    <span>Copy Image</span>
+                                </button>
 
-                    <div class="url-input-group">
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="url-input-{{ $loop->index }}" value="{{ $item->external_link }}" readonly>
-                            <button type="button" class="btn btn-outline-secondary" onclick="copyInputValue('url-input-{{ $loop->index }}')" title="Copy URL">
-                                <i class="bi bi-clipboard"></i>
+                                <button class="action-btn btn-download"
+                                    onclick="downloadImage('{{ url('/image-proxy?url=' . urlencode($item->file_path)) }}', {{ json_encode($item->title . '.jpg') }})">
+                                    <i class="bi bi-download"></i>
+                                    <span>Download</span>
+                                </button>
+                            </div>
+
+                            @php
+                            $textContent = $item->title
+                            . "\n\n"
+                            . $item->description
+                            . "\n\n"
+                            . "Sekiranya anda berminat menyambung pelajaran, Kolej UNITI menawarkan peluang pendidikan berkualiti untuk masa depan yang lebih cemerlang."
+                            . "\n\n"
+                            . "Daftar melalui pautan rasmi: " . $url
+                            . "\n\n"
+                            . $item->tags;
+                            @endphp
+                            <textarea id="text-{{ $loop->index }}" class="form-control text-content-area" rows="5" readonly>{{ $textContent }}</textarea>
+                            <button class="btn-copy-text" onclick="copyText('text-{{ $loop->index }}')">
+                                <i class="bi bi-clipboard-check me-2"></i>Copy Text Content
                             </button>
-                            <a href="{{ $item->external_link }}" target="_blank" class="btn btn-primary" title="Open Video">
-                                <i class="bi bi-box-arrow-up-right"></i>
-                            </a>
                         </div>
-                    </div>
+                        @endif
 
-                    @php
-                    $textContent = $item->title
-                    . "\n\n"
-                    . $item->description
-                    . "\n\n"
-                    . "Sekiranya anda berminat menyambung pelajaran, Kolej UNITI menawarkan peluang pendidikan berkualiti untuk masa depan yang lebih cemerlang."
-                    . "\n\n"
-                    . "Daftar melalui pautan rasmi: " . $url
-                    . "\n\n"
-                    . $item->tags;
-                    @endphp
-                    <textarea id="text-video-{{ $loop->index }}" class="form-control text-content-area" rows="5" readonly>{{ $textContent }}</textarea>
-                    <button class="btn-copy-text" onclick="copyText('text-video-{{ $loop->index }}')">
-                        <i class="bi bi-clipboard-check"></i> Copy Text Content
-                    </button>
+                        {{-- YouTube/Video Section --}}
+                        @if(strtolower($item->type) === 'video' && $item->external_link)
+                        @php
+                        preg_match('/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^\&\?\/]+)/', $item->external_link, $matches);
+                        $youtubeId = $matches[1] ?? null;
+                        @endphp
+
+                        <div class="media-card-body">
+                            <h5 class="media-title">{{ $item->title }}</h5>
+                            <p class="media-description">{{ Str::limit($item->description, 100) }}</p>
+
+                            {{-- Tags --}}
+                            @if($item->tags)
+                            <div class="info-section">
+                                <span class="info-label">Tag</span>
+                                <span class="badge badge-modern bg-secondary text-white">
+                                    <i class="fas fa-tag me-1"></i>{{ $item->tags }}
+                                </span>
+                            </div>
+                            @endif
+
+                            {{-- Location --}}
+                            @if($item->location)
+                            <div class="info-section">
+                                <span class="info-label">Lokasi</span>
+                                @if($item->location == 'kupd')
+                                <span class="badge badge-kupd">
+                                    <i class="fas fa-map-marker-alt me-1"></i>KUPD - Kolej UNITI Port Dickson
+                                </span>
+                                @elseif($item->location == 'kukb')
+                                <span class="badge badge-kukb">
+                                    <i class="fas fa-map-marker-alt me-1"></i>KUKB - Kolej UNITI Kota Bahru
+                                </span>
+                                @endif
+                            </div>
+                            @endif
+
+                            {{-- Platform badges --}}
+                            @php
+                            $platforms = is_array($item->platform) ? $item->platform : json_decode($item->platform, true);
+                            @endphp
+                            @if(!empty($platforms))
+                            <div class="info-section">
+                                <span class="info-label">Platform</span>
+                                <div>
+                                    @foreach($platforms as $p)
+                                    <span class="badge badge-modern bg-{{ $p }}">
+                                        <i class="fab fa-{{ $p }} me-1"></i>{{ ucfirst($p) }}
+                                    </span>
+                                    @endforeach
+                                </div>
+                            </div>
+                            @endif
+
+                            @if($youtubeId)
+                            <div class="video-container">
+                                <div class="ratio ratio-16x9">
+                                    <iframe src="https://www.youtube.com/embed/{{ $youtubeId }}"
+                                        title="YouTube video player"
+                                        frameborder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowfullscreen></iframe>
+                                </div>
+                            </div>
+                            @else
+                            <div class="video-container bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                                <div class="text-center">
+                                    <i class="bi bi-play-circle-fill text-danger display-1"></i>
+                                    <p class="mt-2 text-muted small">Video External</p>
+                                </div>
+                            </div>
+                            @endif
+
+                            <div class="url-input-group">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="url-input-{{ $loop->index }}" value="{{ $item->external_link }}" readonly>
+                                    <button type="button" class="btn btn-outline-secondary" onclick="copyInputValue('url-input-{{ $loop->index }}')" title="Copy URL">
+                                        <i class="bi bi-clipboard"></i>
+                                    </button>
+                                    <a href="{{ $item->external_link }}" target="_blank" class="btn btn-primary" title="Open Video">
+                                        <i class="bi bi-box-arrow-up-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+
+                            @php
+                            $textContent = $item->title
+                            . "\n\n"
+                            . $item->description
+                            . "\n\n"
+                            . "Sekiranya anda berminat menyambung pelajaran, Kolej UNITI menawarkan peluang pendidikan berkualiti untuk masa depan yang lebih cemerlang."
+                            . "\n\n"
+                            . "Daftar melalui pautan rasmi: " . $url
+                            . "\n\n"
+                            . $item->tags;
+                            @endphp
+                            <textarea id="text-video-{{ $loop->index }}" class="form-control text-content-area" rows="5" readonly>{{ $textContent }}</textarea>
+                            <button class="btn-copy-text" onclick="copyText('text-video-{{ $loop->index }}')">
+                                <i class="bi bi-clipboard-check me-2"></i>Copy Text Content
+                            </button>
+                        </div>
+                        @endif
+
+                    </div>
                 </div>
-                @endif
+                @endforeach
 
             </div>
         </div>
-        @endforeach
     </div>
 </div>
 
@@ -589,10 +716,6 @@
         </div>
     </div>
 </div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
-<script src="https://cdn.datatables.net/v/bs5/jq-3.7.0/jszip-3.10.1/dt-2.1.0/b-3.1.0/b-colvis-3.1.0/b-html5-3.1.0/b-print-3.1.0/cr-2.0.3/datatables.min.js"></script>
 
 <script>
     // Toast Notification Function
@@ -712,9 +835,8 @@
         modal.show();
     }
 
-    // Initialize Bootstrap tooltips if needed
+    // Initialize
     document.addEventListener('DOMContentLoaded', function() {
-        // Any initialization code here
         console.log('Media content page loaded successfully!');
     });
 </script>
