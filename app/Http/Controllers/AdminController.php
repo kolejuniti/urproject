@@ -822,7 +822,7 @@ class AdminController extends Controller
             ->get();
 
         $statusWithPercentage = $status->map(function ($status) use ($totalStudents) {
-            $status->percentage = ($status->total / $totalStudents) * 100;
+            $status->percentage = $totalStudents > 0 ? ($status->total / $totalStudents) * 100 : 0;
             return $status;
         });
 
@@ -845,7 +845,7 @@ class AdminController extends Controller
         $locations = $locations->groupBy('location.name')->get();
 
         $locationsWithPercentage = $locations->map(function ($location) use ($totalStudents) {
-            $location->percentage = ($location->total / $totalStudents) * 100;
+            $location->percentage = $totalStudents > 0 ? ($location->total / $totalStudents) * 100 : 0;
             return $location;
         });
 
@@ -884,13 +884,13 @@ class AdminController extends Controller
 
         // Calculate percentage for each source
         $sourcessWithPercentage = $sources->map(function ($source) use ($totalStudents) {
-            $source->percentage = ($source->total / $totalStudents) * 100;
+            $source->percentage = $totalStudents > 0 ? ($source->total / $totalStudents) * 100 : 0;
             return $source;
         });
 
         // Calculate percentage for each state (total_register)
         $statesWithRegisterPercentage = $sources->map(function ($source) use ($totalStudents) {
-            $source->register_percentage = ($source->total_register / $totalStudents) * 100;
+            $source->register_percentage = $totalStudents > 0 ? ($source->total_register / $totalStudents) * 100 : 0;
             return $source;
         });
 
@@ -930,13 +930,13 @@ class AdminController extends Controller
 
         // Calculate percentage for each state (total students)
         $statesWithPercentage = $states->map(function ($state) use ($totalStudents) {
-            $state->percentage = ($state->total / $totalStudents) * 100;
+            $state->percentage = $totalStudents > 0 ? ($state->total / $totalStudents) * 100 : 0;
             return $state;
         });
 
         // Calculate percentage for each state (total_register)
         $statesWithRegisterPercentage = $states->map(function ($state) use ($totalStudents) {
-            $state->register_percentage = ($state->total_register / $totalStudents) * 100;
+            $state->register_percentage = $totalStudents > 0 ? ($state->total_register / $totalStudents) * 100 : 0;
             return $state;
         });
 
