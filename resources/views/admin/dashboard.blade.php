@@ -682,27 +682,59 @@
                         <div class="col-md-4 mb-3">
                             <div class="info-card">
                                 <h6><i class="fas fa-calendar-alt me-2"></i>Jumlah Data Masuk ({{ $currentYear }})</h6>
-                                <ul class="list-group list-group-flush">
-                                    @foreach ($totalRegisteredCurrentYear as $location => $count)
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <span>{{ $location }}</span>
-                                        <span>{{ $count }}</span>
-                                    </li>
-                                    @endforeach
-                                </ul>
+                                <div class="table-responsive">
+                                    <table class="modern-table table table-sm table-hover m-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Lokasi</th>
+                                                <th class="text-center">EA</th>
+                                                <th class="text-center">Affiliate</th>
+                                                <th class="text-center">Non</th>
+                                                <th class="text-center">Jumlah</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($totalRegisteredCurrentYearBreakdown as $location => $counts)
+                                            <tr>
+                                                <td class="fw-semibold">{{ $location }}</td>
+                                                <td class="text-center">{{ $counts['ea'] }}</td>
+                                                <td class="text-center">{{ $counts['affiliate'] }}</td>
+                                                <td class="text-center">{{ $counts['non'] }}</td>
+                                                <td class="text-center fw-bold">{{ $counts['total'] }}</td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-4 mb-3">
                             <div class="info-card">
                                 <h6><i class="fas fa-user-check me-2"></i>Jumlah Data Daftar Kolej ({{ $currentYear }})</h6>
-                                <ul class="list-group list-group-flush">
-                                    @foreach ($totalSuccessRegisteredCurrentYear as $location => $count)
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <span>{{ $location }}</span>
-                                        <span>{{ $count }}</span>
-                                    </li>
-                                    @endforeach
-                                </ul>
+                                <div class="table-responsive">
+                                    <table class="modern-table table table-sm table-hover m-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Lokasi</th>
+                                                <th class="text-center">EA</th>
+                                                <th class="text-center">Affiliate</th>
+                                                <th class="text-center">Non</th>
+                                                <th class="text-center">Jumlah</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($totalSuccessRegisteredCurrentYearBreakdown as $location => $counts)
+                                            <tr>
+                                                <td class="fw-semibold">{{ $location }}</td>
+                                                <td class="text-center">{{ $counts['ea'] }}</td>
+                                                <td class="text-center">{{ $counts['affiliate'] }}</td>
+                                                <td class="text-center">{{ $counts['non'] }}</td>
+                                                <td class="text-center fw-bold">{{ $counts['total'] }}</td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -710,27 +742,59 @@
                         <div class="col-md-4 mb-3">
                             <div class="info-card">
                                 <h6><i class="fas fa-users me-2"></i>Jumlah Data Masuk</h6>
-                                <ul class="list-group list-group-flush">
-                                    @foreach ($totalRegistered as $location => $count)
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <span>{{ $location }}</span>
-                                        <span>{{ $count }}</span>
-                                    </li>
-                                    @endforeach
-                                </ul>
+                                <div class="table-responsive">
+                                    <table class="modern-table table table-sm table-hover m-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Lokasi</th>
+                                                <th class="text-center">EA</th>
+                                                <th class="text-center">Affiliate</th>
+                                                <th class="text-center">Non</th>
+                                                <th class="text-center">Jumlah</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($totalRegisteredBreakdown as $location => $counts)
+                                            <tr>
+                                                <td class="fw-semibold">{{ $location }}</td>
+                                                <td class="text-center">{{ $counts['ea'] }}</td>
+                                                <td class="text-center">{{ $counts['affiliate'] }}</td>
+                                                <td class="text-center">{{ $counts['non'] }}</td>
+                                                <td class="text-center fw-bold">{{ $counts['total'] }}</td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-4 mb-3">
                             <div class="info-card">
                                 <h6><i class="fas fa-graduation-cap me-2"></i>Jumlah Data Daftar Kolej</h6>
-                                <ul class="list-group list-group-flush">
-                                    @foreach ($totalSuccessRegistered as $location => $count)
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <span>{{ $location }}</span>
-                                        <span>{{ $count }}</span>
-                                    </li>
-                                    @endforeach
-                                </ul>
+                                <div class="table-responsive">
+                                    <table class="modern-table table table-sm table-hover m-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Lokasi</th>
+                                                <th class="text-center">EA</th>
+                                                <th class="text-center">Affiliate</th>
+                                                <th class="text-center">Non</th>
+                                                <th class="text-center">Jumlah</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($totalSuccessRegisteredBreakdown as $location => $counts)
+                                            <tr>
+                                                <td class="fw-semibold">{{ $location }}</td>
+                                                <td class="text-center">{{ $counts['ea'] }}</td>
+                                                <td class="text-center">{{ $counts['affiliate'] }}</td>
+                                                <td class="text-center">{{ $counts['non'] }}</td>
+                                                <td class="text-center fw-bold">{{ $counts['total'] }}</td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -156,6 +156,7 @@ class AdminController extends Controller
 
         // Total registered students
         $totalRegistered = [];
+        $totalRegisteredBreakdown = [];
 
         foreach ($locations as $id => $name) {
             $count = DB::table('students')
@@ -167,9 +168,45 @@ class AdminController extends Controller
                 ->count();
 
             $totalRegistered[$name] = $count;
+
+            $affiliateCount = DB::table('students')
+                ->join('users AS affiliate', 'students.referral_code', '=', 'affiliate.referral_code')
+                ->where('students.location_id', $id)
+                ->where(function ($query) {
+                    $query->whereNotNull('students.ic')
+                        ->where('students.ic', '!=', '');
+                })
+                ->whereNotNull('students.referral_code')
+                ->where('students.referral_code', '!=', '')
+                ->where('students.referral_code', '!=', 'null')
+                ->where('affiliate.type', '=', 0)
+                ->count();
+
+            $eaCount = DB::table('students')
+                ->join('users AS advisor', 'students.referral_code', '=', 'advisor.referral_code')
+                ->where('students.location_id', $id)
+                ->where(function ($query) {
+                    $query->whereNotNull('students.ic')
+                        ->where('students.ic', '!=', '');
+                })
+                ->whereNotNull('students.referral_code')
+                ->where('students.referral_code', '!=', '')
+                ->where('students.referral_code', '!=', 'null')
+                ->whereIn('advisor.type', [1, 2])
+                ->count();
+
+            $nonEaAffiliateCount = max(0, $count - $affiliateCount - $eaCount);
+
+            $totalRegisteredBreakdown[$name] = [
+                'ea' => $eaCount,
+                'affiliate' => $affiliateCount,
+                'non' => $nonEaAffiliateCount,
+                'total' => $count,
+            ];
         }
 
         $totalRegisteredCurrentYear = [];
+        $totalRegisteredCurrentYearBreakdown = [];
 
         foreach ($locations as $id => $name) {
             $count = DB::table('students')
@@ -182,9 +219,47 @@ class AdminController extends Controller
                 ->count();
 
             $totalRegisteredCurrentYear[$name] = $count;
+
+            $affiliateCount = DB::table('students')
+                ->join('users AS affiliate', 'students.referral_code', '=', 'affiliate.referral_code')
+                ->where('students.location_id', $id)
+                ->where(function ($query) {
+                    $query->whereNotNull('students.ic')
+                        ->where('students.ic', '!=', '');
+                })
+                ->whereYear('students.created_at', $currentYear)
+                ->whereNotNull('students.referral_code')
+                ->where('students.referral_code', '!=', '')
+                ->where('students.referral_code', '!=', 'null')
+                ->where('affiliate.type', '=', 0)
+                ->count();
+
+            $eaCount = DB::table('students')
+                ->join('users AS advisor', 'students.referral_code', '=', 'advisor.referral_code')
+                ->where('students.location_id', $id)
+                ->where(function ($query) {
+                    $query->whereNotNull('students.ic')
+                        ->where('students.ic', '!=', '');
+                })
+                ->whereYear('students.created_at', $currentYear)
+                ->whereNotNull('students.referral_code')
+                ->where('students.referral_code', '!=', '')
+                ->where('students.referral_code', '!=', 'null')
+                ->whereIn('advisor.type', [1, 2])
+                ->count();
+
+            $nonEaAffiliateCount = max(0, $count - $affiliateCount - $eaCount);
+
+            $totalRegisteredCurrentYearBreakdown[$name] = [
+                'ea' => $eaCount,
+                'affiliate' => $affiliateCount,
+                'non' => $nonEaAffiliateCount,
+                'total' => $count,
+            ];
         }
 
         $totalSuccessRegistered = [];
+        $totalSuccessRegisteredBreakdown = [];
 
         foreach ($locations as $id => $name) {
             $count = DB::table('students')
@@ -197,7 +272,47 @@ class AdminController extends Controller
                 ->count();
 
             $totalSuccessRegistered[$name] = $count;
+
+            $affiliateCount = DB::table('students')
+                ->join('users AS affiliate', 'students.referral_code', '=', 'affiliate.referral_code')
+                ->where('students.location_id', $id)
+                ->where(function ($query) {
+                    $query->whereNotNull('students.ic')
+                        ->where('students.ic', '!=', '');
+                })
+                ->whereIn('students.status_id', [20, 21, 22])
+                ->whereNotNull('students.referral_code')
+                ->where('students.referral_code', '!=', '')
+                ->where('students.referral_code', '!=', 'null')
+                ->where('affiliate.type', '=', 0)
+                ->count();
+
+            $eaCount = DB::table('students')
+                ->join('users AS advisor', 'students.referral_code', '=', 'advisor.referral_code')
+                ->where('students.location_id', $id)
+                ->where(function ($query) {
+                    $query->whereNotNull('students.ic')
+                        ->where('students.ic', '!=', '');
+                })
+                ->whereIn('students.status_id', [20, 21, 22])
+                ->whereNotNull('students.referral_code')
+                ->where('students.referral_code', '!=', '')
+                ->where('students.referral_code', '!=', 'null')
+                ->whereIn('advisor.type', [1, 2])
+                ->count();
+
+            $nonEaAffiliateCount = max(0, $count - $affiliateCount - $eaCount);
+
+            $totalSuccessRegisteredBreakdown[$name] = [
+                'ea' => $eaCount,
+                'affiliate' => $affiliateCount,
+                'non' => $nonEaAffiliateCount,
+                'total' => $count,
+            ];
         }
+
+        $totalSuccessRegisteredCurrentYear = [];
+        $totalSuccessRegisteredCurrentYearBreakdown = [];
 
         foreach ($locations as $id => $name) {
             $count = DB::table('students')
@@ -211,6 +326,45 @@ class AdminController extends Controller
                 ->count();
 
             $totalSuccessRegisteredCurrentYear[$name] = $count;
+
+            $affiliateCount = DB::table('students')
+                ->join('users AS affiliate', 'students.referral_code', '=', 'affiliate.referral_code')
+                ->where('students.location_id', $id)
+                ->where(function ($query) {
+                    $query->whereNotNull('students.ic')
+                        ->where('students.ic', '!=', '');
+                })
+                ->whereIn('students.status_id', [20, 21, 22])
+                ->whereYear('students.created_at', $currentYear)
+                ->whereNotNull('students.referral_code')
+                ->where('students.referral_code', '!=', '')
+                ->where('students.referral_code', '!=', 'null')
+                ->where('affiliate.type', '=', 0)
+                ->count();
+
+            $eaCount = DB::table('students')
+                ->join('users AS advisor', 'students.referral_code', '=', 'advisor.referral_code')
+                ->where('students.location_id', $id)
+                ->where(function ($query) {
+                    $query->whereNotNull('students.ic')
+                        ->where('students.ic', '!=', '');
+                })
+                ->whereIn('students.status_id', [20, 21, 22])
+                ->whereYear('students.created_at', $currentYear)
+                ->whereNotNull('students.referral_code')
+                ->where('students.referral_code', '!=', '')
+                ->where('students.referral_code', '!=', 'null')
+                ->whereIn('advisor.type', [1, 2])
+                ->count();
+
+            $nonEaAffiliateCount = max(0, $count - $affiliateCount - $eaCount);
+
+            $totalSuccessRegisteredCurrentYearBreakdown[$name] = [
+                'ea' => $eaCount,
+                'affiliate' => $affiliateCount,
+                'non' => $nonEaAffiliateCount,
+                'total' => $count,
+            ];
         }
 
         // Top 5 students (latest registrations)
@@ -229,11 +383,15 @@ class AdminController extends Controller
             'monthlyStatsKUKB',
             'lastRegisteredStudents',
             'totalRegistered',
+            'totalRegisteredBreakdown',
             'currentYear',
             'totalRegisteredCurrentYear',
+            'totalRegisteredCurrentYearBreakdown',
             'topStudents',
             'totalSuccessRegistered',
-            'totalSuccessRegisteredCurrentYear'
+            'totalSuccessRegisteredBreakdown',
+            'totalSuccessRegisteredCurrentYear',
+            'totalSuccessRegisteredCurrentYearBreakdown'
         ));
     }
 
