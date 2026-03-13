@@ -58,8 +58,25 @@ class AdminController extends Controller
 
         $currentYear = $request->input('year') ?? Carbon::now()->year;
 
+        // Array of Malay month names
+        $malayMonths = [
+            1 => 'Januari',
+            2 => 'Februari',
+            3 => 'Mac',
+            4 => 'April',
+            5 => 'Mei',
+            6 => 'Jun',
+            7 => 'Julai',
+            8 => 'Ogos',
+            9 => 'September',
+            10 => 'Oktober',
+            11 => 'November',
+            12 => 'Disember',
+        ];
+
         // Build dynamic last 12 months data
         $monthlyStatsKUPD = [];
+        $monthlySuccessStatsKUPD = [];
 
         for ($i = 1; $i <= 12; $i++) {
             $count = DB::table('students')
@@ -72,30 +89,32 @@ class AdminController extends Controller
                 ->whereYear('created_at', $currentYear)
                 ->count();
 
-            // Array of Malay month names
-            $malayMonths = [
-                1 => 'Januari',
-                2 => 'Februari',
-                3 => 'Mac',
-                4 => 'April',
-                5 => 'Mei',
-                6 => 'Jun',
-                7 => 'Julai',
-                8 => 'Ogos',
-                9 => 'September',
-                10 => 'Oktober',
-                11 => 'November',
-                12 => 'Disember',
-            ];
+            $successCount = DB::table('students')
+                ->where(function ($query) {
+                    $query->whereNotNull('students.ic')
+                        ->where('students.ic', '!=', '');
+                })
+                ->where('students.location_id', 1) // KUPD location_id
+                ->whereIn('students.status_id', [20, 21, 22])
+                ->whereMonth('created_at', $i)
+                ->whereYear('created_at', $currentYear)
+                ->count();
 
             $monthlyStatsKUPD[] = [
                 'month_name' => $malayMonths[$i],
                 'month_number' => $i,
                 'count' => $count
             ];
+
+            $monthlySuccessStatsKUPD[] = [
+                'month_name' => $malayMonths[$i],
+                'month_number' => $i,
+                'count' => $successCount
+            ];
         }
 
         $monthlyStatsKUKB = [];
+        $monthlySuccessStatsKUKB = [];
 
         for ($i = 1; $i <= 12; $i++) {
             $count = DB::table('students')
@@ -108,26 +127,27 @@ class AdminController extends Controller
                 ->whereYear('created_at', $currentYear)
                 ->count();
 
-            // Array of Malay month names
-            $malayMonths = [
-                1 => 'Januari',
-                2 => 'Februari',
-                3 => 'Mac',
-                4 => 'April',
-                5 => 'Mei',
-                6 => 'Jun',
-                7 => 'Julai',
-                8 => 'Ogos',
-                9 => 'September',
-                10 => 'Oktober',
-                11 => 'November',
-                12 => 'Disember',
-            ];
+            $successCount = DB::table('students')
+                ->where(function ($query) {
+                    $query->whereNotNull('students.ic')
+                        ->where('students.ic', '!=', '');
+                })
+                ->where('students.location_id', 2) // KUKB location_id
+                ->whereIn('students.status_id', [20, 21, 22])
+                ->whereMonth('created_at', $i)
+                ->whereYear('created_at', $currentYear)
+                ->count();
 
             $monthlyStatsKUKB[] = [
                 'month_name' => $malayMonths[$i],
                 'month_number' => $i,
                 'count' => $count
+            ];
+
+            $monthlySuccessStatsKUKB[] = [
+                'month_name' => $malayMonths[$i],
+                'month_number' => $i,
+                'count' => $successCount
             ];
         }
 
@@ -380,7 +400,9 @@ class AdminController extends Controller
         return view('admin.dashboard', compact(
             'user',
             'monthlyStatsKUPD',
+            'monthlySuccessStatsKUPD',
             'monthlyStatsKUKB',
+            'monthlySuccessStatsKUKB',
             'lastRegisteredStudents',
             'totalRegistered',
             'totalRegisteredBreakdown',

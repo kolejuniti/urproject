@@ -372,10 +372,13 @@
                 <div class="card-body-modern">
                     <!-- KUPD Monthly Stats -->
                     <div class="stats-grid">
-                        @foreach ($monthlyStatsKUPD as $stat)
+                        @foreach ($monthlyStatsKUPD as $index => $stat)
+                        @php
+                            $success = $monthlySuccessStatsKUPD[$index]['count'] ?? 0;
+                        @endphp
                         <div class="stat-card">
                             <div class="stat-label">{{ $stat['month_number'] }}/{{ $currentYear }}</div>
-                            <div class="stat-value">{{ $stat['count'] }}</div>
+                            <div class="stat-value">{{ $stat['count'] }} <span style="font-size: 1.1rem; color: #10b981;">/ {{ $success }}</span></div>
                         </div>
                         @endforeach
                     </div>
@@ -391,8 +394,10 @@
                         document.addEventListener("DOMContentLoaded", function() {
                             const ctx = document.getElementById('chartKUPD').getContext('2d');
                             const rawData = @json($monthlyStatsKUPD);
+                            const rawSuccessData = @json($monthlySuccessStatsKUPD);
                             const labels = rawData.map(item => item.month_name);
                             const dataCounts = rawData.map(item => item.count);
+                            const dataSuccessCounts = rawSuccessData.map(item => item.count);
 
                             new Chart(ctx, {
                                 type: 'bar',
@@ -423,6 +428,17 @@
                                             borderRadius: 8,
                                             barPercentage: 0.7,
                                             order: 2
+                                        },
+                                        {
+                                            type: 'bar',
+                                            label: 'Jumlah Berjaya Daftar',
+                                            data: dataSuccessCounts,
+                                            backgroundColor: 'rgba(16, 185, 129, 0.7)',
+                                            borderColor: 'rgba(5, 150, 105, 1)',
+                                            borderWidth: 0,
+                                            borderRadius: 8,
+                                            barPercentage: 0.7,
+                                            order: 3
                                         }
                                     ]
                                 },
@@ -515,10 +531,13 @@
 
                     <!-- KUKB Monthly Stats -->
                     <div class="stats-grid">
-                        @foreach ($monthlyStatsKUKB as $stat)
+                        @foreach ($monthlyStatsKUKB as $index => $stat)
+                        @php
+                            $success = $monthlySuccessStatsKUKB[$index]['count'] ?? 0;
+                        @endphp
                         <div class="stat-card">
                             <div class="stat-label">{{ $stat['month_number'] }}/{{ $currentYear }}</div>
-                            <div class="stat-value">{{ $stat['count'] }}</div>
+                            <div class="stat-value">{{ $stat['count'] }} <span style="font-size: 1.1rem; color: #10b981;">/ {{ $success }}</span></div>
                         </div>
                         @endforeach
                     </div>
@@ -534,8 +553,10 @@
                         document.addEventListener("DOMContentLoaded", function() {
                             const ctx = document.getElementById('chartKUKB').getContext('2d');
                             const rawData = @json($monthlyStatsKUKB);
+                            const rawSuccessData = @json($monthlySuccessStatsKUKB);
                             const labels = rawData.map(item => item.month_name);
                             const dataCounts = rawData.map(item => item.count);
+                            const dataSuccessCounts = rawSuccessData.map(item => item.count);
 
                             new Chart(ctx, {
                                 type: 'bar',
@@ -560,12 +581,23 @@
                                             type: 'bar',
                                             label: 'Jumlah Data Masuk',
                                             data: dataCounts,
-                                            backgroundColor: 'rgba(16, 185, 129, 0.8)',
-                                            borderColor: 'rgba(5, 150, 105, 1)',
+                                            backgroundColor: 'rgba(59, 130, 246, 0.8)',
+                                            borderColor: 'rgba(37, 99, 235, 1)',
                                             borderWidth: 0,
                                             borderRadius: 8,
                                             barPercentage: 0.7,
                                             order: 2
+                                        },
+                                        {
+                                            type: 'bar',
+                                            label: 'Jumlah Berjaya Daftar',
+                                            data: dataSuccessCounts,
+                                            backgroundColor: 'rgba(16, 185, 129, 0.7)',
+                                            borderColor: 'rgba(5, 150, 105, 1)',
+                                            borderWidth: 0,
+                                            borderRadius: 8,
+                                            barPercentage: 0.7,
+                                            order: 3
                                         }
                                     ]
                                 },
