@@ -259,6 +259,7 @@ class AdvisorController extends Controller
         $reason = $request->input('reason');
         $offer_letter_date = $request->input('offer_letter_date');
         $register_letter_date = $request->input('register_letter_date');
+        $ic = $request->input('ic');
 
         DB::table('students')
             ->where('students.id', $id)
@@ -274,7 +275,7 @@ class AdvisorController extends Controller
                 ->update(['student_programs.status' => $status, 'student_programs.notes' => $notes]);
         }
 
-        return redirect()->route('advisor.application')->with('success', 'Status permohonan program pelajar berjaya dikemaskini.');;
+        return redirect()->route('advisor.application', ['open_ic' => $ic])->with('success', 'Status permohonan program pelajar berjaya dikemaskini.');
     }
 
     public function profile()

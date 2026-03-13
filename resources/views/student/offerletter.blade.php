@@ -207,7 +207,11 @@
                     <label for="">Tarikh</label>
                 </div>
                 <div class="col-sm-9">
-                    <label for="">:&nbsp;<strong>{{$student->register_letter_date ? \Carbon\Carbon::parse($student->register_letter_date)->format('d-m-Y') : '' }}</strong></label>
+                    @if ($student->register_letter_date)
+                        <label for="">:&nbsp;<strong>{{$student->register_letter_date ? \Carbon\Carbon::parse($student->register_letter_date)->format('d-m-Y') : '' }}</strong></label>
+                    @else
+                        <label for="">:&nbsp;<strong>Sila hubungi pegawai bertugas untuk tarikh pendaftaran</strong></label>
+                    @endif
                 </div>
             </div>
             <div class="row mb-3">
