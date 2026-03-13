@@ -402,11 +402,11 @@
                                                 </a>
                                             </div>
                                             @elseif ($program->status !== 'baru')
-                                            @if($program->notes)
+                                            {{-- @if($program->notes)
                                             <div class="mt-2 small text-muted fst-italic">
                                                 "{{ $program->notes }}"
                                             </div>
-                                            @endif
+                                            @endif --}}
                                             @endif
                                         </div>
                                     </div>

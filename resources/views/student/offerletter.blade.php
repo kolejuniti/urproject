@@ -24,6 +24,13 @@
             font-size: 12px;
             background: #fff;
         }
+        .offer-letter {
+            margin-bottom: 20mm;
+            page-break-after: always;
+        }
+        .offer-letter:last-of-type {
+            page-break-after: auto;
+        }
         .container-fluid {
             max-width: 210mm;
             min-height: 297mm;
@@ -61,13 +68,24 @@
                 page-break-inside: avoid;
                 page-break-after: avoid;
             }
+            .offer-letter {
+                page-break-after: always;
+                margin-bottom: 0;
+            }
+            .offer-letter:last-of-type {
+                page-break-after: auto;
+            }
         }
     </style>
 
 </head>
 <body class="bg-white">
     @foreach($students as $student)
-    <div class="container-fluid">
+    @php
+        $programs = $studentProgramsByIc[$student->ic] ?? collect();
+    @endphp
+    @foreach($programs as $studentprogram)
+    <div class="container-fluid offer-letter">
         <div class="col-sm-9 text-start">
             <div class="mt-3">
                 <label for="">{{$student->offer_letter_date ? \Carbon\Carbon::parse($student->offer_letter_date)->format('d-m-Y') : '' }}</label>
@@ -95,7 +113,6 @@
                 <label for="">Sukacita dimaklumkan bahawa anda ditawarkan tempat untuk mengikuti kursus pengajian pilihan di Peringkat Diploma.</label>
             </div>
             <div class="row mb-3">
-                @foreach ( $studentprograms as $studentprogram )
                 <div class="col-sm-3">
                     <label for="">Program</label>
                 </div>
@@ -114,7 +131,6 @@
                 <div class="col-sm-9 mb-1">
                     <label for="">:&nbsp;<strong>3 Tahun</strong></label>
                 </div>
-                @endforeach
             </div>
             <div class="mb-3">
                 <label for="">Sila hadir bagi sesi pendaftaran di:</label>
@@ -233,6 +249,7 @@
             </div>
         </div>
     </div>
+    @endforeach
     @endforeach
 </body>
 </html>

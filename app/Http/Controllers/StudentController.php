@@ -1169,8 +1169,9 @@ class StudentController extends Controller
             ->where('students.ic', 'LIKE', "{$ic}")
             ->get();
 
+        $studentProgramsByIc = [];
         foreach ($students as $student) {
-            $studentprograms = DB::table('student_programs')
+            $studentProgramsByIc[$student->ic] = DB::table('student_programs')
                 ->join('program', 'student_programs.program_id', '=', 'program.id')
                 ->select('program.name AS program')
                 ->where('student_programs.student_ic', $student->ic)
@@ -1178,7 +1179,7 @@ class StudentController extends Controller
                 ->get();
         }
 
-        return view('student.offerletter', compact('ref', 'students', 'studentprograms'))->with('canonical', 'https://edaftarkolej.uniticms.edu.my/semak-permohonan/surat-tawaran');
+        return view('student.offerletter', compact('ref', 'students', 'studentProgramsByIc'))->with('canonical', 'https://edaftarkolej.uniticms.edu.my/semak-permohonan/surat-tawaran');
     }
 
     public function about(Request $request)
