@@ -379,6 +379,7 @@
                         <form id="application-form" action="" method="POST">
                             @csrf
                             @method('PUT')
+                            <input type="hidden" name="ic" id="application-ic">
                             <div class="modal-body p-4 bg-light">
                                 <!-- Student Info Section -->
                                 <div class="info-card">
@@ -539,26 +540,22 @@
                 top1End: {
                     buttons: [{
                             extend: 'copy',
-                            text: '<i class="bi bi-clipboard me-1"></i> Copy',
-                            className: 'btn btn-sm btn-light border',
+                            text: '<i class="fas fa-copy me-1"></i> Salin',
                             title: 'Senarai Data Masuk'
                         },
                         {
                             extend: 'excelHtml5',
-                            text: '<i class="bi bi-file-earmark-excel me-1"></i> Excel',
-                            className: 'btn btn-sm btn-light border',
+                            text: '<i class="fas fa-file-excel me-1"></i> Excel',
                             title: 'Senarai Data Masuk'
                         },
                         {
                             extend: 'pdfHtml5',
-                            text: '<i class="bi bi-file-earmark-pdf me-1"></i> PDF',
-                            className: 'btn btn-sm btn-light border',
+                            text: '<i class="fas fa-file-pdf me-1"></i> PDF',
                             title: 'Senarai Data Masuk'
                         },
                         {
                             extend: 'print',
-                            text: '<i class="bi bi-printer me-1"></i> Print',
-                            className: 'btn btn-sm btn-light border',
+                            text: '<i class="fas fa-print me-1"></i> Cetak',
                             title: 'Senarai Data Masuk'
                         }
                     ]
@@ -585,10 +582,7 @@
             });
         }).draw();
 
-        // Event delegation for dynamically added elements
-        $(document).on('click', '.open-modal', function() {
-            var ic = $(this).data('ic');
-
+        function openApplicantModal(ic) {
             $.ajax({
                 url: "{{ route('advisor.application.detail') }}",
                 type: "POST",
@@ -601,6 +595,7 @@
 
                     if (response.applicants) {
                         $('#application-form').attr('action', "{{ url('advisor/application') }}/" + response.applicants.id);
+                        $('#application-ic').val(response.applicants.ic);
                         // Populate the modal with the returned data
                         $('#applicant-name').text(response.applicants.name);
                         $('#applicant-ic').text(response.applicants.ic);
@@ -661,7 +656,7 @@
 
                         // Handle applicant offer letter date
 
-                        if (response.applicants.offer_letter_date) {
+                        if (response.applicants.offer_letter_date && response.applicants.register_letter_date) {
                             $('#offer-letter-container').html(`
                             <div class="row g-2">
                                 <div class="col-md-6">
@@ -673,18 +668,29 @@
                                     <input type="date" name="register_letter_date" id="register_letter_date" class="form-control form-control-sm" value="${response.applicants.register_letter_date}">
                                 </div>
                             </div>
+                            <div class="mt-3">
+                                <a href="{{ route('student.offerletter') }}?ic=${encodeURIComponent(response.applicants.ic)}" target="_blank" class="btn btn-sm btn-outline-dark">
+                                    <i class="bi bi-printer me-1"></i> Cetak Surat Tawaran
+                                </a>
+                            </div>
                         `);
                         } else {
                             $('#offer-letter-container').html(`
                             <div class="row g-2">
                                 <div class="col-md-6">
                                     <label class="label-custom">Tarikh Tawaran</label>
-                                    <input type="date" name="offer_letter_date" id="offer_letter_date" class="form-control form-control-sm">
+                                    <input type="date" name="offer_letter_date" id="offer_letter_date" class="form-control form-control-sm" value="${response.applicants.offer_letter_date || ''}">
                                 </div>
                                 <div class="col-md-6">
                                     <label class="label-custom">Tarikh Pendaftaran</label>
-                                     <input type="date" name="register_letter_date" id="register_letter_date" class="form-control form-control-sm">
+                                     <input type="date" name="register_letter_date" id="register_letter_date" class="form-control form-control-sm" value="${response.applicants.register_letter_date || ''}">
                                 </div>
+                            </div>
+                            <div class="mt-3">
+                                <button type="button" class="btn btn-sm btn-outline-secondary" disabled>
+                                    <i class="bi bi-printer me-1"></i> Cetak Surat Tawaran
+                                </button>
+                                <div class="small text-muted mt-1">Sila simpan Tarikh Tawaran dan Tarikh Pendaftaran dahulu sebelum cetak.</div>
                             </div>
                         `);
                         }
@@ -783,7 +789,21 @@
                     console.error(error);
                 }
             });
+        }
+
+        // Event delegation for dynamically added elements
+        $(document).on('click', '.open-modal', function() {
+            openApplicantModal($(this).data('ic'));
         });
+
+        // Auto-open modal after save when open_ic is provided
+        const openIc = new URLSearchParams(window.location.search).get('open_ic');
+        if (openIc) {
+            openApplicantModal(openIc);
+            const url = new URL(window.location.href);
+            url.searchParams.delete('open_ic');
+            window.history.replaceState({}, document.title, url.pathname + url.search);
+        }
     });
 
     function copyToClipboard() {
