@@ -441,6 +441,7 @@
                                 <th>Jawatan</th>
                                 <th>Bank</th>
                                 <th>No. Akaun</th>
+                                <th>Pekerjaan</th>
                                 <th>Status</th>
                                 <th>Tarikh Daftar</th>
                                 <th>Log Masuk Terakhir</th>
@@ -462,6 +463,7 @@
                                 <td><span class="badge bg-secondary">{{ $user->position }}</span></td>
                                 <td>{{ $user->bank }}</td>
                                 <td class="font-monospace">{{ $user->bank_account }}</td>
+                                <td class="text-center text-uppercase">{{ $user->profession }}</td>
                                 <td>
                                     @if($user->status == 'AKTIF')
                                     <span class="status-badge status-active">AKTIF</span>
