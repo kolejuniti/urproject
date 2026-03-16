@@ -542,7 +542,7 @@
                                 <th>Nama</th>
                                 <th>No. Kad Pengenalan</th>
                                 <th>No. Telefon</th>
-                                <th>Tarikh Masuk</th>
+                                <th>Tarikh & Masa</th>
                                 <th>Lokasi</th>
                                 <th>Affiliate</th>
                                 <th>Tarikh Agihan</th>
@@ -576,7 +576,7 @@
                                 </td>
                                 <td class="text-center font-monospace">{{ $data->ic }}</td>
                                 <td class="text-center">{{ $data->phone }}</td>
-                                <td class="text-center small">{{ \Carbon\Carbon::parse($data->created_at)->format('d/m/Y') }}</td>
+                                <td class="text-center small">{{ \Carbon\Carbon::parse($data->created_at)->format('d-m-Y H:i') }}</td>
                                 <td class="text-center"><span class="badge badge-modern bg-light text-dark border">{{ $data->location }}</span></td>
                                 <td class="text-uppercase small">
                                     @if (!empty($data->referral_code) && $data->referral_code !== 'null' && isset($affiliates[$data->id]))
@@ -625,7 +625,7 @@
                                     <div class="info-value font-monospace" id="applicant-ic"></div>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <div class="info-label">Tarikh Data Masuk</div>
+                                    <div class="info-label">Tarikh & Masa Data Masuk</div>
                                     <div class="info-value" id="applicant-created_at"></div>
                                 </div>
                             </div>

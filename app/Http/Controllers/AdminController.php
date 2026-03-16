@@ -650,7 +650,7 @@ class AdminController extends Controller
                 'students.spm_year',
                 'students.user_id',
                 'students.status_id',
-                DB::raw("DATE_FORMAT(students.created_at, '%d-%m-%Y') as created_at"),
+                DB::raw("DATE_FORMAT(students.created_at, '%d-%m-%Y %H:%i') as created_at"),
                 'students.updated_at',
                 DB::raw("DATE_FORMAT(students.register_at, '%d-%m-%Y') as register_at"),
                 'state.name AS state',
