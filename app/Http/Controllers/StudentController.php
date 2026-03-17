@@ -1382,7 +1382,7 @@ class StudentController extends Controller
                 'name' => $request->input('7'),       // Name (ID: 7)
                 'email' => $request->input('8'),      // Email (ID: 8)
                 'mobile' => $request->input('1'),     // Mobile (ID: 1)
-                'created_at' => now()
+                'created_at' => Carbon::now('Asia/Kuala_Lumpur')
             ]);
 
             return response()->json(['success' => true, 'message' => 'Data stored successfully']);
@@ -1495,7 +1495,7 @@ class StudentController extends Controller
                 'user_id' => $userID,
                 'location_id' => 1,
                 'source' => 'website',
-                'created_at' => now(),
+                'created_at' => Carbon::now('Asia/Kuala_Lumpur'),
                 'updated_at' => $update,
                 'auto_assign' => 1
             ]);
@@ -1642,7 +1642,7 @@ class StudentController extends Controller
                 'user_id' => $userID,
                 'location_id' => 2,
                 'source' => 'website',
-                'created_at' => now(),
+                'created_at' => Carbon::now('Asia/Kuala_Lumpur'),
                 'updated_at' => $update,
                 'auto_assign' => 1
             ]);
