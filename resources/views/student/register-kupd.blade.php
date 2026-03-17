@@ -614,7 +614,7 @@
 
             // Add '+60' prefix if not present
             if (!value.startsWith('+60')) {
-                value = '60' + value;
+                value = '+60' + value;
             }
 
             // Limit length to 13 digits
