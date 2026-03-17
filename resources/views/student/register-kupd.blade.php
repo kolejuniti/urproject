@@ -612,16 +612,16 @@
                 value = value.substring(1);
             }
 
-            // Add '6' prefix if not present
+            // Add '+60' prefix if not present
             if (!value.startsWith('60')) {
                 value = '60' + value;
             }
 
-            // Limit length to 13 digits
+            // Limit length to 13 digits (60 + 11 digits)
             value = value.substring(0, 13);
 
-            // Update the input value
-            input.value = value;
+            // Format with +60 prefix
+            input.value = '+' + value;
         }
     </script>
 </body>
