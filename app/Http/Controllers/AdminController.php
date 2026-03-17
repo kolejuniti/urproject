@@ -729,6 +729,291 @@ class AdminController extends Controller
         }
     }
 
+    public function bulkAssignKupd(Request $request)
+    {
+        $pendingQuery = DB::table('students')
+            ->where('location_id', 1)
+            ->where('user_id', 0)
+            ->whereNotNull('ic')
+            ->where('ic', '!=', '');
+
+        if ($request->isMethod('get')) {
+            $pendingCount = $pendingQuery->count();
+            return view('admin.bulk-assign-kupd', compact('pendingCount'));
+        }
+
+        $students = $pendingQuery->orderBy('id')->get();
+
+        if ($students->isEmpty()) {
+            return redirect()->back()->with('success', 'Tiada pelajar untuk diagihkan.');
+        }
+
+        $prefix = 'PD-';
+        $currentUserID = DB::table('students')
+            ->join('users', 'students.user_id', '=', 'users.id')
+            ->select('users.name', 'users.id', DB::raw("SUBSTRING_INDEX(users.name, ' ', 1) AS advisor_code"))
+            ->whereNull('students.referral_code')
+            ->where('users.type', '1')
+            ->where('users.name', 'LIKE', 'PD-%')
+            ->orderByDesc('students.id')
+            ->limit(1)
+            ->first();
+
+        $startNumber = 0;
+
+        if ($currentUserID && isset($currentUserID->advisor_code) && str_starts_with($currentUserID->advisor_code, $prefix)) {
+            $startNumber = (int) str_replace($prefix, '', $currentUserID->advisor_code);
+        }
+
+        $maxNumber = DB::table('users')
+            ->select(DB::raw('SUBSTRING(name, 4, 2) as code'))
+            ->where('type', 1)
+            ->where('name', 'like', 'PD-%')
+            ->where('accept_data', 1)
+            ->orderByDesc(DB::raw('SUBSTRING(name, 4, 2)'))
+            ->limit(1)
+            ->value('code');
+
+        $maxNumber = (int) $maxNumber;
+
+        if ($maxNumber <= 0) {
+            return redirect()->back()->with('msg_error', 'Tiada pegawai perhubungan yang aktif untuk agihan.');
+        }
+
+        $assignedCount = 0;
+        $skippedCount = 0;
+        $lastAssignedCode = null;
+
+        foreach ($students as $student) {
+            $nextId = null;
+            $nextNumber = null;
+            $nextCode = null;
+
+            for ($i = $startNumber + 1; $i <= $maxNumber; $i++) {
+                $newCode = $prefix . str_pad($i, 2, '0', STR_PAD_LEFT);
+
+                $user = DB::table('users')
+                    ->where('name', 'like', $newCode . '%')
+                    ->where('type', '1')
+                    ->where('accept_data', 1)
+                    ->first();
+
+                if ($user) {
+                    $nextId = $user->id;
+                    $nextNumber = $i;
+                    $nextCode = $newCode;
+                    break;
+                }
+            }
+
+            if (!$nextId) {
+                for ($i = 1; $i <= $startNumber; $i++) {
+                    $newCode = $prefix . str_pad($i, 2, '0', STR_PAD_LEFT);
+
+                    $user = DB::table('users')
+                        ->where('name', 'like', $newCode . '%')
+                        ->where('type', 1)
+                        ->where('accept_data', 1)
+                        ->first();
+
+                    if ($user) {
+                        $nextId = $user->id;
+                        $nextNumber = $i;
+                        $nextCode = $newCode;
+                        break;
+                    }
+                }
+            }
+
+            if (!$nextId) {
+                $skippedCount++;
+                continue;
+            }
+
+            DB::table('students')
+                ->where('id', $student->id)
+                ->update([
+                    'user_id' => $nextId,
+                    'referral_code' => null,
+                    'updated_at' => now(),
+                    'auto_assign' => 0,
+                    'status_id' => null
+                ]);
+
+            $assignedCount++;
+            $startNumber = $nextNumber;
+            $lastAssignedCode = $nextCode;
+        }
+
+        $message = "Agihan selesai. Jumlah dikemaskini: {$assignedCount}.";
+        if ($skippedCount > 0) {
+            $message .= " Tidak dapat diagihkan: {$skippedCount}.";
+        }
+        if ($lastAssignedCode) {
+            $message .= " Kod terakhir: {$lastAssignedCode}.";
+        }
+
+        return redirect()->back()->with('success', $message);
+    }
+
+    public function bulkAssignKukb(Request $request)
+    {
+        $pendingQuery = DB::table('students')
+            ->where('location_id', 2)
+            ->where('user_id', 0)
+            ->whereNotNull('ic')
+            ->where('ic', '!=', '');
+
+        if ($request->isMethod('get')) {
+            $pendingCount = $pendingQuery->count();
+            return view('admin.bulk-assign-kukb', compact('pendingCount'));
+        }
+
+        $students = $pendingQuery->orderBy('id')->get();
+
+        if ($students->isEmpty()) {
+            return redirect()->back()->with('success', 'Tiada pelajar untuk diagihkan.');
+        }
+
+        $prefix = 'KB-';
+        $currentUserID = DB::table('students')
+            ->join('users', 'students.user_id', '=', 'users.id')
+            ->select('users.name', 'users.id', DB::raw("SUBSTRING_INDEX(users.name, ' ', 1) AS advisor_code"))
+            ->whereNull('students.referral_code')
+            ->where('users.type', '1')
+            ->where('users.name', 'LIKE', 'KB-%')
+            ->orderByDesc('students.id')
+            ->limit(1)
+            ->first();
+
+        $startNumber = 0;
+
+        if ($currentUserID && isset($currentUserID->advisor_code) && str_starts_with($currentUserID->advisor_code, $prefix)) {
+            $startNumber = (int) str_replace($prefix, '', $currentUserID->advisor_code);
+        }
+
+        $maxNumber = DB::table('users')
+            ->select(DB::raw('SUBSTRING(name, 4, 2) as code'))
+            ->where('type', 1)
+            ->where('name', 'like', 'KB-%')
+            ->where('accept_data', 1)
+            ->orderByDesc(DB::raw('SUBSTRING(name, 4, 2)'))
+            ->limit(1)
+            ->value('code');
+
+        $maxNumber = (int) $maxNumber;
+
+        if ($maxNumber <= 0) {
+            return redirect()->back()->with('msg_error', 'Tiada pegawai perhubungan yang aktif untuk agihan.');
+        }
+
+        $assignedCount = 0;
+        $skippedCount = 0;
+        $lastAssignedCode = null;
+
+        foreach ($students as $student) {
+            $nextId = null;
+            $nextNumber = null;
+            $nextCode = null;
+
+            for ($i = $startNumber + 1; $i <= $maxNumber; $i++) {
+                $newCode = $prefix . str_pad($i, 2, '0', STR_PAD_LEFT);
+
+                $user = DB::table('users')
+                    ->where('name', 'like', $newCode . '%')
+                    ->where('type', '1')
+                    ->where('accept_data', 1)
+                    ->first();
+
+                if ($user) {
+                    $nextId = $user->id;
+                    $nextNumber = $i;
+                    $nextCode = $newCode;
+                    break;
+                }
+            }
+
+            if (!$nextId) {
+                for ($i = 1; $i <= $startNumber; $i++) {
+                    $newCode = $prefix . str_pad($i, 2, '0', STR_PAD_LEFT);
+
+                    $user = DB::table('users')
+                        ->where('name', 'like', $newCode . '%')
+                        ->where('type', 1)
+                        ->where('accept_data', 1)
+                        ->first();
+
+                    if ($user) {
+                        $nextId = $user->id;
+                        $nextNumber = $i;
+                        $nextCode = $newCode;
+                        break;
+                    }
+                }
+            }
+
+            if (!$nextId) {
+                $skippedCount++;
+                continue;
+            }
+
+            DB::table('students')
+                ->where('id', $student->id)
+                ->update([
+                    'user_id' => $nextId,
+                    'referral_code' => null,
+                    'updated_at' => now(),
+                    'auto_assign' => 0,
+                    'status_id' => null
+                ]);
+
+            $assignedCount++;
+            $startNumber = $nextNumber;
+            $lastAssignedCode = $nextCode;
+        }
+
+        $message = "Agihan selesai. Jumlah dikemaskini: {$assignedCount}.";
+        if ($skippedCount > 0) {
+            $message .= " Tidak dapat diagihkan: {$skippedCount}.";
+        }
+        if ($lastAssignedCode) {
+            $message .= " Kod terakhir: {$lastAssignedCode}.";
+        }
+
+        return redirect()->back()->with('success', $message);
+    }
+
+    public function bulkAssign(Request $request)
+    {
+        if ($request->isMethod('get')) {
+            $pendingCountKupd = DB::table('students')
+                ->where('location_id', 1)
+                ->where('user_id', 0)
+                ->whereNotNull('ic')
+                ->where('ic', '!=', '')
+                ->count();
+
+            $pendingCountKukb = DB::table('students')
+                ->where('location_id', 2)
+                ->where('user_id', 0)
+                ->whereNotNull('ic')
+                ->where('ic', '!=', '')
+                ->count();
+
+            return view('admin.bulk-assign', compact('pendingCountKupd', 'pendingCountKukb'));
+        }
+
+        $request->validate([
+            'location_id' => 'required|in:1,2'
+        ]);
+
+        if ((int) $request->input('location_id') === 1) {
+            return $this->bulkAssignKupd($request);
+        }
+
+        return $this->bulkAssignKukb($request);
+    }
+
     public function userlist()
     {
         $banks = DB::table('bank')->get();

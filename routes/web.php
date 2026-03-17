@@ -194,6 +194,9 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::match(['get', 'post'], '/admin/program', [AdminController::class, 'program'])->name('admin.program');
     Route::post('/admin/program/add', [AdminController::class, 'addprogram'])->name('admin.program.submit');
     Route::post('/admin/program/update/{id}', [AdminController::class, 'updateprogram'])->name('admin.program.update');
+    Route::match(['get', 'post'], '/admin/agihan/kupd', [AdminController::class, 'bulkAssignKupd'])->name('admin.assign.kupd');
+    Route::match(['get', 'post'], '/admin/agihan/kukb', [AdminController::class, 'bulkAssignKukb'])->name('admin.assign.kukb');
+    Route::match(['get', 'post'], '/admin/agihan', [AdminController::class, 'bulkAssign'])->name('admin.assign.bulk');
     Route::get('/admin/daftar/pengguna', [AdminController::class, 'showRegistrationForm'])->name('admin.register');
     Route::post('/admin/daftar/pengguna', [AdminController::class, 'register']);
     Route::match(['get', 'post'], '/admin/senarai/permohonan', [AdminController::class, 'applications'])->name('admin.application');
