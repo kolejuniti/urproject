@@ -612,9 +612,9 @@
                 value = value.substring(1);
             }
 
-            // Add '+60' prefix if not present
-            if (!value.startsWith('+60')) {
-                value = '+60' + value;
+            // Add '6' prefix if not present
+            if (!value.startsWith('60')) {
+                value = '60' + value;
             }
 
             // Limit length to 13 digits
