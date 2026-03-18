@@ -1000,7 +1000,30 @@ class AdminController extends Controller
                 ->where('ic', '!=', '')
                 ->count();
 
-            return view('admin.bulk-assign', compact('pendingCountKupd', 'pendingCountKukb'));
+            $duplicateIcs = DB::table('students')
+                ->select('ic')
+                ->whereNotNull('ic')
+                ->where('ic', '!=', '')
+                ->groupBy('ic')
+                ->havingRaw('COUNT(*) > 1');
+
+            $duplicatesByIc = DB::table('students')
+                ->leftJoin('users AS advisor', 'students.user_id', '=', 'advisor.id')
+                ->select(
+                    'students.id',
+                    'students.name',
+                    'students.ic',
+                    'students.created_at',
+                    'students.location_id',
+                    'students.updated_at',
+                    'advisor.name AS advisor_name'
+                )
+                ->whereIn('students.ic', $duplicateIcs)
+                ->orderBy('students.ic')
+                ->orderBy('students.created_at')
+                ->get();
+
+            return view('admin.bulk-assign', compact('pendingCountKupd', 'pendingCountKukb', 'duplicatesByIc'));
         }
 
         $request->validate([
@@ -1012,6 +1035,31 @@ class AdminController extends Controller
         }
 
         return $this->bulkAssignKukb($request);
+    }
+
+    public function deleteStudent($id)
+    {
+        DB::table('students')
+            ->where('id', $id)
+            ->delete();
+
+        return redirect()->back()->with('success', 'Data pelajar berjaya dipadam.');
+    }
+
+    public function bulkDeleteStudents(Request $request)
+    {
+        $request->validate([
+            'student_ids' => 'required|array|min:1',
+            'student_ids.*' => 'integer'
+        ]);
+
+        $ids = $request->input('student_ids', []);
+
+        DB::table('students')
+            ->whereIn('id', $ids)
+            ->delete();
+
+        return redirect()->back()->with('success', 'Data pelajar terpilih berjaya dipadam.');
     }
 
     public function userlist()
