@@ -596,6 +596,13 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-12">
+                                        <div id="leader-container">
+                                            <!--Leader dropdown will display here-->
+                                        </div>
+                                    </div>
+                                </div>
 
                                 <div class="row mb-3 p-3 bg-light rounded border mx-1">
                                     <div class="col-md-6">
@@ -825,6 +832,29 @@
                             `);
                         } else {
                             $('#status-container').html(``);
+                        }
+
+                        // Handle leader (affiliate only)
+                        if (response.users.position === "AFFILIATE UNITI") {
+                            const leaders = Array.isArray(response.leaders) ? response.leaders : [];
+                            const selectedLeaderId = response.users.leader_id ? String(response.users.leader_id) : '';
+                            const leaderOptions = leaders.map(leader => `
+                                <option value="${leader.id}" ${String(leader.id) === selectedLeaderId ? 'selected' : ''}>
+                                    ${leader.name}
+                                </option>
+                            `).join('');
+
+                            $('#leader-container').html(`
+                                <div class="form-group">
+                                    <label for="user-leader_id" class="info-label">Leader (Advisor)</label>
+                                    <select name="leader_id" id="user-leader_id" class="form-control form-select text-uppercase">
+                                        <option value="">-- Tiada Leader --</option>
+                                        ${leaderOptions}
+                                    </select>
+                                </div>
+                            `);
+                        } else {
+                            $('#leader-container').html('');
                         }
 
                         // Handle Affiliate Data

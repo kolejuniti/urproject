@@ -1091,6 +1091,7 @@ class AdminController extends Controller
         $ic = $request->input('ic');
 
         $banks = DB::table('bank')->get();
+        $leaders = User::where('type', 1)->orderBy('name')->get(['id', 'name']);
 
         $users = User::whereIn('type', [0, 1])
             ->join('religion', 'users.religion_id', '=', 'religion.id')
@@ -1104,7 +1105,7 @@ class AdminController extends Controller
             ->first();
 
         if ($request->ajax()) {
-            return response()->json(['banks' => $banks, 'users' => $users]);
+            return response()->json(['banks' => $banks, 'users' => $users, 'leaders' => $leaders]);
         }
 
         return view('admin.userlist', compact('users', 'banks'));
@@ -1120,6 +1121,8 @@ class AdminController extends Controller
         $status = $request->input('status');
         $accept_data = $request->has('accept_data') ? 1 : 0;
         $affiliate_data = $request->has('affiliate_data') ? 1 : 0;
+        $leader_id = $request->input('leader_id');
+        $leader_id = $leader_id !== null && $leader_id !== '' ? (int) $leader_id : null;
 
         if ($position === "AFFILIATE UNITI") {
             $type = 0;
@@ -1127,9 +1130,25 @@ class AdminController extends Controller
             $type = 1;
         }
 
+        $updateData = [
+            'name' => $name,
+            'phone' => $phone,
+            'bank_account' => $bank_account,
+            'bank_id' => $bank,
+            'type' => $type,
+            'position' => $position,
+            'status' => $status,
+            'accept_data' => $accept_data,
+            'affiliate_data' => $affiliate_data,
+        ];
+
+        if ($request->has('leader_id')) {
+            $updateData['leader_id'] = $leader_id;
+        }
+
         $user = DB::table('users')
             ->where('users.id', $id)
-            ->update(['name' => $name, 'phone' => $phone, 'bank_account' => $bank_account, 'bank_id' => $bank, 'type' => $type, 'position' => $position, 'status' => $status, 'accept_data' => $accept_data, 'affiliate_data' => $affiliate_data]);
+            ->update($updateData);
 
         return redirect()->route('admin.userlist')->with('success', 'Maklumat pengguna berjaya dikemaskini.');
     }
