@@ -84,7 +84,7 @@
                                             <input type="checkbox" name="student_ids[]" value="{{ $item->id }}" form="bulk-delete-form" class="duplicate-checkbox">
                                         </td>
                                         <td>{{ $item->id }}</td>
-                                        <td>{{ $item->name ?? '-' }}</td>
+                                        <td class="text-uppercase">{{ $item->name ?? '-' }}</td>
                                         <td>{{ $item->ic }}</td>
                                         <td>{{ $item->created_at ?? '-' }}</td>
                                         <td>{{ $locationLabels[$item->location_id ?? null] ?? $item->location ?? '-' }}</td>
