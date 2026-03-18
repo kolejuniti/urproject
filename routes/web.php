@@ -197,6 +197,8 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::match(['get', 'post'], '/admin/agihan/kupd', [AdminController::class, 'bulkAssignKupd'])->name('admin.assign.kupd');
     Route::match(['get', 'post'], '/admin/agihan/kukb', [AdminController::class, 'bulkAssignKukb'])->name('admin.assign.kukb');
     Route::match(['get', 'post'], '/admin/agihan', [AdminController::class, 'bulkAssign'])->name('admin.assign.bulk');
+    Route::delete('/admin/students/{id}', [AdminController::class, 'deleteStudent'])->name('admin.students.delete');
+    Route::post('/admin/students/bulk-delete', [AdminController::class, 'bulkDeleteStudents'])->name('admin.students.bulk-delete');
     Route::get('/admin/daftar/pengguna', [AdminController::class, 'showRegistrationForm'])->name('admin.register');
     Route::post('/admin/daftar/pengguna', [AdminController::class, 'register']);
     Route::match(['get', 'post'], '/admin/senarai/permohonan', [AdminController::class, 'applications'])->name('admin.application');
