@@ -364,8 +364,11 @@
 </div>
 
 <div class="container pb-5">
+    <div class="mb-3">
+        <input type="text" id="contentSearchInput" class="form-control" placeholder="Cari kandungan (tajuk, penerangan, tag, lokasi, platform)">
+    </div>
     <div class="d-flex flex-wrap align-items-center gap-2 mb-4">
-        <span class="text-muted fw-bold">Filter Lokasi:</span>
+        <span class="text-muted fw-bold">Lokasi:</span>
         <button type="button" class="btn btn-outline-secondary btn-sm location-filter-btn active" data-location-filter="all">Semua</button>
         <button type="button" class="btn btn-outline-primary btn-sm location-filter-btn" data-location-filter="kupd">KUPD</button>
         <button type="button" class="btn btn-outline-success btn-sm location-filter-btn" data-location-filter="kukb">KUKB</button>
@@ -373,7 +376,17 @@
 
     <div class="row g-4">
         @foreach ($contents as $item)
-        <div class="col-lg-4 col-md-6 col-sm-12 content-item" data-content-location="{{ strtolower((string) $item->location) }}">
+        @php
+        $platforms = is_array($item->platform) ? $item->platform : json_decode($item->platform, true);
+        $searchText = trim(implode(' ', array_filter([
+            $item->title,
+            $item->description,
+            $item->tags,
+            $item->location,
+            is_array($platforms) ? implode(' ', $platforms) : null,
+        ])));
+        @endphp
+        <div class="col-lg-4 col-md-6 col-sm-12 content-item" data-content-location="{{ strtolower((string) $item->location) }}" data-content-search="{{ strtolower($searchText) }}">
             <div class="media-card">
 
                 {{-- Image Section --}}
@@ -417,7 +430,6 @@
 
                     {{-- Platform badges --}}
                     @php
-                    $platforms = is_array($item->platform) ? $item->platform : json_decode($item->platform, true);
                     $platformColors = [
                     'facebook' => 'primary',
                     'whatsapp' => 'success',
@@ -732,13 +744,19 @@
         const filterButtons = document.querySelectorAll('.location-filter-btn');
         const contentItems = document.querySelectorAll('.content-item');
         const emptyState = document.getElementById('locationFilterEmptyState');
+        const searchInput = document.getElementById('contentSearchInput');
+        let activeLocation = 'all';
 
-        function applyLocationFilter(location) {
+        function applyFilters() {
             let visibleCount = 0;
+            const query = (searchInput && searchInput.value || '').trim().toLowerCase();
 
             contentItems.forEach(item => {
                 const itemLocation = (item.dataset.contentLocation || '').toLowerCase();
-                const shouldShow = location === 'all' || itemLocation === location;
+                const itemSearch = (item.dataset.contentSearch || '').toLowerCase();
+                const matchesLocation = activeLocation === 'all' || itemLocation === activeLocation;
+                const matchesSearch = query === '' || itemSearch.includes(query);
+                const shouldShow = matchesLocation && matchesSearch;
 
                 item.classList.toggle('d-none', !shouldShow);
                 if (shouldShow) visibleCount++;
@@ -751,11 +769,16 @@
             button.addEventListener('click', function() {
                 filterButtons.forEach(btn => btn.classList.remove('active'));
                 this.classList.add('active');
-                applyLocationFilter(this.dataset.locationFilter);
+                activeLocation = this.dataset.locationFilter;
+                applyFilters();
             });
         });
 
-        applyLocationFilter('all');
+        if (searchInput) {
+            searchInput.addEventListener('input', applyFilters);
+        }
+
+        applyFilters();
         console.log('Media content page loaded successfully!');
     });
 </script>
