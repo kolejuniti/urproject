@@ -715,6 +715,11 @@
                                         </div>
                                     </div>
 
+                                    <div class="col-md-12 mb-3" id="reason-display-wrapper" style="display:none;">
+                                        <div class="info-label"><i class="fas fa-comment-alt me-1 text-warning"></i> Sebab / Reason</div>
+                                        <div id="reason-display" class="info-value p-2 bg-warning bg-opacity-10 rounded border border-warning text-dark"></div>
+                                    </div>
+
                                     <div class="col-md-12 mb-3">
                                         <div id="register_at-container">
                                             <!-- Register Date will be loaded here -->
@@ -857,6 +862,15 @@
                                     </select>    
                                 </div>
                             `);
+                        }
+
+                        // Show reason only if it is not blank/null
+                        if (response.applicants.reason && response.applicants.reason.trim() !== '') {
+                            $('#reason-display').text(response.applicants.reason);
+                            $('#reason-display-wrapper').show();
+                        } else {
+                            $('#reason-display').text('');
+                            $('#reason-display-wrapper').hide();
                         }
 
                         // Handle file URL
