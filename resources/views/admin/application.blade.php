@@ -441,6 +441,60 @@
             transform: translateY(0);
         }
     }
+
+    /* File preview + zoom */
+    .file-preview-image {
+        cursor: zoom-in;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .file-preview-image:hover {
+        transform: scale(1.01);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .image-zoom-modal .modal-dialog {
+        max-width: 92vw;
+    }
+
+    .image-zoom-modal .modal-body {
+        background: #0f172a;
+        border-radius: 0 0 16px 16px;
+    }
+
+    .image-zoom-stage {
+        width: 100%;
+        min-height: 60vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+    .image-zoom-stage img {
+        max-width: 100%;
+        max-height: 80vh;
+        transform-origin: center center;
+        transition: transform 0.15s ease;
+        cursor: grab;
+    }
+
+    .zoom-controls {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+        justify-content: center;
+        padding: 0.75rem 1rem 0;
+    }
+
+    .zoom-controls .btn {
+        border-radius: 8px;
+        font-weight: 600;
+    }
+
+    .zoom-range {
+        width: 200px;
+    }
 </style>
 
 <div class="container-fluid admin-application-page">
@@ -688,6 +742,9 @@
                                         <div id="file-container" class="text-center">
                                             <!-- File content will be injected here -->
                                         </div>
+                                        <div class="text-muted small mt-2 text-center" id="file-zoom-hint" style="display:none;">
+                                            Klik imej untuk zum.
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -743,6 +800,29 @@
                         </div>
                         </form>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Image Zoom Modal -->
+<div class="modal fade image-zoom-modal" id="imageZoomModal" tabindex="-1" aria-labelledby="imageZoomLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                {{-- <h5 class="modal-title" id="imageZoomLabel"><i class="fas fa-search-plus me-2"></i>Zum Imej</h5> --}}
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="image-zoom-stage">
+                    <img id="zoomImage" src="" alt="Zoomed file">
+                </div>
+                <div class="zoom-controls">
+                    <button type="button" class="btn btn-light" id="zoomOut"><i class="fas fa-search-minus"></i></button>
+                    <input type="range" class="form-range zoom-range" id="zoomRange" min="1" max="3" step="0.1" value="1">
+                    <button type="button" class="btn btn-light" id="zoomIn"><i class="fas fa-search-plus"></i></button>
+                    <button type="button" class="btn btn-outline-light" id="zoomReset"><i class="fas fa-undo"></i> Reset</button>
                 </div>
             </div>
         </div>
@@ -882,13 +962,16 @@
                                         <p><a href="${response.fileUrl}" target="_blank" class="btn btn-primary btn-sm"><i class="fas fa-download me-2"></i>Muat turun fail PDF</a></p>
                                     </object>
                                 `);
+                                $('#file-zoom-hint').hide();
                             } else {
                                 $('#file-container').html(`
-                                    <img src="${response.fileUrl}" loading="lazy" alt="Keputusan SPM" class="img-fluid rounded shadow-sm" style="max-height: 400px;">
+                                    <img src="${response.fileUrl}" loading="lazy" alt="Keputusan SPM" class="img-fluid rounded shadow-sm file-preview-image" style="max-height: 400px;" data-zoom-src="${response.fileUrl}">
                                 `);
+                                $('#file-zoom-hint').show();
                             }
                         } else {
                             $('#file-container').html('<div class="text-muted fst-italic py-3">Tiada fail keputusan peperiksaan SPM dimuat naik</div>');
+                            $('#file-zoom-hint').hide();
                         }
 
                         // Handle programs
@@ -976,6 +1059,51 @@
                     console.error(error);
                 }
             });
+        });
+
+        // Image zoom handling
+        let currentZoom = 1;
+        const minZoom = 1;
+        const maxZoom = 3;
+
+        function applyZoom() {
+            $('#zoomImage').css('transform', `scale(${currentZoom})`);
+            $('#zoomRange').val(currentZoom.toFixed(1));
+        }
+
+        $(document).on('click', '.file-preview-image', function() {
+            const src = $(this).data('zoom-src') || $(this).attr('src');
+            $('#zoomImage').attr('src', src);
+            currentZoom = 1;
+            applyZoom();
+            $('#imageZoomModal').modal('show');
+        });
+
+        $('#zoomIn').on('click', function() {
+            currentZoom = Math.min(maxZoom, currentZoom + 0.2);
+            applyZoom();
+        });
+
+        $('#zoomOut').on('click', function() {
+            currentZoom = Math.max(minZoom, currentZoom - 0.2);
+            applyZoom();
+        });
+
+        $('#zoomReset').on('click', function() {
+            currentZoom = 1;
+            applyZoom();
+        });
+
+        $('#zoomRange').on('input', function() {
+            currentZoom = parseFloat($(this).val());
+            applyZoom();
+        });
+
+        $('#zoomImage').on('wheel', function(e) {
+            e.preventDefault();
+            const delta = e.originalEvent.deltaY > 0 ? -0.1 : 0.1;
+            currentZoom = Math.max(minZoom, Math.min(maxZoom, currentZoom + delta));
+            applyZoom();
         });
     });
 </script>
