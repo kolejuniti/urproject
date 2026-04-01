@@ -1009,6 +1009,7 @@ class AdminController extends Controller
 
             $duplicatesByIc = DB::table('students')
                 ->leftJoin('users AS advisor', 'students.user_id', '=', 'advisor.id')
+                ->leftJoin('status', 'students.status_id', '=', 'status.id')
                 ->select(
                     'students.id',
                     'students.name',
@@ -1016,7 +1017,9 @@ class AdminController extends Controller
                     'students.created_at',
                     'students.location_id',
                     'students.updated_at',
-                    'advisor.name AS advisor_name'
+                    'advisor.name AS advisor_name',
+                    'students.status_id',
+                    'status.name AS status'
                 )
                 ->whereIn('students.ic', $duplicateIcs)
                 ->orderBy('students.ic')

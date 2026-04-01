@@ -73,6 +73,7 @@
                                     <th>Lokasi</th>
                                     <th>Tarikh Agihan</th>
                                     <th>Education Advisor</th>
+                                    <th>Status</th>
                                     <th>Tindakan</th>
                                 </tr>
                             </thead>
@@ -90,6 +91,7 @@
                                         <td>{{ $locationLabels[$item->location_id ?? null] ?? $item->location ?? '-' }}</td>
                                         <td>{{ $item->updated_at ?? '-' }}</td>
                                         <td>{{ $item->advisor_name ?? $item->advisor ?? '-' }}</td>
+                                        <td class="text-uppercase">{{ $item->status ?? '-' }}</td>
                                         <td>
                                             <form method="POST" action="{{ route('admin.students.delete', $item->id) }}" onsubmit="return confirm('Padam data pelajar ini?');">
                                                 @csrf
