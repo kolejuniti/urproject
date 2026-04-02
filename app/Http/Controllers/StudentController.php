@@ -589,6 +589,8 @@ class StudentController extends Controller
                 // Get the file URL from Linode
                 $fileUrl = Storage::disk('linode')->url($filePath);
 
+                $now = now()->timezone('Asia/Kuala_Lumpur');
+
                 DB::table('students')->insert([
                     'name' => $name,
                     'ic' => $ic,
@@ -604,7 +606,8 @@ class StudentController extends Controller
                     'referral_code' => $ref,
                     'user_id' => $userID,
                     'source' => $source,
-                    'updated_at' => $update,
+                    'created_at' => $now,
+                    'updated_at' => $now,
                     'auto_assign' => $auto_assign,
                     'incentive' => $incentive
                 ]);
@@ -973,6 +976,8 @@ class StudentController extends Controller
                     $incentive = 0;
                 }
 
+                $now = now()->timezone('Asia/Kuala_Lumpur');
+
                 DB::table('students')->insert([
                     'name' => $name,
                     'ic' => $ic,
@@ -988,7 +993,8 @@ class StudentController extends Controller
                     'referral_code' => $ref,
                     'user_id' => $userID,
                     'source' => $source,
-                    'updated_at' => $update,
+                    'created_at' => $now,
+                    'updated_at' => $now,
                     'auto_assign' => $auto_assign,
                     'incentive' => $incentive
                 ]);
