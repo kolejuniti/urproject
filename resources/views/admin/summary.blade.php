@@ -524,7 +524,7 @@
                                         @foreach ($statesWithPercentage as $index => $data4)
                                         <tr>
                                             <td>{{ $index + 1 }}</td>
-                                            <td class="text-uppercase fw-bold">{{ $data4->state }}</td>
+                                            <td class="text-uppercase fw-bold">{{ $data4->state ?? 'TIADA MAKLUMAT NEGERI' }}</td>
                                             <td class="text-center bg-soft-warning text-dark">{{ $data4->total_kupd }}</td>
                                             <td class="text-center bg-soft-warning text-dark">{{ $data4->total_kukb }}</td>
                                             <td class="text-center bg-soft-warning text-dark fw-bold">{{ $data4->total }}</td>
