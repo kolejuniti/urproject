@@ -663,6 +663,10 @@ class AdminController extends Controller
             ->first();
 
         $users = User::where('type', 1)
+            ->where(function ($query) {
+            $query->where('name', 'like', 'KB-%')
+                ->orWhere('name', 'like', 'PD-%');
+            })
             ->whereIn('accept_data', [0, 1])
             ->whereIn('affiliate_data', [0, 1])
             ->orderBy('name')
