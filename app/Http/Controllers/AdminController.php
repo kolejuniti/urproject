@@ -663,7 +663,7 @@ class AdminController extends Controller
             ->first();
 
         $users = User::where('type', 1)
-            ->where('accept_data', 1)
+            ->whereIn('accept_data', [0, 1])
             ->whereIn('affiliate_data', [0, 1])
             ->orderBy('name')
             ->get();
