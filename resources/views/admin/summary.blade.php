@@ -592,9 +592,9 @@
                         </table>
                     </div>
                 </div>
-                <div class="alert alert-info mt-3 mb-0 small">
+                {{-- <div class="alert alert-info mt-3 mb-0 small">
                     <i class="fas fa-info-circle me-2"></i> *Data pemohon yang dipaparkan adalah data yang berdaftar menggunakan link yang dikongsi oleh affiliate sahaja.
-                </div>
+                </div> --}}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>

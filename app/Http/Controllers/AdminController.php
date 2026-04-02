@@ -1524,17 +1524,20 @@ class AdminController extends Controller
 
         // Build base query
         $query = DB::table('students')
-            ->join('users AS affiliate', 'students.referral_code', '=', 'affiliate.referral_code')
-            ->join('users AS advisor', 'students.user_id', '=', 'advisor.id')
+            ->leftjoin('users AS affiliate', 'students.referral_code', '=', 'affiliate.referral_code')
+            ->leftjoin('users AS advisor', 'students.user_id', '=', 'advisor.id')
             ->select(
-                'students.name AS student',
-                'students.ic',
-                DB::raw("DATE_FORMAT(students.created_at, '%d-%m-%Y') as created_at"),
-                'affiliate.name AS affiliate',
-                'advisor.name AS advisor',
-                DB::raw("DATE_FORMAT(students.register_at, '%d-%m-%Y') as register_at")
+            'students.name AS student',
+            'students.ic',
+            DB::raw("DATE_FORMAT(students.created_at, '%d-%m-%Y') as created_at"),
+            'affiliate.name AS affiliate',
+            'advisor.name AS advisor',
+            DB::raw("DATE_FORMAT(students.register_at, '%d-%m-%Y') as register_at")
             )
-            ->where('affiliate.type', '=', 0);
+            ->where(function ($query) {
+            $query->whereNull('affiliate.type')
+                ->orWhere('affiliate.type', '=', 0);
+            });
 
         // Filter by status
         if (is_null($status_id)) {
