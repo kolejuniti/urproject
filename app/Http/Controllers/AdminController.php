@@ -1539,8 +1539,8 @@ class AdminController extends Controller
             DB::raw("DATE_FORMAT(students.register_at, '%d-%m-%Y') as register_at")
             )
             ->where(function ($query) {
-            $query->whereNull('affiliate.type')
-                ->orWhere('affiliate.type', '=', 0);
+            $query->whereNotNull('students.ic')
+                ->where('students.ic', '!=', '');
             });
 
         // Filter by status
