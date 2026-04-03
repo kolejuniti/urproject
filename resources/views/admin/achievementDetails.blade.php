@@ -35,9 +35,9 @@
                         <td class="text-uppercase">{{ $item->affiliate ?? 'TIADA AFFILIATE' }}</td>
                         <td class="text-uppercase">{{ $item->source }}</td>
                         <td class="text-uppercase">{{ $item->status ?? 'PERMOHONAN BARU' }}</td>
-                        {{-- Group 1: status_id in [7–18] --}}
+                        {{-- Group 1: status_id in [7–18] [29-31] --}}
                         @php
-                        $days_process = in_array($item->status_id, range(7, 18)) ? $item->days_since_update : 0;
+                        $days_process = in_array($item->status_id, array_merge(range(7, 18), range(29, 31))) ? $item->days_since_update: 0;
 
                         if ($days_process < 7) {
                             $class='table-success' ;
@@ -64,9 +64,9 @@
                             <td class="text-center">
                                 {{ $item->status_id === 22 ? $item->days_since_update : 0 }}
                             </td>
-                            {{-- Group 4: status_id in [1–5, 24, 26, 27] --}}
+                            {{-- Group 4: status_id in [1–5, 24, 26, 27, 32, 33] --}}
                             <td class="text-center">
-                                {{ in_array($item->status_id, [1,2,3,4,5,24,26,27]) ? $item->days_since_update : 0 }}
+                                {{ in_array($item->status_id, [1,2,3,4,5,24,26,27,32,33]) ? $item->days_since_update : 0 }}
                             </td>
                     </tr>
                     @endforeach
