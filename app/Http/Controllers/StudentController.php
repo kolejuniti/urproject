@@ -790,7 +790,7 @@ class StudentController extends Controller
                                 ->where('type', 1)
                                 ->where('name', 'like', 'KB-%')
                                 ->where('affiliate_data', 1)
-                                ->where('accept_data', 1)
+                                ->whereIn('accept_data', [0, 1])
                                 ->orderByDesc(DB::raw("CAST(SUBSTRING(SUBSTRING_INDEX(users.name, ' ', 1), LOCATE('-A', users.name) + 2) AS UNSIGNED)"))
                                 ->limit(1)
                                 ->value('code');
@@ -809,7 +809,7 @@ class StudentController extends Controller
                                     ->where('name', 'like', 'KB-%')  // Starts with "KB-"
                                     ->where('type', '1')
                                     ->where('affiliate_data', 1)
-                                    ->where('accept_data', 1)
+                                    ->whereIn('accept_data', [0, 1])
                                     ->get();
 
                                 // Filter results manually to ensure exact code match
@@ -835,7 +835,7 @@ class StudentController extends Controller
                                         ->where('name', 'like', 'KB-%')  // Starts with "KB-"
                                         ->where('type', '1')
                                         ->where('affiliate_data', 1)
-                                        ->where('accept_data', 1)
+                                        ->whereIn('accept_data', [0, 1])
                                         ->get();
 
                                     // Filter results manually to ensure exact code match
