@@ -841,7 +841,8 @@ class AdminController extends Controller
                     'referral_code' => null,
                     'updated_at' => now(),
                     'auto_assign' => 0,
-                    'status_id' => null
+                    'status_id' => null,
+                    'remark' => 'N'
                 ]);
 
             $assignedCount++;
@@ -968,7 +969,8 @@ class AdminController extends Controller
                     'referral_code' => null,
                     'updated_at' => now(),
                     'auto_assign' => 0,
-                    'status_id' => null
+                    'status_id' => null,
+                    'remark' => 'N'
                 ]);
 
             $assignedCount++;
