@@ -1561,9 +1561,44 @@ class AdminController extends Controller
 
         $statusDetails = $query->get();
 
+        // Summary by location for the same filters
+        $locationTotalsQuery = DB::table('students')
+            ->leftJoin('location', 'students.location_id', '=', 'location.id')
+            ->select(
+                DB::raw("COALESCE(location.name, 'TIADA LOKASI') AS location"),
+                DB::raw('COUNT(students.id) AS total')
+            )
+            ->where(function ($query) {
+                $query->whereNotNull('students.ic')
+                    ->where('students.ic', '!=', '');
+            });
+
+        if (is_null($status_id)) {
+            $locationTotalsQuery->whereNull('students.status_id');
+        } else {
+            $locationTotalsQuery->where('students.status_id', '=', $status_id);
+        }
+
+        if ($startDate && $endDate) {
+            $locationTotalsQuery->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$startDate, $endDate]);
+        } elseif ($startDate) {
+            $locationTotalsQuery->whereDate(DB::raw("CAST(students.created_at AS DATE)"), '>=', $startDate);
+        } elseif ($endDate) {
+            $locationTotalsQuery->whereDate(DB::raw("CAST(students.created_at AS DATE)"), '<=', $endDate);
+        }
+
+        $locationTotals = $locationTotalsQuery
+            ->groupBy(DB::raw("COALESCE(location.name, 'TIADA LOKASI')"))
+            ->orderBy('location')
+            ->get();
+
+        $locationTotalsSum = $locationTotals->sum('total');
+
         return response()->json([
             'statusDetails' => $statusDetails,
-            'status' => $statusName
+            'status' => $statusName,
+            'locationTotals' => $locationTotals,
+            'locationTotalsSum' => $locationTotalsSum
         ]);
     }
 
