@@ -265,14 +265,18 @@ class AdvisorController extends Controller
             ->where('students.id', $id)
             ->update(['students.status_id' => $statusApplication, 'reason' => $reason, 'offer_letter_date' => $offer_letter_date, 'register_letter_date' => $register_letter_date]);
 
-        foreach ($programs as $program) {
-            $status = $program['status'];
-            $notes = $program['notes'];
-            $idProgram = $program['id'];
+        if (is_array($programs)) {
+            foreach ($programs as $program) {
+                $status = $program['status'] ?? null;
+                $notes = $program['notes'] ?? null;
+                $idProgram = $program['id'] ?? null;
 
-            DB::table('student_programs')
-                ->where('student_programs.id', $idProgram)
-                ->update(['student_programs.status' => $status, 'student_programs.notes' => $notes]);
+                if ($idProgram) {
+                    DB::table('student_programs')
+                        ->where('student_programs.id', $idProgram)
+                        ->update(['student_programs.status' => $status, 'student_programs.notes' => $notes]);
+                }
+            }
         }
 
         return redirect()->route('advisor.application', ['open_ic' => $ic])->with('success', 'Status permohonan program pelajar berjaya dikemaskini.');
