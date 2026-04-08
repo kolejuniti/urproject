@@ -1561,7 +1561,7 @@ class AdminController extends Controller
             $query->whereDate(DB::raw("CAST(students.created_at AS DATE)"), '<=', $endDate);
         }
 
-        $statusDetails = $query->get();
+        $statusDetails = $query->orderBy('students.created_at', 'desc')->get();
 
         // Summary by location for the same filters
         $locationTotalsQuery = DB::table('students')
