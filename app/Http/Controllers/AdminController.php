@@ -690,7 +690,7 @@ class AdminController extends Controller
             ->where('student_programs.student_ic', 'LIKE', "{$ic}")
             ->get();
 
-        $ids = [29, 30, 31, 19, 20, 21, 22, 32, 33, 25];
+        $ids = [11, 29, 30, 31, 19, 20, 21, 22, 32, 33, 25];
         $placeholders = implode(',', array_fill(0, count($ids), '?'));
 
         $statusApplications = DB::table('status')
