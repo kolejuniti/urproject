@@ -10,7 +10,6 @@
         --admin-primary: #1e293b;
         --admin-accent: #3b82f6;
         --admin-accent-hover: #2563eb;
-        --admin-success: #10b981;
         --admin-bg: #f8fafc;
         --admin-card-bg: #ffffff;
         --admin-border: #e2e8f0;
@@ -23,6 +22,7 @@
 
     .admin-program-report-page { padding: 2rem 0; }
 
+    /* Page Header */
     .page-header {
         background: var(--admin-gradient-1);
         border-radius: 16px;
@@ -46,6 +46,52 @@
     }
     .page-header h2 { font-weight: 700; font-size: 1.75rem; margin: 0; position: relative; z-index: 1; }
     .page-header p  { margin: 0; opacity: 0.8; font-size: 1rem; position: relative; z-index: 1; }
+
+    /* Filter Card */
+    .filter-card {
+        background: var(--admin-card-bg);
+        border-radius: 16px;
+        border: 1px solid var(--admin-border);
+        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+    }
+    .filter-card .form-label {
+        font-weight: 600;
+        font-size: 0.875rem;
+        color: var(--admin-text-muted);
+        margin-bottom: 0.5rem;
+    }
+    .filter-card .form-control {
+        border-radius: 8px;
+        border: 1px solid var(--admin-border);
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+    }
+    .filter-card .form-control:focus {
+        border-color: var(--admin-accent);
+        box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+    }
+    .btn-filter {
+        background: var(--admin-accent);
+        color: white;
+        border: none;
+        padding: 0.6rem 1.5rem;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .btn-filter:hover {
+        background: var(--admin-accent-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(59,130,246,0.2);
+        color: white;
+    }
 
     /* Stat cards */
     .stat-card {
@@ -159,9 +205,36 @@
                 </div>
             </div>
 
+            <!-- Filter Section -->
+            <div class="filter-card">
+                <form method="POST" action="{{ route('admin.programreport') }}" class="row g-3 align-items-end">
+                    @csrf
+                    <div class="col-md-4">
+                        <label class="form-label"><i class="far fa-calendar-alt me-1"></i> Tarikh Mula</label>
+                        <input type="date" class="form-control" name="start_date" value="{{ $start_date ?? '' }}">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label"><i class="far fa-calendar-alt me-1"></i> Tarikh Tamat</label>
+                        <input type="date" class="form-control" name="end_date" value="{{ $end_date ?? '' }}">
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-filter w-100" type="submit">
+                            <i class="fas fa-filter me-2"></i> Cari Data
+                        </button>
+                    </div>
+                </form>
+            </div>
+
             @php
                 $grandTotal = collect($programStatsByLocation)->sum(fn($loc) => $loc['stats']->sum('total'));
             @endphp
+
+            <!-- Date Range Caption -->
+            <p class="text-muted small mb-3">
+                <i class="fas fa-info-circle me-1"></i>
+                Data dipaparkan dari tarikh <strong>{{ \Carbon\Carbon::parse($start_date)->format('d/m/Y') }}</strong>
+                sehingga <strong>{{ \Carbon\Carbon::parse($end_date)->format('d/m/Y') }}</strong>
+            </p>
 
             <!-- Overall Summary -->
             <div class="row g-3 mb-4">
@@ -219,7 +292,9 @@
                 </div>
                 <div class="modern-card-body">
                     @if ($data['stats']->isEmpty())
-                        <p class="text-muted text-center py-3"><i class="fas fa-info-circle me-1"></i>Tiada data untuk lokasi ini.</p>
+                        <p class="text-muted text-center py-3">
+                            <i class="fas fa-info-circle me-1"></i>Tiada data untuk lokasi ini dalam julat tarikh tersebut.
+                        </p>
                     @else
                     <div class="table-responsive">
                         <table id="{{ $tableId }}" class="modern-table table table-hover w-100">
@@ -303,10 +378,10 @@
                     top1Start: null,
                     top1End: {
                         buttons: [
-                            { extend: 'copy',      text: '<i class="fas fa-copy me-1"></i> Salin',  title: title, exportOptions: { columns: [0,1,2] } },
-                            { extend: 'excelHtml5',text: '<i class="fas fa-file-excel me-1"></i> Excel', title: title, exportOptions: { columns: [0,1,2] } },
-                            { extend: 'pdfHtml5', text: '<i class="fas fa-file-pdf me-1"></i> PDF',  title: title, exportOptions: { columns: [0,1,2] } },
-                            { extend: 'print',     text: '<i class="fas fa-print me-1"></i> Cetak',  title: title, exportOptions: { columns: [0,1,2] } }
+                            { extend: 'copy',       text: '<i class="fas fa-copy me-1"></i> Salin',        title: title, exportOptions: { columns: [0,1,2] } },
+                            { extend: 'excelHtml5', text: '<i class="fas fa-file-excel me-1"></i> Excel',   title: title, exportOptions: { columns: [0,1,2] } },
+                            { extend: 'pdfHtml5',   text: '<i class="fas fa-file-pdf me-1"></i> PDF',       title: title, exportOptions: { columns: [0,1,2] } },
+                            { extend: 'print',      text: '<i class="fas fa-print me-1"></i> Cetak',        title: title, exportOptions: { columns: [0,1,2] } }
                         ]
                     },
                     topStart: 'search',

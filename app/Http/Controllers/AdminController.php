@@ -2651,10 +2651,19 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'Bahan media berjaya dikemaskini.');
     }
 
-    public function programReport()
+    public function programReport(Request $request)
     {
-        $baseQuery = function ($locationId) {
-            return DB::table('student_programs')
+        $start_date = $request->input('start_date');
+        $end_date   = $request->input('end_date');
+
+        // Default to last 7 days when no dates provided
+        if (!$start_date && !$end_date) {
+            $start_date = now()->subDays(7)->startOfDay()->format('Y-m-d');
+            $end_date   = now()->endOfDay()->format('Y-m-d');
+        }
+
+        $baseQuery = function ($locationId) use ($start_date, $end_date) {
+            $query = DB::table('student_programs')
                 ->join('students', function ($join) {
                     $join->on('student_programs.student_ic', '=', 'students.ic')
                          ->whereNotNull('students.ic')
@@ -2669,7 +2678,15 @@ class AdminController extends Controller
                     DB::raw('COUNT(student_programs.id) AS total')
                 )
                 ->where('program.name', '!=', 'TIADA MAKLUMAT')
-                ->where('program.location_id', $locationId)
+                ->where('program.location_id', $locationId);
+
+            if ($start_date && $end_date) {
+                $query->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
+            } elseif ($start_date) {
+                $query->whereDate(DB::raw("CAST(students.created_at AS DATE)"), $start_date);
+            }
+
+            return $query
                 ->groupBy('program.id', 'program.name', 'location.name', 'location.code')
                 ->orderByDesc('total')
                 ->get();
@@ -2680,11 +2697,11 @@ class AdminController extends Controller
         $programStatsByLocation = [];
         foreach ($locations as $location) {
             $programStatsByLocation[$location->id] = [
-                'location'  => $location,
-                'stats'     => $baseQuery($location->id),
+                'location' => $location,
+                'stats'    => $baseQuery($location->id),
             ];
         }
 
-        return view('admin.programreport', compact('programStatsByLocation'));
+        return view('admin.programreport', compact('programStatsByLocation', 'start_date', 'end_date'));
     }
 }
