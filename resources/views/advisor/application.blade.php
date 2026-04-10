@@ -758,11 +758,11 @@
                                         <div class="label-custom mb-1">Status Kelayakan</div>
                                         <div class="d-flex gap-3 mb-2">
                                              <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="programs[${index + 1}][status]" id="layak${uniqueId}" value="layak" onchange="toggleTextarea('${uniqueId}')" ${program.status === 'layak' ? 'checked' : ''} required />
+                                                <input class="form-check-input" type="radio" name="programs[${index + 1}][status]" id="layak${uniqueId}" value="layak" onchange="toggleTextarea('${uniqueId}')" ${program.status === 'layak' ? 'checked' : ''} />
                                                 <label class="form-check-label small" for="layak${uniqueId}">LAYAK</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="programs[${index + 1}][status]" id="tidaklayak${uniqueId}" value="tidak layak" onchange="toggleTextarea('${uniqueId}')" ${program.status === 'tidak layak' ? 'checked' : ''} required />
+                                                <input class="form-check-input" type="radio" name="programs[${index + 1}][status]" id="tidaklayak${uniqueId}" value="tidak layak" onchange="toggleTextarea('${uniqueId}')" ${program.status === 'tidak layak' ? 'checked' : ''} />
                                                 <label class="form-check-label small" for="tidaklayak${uniqueId}">TIDAK LAYAK</label>
                                             </div>
                                         </div>
