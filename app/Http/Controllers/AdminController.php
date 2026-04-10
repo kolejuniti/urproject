@@ -664,8 +664,8 @@ class AdminController extends Controller
 
         $users = User::where('type', 1)
             ->where(function ($query) {
-            $query->where('name', 'like', 'KB-%')
-                ->orWhere('name', 'like', 'PD-%');
+                $query->where('name', 'like', 'KB-%')
+                    ->orWhere('name', 'like', 'PD-%');
             })
             ->whereIn('accept_data', [0, 1])
             ->whereIn('affiliate_data', [0, 1])
@@ -1195,7 +1195,7 @@ class AdminController extends Controller
         $students = DB::table('students')
             ->leftjoin('status', 'students.status_id', '=', 'status.id')
             ->join('location', 'students.location_id', '=', 'location.id')
-            ->select('students.id', 'students.name', 'students.ic', 'students.phone', 'students.email', 'students.created_at', 'students.updated_at', 'status.name AS status', 'students.register_at', 'students.referral_code', 'students.user_id', 'location.code AS location', 'students.city')
+            ->select('students.id', 'students.name', 'students.ic', 'students.phone', 'students.email', 'students.created_at', 'students.updated_at', 'status.name AS status', 'students.reason', 'students.register_at', 'students.referral_code', 'students.user_id', 'location.code AS location', 'students.city')
             ->where(function ($query) {
                 $query->whereNotNull('students.ic')
                     ->where('students.ic', '!=', '');
@@ -1533,16 +1533,16 @@ class AdminController extends Controller
             ->leftjoin('users AS affiliate', 'students.referral_code', '=', 'affiliate.referral_code')
             ->leftjoin('users AS advisor', 'students.user_id', '=', 'advisor.id')
             ->select(
-            'students.name AS student',
-            'students.ic',
-            DB::raw("DATE_FORMAT(students.created_at, '%d-%m-%Y') as created_at"),
-            'affiliate.name AS affiliate',
-            'advisor.name AS advisor',
-            DB::raw("DATE_FORMAT(students.register_at, '%d-%m-%Y') as register_at")
+                'students.name AS student',
+                'students.ic',
+                DB::raw("DATE_FORMAT(students.created_at, '%d-%m-%Y') as created_at"),
+                'affiliate.name AS affiliate',
+                'advisor.name AS advisor',
+                DB::raw("DATE_FORMAT(students.register_at, '%d-%m-%Y') as register_at")
             )
             ->where(function ($query) {
-            $query->whereNotNull('students.ic')
-                ->where('students.ic', '!=', '');
+                $query->whereNotNull('students.ic')
+                    ->where('students.ic', '!=', '');
             });
 
         // Filter by status
@@ -2284,7 +2284,7 @@ class AdminController extends Controller
                         ->where('students.ic', '!=', '');
                 })
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date])
-                ->whereIn('students.status_id', [1, 2, 3, 4, 5, 6, 11, 23, 24, 25, 26, 27,32,33]);
+                ->whereIn('students.status_id', [1, 2, 3, 4, 5, 6, 11, 23, 24, 25, 26, 27, 32, 33]);
 
             if ($location == 3) {
                 $query->whereIn('students.location_id', [1, 2]);

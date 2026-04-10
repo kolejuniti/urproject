@@ -353,6 +353,7 @@
                                 <th>Affiliate</th>
                                 <th>Education Advisor</th>
                                 <th>Status</th>
+                                <th>Catatan</th>
                                 <th>Tarikh Daftar</th>
                             </tr>
                         </thead>
@@ -396,6 +397,7 @@
                                     <span class="badge bg-secondary badge-modern">{{ $student->status }}</span>
                                     @endif
                                 </td>
+                                <td class="text-muted small text-uppercase">{{ !empty($student->reason) ? $student->reason : '-' }}</td>
                                 <td class="text-center">
                                     @if($student->register_at)
                                     {{ \Carbon\Carbon::parse($student->register_at)->format('d/m/Y') }}
