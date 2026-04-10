@@ -2675,7 +2675,7 @@ class AdminController extends Controller
                     'program.name AS program_name',
                     'location.name AS location_name',
                     'location.code AS location',
-                    DB::raw('COUNT(student_programs.id) AS total')
+                    DB::raw('COUNT(DISTINCT student_programs.student_ic) AS total')
                 )
                 ->where('program.name', '!=', 'TIADA MAKLUMAT')
                 ->where('program.location_id', $locationId);
