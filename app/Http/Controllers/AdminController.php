@@ -2650,4 +2650,41 @@ class AdminController extends Controller
 
         return redirect()->back()->with('success', 'Bahan media berjaya dikemaskini.');
     }
+
+    public function programReport()
+    {
+        $baseQuery = function ($locationId) {
+            return DB::table('student_programs')
+                ->join('students', function ($join) {
+                    $join->on('student_programs.student_ic', '=', 'students.ic')
+                         ->whereNotNull('students.ic')
+                         ->where('students.ic', '!=', '');
+                })
+                ->join('program', 'student_programs.program_id', '=', 'program.id')
+                ->leftJoin('location', 'program.location_id', '=', 'location.id')
+                ->select(
+                    'program.name AS program_name',
+                    'location.name AS location_name',
+                    'location.code AS location',
+                    DB::raw('COUNT(student_programs.id) AS total')
+                )
+                ->where('program.name', '!=', 'TIADA MAKLUMAT')
+                ->where('program.location_id', $locationId)
+                ->groupBy('program.id', 'program.name', 'location.name', 'location.code')
+                ->orderByDesc('total')
+                ->get();
+        };
+
+        $locations = DB::table('location')->orderBy('id')->get();
+
+        $programStatsByLocation = [];
+        foreach ($locations as $location) {
+            $programStatsByLocation[$location->id] = [
+                'location'  => $location,
+                'stats'     => $baseQuery($location->id),
+            ];
+        }
+
+        return view('admin.programreport', compact('programStatsByLocation'));
+    }
 }

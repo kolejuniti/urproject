@@ -151,6 +151,7 @@
                                     <a class="dropdown-item" href="{{ route('admin.leadreports') }}">Data Masuk & Sumber</a>
                                     <a class="dropdown-item" href="{{ route('admin.achievements') }}">Pencapaian EA</a>
                                     <a class="dropdown-item" href="{{ route('admin.affiliateachievements') }}">Pencapaian Affiliate</a>
+                                    <a class="dropdown-item" href="{{ route('admin.programreport') }}">Laporan Program</a>
                                 </li>
                             </ul>
                         </li>

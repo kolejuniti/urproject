@@ -225,6 +225,7 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::put('/admin/content/update/{id}', [AdminController::class, 'updatecontent'])->name('admin.content.update');
     Route::delete('/admin/contents/{id}', [AdminController::class, 'destroy'])->name('admin.contents.destroy');
     Route::get('/admin/senarai-kandungan-media', [AdminController::class, 'contentsEnhanced'])->name('admin.content.list');
+    Route::get('/admin/laporan/program', [AdminController::class, 'programReport'])->name('admin.programreport');
 });
 
 // advisor route
