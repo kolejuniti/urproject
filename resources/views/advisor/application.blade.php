@@ -285,6 +285,87 @@
                 </div>
             </div>
 
+            @php
+                $excludedStatuses = [
+                    'TIDAK CUKUP SYARAT 3 KREDIT',
+                    'DAPAT TAWARAN IPTA / UPU / FORM 6',
+                    'MENOLAK TAWARAN UNITI',
+                    'DAPAT TAWARAN IPTS',
+                    'TIDAK LAYAK',
+                    'PELAJAR SALAH ISI BORANG / DATA ROSAK',
+                    'MOHON KERJA DI KOLEJ UNITI',
+                ];
+
+                $statusCounts = $applicants
+                    ->filter(function($item) use ($excludedStatuses) {
+                        return !in_array(strtoupper($item->status ?? ''), $excludedStatuses);
+                    })
+                    ->groupBy(function($item) {
+                        return $item->status ?? 'TIADA STATUS';
+                    })
+                    ->map->count()
+                    ->sortDesc();
+            @endphp
+
+            <div class="mb-4">
+                <div class="d-flex align-items-center mb-3">
+                    <i class="bi bi-bar-chart-fill text-primary me-2 fs-5"></i>
+                    <h6 class="mb-0 fw-bold text-muted">Ringkasan Status Permohonan</h6>
+                </div>
+                <div class="row g-3">
+                    @php
+                        $cardPalette = [
+                            ['#667eea', '#764ba2'],
+                            ['#11998e', '#38ef7d'],
+                            ['#f7971e', '#ffd200'],
+                            ['#ee0979', '#ff6a00'],
+                            ['#4facfe', '#00f2fe'],
+                            ['#0575e6', '#021b79'],
+                            ['#43cea2', '#185a9d'],
+                            ['#f953c6', '#b91d73'],
+                            ['#a18cd1', '#fbc2eb'],
+                            ['#fd746c', '#ff9068'],
+                        ];
+                        $paletteIndex = 0;
+                    @endphp
+
+                    @foreach($statusCounts as $statusName => $count)
+                    @php
+                        $colors = $cardPalette[$paletteIndex % count($cardPalette)];
+                        $paletteIndex++;
+                        $displayName = (strtoupper($statusName) === 'TIADA STATUS' || $statusName === '') ? 'TIADA STATUS' : strtoupper($statusName);
+                        $shadowColor = $colors[0];
+                    @endphp
+                    <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+                        <div class="status-count-card h-100 text-white text-center p-3 rounded-4"
+                             style="background: linear-gradient(135deg, {{ $colors[0] }} 0%, {{ $colors[1] }} 100%);
+                                    box-shadow: 0 6px 20px {{ $colors[0] }}55;
+                                    transition: transform 0.25s ease, box-shadow 0.25s ease;
+                                    cursor: default;"
+                             onmouseenter="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 12px 28px {{ $colors[0] }}80';"
+                             onmouseleave="this.style.transform='translateY(0)'; this.style.boxShadow='0 6px 20px {{ $colors[0] }}55';">
+                            <div class="display-6 fw-bold lh-1 mb-1 text-white">{{ $count }}</div>
+                            <div class="small fw-semibold text-white text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.5px; opacity: 0.85;">{{ $displayName }}</div>
+                        </div>
+                    </div>
+                    @endforeach
+
+                    {{-- Grand total card --}}
+                    <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+                        <div class="status-count-card h-100 text-white text-center p-3 rounded-4"
+                             style="background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+                                    box-shadow: 0 6px 20px rgba(45,55,72,0.35);
+                                    transition: transform 0.25s ease, box-shadow 0.25s ease;
+                                    cursor: default;"
+                             onmouseenter="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 12px 28px rgba(45,55,72,0.55)';"
+                             onmouseleave="this.style.transform='translateY(0)'; this.style.boxShadow='0 6px 20px rgba(45,55,72,0.35)';">
+                            <div class="display-6 fw-bold lh-1 mb-1">{{ $applicants->count() }}</div>
+                            <div class="small fw-semibold text-white-50 text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.5px;">JUMLAH KESELURUHAN</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="table-responsive">
                 <table id="myTable" class="table table-hover text-center">
                     <thead>
