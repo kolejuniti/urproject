@@ -381,6 +381,7 @@
                             <th>Affiliate</th>
                             <th>Tarikh Agihan</th>
                             <th>Status</th>
+                            <th>Catatan</th>
                             <th>Tarikh Pendaftaran</th>
                         </tr>
                     </thead>
@@ -439,6 +440,7 @@
                                             <td class="text-uppercase">
                                                 <span class="badge bg-light text-dark border">{{ $data->status }}</span>
                                             </td>
+                                            <td class="text-uppercase">{{ $data->reason }}</td>
                                             <td>{{$data->register_at ? \Carbon\Carbon::parse($data->register_at)->format('d-m-Y') : '' }}</td>
                         </tr>
                         @endforeach
