@@ -213,6 +213,7 @@ class AdvisorController extends Controller
                 'location.name AS location',
                 'status.name AS status',
                 'students.reason',
+                'students.location_id',
                 DB::raw("DATE_FORMAT(students.offer_letter_date, '%Y-%m-%d') as offer_letter_date"),
                 DB::raw("DATE_FORMAT(students.register_letter_date, '%Y-%m-%d') as register_letter_date")
             )
@@ -233,9 +234,18 @@ class AdvisorController extends Controller
 
         $programs = DB::table('student_programs')
             ->join('program', 'student_programs.program_id', '=', 'program.id')
-            ->select('program.name', 'student_programs.status', 'student_programs.notes', 'student_programs.id')
+            ->select('program.name', 'program.id as program_id', 'student_programs.status', 'student_programs.notes', 'student_programs.id')
             ->where('student_programs.student_ic', 'LIKE', "{$ic}")
             ->get();
+
+        $allPrograms = collect();
+        if ($applicants) {
+            $allPrograms = DB::table('program')
+                ->select('id', 'name')
+                ->where('location_id', $applicants->location_id)
+                ->orderBy('name')
+                ->get();
+        }
 
         $ids = [29, 30, 31, 11, 19, 20, 21, 22, 32, 33, 25];
         $placeholders = implode(',', array_fill(0, count($ids), '?'));
@@ -246,7 +256,7 @@ class AdvisorController extends Controller
             ->get();
 
         if ($request->ajax()) {
-            return response()->json(['applicants' => $applicants, 'fileUrl' => $fileUrl, 'programs' => $programs, 'statusApplications' => $statusApplications]);
+            return response()->json(['applicants' => $applicants, 'fileUrl' => $fileUrl, 'programs' => $programs, 'allPrograms' => $allPrograms, 'statusApplications' => $statusApplications]);
         }
 
         return view('advisor.application', compact('applicants', 'fileUrl', 'programs', 'statusApplications'));
@@ -260,21 +270,33 @@ class AdvisorController extends Controller
         $offer_letter_date = $request->input('offer_letter_date');
         $register_letter_date = $request->input('register_letter_date');
         $ic = $request->input('ic');
+        $studentName = strtoupper($request->input('student_name'));
 
         DB::table('students')
             ->where('students.id', $id)
-            ->update(['students.status_id' => $statusApplication, 'reason' => $reason, 'offer_letter_date' => $offer_letter_date, 'register_letter_date' => $register_letter_date]);
+            ->update([
+                'students.status_id' => $statusApplication,
+                'reason' => $reason,
+                'offer_letter_date' => $offer_letter_date,
+                'register_letter_date' => $register_letter_date,
+                'name' => $studentName ?: DB::table('students')->where('id', $id)->value('name'),
+            ]);
 
         if (is_array($programs)) {
             foreach ($programs as $program) {
                 $status = $program['status'] ?? null;
                 $notes = $program['notes'] ?? null;
                 $idProgram = $program['id'] ?? null;
+                $programId = $program['program_id'] ?? null;
 
                 if ($idProgram) {
+                    $updateData = ['student_programs.status' => $status, 'student_programs.notes' => $notes];
+                    if ($programId) {
+                        $updateData['student_programs.program_id'] = $programId;
+                    }
                     DB::table('student_programs')
                         ->where('student_programs.id', $idProgram)
-                        ->update(['student_programs.status' => $status, 'student_programs.notes' => $notes]);
+                        ->update($updateData);
                 }
             }
         }

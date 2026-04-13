@@ -471,8 +471,8 @@
                                     </div>
                                     <div class="row g-3">
                                         <div class="col-md-6">
-                                            <div class="label-custom">Nama Penuh</div>
-                                            <div class="value-custom" id="applicant-name">Loading...</div>
+                                            <label class="label-custom mb-1">Nama Penuh</label>
+                                            <input type="text" name="student_name" id="applicant-name" class="form-control form-control-sm text-uppercase" placeholder="Nama penuh pelajar">
                                         </div>
                                         <div class="col-md-6">
                                             <div class="label-custom">No. Kad Pengenalan</div>
@@ -680,7 +680,7 @@
                         $('#application-form').attr('action', "{{ url('advisor/application') }}/" + response.applicants.id);
                         $('#application-ic').val(response.applicants.ic);
                         // Populate the modal with the returned data
-                        $('#applicant-name').text(response.applicants.name);
+                        $('#applicant-name').val(response.applicants.name);
                         $('#applicant-ic').text(response.applicants.ic);
                         $('#applicant-phone').text(response.applicants.phone);
                         $('#applicant-email').text(response.applicants.email);
@@ -830,14 +830,21 @@
                             `;
                                 }
 
+                                // Build program select options
+                                var programOptions = response.allPrograms.map(p =>
+                                    `<option value="${p.id}" ${p.id == program.program_id ? 'selected' : ''}>${p.name}</option>`
+                                ).join('');
+
                                 programsHtml += `
                             <div class="border rounded p-3 mb-3 bg-light">
                                 <div class="row">
                                     <div class="col-md-12 mb-2">
-                                        <div class="fw-bold text-primary">Program Pilihan ${index + 1}</div>
-                                        <div class="small">${program.name}</div>
+                                        <div class="fw-bold text-primary mb-1">Program Pilihan ${index + 1}</div>
+                                        <select name="programs[${index + 1}][program_id]" class="form-select form-select-sm text-uppercase border-primary">
+                                            ${programOptions}
+                                        </select>
                                     </div>
-                                    <div class="col-md-12">
+                                    <div class="col-md-12 mt-2">
                                         <div class="label-custom mb-1">Status Kelayakan</div>
                                         <div class="d-flex gap-3 mb-2">
                                              <div class="form-check">
