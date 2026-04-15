@@ -903,6 +903,7 @@
 
                     let optionsHtml = '';
                     let foundSelected = false;
+                    const isRequired = reasons.length > 0;
 
                     reasons.forEach(function(r) {
                         const label = normalizeReasonLabel(r);
@@ -919,8 +920,11 @@
                     $('#reason-container').html(`
                         <div class="mb-3">
                             <label for="reason" class="label-custom mb-1">Catatan</label>
-                            <select name="reason" id="reason" class="form-select form-select-sm">
-                                <option value="" ${selectedReasonValue ? '' : 'selected'}>-- Tiada Catatan --</option>
+                            <select name="reason" id="reason" class="form-select form-select-sm" ${isRequired ? 'required' : ''}>
+                                ${isRequired
+                                    ? `<option value="" ${selectedReasonValue ? '' : 'selected'} disabled>Pilih Catatan</option>`
+                                    : `<option value="" selected>-- Tiada Catatan --</option>`
+                                }
                                 ${extraSelectedOption}
                                 ${optionsHtml}
                             </select>
