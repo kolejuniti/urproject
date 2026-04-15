@@ -720,22 +720,8 @@
                         `);
                         }
 
-                        //Handle reason status
-                        if (response.applicants.reason) {
-                            $('#reason-container').html(`
-                            <div class="mb-3">
-                                <label for="reason" class="label-custom mb-1">Catatan</label>
-                                <textarea name="reason" id="reason" rows="3" class="form-control form-control-sm">${response.applicants.reason}</textarea>    
-                            </div>
-                        `);
-                        } else {
-                            $('#reason-container').html(`
-                             <div class="mb-3">
-                                <label for="reason" class="label-custom mb-1">Catatan</label>
-                                <textarea name="reason" id="reason" rows="3" class="form-control form-control-sm" placeholder="Nyatakan catatan (jika ada)"></textarea>    
-                            </div>
-                        `);
-                        }
+                        // Load reason dropdown based on selected status
+                        loadReasonsByStatus(response.applicants.status_id || '', response.applicants.reason || '');
 
                         // Handle applicant offer letter date
 
@@ -880,6 +866,85 @@
                 }
             });
         }
+
+        function normalizeReasonLabel(reason) {
+            if (!reason) return '';
+            if (typeof reason.name !== 'undefined') return String(reason.name);
+            if (typeof reason.reason !== 'undefined') return String(reason.reason);
+            if (typeof reason.title !== 'undefined') return String(reason.title);
+            if (typeof reason.remark !== 'undefined') return String(reason.remark);
+            return '';
+        }
+
+        function loadReasonsByStatus(statusId, selectedReasonValue) {
+            selectedReasonValue = selectedReasonValue || '';
+
+            if (!statusId) {
+                $('#reason-container').html(`
+                    <div class="mb-3">
+                        <label for="reason" class="label-custom mb-1">Catatan</label>
+                        <select name="reason" id="reason" class="form-select form-select-sm" disabled>
+                            <option value="" selected>Sila pilih Status terlebih dahulu</option>
+                        </select>
+                    </div>
+                `);
+                return;
+            }
+
+            $.ajax({
+                url: "{{ route('advisor.reasons.byStatus') }}",
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    status_id: statusId
+                },
+                success: function(res) {
+                    const reasons = (res && res.reasons) ? res.reasons : [];
+
+                    let optionsHtml = '';
+                    let foundSelected = false;
+
+                    reasons.forEach(function(r) {
+                        const label = normalizeReasonLabel(r);
+                        if (!label) return;
+                        const isSelected = (selectedReasonValue && label === selectedReasonValue);
+                        if (isSelected) foundSelected = true;
+                        optionsHtml += `<option value="${label}" ${isSelected ? 'selected' : ''}>${label}</option>`;
+                    });
+
+                    const extraSelectedOption = (!foundSelected && selectedReasonValue)
+                        ? `<option value="${selectedReasonValue}" selected>${selectedReasonValue}</option>`
+                        : '';
+
+                    $('#reason-container').html(`
+                        <div class="mb-3">
+                            <label for="reason" class="label-custom mb-1">Catatan</label>
+                            <select name="reason" id="reason" class="form-select form-select-sm">
+                                <option value="" ${selectedReasonValue ? '' : 'selected'}>-- Tiada Catatan --</option>
+                                ${extraSelectedOption}
+                                ${optionsHtml}
+                            </select>
+                        </div>
+                    `);
+                },
+                error: function(xhr) {
+                    console.error(xhr.responseText || xhr);
+                    $('#reason-container').html(`
+                        <div class="mb-3">
+                            <label for="reason" class="label-custom mb-1">Catatan</label>
+                            <select name="reason" id="reason" class="form-select form-select-sm" disabled>
+                                <option value="" selected>Gagal memuatkan senarai catatan</option>
+                            </select>
+                        </div>
+                    `);
+                }
+            });
+        }
+
+        // Reload reasons when status changes (status select is injected dynamically)
+        $(document).on('change', '#applicant-status', function() {
+            loadReasonsByStatus($(this).val(), '');
+        });
 
         // Event delegation for dynamically added elements
         $(document).on('click', '.open-modal', function() {

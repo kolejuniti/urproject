@@ -262,6 +262,29 @@ class AdvisorController extends Controller
         return view('advisor.application', compact('applicants', 'fileUrl', 'programs', 'statusApplications'));
     }
 
+    public function reasonsByStatus(Request $request)
+    {
+        $statusId = $request->input('status_id');
+
+        if (!$statusId) {
+            return response()->json(['reasons' => []]);
+        }
+
+        try {
+            $reasons = DB::table('reasons')
+                ->where('status_id', $statusId)
+                ->orderBy('id')
+                ->get();
+        } catch (\Throwable $e) {
+            $reasons = DB::table('reason')
+                ->where('status_id', $statusId)
+                ->orderBy('id')
+                ->get();
+        }
+
+        return response()->json(['reasons' => $reasons]);
+    }
+
     public function update(Request $request, $id)
     {
         $programs = $request->input('programs'); // This should be an array
