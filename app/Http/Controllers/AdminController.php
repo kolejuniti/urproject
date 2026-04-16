@@ -1370,7 +1370,12 @@ class AdminController extends Controller
         // Summary of students by locations with date range filter
         $locations = DB::table('students')
             ->join('location', 'students.location_id', '=', 'location.id')
-            ->select(DB::raw('count(students.id) AS total'), 'location.name AS location')
+            ->select(
+                DB::raw('count(students.id) AS total'),
+                'location.name AS location',
+                DB::raw('SUM(CASE WHEN students.status_id = 19 THEN 1 ELSE 0 END) AS total_pra_daftar'),
+                DB::raw('SUM(CASE WHEN students.status_id IN (20,21,22) THEN 1 ELSE 0 END) AS total_daftar_kolej')
+            )
             ->where(function ($query) {
                 $query->whereNotNull('students.ic')
                     ->where('students.ic', '!=', '');
@@ -1390,14 +1395,43 @@ class AdminController extends Controller
             return $location;
         });
 
+        // Totals for new location columns (same filters as totalStudents)
+        $praDaftarTotal = DB::table('students')
+            ->where(function ($query) {
+                $query->whereNotNull('students.ic')
+                    ->where('students.ic', '!=', '');
+            })
+            ->where('students.status_id', 19);
+
+        $daftarKolejTotal = DB::table('students')
+            ->where(function ($query) {
+                $query->whereNotNull('students.ic')
+                    ->where('students.ic', '!=', '');
+            })
+            ->whereIn('students.status_id', [20, 21, 22]);
+
+        if ($start_date && $end_date) {
+            $praDaftarTotal->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
+            $daftarKolejTotal->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
+        } elseif ($start_date) {
+            $praDaftarTotal->whereDate(DB::raw("CAST(students.created_at AS DATE)"), $start_date);
+            $daftarKolejTotal->whereDate(DB::raw("CAST(students.created_at AS DATE)"), $start_date);
+        }
+
+        $totalPraDaftar = $praDaftarTotal->count();
+        $totalDaftarKolej = $daftarKolejTotal->count();
+
         // Summary of students by sources with KUPD and KUKB, including date range filter
         $sources = DB::table('students')
             ->select(
                 'students.source',
                 DB::raw('COUNT(students.id) AS total'),
+                DB::raw('SUM(CASE WHEN students.status_id = 19 THEN 1 ELSE 0 END) AS total_pra_daftar'),
                 DB::raw('SUM(CASE WHEN students.status_id IN (20,21,22) THEN 1 ELSE 0 END) AS total_register'),
                 DB::raw('SUM(CASE WHEN students.location_id = 1 THEN 1 ELSE 0 END) AS total_kupd'), // Count for KUPD (location_id = 1)
                 DB::raw('SUM(CASE WHEN students.location_id = 2 THEN 1 ELSE 0 END) AS total_kukb'),  // Count for KUKB (location_id = 2)
+                DB::raw('SUM(CASE WHEN students.location_id = 1 AND students.status_id = 19 THEN 1 ELSE 0 END) AS total_kupd_pra_daftar'), // KUPD pra daftar
+                DB::raw('SUM(CASE WHEN students.location_id = 2 AND students.status_id = 19 THEN 1 ELSE 0 END) AS total_kukb_pra_daftar'), // KUKB pra daftar
                 DB::raw('SUM(CASE WHEN students.location_id = 1 AND students.status_id IN (20,22) THEN 1 ELSE 0 END) AS total_kupd_register'), // KUPD register
                 DB::raw('SUM(CASE WHEN students.location_id = 2 AND students.status_id IN (21,22) THEN 1 ELSE 0 END) AS total_kukb_register')  // KUKB register
             )
@@ -1422,10 +1456,15 @@ class AdminController extends Controller
         $totalSourceKupdRegisterSum = $sources->sum('total_kupd_register');
         $totalSourceKukbRegisterSum = $sources->sum('total_kukb_register');
         $totalSourceRegisterSum = $sources->sum('total_kupd_register') + $sources->sum('total_kukb_register');
+        $totalSourcePraDaftarSum = $sources->sum('total_pra_daftar');
+        $totalSourceKupdPraDaftarSum = $sources->sum('total_kupd_pra_daftar');
+        $totalSourceKukbPraDaftarSum = $sources->sum('total_kukb_pra_daftar');
 
         // Calculate percentage for each source
         $sourcessWithPercentage = $sources->map(function ($source) use ($totalStudents) {
             $source->percentage = $totalStudents > 0 ? ($source->total / $totalStudents) * 100 : 0;
+            $source->pra_percentage = $totalStudents > 0 ? ($source->total_pra_daftar / $totalStudents) * 100 : 0;
+            $source->register_percentage = $totalStudents > 0 ? ($source->total_register / $totalStudents) * 100 : 0;
             return $source;
         });
 
@@ -1441,9 +1480,12 @@ class AdminController extends Controller
             ->select(
                 'state.name AS state',
                 DB::raw('COUNT(students.id) AS total'),
+                DB::raw('SUM(CASE WHEN students.status_id = 19 THEN 1 ELSE 0 END) AS total_pra_daftar'),
                 DB::raw('SUM(CASE WHEN students.status_id IN (20,21,22) THEN 1 ELSE 0 END) AS total_register'),
                 DB::raw('SUM(CASE WHEN students.location_id = 1 THEN 1 ELSE 0 END) AS total_kupd'), // Count for KUPD (location_id = 1)
                 DB::raw('SUM(CASE WHEN students.location_id = 2 THEN 1 ELSE 0 END) AS total_kukb'),  // Count for KUKB (location_id = 2)
+                DB::raw('SUM(CASE WHEN students.location_id = 1 AND students.status_id = 19 THEN 1 ELSE 0 END) AS total_kupd_pra_daftar'), // KUPD pra daftar
+                DB::raw('SUM(CASE WHEN students.location_id = 2 AND students.status_id = 19 THEN 1 ELSE 0 END) AS total_kukb_pra_daftar'), // KUKB pra daftar
                 DB::raw('SUM(CASE WHEN students.location_id = 1 AND students.status_id IN (20,22) THEN 1 ELSE 0 END) AS total_kupd_register'), // KUPD register
                 DB::raw('SUM(CASE WHEN students.location_id = 2 AND students.status_id IN (21,22) THEN 1 ELSE 0 END) AS total_kukb_register')  // KUKB register
             )
@@ -1468,10 +1510,15 @@ class AdminController extends Controller
         $totalStateKupdRegisterSum = $states->sum('total_kupd_register');
         $totalStateKukbRegisterSum = $states->sum('total_kukb_register');
         $totalStateRegisterSum = $states->sum('total_kupd_register') + $states->sum('total_kukb_register');
+        $totalStatePraDaftarSum = $states->sum('total_pra_daftar');
+        $totalStateKupdPraDaftarSum = $states->sum('total_kupd_pra_daftar');
+        $totalStateKukbPraDaftarSum = $states->sum('total_kukb_pra_daftar');
 
         // Calculate percentage for each state (total students)
         $statesWithPercentage = $states->map(function ($state) use ($totalStudents) {
             $state->percentage = $totalStudents > 0 ? ($state->total / $totalStudents) * 100 : 0;
+            $state->pra_percentage = $totalStudents > 0 ? ($state->total_pra_daftar / $totalStudents) * 100 : 0;
+            $state->register_percentage = $totalStudents > 0 ? ($state->total_register / $totalStudents) * 100 : 0;
             return $state;
         });
 
@@ -1511,7 +1558,7 @@ class AdminController extends Controller
             ];
         })->values();
 
-        return view('admin.summary', compact('totalStudents', 'statusWithPercentage', 'locationsWithPercentage', 'sourcessWithPercentage', 'currentYear', 'monthlyData', 'statesWithPercentage', 'totalStateKupdSum', 'totalStateKukbSum', 'totalStateKupdRegisterSum', 'totalStateKukbRegisterSum', 'totalStateRegisterSum', 'totalSourceKupdSum', 'totalSourceKukbSum', 'totalStateSum', 'totalSourceKupdRegisterSum', 'totalSourceKukbRegisterSum', 'statesWithRegisterPercentage', 'totalSourceSum', 'totalSourceRegisterSum'));
+        return view('admin.summary', compact('totalStudents', 'statusWithPercentage', 'locationsWithPercentage', 'totalPraDaftar', 'totalDaftarKolej', 'sourcessWithPercentage', 'currentYear', 'monthlyData', 'statesWithPercentage', 'totalStateKupdSum', 'totalStateKukbSum', 'totalStateKupdRegisterSum', 'totalStateKukbRegisterSum', 'totalStateRegisterSum', 'totalStatePraDaftarSum', 'totalStateKupdPraDaftarSum', 'totalStateKukbPraDaftarSum', 'totalSourceKupdSum', 'totalSourceKukbSum', 'totalStateSum', 'totalSourceKupdRegisterSum', 'totalSourceKukbRegisterSum', 'totalSourcePraDaftarSum', 'totalSourceKupdPraDaftarSum', 'totalSourceKukbPraDaftarSum', 'statesWithRegisterPercentage', 'totalSourceSum', 'totalSourceRegisterSum'));
     }
 
     public function summaryDetail(Request $request)

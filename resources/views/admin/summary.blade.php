@@ -266,6 +266,10 @@
         background-color: #f0fdf4 !important;
     }
 
+    .bg-soft-primary {
+        background-color: #eff6ff !important;
+    }
+
     .bg-soft-danger {
         background-color: #fef2f2 !important;
     }
@@ -399,7 +403,9 @@
                                         <tr>
                                             <th>#</th>
                                             <th>Lokasi</th>
-                                            <th>Jumlah</th>
+                                            <th>DATA MASUK</th>
+                                            <th>PRA DAFTAR</th>
+                                            <th>DAFTAR KOLEJ</th>
                                             <th>%</th>
                                         </tr>
                                     </thead>
@@ -409,6 +415,8 @@
                                             <td>{{ $index + 1 }}</td>
                                             <td class="text-uppercase fw-bold">{{ $data2->location }}</td>
                                             <td class="text-center fw-bold">{{ $data2->total }}</td>
+                                            <td class="text-center">{{ $data2->total_pra_daftar }}</td>
+                                            <td class="text-center">{{ $data2->total_daftar_kolej }}</td>
                                             <td class="text-center">{{ number_format($data2->percentage, 2) }}%</td>
                                         </tr>
                                         @endforeach
@@ -418,6 +426,8 @@
                                             <td></td>
                                             <td class="text-end text-uppercase">Jumlah Keseluruhan</td>
                                             <td class="text-center">{{ $totalStudents }}</td>
+                                            <td class="text-center">{{ $totalPraDaftar }}</td>
+                                            <td class="text-center">{{ $totalDaftarKolej }}</td>
                                             <td>100%</td>
                                         </tr>
                                     </tfoot>
@@ -443,6 +453,7 @@
                                             <th rowspan="2">#</th>
                                             <th rowspan="2">Sumber</th>
                                             <th colspan="4" class="text-center bg-soft-warning text-dark border-bottom">Data Masuk</th>
+                                            <th colspan="4" class="text-center bg-soft-primary text-dark border-bottom">Pra Daftar</th>
                                             <th colspan="4" class="text-center bg-soft-success text-dark border-bottom">Daftar Kolej</th>
                                         </tr>
                                         <tr>
@@ -450,6 +461,10 @@
                                             <th class="bg-soft-warning text-dark">KUKB</th>
                                             <th class="bg-soft-warning text-dark">Jumlah</th>
                                             <th class="bg-soft-warning text-dark">%</th>
+                                            <th class="bg-soft-primary text-dark">KUPD</th>
+                                            <th class="bg-soft-primary text-dark">KUKB</th>
+                                            <th class="bg-soft-primary text-dark">Jumlah</th>
+                                            <th class="bg-soft-primary text-dark">%</th>
                                             <th class="bg-soft-success text-dark">KUPD</th>
                                             <th class="bg-soft-success text-dark">KUKB</th>
                                             <th class="bg-soft-success text-dark">Jumlah</th>
@@ -465,6 +480,10 @@
                                             <td class="text-center bg-soft-warning text-dark">{{ $data3->total_kukb }}</td>
                                             <td class="text-center bg-soft-warning text-dark fw-bold">{{ $data3->total }}</td>
                                             <td class="text-center bg-soft-warning text-dark">{{ number_format($data3->percentage, 2) }}%</td>
+                                            <td class="text-center bg-soft-primary text-dark">{{ $data3->total_kupd_pra_daftar }}</td>
+                                            <td class="text-center bg-soft-primary text-dark">{{ $data3->total_kukb_pra_daftar }}</td>
+                                            <td class="text-center bg-soft-primary text-dark fw-bold">{{ $data3->total_pra_daftar }}</td>
+                                            <td class="text-center bg-soft-primary text-dark">{{ number_format($data3->pra_percentage, 2) }}%</td>
                                             <td class="text-center bg-soft-success text-dark">{{ $data3->total_kupd_register }}</td>
                                             <td class="text-center bg-soft-success text-dark">{{ $data3->total_kukb_register }}</td>
                                             <td class="text-center bg-soft-success text-dark fw-bold">{{ $data3->total_register }}</td>
@@ -479,6 +498,10 @@
                                             <td class="text-center bg-soft-warning">{{ $totalSourceKukbSum }}</td>
                                             <td class="text-center bg-soft-warning">{{ $totalStudents }}</td>
                                             <td class="bg-soft-warning"></td>
+                                            <td class="text-center bg-soft-primary">{{ $totalSourceKupdPraDaftarSum }}</td>
+                                            <td class="text-center bg-soft-primary">{{ $totalSourceKukbPraDaftarSum }}</td>
+                                            <td class="text-center bg-soft-primary">{{ $totalSourcePraDaftarSum }}</td>
+                                            <td class="bg-soft-primary"></td>
                                             <td class="text-center bg-soft-success">{{ $totalSourceKupdRegisterSum }}</td>
                                             <td class="text-center bg-soft-success">{{ $totalSourceKukbRegisterSum }}</td>
                                             <td class="text-center bg-soft-success">{{ $totalSourceRegisterSum }}</td>
@@ -507,6 +530,7 @@
                                             <th rowspan="2">#</th>
                                             <th rowspan="2">Negeri</th>
                                             <th colspan="4" class="text-center bg-soft-warning text-dark border-bottom">Data Masuk</th>
+                                            <th colspan="4" class="text-center bg-soft-primary text-dark border-bottom">Pra Daftar</th>
                                             <th colspan="4" class="text-center bg-soft-success text-dark border-bottom">Daftar Kolej</th>
                                         </tr>
                                         <tr>
@@ -514,6 +538,10 @@
                                             <th class="bg-soft-warning text-dark">KUKB</th>
                                             <th class="bg-soft-warning text-dark">Jumlah</th>
                                             <th class="bg-soft-warning text-dark">%</th>
+                                            <th class="bg-soft-primary text-dark">KUPD</th>
+                                            <th class="bg-soft-primary text-dark">KUKB</th>
+                                            <th class="bg-soft-primary text-dark">Jumlah</th>
+                                            <th class="bg-soft-primary text-dark">%</th>
                                             <th class="bg-soft-success text-dark">KUPD</th>
                                             <th class="bg-soft-success text-dark">KUKB</th>
                                             <th class="bg-soft-success text-dark">Jumlah</th>
@@ -529,6 +557,10 @@
                                             <td class="text-center bg-soft-warning text-dark">{{ $data4->total_kukb }}</td>
                                             <td class="text-center bg-soft-warning text-dark fw-bold">{{ $data4->total }}</td>
                                             <td class="text-center bg-soft-warning text-dark">{{ number_format($data4->percentage, 2) }}%</td>
+                                            <td class="text-center bg-soft-primary text-dark">{{ $data4->total_kupd_pra_daftar }}</td>
+                                            <td class="text-center bg-soft-primary text-dark">{{ $data4->total_kukb_pra_daftar }}</td>
+                                            <td class="text-center bg-soft-primary text-dark fw-bold">{{ $data4->total_pra_daftar }}</td>
+                                            <td class="text-center bg-soft-primary text-dark">{{ number_format($data4->pra_percentage, 2) }}%</td>
                                             <td class="text-center bg-soft-success text-dark">{{ $data4->total_kupd_register }}</td>
                                             <td class="text-center bg-soft-success text-dark">{{ $data4->total_kukb_register }}</td>
                                             <td class="text-center bg-soft-success text-dark fw-bold">{{ $data4->total_register }}</td>
@@ -543,6 +575,10 @@
                                             <td class="text-center bg-soft-warning">{{ $totalStateKukbSum }}</td>
                                             <td class="text-center bg-soft-warning">{{ $totalStateSum }}</td>
                                             <td class="bg-soft-warning"></td>
+                                            <td class="text-center bg-soft-primary">{{ $totalStateKupdPraDaftarSum }}</td>
+                                            <td class="text-center bg-soft-primary">{{ $totalStateKukbPraDaftarSum }}</td>
+                                            <td class="text-center bg-soft-primary">{{ $totalStatePraDaftarSum }}</td>
+                                            <td class="bg-soft-primary"></td>
                                             <td class="text-center bg-soft-success">{{ $totalStateKupdRegisterSum }}</td>
                                             <td class="text-center bg-soft-success">{{ $totalStateKukbRegisterSum }}</td>
                                             <td class="text-center bg-soft-success">{{ $totalStateRegisterSum }}</td>
