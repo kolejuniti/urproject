@@ -2,8 +2,45 @@
 
 @section('content')
 <link href="https://cdn.datatables.net/v/bs5/jq-3.7.0/jszip-3.10.1/dt-2.1.0/b-3.1.0/b-colvis-3.1.0/b-html5-3.1.0/b-print-3.1.0/cr-2.0.3/datatables.min.css" rel="stylesheet">
+<style>
+    .bg-orange {
+        background-color: #fd7e14 !important;
+    }
+</style>
 <div class="container">
     <div class="row justify-content-center">
+        <div class="mb-3">
+            <div class="fw-semibold mb-2">Petunjuk Warna Status (Hari Data Direkodkan)</div>
+            <div class="d-flex flex-wrap gap-2">
+                <span class="badge rounded-pill bg-primary">Tiada Status</span>
+                <span class="badge rounded-pill bg-success">&le; 7 Hari</span>
+                <span class="badge rounded-pill bg-warning text-dark">8 - 14 Hari</span>
+                <span class="badge rounded-pill bg-orange text-white">15 - 21 Hari</span>
+                <span class="badge rounded-pill bg-danger">&ge; 22 Hari</span>
+            </div>
+        </div>
+        @php
+            $dayClass = function ($days) {
+                if ($days === null) {
+                    return '';
+                }
+                $days = (int) $days;
+                if ($days === 0) {
+                    return '';
+                }
+                if ($days <= 7) {
+                    return 'bg-success text-white';
+                }
+                if ($days <= 14) {
+                    return 'bg-warning text-dark';
+                }
+                if ($days <= 21) {
+                    return 'bg-orange text-white';
+                }
+
+                return 'bg-danger text-white';
+            };
+        @endphp
         <div class="table-responsive">
             <table id="myTable" class="table table-bordered small table-sm text-center">
                 <thead class="table-dark">
@@ -15,6 +52,7 @@
                         <th rowspan="2">Affiliate</th>
                         <th rowspan="2">Sumber</th>
                         <th rowspan="2">Status Terkini</th>
+                        <th rowspan="2">Catatan</th>
                         <th colspan="5" class="text-center">Julat Hari</th>
                     </tr>
                     <tr>
@@ -35,27 +73,20 @@
                         <td class="text-uppercase">{{ $item->affiliate ?? 'TIADA AFFILIATE' }}</td>
                         <td class="text-uppercase">{{ $item->source }}</td>
                         <td class="text-uppercase">{{ $item->status ?? 'PERMOHONAN BARU' }}</td>
+                        <td class="text-uppercase">{{ $item->reason ?? '' }}</td>
                         {{-- Group 1: status_id in [7–18] [29-31] --}}
                         @php
-                        $days_process = in_array($item->status_id, array_merge(range(7, 18), range(29, 31))) ? $item->days_since_update: 0;
+                        $isNoStatus = is_null($item->status_id) || (int) $item->status_id === 0;
+                        $processStatusIds = array_merge(range(7, 18), range(29, 31));
+                        $isProcessStatus = $isNoStatus || in_array((int) $item->status_id, $processStatusIds);
+                        $days_process = $isProcessStatus ? $item->days_since_update : 0;
+                        $class_process = $isNoStatus ? 'bg-primary text-white' : $dayClass($days_process);
 
-                        if ($days_process < 7) {
-                            $class='table-success' ;
-                            } elseif ($days_process <=14) {
-                            $class='table-warning' ;
-                            } elseif ($days_process>= 15) {
-                            $class = 'table-danger';
-                            } else {
-                            $class = '';
-                            }
-                            @endphp
-                            <td class="text-center {{ $class }}">
-                                {{ $days_process }}
-                            </td>
-                            {{-- Group 2: status_id === 19 --}}
-                            <td class="text-center">
-                                {{ $item->status_id === 19 ? $item->days_since_update : 0 }}
-                            </td>
+                        $days_pre = $item->status_id === 19 ? $item->days_since_update : 0;
+                        $class_pre = $dayClass($days_pre);
+                        @endphp
+                        <td class="text-center fw-semibold {{ $class_process }}">{{ $days_process }}</td>
+                        <td class="text-center fw-semibold {{ $class_pre }}">{{ $days_pre }}</td>
                             {{-- Group 3: status_id in [20, 21, 22] --}}
                             <td class="text-center">
                                 {{ in_array($item->status_id, [20, 21]) ? $item->days_since_update : 0 }}

@@ -2409,6 +2409,7 @@ class AdminController extends Controller
                 'students.source',
                 'students.status_id',
                 'status.name AS status',
+                'students.reason AS reason',
                 DB::raw('DATEDIFF(CURDATE(), students.updated_at) AS days_since_update')
             )
             ->orderByDesc('students.id');
