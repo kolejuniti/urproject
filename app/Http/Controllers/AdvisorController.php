@@ -198,6 +198,7 @@ class AdvisorController extends Controller
                 'students.ic',
                 'students.phone',
                 'students.email',
+                'students.notes',
                 'students.address1',
                 'students.address2',
                 'students.postcode',
@@ -292,6 +293,7 @@ class AdvisorController extends Controller
         $reason = $request->input('reason');
         $offer_letter_date = $request->input('offer_letter_date');
         $register_letter_date = $request->input('register_letter_date');
+        $notes = $request->input('notes');
         $ic = $request->input('ic');
         $studentName = strtoupper($request->input('student_name'));
 
@@ -302,6 +304,7 @@ class AdvisorController extends Controller
                 'reason' => $reason,
                 'offer_letter_date' => $offer_letter_date,
                 'register_letter_date' => $register_letter_date,
+                'notes' => $notes,
                 'name' => $studentName ?: DB::table('students')->where('id', $id)->value('name'),
             ]);
 

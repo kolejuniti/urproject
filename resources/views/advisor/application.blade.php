@@ -541,6 +541,11 @@
                                             <div id="status-container"></div> <!-- Dynamic Status Select -->
                                             <div id="reason-container"></div> <!-- Dynamic Reason Textarea -->
 
+                                            <div class="mb-3">
+                                                <label for="applicant-notes" class="label-custom mb-1">Nota</label>
+                                                <textarea name="notes" id="applicant-notes" class="form-control form-control-sm" rows="4"></textarea>
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -692,6 +697,7 @@
                         $('#applicant-spm_year').text(response.applicants.spm_year);
                         $('#applicant-created_at').text(response.applicants.created_at);
                         $('#applicant-location').text(response.applicants.location);
+                        $('#applicant-notes').val(response.applicants.notes || '');
 
                         // Handle applicant status
                         let statusOptions = response.statusApplications.map((statusApplication) =>
