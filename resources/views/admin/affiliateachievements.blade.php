@@ -330,9 +330,12 @@
                             @endif
                             <thead>
                                 <tr>
-                                    <th>#</th>
-                                    <th>Nama Affiliate</th>
-                                    <th>Data Masuk</th>
+                                    <th rowspan="2">#</th>
+                                    <th rowspan="2">Nama Affiliate</th>
+                                    <th rowspan="2">Data Masuk</th>
+                                    <th colspan="4" class="text-center">Pecahan Data Masuk</th>
+                                </tr>
+                                <tr>
                                     <th>Data Proses</th>
                                     <th>Pra Pendaftaran</th>
                                     <th>Daftar Kolej</th>
