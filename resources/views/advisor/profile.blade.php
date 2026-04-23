@@ -150,6 +150,7 @@
         overflow: hidden;
         position: relative;
         box-shadow: 0 12px 25px rgba(17, 24, 39, 0.25);
+        border: 2px dashed rgba(17, 24, 39, 0.4);
     }
 
     .staff-card::before {
@@ -247,23 +248,29 @@
     }
 
     .staff-card__photo {
-        width: 30mm;
-        height: 30mm;
-        border-radius: 999px;
-        background: rgba(255, 255, 255, 0.35);
-        border: 1px solid rgba(17, 24, 39, 0.15);
+        width: 28mm;
+        height: 28mm;
+        min-width: 28mm;
+        min-height: 28mm;
+        border-radius: 50%;
+        background: white;
+        border: 2px solid rgba(255, 255, 255, 0.6);
         display: flex;
         align-items: center;
         justify-content: center;
         color: rgba(17, 24, 39, 0.9);
         font-size: 22px;
         overflow: hidden;
+        flex-shrink: 0;
+        margin: 0 auto;
     }
 
     .staff-card__photo img {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        object-position: center;
+        display: block;
     }
 
     .staff-card__photo-icon {
@@ -602,9 +609,11 @@
 
                 const canvas = await window.html2canvas(staffCardPrintable, {
                     backgroundColor: null,
-                    scale: 3,
+                    scale: 4,
                     useCORS: true,
                     logging: false,
+                    imageTimeout: 0,
+                    allowTaint: false,
                 });
 
                 const imgData = canvas.toDataURL('image/png');
