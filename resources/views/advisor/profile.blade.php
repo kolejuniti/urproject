@@ -4,7 +4,7 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-<style>
+<style id="advisorProfileStyles">
     :root {
         --primary-color: #4f46e5;
         --secondary-color: #ec4899;
@@ -131,6 +131,186 @@
     .btn-save:hover {
         transform: translateY(-2px);
         box-shadow: 0 8px 15px rgba(79, 70, 229, 0.4);
+    }
+
+    /* Staff Card (sample) */
+    .staff-card-stage {
+        background: rgba(248, 250, 252, 0.7);
+        border: 1px dashed var(--border-color);
+        border-radius: 16px;
+        padding: 18px;
+    }
+
+    .staff-card {
+        width: 54mm;
+        height: 85.6mm; /* CR80 portrait */
+        border-radius: 3.2mm;
+        background: linear-gradient(135deg, #fbbf24, #f97316);
+        color: #111827;
+        overflow: hidden;
+        position: relative;
+        box-shadow: 0 12px 25px rgba(17, 24, 39, 0.25);
+    }
+
+    .staff-card::before {
+        content: '';
+        position: absolute;
+        inset: -40px -60px auto auto;
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        background: rgba(59, 130, 246, 0.22);
+        filter: blur(1px);
+    }
+
+    .staff-card::after {
+        content: '';
+        position: absolute;
+        inset: auto auto -55px -55px;
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        background: rgba(168, 85, 247, 0.22);
+        filter: blur(1px);
+    }
+
+    .staff-card__inner {
+        position: relative;
+        z-index: 1;
+        height: 100%;
+        padding: 8mm 7mm 7mm;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 10px;
+    }
+
+    .staff-card__header {
+        width: calc(100% + 14mm);
+        display: flex;
+        justify-content: center;
+        margin-bottom: 4px;
+        margin-top: -6mm;
+        margin-left: -7mm;
+        margin-right: -7mm;
+    }
+
+    .staff-card__brandbox {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        background: rgba(0, 0, 0, 0.9);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-left: 0;
+        border-right: 0;
+        border-radius: 0;
+        padding: 8px 10px;
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .staff-card__brandbox img {
+        width: 8.5mm;
+        height: 8.5mm;
+        object-fit: contain;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 1.1mm;
+        flex: 0 0 auto;
+    }
+
+    .staff-card__brandtext {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+        min-width: 0;
+    }
+
+    .staff-card__brandtext-main {
+        font-size: 24px;
+        font-weight: 900;
+        letter-spacing: 0.4px;
+        line-height: 1.1;
+        color: rgba(255, 255, 255, 0.98);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .staff-card__brandtext-sub {
+        font-size: 10px;
+        line-height: 1.05;
+        color: rgba(255, 255, 255, 0.82);
+        white-space: nowrap;
+    }
+
+    .staff-card__photo {
+        width: 30mm;
+        height: 30mm;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.35);
+        border: 1px solid rgba(17, 24, 39, 0.15);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: rgba(17, 24, 39, 0.9);
+        font-size: 22px;
+        overflow: hidden;
+    }
+
+    .staff-card__photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .staff-card__photo-icon {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        color: rgba(17, 24, 39, 0.9);
+    }
+
+    .staff-card__details {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .staff-card__name {
+        font-weight: 700;
+        font-size: 13px;
+        line-height: 1.1;
+        margin: 2px 0 8px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .staff-card__title {
+        margin: 0;
+        font-size: 11px;
+        line-height: 1.2;
+        color: rgba(17, 24, 39, 0.85);
+        letter-spacing: 0.3px;
+        text-transform: uppercase;
+        font-weight: 800;
+    }
+
+    .staff-card__title-box {
+        width: calc(100% + 14mm);
+        background: rgba(255, 255, 255, 0.95);
+        border: 1px solid rgba(17, 24, 39, 0.12);
+        border-radius: 0;
+        padding: 8px 8px;
+        margin-top: 22px;
+        margin-left: -7mm;
+        margin-right: -7mm;
+        border-left: 0;
+        border-right: 0;
     }
 </style>
 
@@ -265,15 +445,99 @@
                     </form>
                 </div>
             </div>
+
+            <!-- Staff Card (Sample) -->
+            <div class="card-custom">
+                <div class="card-header-simple">
+                    <h5><i class="fas fa-id-card"></i> Kad Staf</h5>
+                </div>
+                <div class="card-body p-4">
+
+                    <div class="staff-card-stage mb-4" aria-label="Staff card stage">
+                        <div class="staff-card mx-auto" id="staffCardPrintable" aria-label="Staff card preview">
+                            <div class="staff-card__inner">
+                                <div class="staff-card__header" aria-label="Branding">
+                                    <div class="staff-card__brandbox">
+                                        <img src="{{ asset('images/kolej-uniti-logo.png') }}" alt="Kolej UNITI logo">
+                                        <div class="staff-card__brandtext">
+                                            <div class="staff-card__brandtext-main">KOLEJ UNITI</div>
+                                            <div class="staff-card__brandtext-sub">www.uniti.edu.my</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="staff-card__photo" title="Photo placeholder">
+                                    <img id="staffCardPhoto" src="" alt="Advisor photo" crossorigin="anonymous" data-primary-src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/advisor/{{ $user->ic }}.jpg">
+                                </div>
+
+                                <div class="staff-card__details">
+                                    <p class="staff-card__name">{{ (\Illuminate\Support\Str::contains(\Illuminate\Support\Str::substr($user->name, 0, 8), ['PD', 'KB'])) ? \Illuminate\Support\Str::substr($user->name, 8) : $user->name }}</p>
+                                    <div class="staff-card__title-box">
+                                        <p class="staff-card__title">EKSEKUTIF PENGAMBILAN PELAJAR</p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-3 justify-content-end mb-3">
+                        <button type="button" class="btn btn-save" id="downloadStaffCardBtn">
+                            <i class="fas fa-download me-2"></i> Muat turun (PDF)
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Image Loading with Timeout
+        const staffCardPhoto = document.getElementById('staffCardPhoto');
+        if (staffCardPhoto) {
+            const primarySrc = staffCardPhoto.getAttribute('data-primary-src');
+            const photoContainer = staffCardPhoto.parentElement;
+            let imageLoadTimeout;
+
+            function showIconFallback() {
+                clearTimeout(imageLoadTimeout);
+                staffCardPhoto.style.display = 'none';
+                
+                // Create and show icon fallback
+                if (!photoContainer.querySelector('.staff-card__photo-icon')) {
+                    const iconDiv = document.createElement('div');
+                    iconDiv.className = 'staff-card__photo-icon';
+                    iconDiv.innerHTML = '<i class="fas fa-user"></i>';
+                    photoContainer.appendChild(iconDiv);
+                }
+            }
+
+            // Try to load primary image with 5-second timeout
+            imageLoadTimeout = setTimeout(showIconFallback, 5000);
+
+            staffCardPhoto.onload = function() {
+                clearTimeout(imageLoadTimeout);
+            };
+
+            staffCardPhoto.onerror = function() {
+                clearTimeout(imageLoadTimeout);
+                showIconFallback();
+            };
+
+            // Start loading primary image
+            staffCardPhoto.src = primarySrc;
+        }
+
         // Password Match Validation
         const passwordInput = document.getElementById('password');
         const passwordConfirmInput = document.getElementById('password_confirmation');
+        const downloadStaffCardBtn = document.getElementById('downloadStaffCardBtn');
+        const staffCardPrintable = document.getElementById('staffCardPrintable');
 
         function validatePasswordMatch() {
             if (passwordConfirmInput.value && passwordInput.value !== passwordConfirmInput.value) {
@@ -285,6 +549,88 @@
 
         passwordInput.addEventListener('input', validatePasswordMatch);
         passwordConfirmInput.addEventListener('input', validatePasswordMatch);
+
+        function downloadStaffCardAsPdf() {
+            if (!staffCardPrintable) return;
+
+            const button = downloadStaffCardBtn;
+            const oldText = button ? button.innerHTML : null;
+
+            const setBusy = (isBusy) => {
+                if (!button) return;
+                button.disabled = isBusy;
+                button.style.opacity = isBusy ? '0.8' : '';
+                button.style.pointerEvents = isBusy ? 'none' : '';
+                if (isBusy) button.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Menjana PDF...';
+                else if (oldText != null) button.innerHTML = oldText;
+            };
+
+            const fallbackPrint = () => {
+                // Fallback: browser print dialog (user can choose Save as PDF)
+                const printWindow = window.open('', '_blank', 'width=900,height=700');
+                if (!printWindow) return;
+
+                const cardHtml = staffCardPrintable.outerHTML;
+                const pageStyles = `
+                    <style>
+                        @page { size: 54mm 85.6mm; margin: 0; }
+                        html, body { margin: 0; padding: 0; }
+                        body { width: 54mm; height: 85.6mm; display: grid; place-items: center; background: #fff; }
+                        .staff-card { box-shadow: none !important; width: 54mm !important; height: 85.6mm !important; }
+                        html, body, .staff-card { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+                        /* minimal required styles for the card */
+                        ${document.getElementById('advisorProfileStyles')?.innerHTML ?? ''}
+                    </style>
+                `;
+
+                printWindow.document.open();
+                printWindow.document.write(`<!doctype html><html><head><meta charset="utf-8">${pageStyles}<title>Staff Card</title></head><body>${cardHtml}</body></html>`);
+                printWindow.document.close();
+
+                setTimeout(() => {
+                    try { printWindow.focus(); printWindow.print(); } catch (e) {}
+                }, 250);
+            };
+
+            const downloadViaCanvasPdf = async () => {
+                if (!window.html2canvas || !window.jspdf?.jsPDF) throw new Error('missing-libs');
+
+                // Ensure images try to load with CORS for canvas export
+                staffCardPrintable.querySelectorAll('img').forEach((img) => {
+                    if (!img.getAttribute('crossorigin')) img.setAttribute('crossorigin', 'anonymous');
+                });
+
+                const canvas = await window.html2canvas(staffCardPrintable, {
+                    backgroundColor: null,
+                    scale: 3,
+                    useCORS: true,
+                    logging: false,
+                });
+
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new window.jspdf.jsPDF({
+                    orientation: 'portrait',
+                    unit: 'mm',
+                    format: [54, 85.6],
+                });
+
+                pdf.addImage(imgData, 'PNG', 0, 0, 54, 85.6);
+                pdf.save('staff-card.pdf');
+            };
+
+            (async () => {
+                setBusy(true);
+                try {
+                    await downloadViaCanvasPdf();
+                } catch (e) {
+                    fallbackPrint();
+                } finally {
+                    setBusy(false);
+                }
+            })();
+        }
+
+        downloadStaffCardBtn?.addEventListener('click', downloadStaffCardAsPdf);
     });
 </script>
 @endsection
