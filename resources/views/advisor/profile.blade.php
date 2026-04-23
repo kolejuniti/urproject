@@ -458,7 +458,7 @@
                             <div class="staff-card__inner">
                                 <div class="staff-card__header" aria-label="Branding">
                                     <div class="staff-card__brandbox">
-                                        <img src="{{ asset('images/kolej-uniti-logo.png') }}" alt="Kolej UNITI logo">
+                                        <img src="https://ku-storage-object.ap-south-1.linodeobjects.com/urproject/images/logo/kolej-uniti-logo.png" alt="Kolej UNITI logo" crossorigin="anonymous">
                                         <div class="staff-card__brandtext">
                                             <div class="staff-card__brandtext-main">KOLEJ UNITI</div>
                                             <div class="staff-card__brandtext-sub">www.uniti.edu.my</div>
