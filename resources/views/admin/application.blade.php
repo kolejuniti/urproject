@@ -607,21 +607,19 @@
                         </thead>
                         <tbody>
                             @foreach ($applicants as $index => $data)
-                            @php
-                            $rowClass = '';
-                            if ($data->user_id !== null && $data->register_at === null && in_array($data->status_id, [1, 2, 3, 4, 5, 24, 26, 27])) {
-                            $rowClass = 'row-danger';
-                            } elseif ($data->user_id !== null && $data->register_at === null && $data->status_id === 19) {
-                            $rowClass = 'row-info';
-                            } elseif (in_array($data->user_id, [0, '0'], true) && $data->register_at === null) {
-                            $rowClass = '';
-                            } elseif ($data->user_id !== null && $data->register_at === null) {
-                            $rowClass = 'row-warning';
-                            } elseif ($data->user_id !== null && $data->register_at !== null) {
-                            $rowClass = 'row-success';
-                            }
-                            @endphp
-                            <tr class="{{ $rowClass }}">
+                            @if ($data->user_id !== null && $data->register_at === null && in_array($data->status_id, [1, 2, 3, 4, 5, 24, 26, 27,32,33]))
+                            <tr class="table-danger">
+                                @elseif ($data->user_id !== null && $data->register_at === null && $data->status_id === 19)
+                            <tr class="table-info">
+                                @elseif ($data->user_id !== null && ($data->status_id === null || $data->status_id === 0))
+                            <tr>
+                                @elseif ($data->user_id !== null && $data->register_at === null)
+                            <tr class="table-warning">
+                                @elseif ($data->user_id !== null && $data->register_at !== null)
+                            <tr class="table-success">
+                                @else
+                            <tr>
+                            @endif
                                 <td>{{ $index + 1 }}</td>
                                 <td>
                                     <button type="button" class="btn-applicant-link text-uppercase open-modal" data-ic="{{ $data->ic }}">
