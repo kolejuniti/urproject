@@ -322,7 +322,7 @@
             <div class="collapse navbar-collapse" id="navbarContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
                     <li class="nav-item"><a class="nav-link" href="{{ url('/') . (isset($source) ? '?source=' . $source : '') . (isset($ref) ? (isset($source) ? '&' : '?') . 'ref=' . $ref : '') }}">Pilih Kampus</a></li>
-                    <li class=" nav-item"><a class="nav-link" href="{{ route('semak.permohonan.kupd') }}">Semak Permohonan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('semak.permohonan.kupd') . (isset($source) ? '?source=' . $source : '') . (isset($ref) ? (isset($source) ? '&' : '?') . 'ref=' . $ref : '') }}">Semak Permohonan</a></li>
                     <li class="nav-item ms-lg-3">
                         <a class="btn btn-primary-custom" href="{{ route('student.register-kupd', ['source' => old('source', $source), 'ref' => old('ref', $ref)]) }}">
                             Daftar Sekarang <i class="bi bi-arrow-right ms-2"></i>
