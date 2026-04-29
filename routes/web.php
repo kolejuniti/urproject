@@ -19,6 +19,7 @@ use Spatie\Sitemap\Tags\Url;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 
 Route::get('/image-proxy', function (Request $request) {
     $url = $request->query('url');
@@ -170,6 +171,14 @@ Route::get('/', function (Request $request) {
     if (empty($source)) {
         $source = $determineSourceFromReferrer($referrer);
     }
+
+    // Store referral for 7 day (10080 minutes)
+    if ($ref) {
+        Cookie::queue('affiliate_ref', $ref, 10080); // 7 days
+    }
+
+    // fallback if user revisits without query params
+    $ref = $ref ?? Cookie::get('affiliate_ref');
 
     // return view('welcome', compact('ref', 'source'));
     return view('welcome_new', compact('ref', 'source'));

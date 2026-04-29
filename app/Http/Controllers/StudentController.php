@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\StudentRegistrationNotification;
 use thiagoalessio\TesseractOCR\TesseractOCR;
+use Illuminate\Support\Facades\Cookie;
 
 class StudentController extends Controller
 {
@@ -46,6 +47,14 @@ class StudentController extends Controller
             ->where('location_id', '1')
             ->where('program.offered', 1)
             ->get();
+
+        // Store referral for 1 day (10080 minutes)
+        if ($ref) {
+            Cookie::queue('affiliate_ref', $ref, 10080); // Store for 7 days (10080 minutes)
+        }
+
+        // fallback if user revisits without query params
+        $ref = $ref ?? Cookie::get('affiliate_ref');
 
         return view('student.register-kupd', compact('ref', 'states', 'locations', 'years', 'source', 'isEmbedded', 'programs'))->with('canonical', 'https://edaftarkolej.uniticms.edu.my/daftar/port-dickson');
     }
@@ -590,6 +599,8 @@ class StudentController extends Controller
                 $fileUrl = Storage::disk('linode')->url($filePath);
 
                 $now = now()->timezone('Asia/Kuala_Lumpur');
+
+                $ref = $request->ref ?? Cookie::get('affiliate_ref');
 
                 DB::table('students')->insert([
                     'name' => $name,
@@ -1262,6 +1273,14 @@ class StudentController extends Controller
         }
 
         $ref = $request->query('ref');
+
+        // Store referral for 1 day (10080 minutes)
+        if ($ref) {
+            Cookie::queue('affiliate_ref', $ref, 10080); // Store for 7 days (10080 minutes)
+        }
+
+        // fallback if user revisits without query params
+        $ref = $ref ?? Cookie::get('affiliate_ref');
 
         return view('student.kupd_new', compact('ref', 'source'));
     }
