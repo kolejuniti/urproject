@@ -41,6 +41,46 @@
                 return 'bg-danger text-white';
             };
         @endphp
+        @php
+            $catatanCounts = collect($applications ?? [])
+                ->map(function ($application) {
+                    $reason = $application->reason ?? null;
+                    $reason = is_string($reason) ? trim($reason) : $reason;
+
+                    return $reason ? strtoupper($reason) : 'TIADA CATATAN';
+                })
+                ->countBy()
+                ->sortDesc();
+            $catatanTotal = $catatanCounts->sum();
+            $badgePalette = [
+                'bg-primary',
+                'bg-success',
+                'bg-warning text-dark',
+                'bg-danger',
+                'bg-info text-dark',
+                'bg-dark',
+                'bg-secondary',
+            ];
+            $badgeClassFor = function (string $key) use ($badgePalette) {
+                $idx = abs((int) crc32($key)) % count($badgePalette);
+                return $badgePalette[$idx];
+            };
+        @endphp
+        <div class="mb-3">
+            <div class="card">
+                <div class="card-header fw-semibold">Ringkasan Catatan</div>
+                <div class="card-body">
+                    <div class="small text-muted mb-2">Jumlah rekod: {{ $catatanTotal }}</div>
+                    <div class="d-flex flex-wrap gap-2">
+                        @foreach ($catatanCounts as $catatan => $count)
+                            <span class="badge rounded-pill {{ $badgeClassFor((string) $catatan) }}">
+                                {{ $catatan }}: {{ $count }}
+                            </span>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="table-responsive">
             <table id="myTable" class="table table-bordered small table-sm text-center">
                 <thead class="table-dark">
