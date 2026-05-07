@@ -350,6 +350,7 @@
                                 <th>Tarikh Data</th>
                                 <th>Lokasi</th>
                                 <th>Bandar/Daerah</th>
+                                <th>Negeri</th>
                                 <th>Affiliate</th>
                                 <th>Education Advisor</th>
                                 <th>Status</th>
@@ -370,6 +371,7 @@
                                     <span class="badge badge-modern badge-location">{{ $student->location }}</span>
                                 </td>
                                 <td class="text-uppercase">{{ $student->city }}</td>
+                                <td class="text-uppercase">{{ $student->state }}</td>
                                 <td class="text-uppercase">
                                     @if (!empty($student->referral_code) && $student->referral_code !== 'null' && isset($affiliates[$student->id]))
                                     @foreach ($affiliates[$student->id] as $affiliate)
