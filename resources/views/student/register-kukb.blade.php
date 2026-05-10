@@ -491,13 +491,14 @@
                 </div>
 
                 @if ($ref !== null)
-                <div class="p-3 bg-light rounded-3 border border-warning mb-4">
+                <input type="hidden" id="ref" name="referral_code" value="{{ old('ref', $ref) }}" class="form-control border-warning bg-white fw-bold text-dark" readonly>
+                {{-- <div class="p-3 bg-light rounded-3 border border-warning mb-4">
                     <label class="small text-muted mb-1">Kod Rujukan Penaja Anda:</label>
                     <div class="input-group">
                         <span class="input-group-text bg-warning border-warning text-dark fw-bold"><i class="fas fa-tag"></i></span>
                         <input type="text" id="ref" name="referral_code" value="{{ old('ref', $ref) }}" class="form-control border-warning bg-white fw-bold text-dark" readonly>
                     </div>
-                </div>
+                </div> --}}
                 @endif
 
                 <div class="mt-5 text-center">
