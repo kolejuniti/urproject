@@ -332,6 +332,7 @@
                                 <tr>
                                     <th rowspan="2">#</th>
                                     <th rowspan="2">Nama Affiliate</th>
+                                    <th rowspan="2">Profesion</th>
                                     <th rowspan="2">Data Masuk</th>
                                     <th colspan="4" class="text-center">Pecahan Data Masuk</th>
                                 </tr>
@@ -351,6 +352,7 @@
                                             {{ $item->name }}
                                         </a>
                                     </td>
+                                    <td class="text-uppercase text-center fw-bold">{{ $item->profession }}</td>
                                     <td class="text-center fw-bold">{{ $item->total_students ?? 0 }}</td>
                                     <td class="text-center">{{ $item->total_students_process ?? 0 }}</td>
                                     <td class="text-center">{{ $item->total_students_pre ?? 0 }}</td>
