@@ -364,7 +364,7 @@
                             <tfoot class="bg-soft-danger">
                                 <tr>
                                     <th></th>
-                                    <th class="text-uppercase text-end">Jumlah Keseluruhan</th>
+                                    <th class="text-uppercase text-center" colspan="2">Jumlah Keseluruhan</th>
                                     <th class="text-center">{{ $totalStudents }}</th>
                                     <th class="text-center">{{ $totalStudentProcess }}</th>
                                     <th class="text-center">{{ $totalStudentPre }}</th>
@@ -395,22 +395,26 @@
                     buttons: [{
                             extend: 'copy',
                             text: '<i class="fas fa-copy me-1"></i> Salin',
-                            title: title
+                            title: title,
+                            exportOptions: { columns: ':visible' }
                         },
                         {
                             extend: 'excelHtml5',
                             text: '<i class="fas fa-file-excel me-1"></i> Excel',
-                            title: title
+                            title: title,
+                            exportOptions: { columns: ':visible' }
                         },
                         {
                             extend: 'pdfHtml5',
                             text: '<i class="fas fa-file-pdf me-1"></i> PDF',
-                            title: title
+                            title: title,
+                            exportOptions: { columns: ':visible' }
                         },
                         {
                             extend: 'print',
                             text: '<i class="fas fa-print me-1"></i> Cetak',
-                            title: title
+                            title: title,
+                            exportOptions: { columns: ':visible' }
                         }
                     ]
                 },
