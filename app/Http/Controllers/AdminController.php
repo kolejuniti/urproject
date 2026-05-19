@@ -715,7 +715,7 @@ class AdminController extends Controller
         if ($register_at !== null) {
             $studentRegDate = DB::table('students')
                 ->where('students.id', $id)
-                ->update(['register_at' => $register_at, 'commission' => '300', 'status_id' => $statusApplication]);
+                ->update(['register_at' => $register_at, 'commission' => '500', 'status_id' => $statusApplication]);
 
             return redirect()->route('admin.application')->with('success', 'Tarikh pendaftaran berjaya dikemaskini.');
         } elseif ($statusApplication !== null) {
