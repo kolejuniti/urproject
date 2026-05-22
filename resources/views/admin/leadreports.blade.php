@@ -166,6 +166,126 @@
                 </tfoot>
                 </table>
             </div>
+
+            <div class="table-responsive mt-4">
+                <table id="myTableSerinuha" class="table table-bordered small table-sm text-center">
+                    @if ($start_date === null)
+                    @else
+                    <caption><strong>Serinuha</strong><br>N = data baru, R = data ulang.<br>Laporan yang dijana adalah bagi lokasi {{ $location_name }} bertarikh {{ $start_date ? \Carbon\Carbon::parse($start_date)->format('d-m-Y') : '' }} sehingga {{ $end_date ? \Carbon\Carbon::parse($end_date)->format('d-m-Y') : '' }}</caption>
+                    @endif
+                    <thead class="table-dark">
+                        <tr>
+                            <th rowspan="3">#</th>
+                            <th rowspan="3">Sumber</th>
+                            <th colspan="2" class="text-center">Data</th>
+                            <th class="text-center" colspan="6">Data Masuk</th>
+                            <th class="text-center" colspan="7">Pendaftaran</th>
+                            <th rowspan="3">Data Ditolak</th>
+                            <th rowspan="3">Baki Data</th>
+                        </tr>
+                        <tr>
+                            <th rowspan="2" class="text-center">N</th>
+                            <th rowspan="2" class="text-center">R</th>
+                            <th colspan="2" class="text-center">Data Affiliate</th>
+                            <th colspan="2" class="text-center">Data EA</th>
+                            <th colspan="2" class="text-center">Tanpa Affiliate/EA</th>
+                            <th colspan="3" class="text-center">Pra Pendaftaran</th>
+                            <th colspan="4" class="text-center">Daftar Kolej</th>
+                        </tr>
+                        <tr>
+                            <th class="text-center">N</th>
+                            <th class="text-center">R</th>
+                            <th class="text-center">N</th>
+                            <th class="text-center">R</th>
+                            <th class="text-center">N</th>
+                            <th class="text-center">R</th>
+                            <th>Data Affiliate >> EA</th>
+                            <th>Data EA</th>
+                            <th>Tanpa Affiliate >> EA</th>
+                            <th>Data Affiliate >> EA</th>
+                            <th>Data Affiliate >> EA Lain</th>
+                            <th>Data EA</th>
+                            <th>Tanpa Affiliate >> EA</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($serinuhaSources as $item)
+                        @php
+                            $source = $item->source;
+                            $totalN = $serinuhaTotalDataN[$source] ?? 0;
+                            $totalR = $serinuhaTotalDataR[$source] ?? 0;
+                            $withAffiliate = $serinuhaTotalDataWithAffiliate[$source] ?? 0;
+                            $withAffiliateN = $serinuhaTotalDataWithAffiliateN[$source] ?? 0;
+                            $withAffiliateR = $serinuhaTotalDataWithAffiliateR[$source] ?? 0;
+                            $withEA = $serinuhaTotalDataWithEA[$source] ?? 0;
+                            $withNEA = $serinuhaTotalDataWithEAN[$source] ?? 0;
+                            $withREA = $serinuhaTotalDataWithEAR[$source] ?? 0;
+                            $withoutAffiliate = $serinuhaTotalDataWithoutAffiliate[$source] ?? 0;
+                            $withoutAffiliateN = $serinuhaTotalDataWithoutAffiliateN[$source] ?? 0;
+                            $withoutAffiliateR = $serinuhaTotalDataWithoutAffiliateR[$source] ?? 0;
+                            $preWithAff = $serinuhaTotalDataPreRegisterWithAffiliate[$source] ?? 0;
+                            $preWithEA = $serinuhaTotalDataPreRegisterWithEA[$source] ?? 0;
+                            $preWithoutAff = $serinuhaTotalDataPreRegisterWithoutAffiliate[$source] ?? 0;
+                            $regWithAff = $serinuhaTotalDataRegisterWithAffiliate[$source] ?? 0;
+                            $regOtherEA = $serinuhaTotalDataRegisterWithOtherEA[$source] ?? 0;
+                            $regWithEA = $serinuhaTotalDataRegisterWithEA[$source] ?? 0;
+                            $regWithoutAff = $serinuhaTotalDataRegisterWithoutAffiliate[$source] ?? 0;
+                            $reject = $serinuhaTotalDataRejects[$source] ?? 0;
+                        @endphp
+                        <tr>
+                            <td></td>
+                            <td class="text-uppercase">{{ $source }}</td>
+                            <td class="text-center">{{ $totalN }}</td>
+                            <td class="text-center">{{ $totalR }}</td>
+                            <td class="text-center">{{ $withAffiliateN }}</td>
+                            <td class="text-center">{{ $withAffiliateR }}</td>
+                            <td class="text-center">{{ $withNEA }}</td>
+                            <td class="text-center">{{ $withREA }}</td>
+                            <td class="text-center">{{ $withoutAffiliateN }}</td>
+                            <td class="text-center">{{ $withoutAffiliateR }}</td>
+                            <td class="text-center">{{ $preWithAff }}</td>
+                            <td class="text-center">{{ $preWithEA }}</td>
+                            <td class="text-center">{{ $preWithoutAff }}</td>
+                            <td class="text-center">{{ $regWithAff }}</td>
+                            <td class="text-center">{{ $regOtherEA }}</td>
+                            <td class="text-center">{{ $regWithEA }}</td>
+                            <td class="text-center">{{ $regWithoutAff }}</td>
+                            <td class="text-center">{{ $reject }}</td>
+                            <td class="text-center">{{ ($totalN + $totalR) - $reject }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                    <tfoot class="table-danger">
+                    <tr>
+                        <th rowspan="2"></th>
+                        <th rowspan="2">Jumlah Keseluruhan</th>
+                        <th class="text-center">{{ $serinuhaTotalNDataCount }}</th>
+                        <th class="text-center">{{ $serinuhaTotalRDataCount }}</th>
+                        <th class="text-center">{{ $serinuhaTotalDataWithAffiliateNCount }}</th>
+                        <th class="text-center">{{ $serinuhaTotalDataWithAffiliateRCount }}</th>
+                        <th class="text-center">{{ $serinuhaTotalDataWithEANCount }}</th>
+                        <th class="text-center">{{ $serinuhaTotalDataWithEARCount }}</th>
+                        <th class="text-center">{{ $serinuhaTotalDataWithoutAffiliateNCount }}</th>
+                        <th class="text-center">{{ $serinuhaTotalDataWithoutAffiliateRCount }}</th>
+                        <th class="text-center">{{ $serinuhaTotalDataPreRegisterWithAffiliateCount }}</th>
+                        <th class="text-center">{{ $serinuhaTotalDataPreRegisterWithEACount }}</th>
+                        <th class="text-center">{{ $serinuhaTotalDataPreRegisterWithoutAffiliateCount }}</th>
+                        <th class="text-center">{{ $serinuhaTotalDataRegisterWithAffiliateCount }}</th>
+                        <th class="text-center">{{ $serinuhaTotalDataRegisterWithOtherEACount }}</th>
+                        <th class="text-center">{{ $serinuhaTotalDataRegisterWithEACount }}</th>
+                        <th class="text-center">{{ $serinuhaTotalDataRegisterWithoutAffiliateCount }}</th>
+                        <th rowspan="2" class="text-center">{{ $serinuhaTotalDataRejectCount }}</th>
+                        <th rowspan="2" class="text-center">{{ ($serinuhaTotalNDataCount + $serinuhaTotalRDataCount) - $serinuhaTotalDataRejectCount }}</th>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="text-center"><strong>{{ $serinuhaTotalDataNR }}</strong></td>
+                        <td colspan="6" class="text-center"><strong>{{ $serinuhaTotalDataEntryNR }}</strong></td>
+                        <td colspan="3" class="text-center"><strong>{{ $serinuhaTotalDataPreRegister }}</strong></td>
+                        <td colspan="4" class="text-center"><strong>{{ $serinuhaTotalDataRegister }}</strong></td>
+                    </tr>
+                </tfoot>
+                </table>
+            </div>
         </div>
     </div>
 </div>
@@ -218,6 +338,54 @@
             let i = 1;
         
             t.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
+                this.data(i++);
+            });
+        }).draw();
+
+        var tSerinuha = $('#myTableSerinuha').DataTable({
+        pageLength: 25,
+        columnDefs: [
+            {
+                targets: ['_all'],
+                className: 'dt-head-center'
+            }
+        ],
+        layout: {
+                top1Start: {
+                    div: {
+                        html: '<h2>Serinuha ({{ $location_name }})</h2>'
+                    }
+                },
+                top1End: {
+                    buttons: [
+                        {
+                            extend: 'copy',
+                            title: 'Serinuha'
+                        },
+                        {
+                            extend: 'excelHtml5',
+                            title: 'Serinuha'
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            title: 'Serinuha'
+                        },
+                        {
+                            extend: 'print',
+                            title: 'Serinuha'
+                        }
+                    ]
+                },
+                topStart: 'pageLength',
+                topEnd: 'search',
+                bottomStart: 'info',
+                bottomEnd: 'paging'
+            }
+        });
+        tSerinuha.on('order.dt search.dt', function () {
+            let i = 1;
+        
+            tSerinuha.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
                 this.data(i++);
             });
         }).draw();

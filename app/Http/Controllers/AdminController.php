@@ -1660,12 +1660,35 @@ class AdminController extends Controller
 
         $locations = DB::table('location')->get();
 
+        $serinuhaReferralCode = 'ElPblUE3';
+        $applyReferralExclusion = function ($query) use ($serinuhaReferralCode) {
+            $query->where(function ($q) use ($serinuhaReferralCode) {
+                $q->whereNull('students.referral_code')
+                    ->orWhere('students.referral_code', '!=', $serinuhaReferralCode);
+            });
+        };
+        $applyReferralInclusion = function ($query) use ($serinuhaReferralCode) {
+            $query->where('students.referral_code', '=', $serinuhaReferralCode);
+        };
+
         $sources = DB::table('students')
             ->select('students.source')
             ->where(function ($query) {
                 $query->whereNotNull('students.ic')
                     ->where('students.ic', '!=', '');
             })
+            ->where(function ($query) use ($applyReferralExclusion) {
+                $applyReferralExclusion($query);
+            })
+            ->groupBy('students.source')->get();
+
+        $serinuhaSources = DB::table('students')
+            ->select('students.source')
+            ->where(function ($query) {
+                $query->whereNotNull('students.ic')
+                    ->where('students.ic', '!=', '');
+            })
+            ->where('students.referral_code', '=', $serinuhaReferralCode)
             ->groupBy('students.source')->get();
 
         $totalDataN = [];
@@ -1690,6 +1713,28 @@ class AdminController extends Controller
         $totalDataRegister = [];
         $totalDataRejects = [];
 
+        $serinuhaTotalDataN = [];
+        $serinuhaTotalDataR = [];
+        $serinuhaTotalDataWithAffiliate = [];
+        $serinuhaTotalDataWithAffiliateN = [];
+        $serinuhaTotalDataWithAffiliateR = [];
+        $serinuhaTotalDataWithEA = [];
+        $serinuhaTotalDataWithEAN = [];
+        $serinuhaTotalDataWithEAR = [];
+        $serinuhaTotalDataWithoutAffiliate = [];
+        $serinuhaTotalDataWithoutAffiliateN = [];
+        $serinuhaTotalDataWithoutAffiliateR = [];
+        $serinuhaTotalDataPreRegisterWithAffiliate = [];
+        $serinuhaTotalDataPreRegisterWithEA = [];
+        $serinuhaTotalDataPreRegisterWithoutAffiliate = [];
+        $serinuhaTotalDataRegisterWithAffiliate = [];
+        $serinuhaTotalDataRegisterWithOtherEA = [];
+        $serinuhaTotalDataRegisterWithEA = [];
+        $serinuhaTotalDataRegisterWithoutAffiliate = [];
+        $serinuhaTotalDataPreRegister = [];
+        $serinuhaTotalDataRegister = [];
+        $serinuhaTotalDataRejects = [];
+
         if ($request->input('location') == 1) {
             $location_name = 'KUPD';
         } elseif ($request->input('location') == 2) {
@@ -1707,6 +1752,9 @@ class AdminController extends Controller
                     $query->whereNotNull('students.ic')
                         ->where('students.ic', '!=', '');
                 })
+                ->where(function ($query) use ($applyReferralExclusion) {
+                    $applyReferralExclusion($query);
+                })
                 ->where('students.remark', 'LIKE', '%N%')
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
 
@@ -1723,6 +1771,9 @@ class AdminController extends Controller
                 ->where(function ($query) {
                     $query->whereNotNull('students.ic')
                         ->where('students.ic', '!=', '');
+                })
+                ->where(function ($query) use ($applyReferralExclusion) {
+                    $applyReferralExclusion($query);
                 })
                 ->where('students.remark', 'LIKE', '%R%')
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
@@ -1743,6 +1794,7 @@ class AdminController extends Controller
                         ->where('students.ic', '!=', '');
                 })
                 ->whereNotNull('students.referral_code')
+                ->where('students.referral_code', '!=', $serinuhaReferralCode)
                 ->where('affiliate.type', '=', 0)
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
 
@@ -1762,6 +1814,7 @@ class AdminController extends Controller
                         ->where('students.ic', '!=', '');
                 })
                 ->whereNotNull('students.referral_code')
+                ->where('students.referral_code', '!=', $serinuhaReferralCode)
                 ->where('affiliate.type', '=', 0)
                 ->where('students.remark', 'LIKE', '%N%')
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
@@ -1782,6 +1835,7 @@ class AdminController extends Controller
                         ->where('students.ic', '!=', '');
                 })
                 ->whereNotNull('students.referral_code')
+                ->where('students.referral_code', '!=', $serinuhaReferralCode)
                 ->where('affiliate.type', '=', 0)
                 ->where('students.remark', 'LIKE', '%R%')
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
@@ -1802,6 +1856,7 @@ class AdminController extends Controller
                         ->where('students.ic', '!=', '');
                 })
                 ->whereNotNull('students.referral_code')
+                ->where('students.referral_code', '!=', $serinuhaReferralCode)
                 ->whereIn('advisor.type', [1, 2])
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
 
@@ -1821,6 +1876,7 @@ class AdminController extends Controller
                         ->where('students.ic', '!=', '');
                 })
                 ->whereNotNull('students.referral_code')
+                ->where('students.referral_code', '!=', $serinuhaReferralCode)
                 ->whereIn('advisor.type', [1, 2])
                 ->where('students.remark', 'LIKE', '%N%')
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
@@ -1841,6 +1897,7 @@ class AdminController extends Controller
                         ->where('students.ic', '!=', '');
                 })
                 ->whereNotNull('students.referral_code')
+                ->where('students.referral_code', '!=', $serinuhaReferralCode)
                 ->whereIn('advisor.type', [1, 2])
                 ->where('students.remark', 'LIKE', '%R%')
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
@@ -1914,6 +1971,7 @@ class AdminController extends Controller
                         ->where('students.ic', '!=', '');
                 })
                 ->whereNotNull('students.referral_code')
+                ->where('students.referral_code', '!=', $serinuhaReferralCode)
                 ->where('students.status_id', '=', 19)
                 ->where('affiliate.type', '=', 0)
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
@@ -1934,6 +1992,7 @@ class AdminController extends Controller
                         ->where('students.ic', '!=', '');
                 })
                 ->whereNotNull('students.referral_code')
+                ->where('students.referral_code', '!=', $serinuhaReferralCode)
                 ->where('students.status_id', '=', 19)
                 ->whereIn('advisor.type', [1, 2])
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
@@ -1972,6 +2031,7 @@ class AdminController extends Controller
                         ->where('students.ic', '!=', '');
                 })
                 ->whereNotNull('students.referral_code')
+                ->where('students.referral_code', '!=', $serinuhaReferralCode)
                 ->whereIn('students.status_id', [20, 21])
                 ->where('affiliate.type', '=', 0)
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
@@ -1992,6 +2052,7 @@ class AdminController extends Controller
                         ->where('students.ic', '!=', '');
                 })
                 ->whereNotNull('students.referral_code')
+                ->where('students.referral_code', '!=', $serinuhaReferralCode)
                 ->whereIn('students.status_id', [22])
                 ->where('affiliate.type', '=', 0)
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
@@ -2012,6 +2073,7 @@ class AdminController extends Controller
                         ->where('students.ic', '!=', '');
                 })
                 ->whereNotNull('students.referral_code')
+                ->where('students.referral_code', '!=', $serinuhaReferralCode)
                 ->whereIn('students.status_id', [20, 21, 22])
                 ->whereIn('advisor.type', [1, 2])
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
@@ -2048,6 +2110,9 @@ class AdminController extends Controller
                     $query->whereNotNull('students.ic')
                         ->where('students.ic', '!=', '');
                 })
+                ->where(function ($query) use ($applyReferralExclusion) {
+                    $applyReferralExclusion($query);
+                })
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date])
                 ->whereIn('students.status_id', [1, 2, 3, 4, 5, 6, 11, 23, 24, 25, 26, 27]);
 
@@ -2058,6 +2123,303 @@ class AdminController extends Controller
             }
 
             $totalDataRejects[$source->source] = $query->count();
+        }
+
+        foreach ($serinuhaSources as $source) {
+            $query = DB::table('students')
+                ->where('students.source', '=', $source->source)
+                ->where(function ($query) {
+                    $query->whereNotNull('students.ic')
+                        ->where('students.ic', '!=', '');
+                })
+                ->where(function ($query) use ($applyReferralInclusion) {
+                    $applyReferralInclusion($query);
+                })
+                ->where('students.remark', 'LIKE', '%N%')
+                ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
+
+            if ($location == 3) {
+                $query->whereIn('students.location_id', [1, 2]);
+            } else {
+                $query->where('students.location_id', '=', $location);
+            }
+
+            $serinuhaTotalDataN[$source->source] = $query->count();
+
+            $query = DB::table('students')
+                ->where('students.source', '=', $source->source)
+                ->where(function ($query) {
+                    $query->whereNotNull('students.ic')
+                        ->where('students.ic', '!=', '');
+                })
+                ->where(function ($query) use ($applyReferralInclusion) {
+                    $applyReferralInclusion($query);
+                })
+                ->where('students.remark', 'LIKE', '%R%')
+                ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
+
+            if ($location == 3) {
+                $query->whereIn('students.location_id', [1, 2]);
+            } else {
+                $query->where('students.location_id', '=', $location);
+            }
+
+            $serinuhaTotalDataR[$source->source] = $query->count();
+
+            $query  = DB::table('students')
+                ->join('users AS affiliate', 'students.referral_code', '=', 'affiliate.referral_code')
+                ->where('students.source', '=', $source->source)
+                ->where(function ($query) {
+                    $query->whereNotNull('students.ic')
+                        ->where('students.ic', '!=', '');
+                })
+                ->whereNotNull('students.referral_code')
+                ->where('students.referral_code', '=', $serinuhaReferralCode)
+                ->where('affiliate.type', '=', 0)
+                ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
+
+            if ($location == 3) {
+                $query->whereIn('students.location_id', [1, 2]);
+            } else {
+                $query->where('students.location_id', '=', $location);
+            }
+
+            $serinuhaTotalDataWithAffiliate[$source->source] = $query->count();
+
+            $query  = DB::table('students')
+                ->join('users AS affiliate', 'students.referral_code', '=', 'affiliate.referral_code')
+                ->where('students.source', '=', $source->source)
+                ->where(function ($query) {
+                    $query->whereNotNull('students.ic')
+                        ->where('students.ic', '!=', '');
+                })
+                ->whereNotNull('students.referral_code')
+                ->where('students.referral_code', '=', $serinuhaReferralCode)
+                ->where('affiliate.type', '=', 0)
+                ->where('students.remark', 'LIKE', '%N%')
+                ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
+
+            if ($location == 3) {
+                $query->whereIn('students.location_id', [1, 2]);
+            } else {
+                $query->where('students.location_id', '=', $location);
+            }
+
+            $serinuhaTotalDataWithAffiliateN[$source->source] = $query->count();
+
+            $query  = DB::table('students')
+                ->join('users AS affiliate', 'students.referral_code', '=', 'affiliate.referral_code')
+                ->where('students.source', '=', $source->source)
+                ->where(function ($query) {
+                    $query->whereNotNull('students.ic')
+                        ->where('students.ic', '!=', '');
+                })
+                ->whereNotNull('students.referral_code')
+                ->where('students.referral_code', '=', $serinuhaReferralCode)
+                ->where('affiliate.type', '=', 0)
+                ->where('students.remark', 'LIKE', '%R%')
+                ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
+
+            if ($location == 3) {
+                $query->whereIn('students.location_id', [1, 2]);
+            } else {
+                $query->where('students.location_id', '=', $location);
+            }
+
+            $serinuhaTotalDataWithAffiliateR[$source->source] = $query->count();
+
+            $query  = DB::table('students')
+                ->join('users AS advisor', 'students.referral_code', '=', 'advisor.referral_code')
+                ->where('students.source', '=', $source->source)
+                ->where(function ($query) {
+                    $query->whereNotNull('students.ic')
+                        ->where('students.ic', '!=', '');
+                })
+                ->whereNotNull('students.referral_code')
+                ->where('students.referral_code', '=', $serinuhaReferralCode)
+                ->whereIn('advisor.type', [1, 2])
+                ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
+
+            if ($location == 3) {
+                $query->whereIn('students.location_id', [1, 2]);
+            } else {
+                $query->where('students.location_id', '=', $location);
+            }
+
+            $serinuhaTotalDataWithEA[$source->source] = $query->count();
+
+            $query  = DB::table('students')
+                ->join('users AS advisor', 'students.referral_code', '=', 'advisor.referral_code')
+                ->where('students.source', '=', $source->source)
+                ->where(function ($query) {
+                    $query->whereNotNull('students.ic')
+                        ->where('students.ic', '!=', '');
+                })
+                ->whereNotNull('students.referral_code')
+                ->where('students.referral_code', '=', $serinuhaReferralCode)
+                ->whereIn('advisor.type', [1, 2])
+                ->where('students.remark', 'LIKE', '%N%')
+                ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
+
+            if ($location == 3) {
+                $query->whereIn('students.location_id', [1, 2]);
+            } else {
+                $query->where('students.location_id', '=', $location);
+            }
+
+            $serinuhaTotalDataWithEAN[$source->source] = $query->count();
+
+            $query  = DB::table('students')
+                ->join('users AS advisor', 'students.referral_code', '=', 'advisor.referral_code')
+                ->where('students.source', '=', $source->source)
+                ->where(function ($query) {
+                    $query->whereNotNull('students.ic')
+                        ->where('students.ic', '!=', '');
+                })
+                ->whereNotNull('students.referral_code')
+                ->where('students.referral_code', '=', $serinuhaReferralCode)
+                ->whereIn('advisor.type', [1, 2])
+                ->where('students.remark', 'LIKE', '%R%')
+                ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
+
+            if ($location == 3) {
+                $query->whereIn('students.location_id', [1, 2]);
+            } else {
+                $query->where('students.location_id', '=', $location);
+            }
+
+            $serinuhaTotalDataWithEAR[$source->source] = $query->count();
+
+            $serinuhaTotalDataWithoutAffiliate[$source->source] = 0;
+            $serinuhaTotalDataWithoutAffiliateN[$source->source] = 0;
+            $serinuhaTotalDataWithoutAffiliateR[$source->source] = 0;
+
+            $query = DB::table('students')
+                ->join('users AS affiliate', 'students.referral_code', '=', 'affiliate.referral_code')
+                ->where('students.source', '=', $source->source)
+                ->where(function ($query) {
+                    $query->whereNotNull('students.ic')
+                        ->where('students.ic', '!=', '');
+                })
+                ->whereNotNull('students.referral_code')
+                ->where('students.referral_code', '=', $serinuhaReferralCode)
+                ->where('students.status_id', '=', 19)
+                ->where('affiliate.type', '=', 0)
+                ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
+
+            if ($location == 3) {
+                $query->whereIn('students.location_id', [1, 2]);
+            } else {
+                $query->where('students.location_id', '=', $location);
+            }
+
+            $serinuhaTotalDataPreRegisterWithAffiliate[$source->source] = $query->count();
+
+            $query = DB::table('students')
+                ->join('users AS advisor', 'students.referral_code', '=', 'advisor.referral_code')
+                ->where('students.source', '=', $source->source)
+                ->where(function ($query) {
+                    $query->whereNotNull('students.ic')
+                        ->where('students.ic', '!=', '');
+                })
+                ->whereNotNull('students.referral_code')
+                ->where('students.referral_code', '=', $serinuhaReferralCode)
+                ->where('students.status_id', '=', 19)
+                ->whereIn('advisor.type', [1, 2])
+                ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
+
+            if ($location == 3) {
+                $query->whereIn('students.location_id', [1, 2]);
+            } else {
+                $query->where('students.location_id', '=', $location);
+            }
+
+            $serinuhaTotalDataPreRegisterWithEA[$source->source] = $query->count();
+            $serinuhaTotalDataPreRegisterWithoutAffiliate[$source->source] = 0;
+
+            $query = DB::table('students')
+                ->join('users AS affiliate', 'students.referral_code', '=', 'affiliate.referral_code')
+                ->where('students.source', '=', $source->source)
+                ->where(function ($query) {
+                    $query->whereNotNull('students.ic')
+                        ->where('students.ic', '!=', '');
+                })
+                ->whereNotNull('students.referral_code')
+                ->where('students.referral_code', '=', $serinuhaReferralCode)
+                ->whereIn('students.status_id', [20, 21])
+                ->where('affiliate.type', '=', 0)
+                ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
+
+            if ($location == 3) {
+                $query->whereIn('students.location_id', [1, 2]);
+            } else {
+                $query->where('students.location_id', '=', $location);
+            }
+
+            $serinuhaTotalDataRegisterWithAffiliate[$source->source] = $query->count();
+
+            $query = DB::table('students')
+                ->join('users AS affiliate', 'students.referral_code', '=', 'affiliate.referral_code')
+                ->where('students.source', '=', $source->source)
+                ->where(function ($query) {
+                    $query->whereNotNull('students.ic')
+                        ->where('students.ic', '!=', '');
+                })
+                ->whereNotNull('students.referral_code')
+                ->where('students.referral_code', '=', $serinuhaReferralCode)
+                ->whereIn('students.status_id', [22])
+                ->where('affiliate.type', '=', 0)
+                ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
+
+            if ($location == 3) {
+                $query->whereIn('students.location_id', [1, 2]);
+            } else {
+                $query->where('students.location_id', '=', $location);
+            }
+
+            $serinuhaTotalDataRegisterWithOtherEA[$source->source] = $query->count();
+
+            $query = DB::table('students')
+                ->join('users AS advisor', 'students.referral_code', '=', 'advisor.referral_code')
+                ->where('students.source', '=', $source->source)
+                ->where(function ($query) {
+                    $query->whereNotNull('students.ic')
+                        ->where('students.ic', '!=', '');
+                })
+                ->whereNotNull('students.referral_code')
+                ->where('students.referral_code', '=', $serinuhaReferralCode)
+                ->whereIn('students.status_id', [20, 21, 22])
+                ->whereIn('advisor.type', [1, 2])
+                ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
+
+            if ($location == 3) {
+                $query->whereIn('students.location_id', [1, 2]);
+            } else {
+                $query->where('students.location_id', '=', $location);
+            }
+
+            $serinuhaTotalDataRegisterWithEA[$source->source] = $query->count();
+            $serinuhaTotalDataRegisterWithoutAffiliate[$source->source] = 0;
+
+            $query = DB::table('students')
+                ->where('students.source', '=', $source->source)
+                ->where(function ($query) {
+                    $query->whereNotNull('students.ic')
+                        ->where('students.ic', '!=', '');
+                })
+                ->where(function ($query) use ($applyReferralInclusion) {
+                    $applyReferralInclusion($query);
+                })
+                ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date])
+                ->whereIn('students.status_id', [1, 2, 3, 4, 5, 6, 11, 23, 24, 25, 26, 27]);
+
+            if ($location == 3) {
+                $query->whereIn('students.location_id', [1, 2]);
+            } else {
+                $query->where('students.location_id', '=', $location);
+            }
+
+            $serinuhaTotalDataRejects[$source->source] = $query->count();
         }
 
         $totalNDataCount = array_sum($totalDataN);
@@ -2085,7 +2447,123 @@ class AdminController extends Controller
         $totalDataPreRegister = $totalDataPreRegisterWithAffiliateCount + $totalDataPreRegisterWithEACount + $totalDataPreRegisterWithoutAffiliateCount;
         $totalDataRegister = $totalDataRegisterWithAffiliateCount + $totalDataRegisterWithOtherEACount + $totalDataRegisterWithEACount + $totalDataRegisterWithoutAffiliateCount;
 
-        return view('admin.leadreports', compact('sources', 'start_date', 'end_date', 'locations', 'totalDataN', 'totalDataR', 'totalDataWithAffiliate', 'totalDataWithAffiliateN', 'totalDataWithAffiliateR', 'totalDataWithEA', 'totalDataWithEAN', 'totalDataWithEAR', 'totalDataWithoutAffiliate', 'totalDataWithoutAffiliateN', 'totalDataWithoutAffiliateR', 'totalDataPreRegisterWithAffiliate', 'totalDataPreRegisterWithoutAffiliate', 'totalDataPreRegisterWithEACount', 'totalDataRegisterWithAffiliate', 'totalDataRegisterWithOtherEA', 'totalDataRegisterWithEA', 'totalDataRegisterWithoutAffiliate', 'totalDataRegister', 'totalNDataCount', 'totalRDataCount', 'totalDataWithAffiliateCount', 'totalDataWithAffiliateNCount', 'totalDataWithAffiliateRCount', 'totalDataWithEACount', 'totalDataWithEANCount', 'totalDataWithEARCount', 'totalDataWithoutAffiliateCount', 'totalDataWithoutAffiliateNCount', 'totalDataWithoutAffiliateRCount', 'totalDataPreRegisterWithAffiliateCount', 'totalDataPreRegisterWithoutAffiliateCount', 'totalDataRegisterWithAffiliateCount', 'totalDataRegisterWithOtherEACount', 'totalDataRegisterWithEACount', 'totalDataRegisterWithoutAffiliateCount', 'totalDataPreRegister', 'totalDataRegister', 'location_name', 'totalDataRejects', 'totalDataRejectCount', 'totalDataNR', 'totalDataEntryNR'));
+        $serinuhaTotalNDataCount = array_sum($serinuhaTotalDataN);
+        $serinuhaTotalRDataCount = array_sum($serinuhaTotalDataR);
+        $serinuhaTotalDataWithAffiliateCount = array_sum($serinuhaTotalDataWithAffiliate);
+        $serinuhaTotalDataWithAffiliateNCount = array_sum($serinuhaTotalDataWithAffiliateN);
+        $serinuhaTotalDataWithAffiliateRCount = array_sum($serinuhaTotalDataWithAffiliateR);
+        $serinuhaTotalDataWithEACount = array_sum($serinuhaTotalDataWithEA);
+        $serinuhaTotalDataWithEANCount = array_sum($serinuhaTotalDataWithEAN);
+        $serinuhaTotalDataWithEARCount = array_sum($serinuhaTotalDataWithEAR);
+        $serinuhaTotalDataWithoutAffiliateCount = array_sum($serinuhaTotalDataWithoutAffiliate);
+        $serinuhaTotalDataWithoutAffiliateNCount = array_sum($serinuhaTotalDataWithoutAffiliateN);
+        $serinuhaTotalDataWithoutAffiliateRCount = array_sum($serinuhaTotalDataWithoutAffiliateR);
+        $serinuhaTotalDataPreRegisterWithAffiliateCount = array_sum($serinuhaTotalDataPreRegisterWithAffiliate);
+        $serinuhaTotalDataPreRegisterWithEACount = array_sum($serinuhaTotalDataPreRegisterWithEA);
+        $serinuhaTotalDataPreRegisterWithoutAffiliateCount = array_sum($serinuhaTotalDataPreRegisterWithoutAffiliate);
+        $serinuhaTotalDataRegisterWithAffiliateCount = array_sum($serinuhaTotalDataRegisterWithAffiliate);
+        $serinuhaTotalDataRegisterWithOtherEACount = array_sum($serinuhaTotalDataRegisterWithOtherEA);
+        $serinuhaTotalDataRegisterWithEACount = array_sum($serinuhaTotalDataRegisterWithEA);
+        $serinuhaTotalDataRegisterWithoutAffiliateCount = array_sum($serinuhaTotalDataRegisterWithoutAffiliate);
+        $serinuhaTotalDataRejectCount = array_sum($serinuhaTotalDataRejects);
+        $serinuhaTotalDataNR = $serinuhaTotalNDataCount + $serinuhaTotalRDataCount;
+        $serinuhaTotalDataEntryNR = $serinuhaTotalDataWithAffiliateNCount + $serinuhaTotalDataWithAffiliateRCount + $serinuhaTotalDataWithEANCount + $serinuhaTotalDataWithEARCount + $serinuhaTotalDataWithoutAffiliateNCount + $serinuhaTotalDataWithoutAffiliateRCount;
+        $serinuhaTotalDataPreRegister = $serinuhaTotalDataPreRegisterWithAffiliateCount + $serinuhaTotalDataPreRegisterWithEACount + $serinuhaTotalDataPreRegisterWithoutAffiliateCount;
+        $serinuhaTotalDataRegister = $serinuhaTotalDataRegisterWithAffiliateCount + $serinuhaTotalDataRegisterWithOtherEACount + $serinuhaTotalDataRegisterWithEACount + $serinuhaTotalDataRegisterWithoutAffiliateCount;
+
+        return view('admin.leadreports', compact(
+            'sources',
+            'start_date',
+            'end_date',
+            'locations',
+            'totalDataN',
+            'totalDataR',
+            'totalDataWithAffiliate',
+            'totalDataWithAffiliateN',
+            'totalDataWithAffiliateR',
+            'totalDataWithEA',
+            'totalDataWithEAN',
+            'totalDataWithEAR',
+            'totalDataWithoutAffiliate',
+            'totalDataWithoutAffiliateN',
+            'totalDataWithoutAffiliateR',
+            'totalDataPreRegisterWithAffiliate',
+            'totalDataPreRegisterWithEA',
+            'totalDataPreRegisterWithoutAffiliate',
+            'totalDataRegisterWithAffiliate',
+            'totalDataRegisterWithOtherEA',
+            'totalDataRegisterWithEA',
+            'totalDataRegisterWithoutAffiliate',
+            'totalDataRegister',
+            'totalNDataCount',
+            'totalRDataCount',
+            'totalDataWithAffiliateCount',
+            'totalDataWithAffiliateNCount',
+            'totalDataWithAffiliateRCount',
+            'totalDataWithEACount',
+            'totalDataWithEANCount',
+            'totalDataWithEARCount',
+            'totalDataWithoutAffiliateCount',
+            'totalDataWithoutAffiliateNCount',
+            'totalDataWithoutAffiliateRCount',
+            'totalDataPreRegisterWithAffiliateCount',
+            'totalDataPreRegisterWithEACount',
+            'totalDataPreRegisterWithoutAffiliateCount',
+            'totalDataRegisterWithAffiliateCount',
+            'totalDataRegisterWithOtherEACount',
+            'totalDataRegisterWithEACount',
+            'totalDataRegisterWithoutAffiliateCount',
+            'totalDataPreRegister',
+            'totalDataRegister',
+            'location_name',
+            'totalDataRejects',
+            'totalDataRejectCount',
+            'totalDataNR',
+            'totalDataEntryNR',
+            'serinuhaSources',
+            'serinuhaTotalDataN',
+            'serinuhaTotalDataR',
+            'serinuhaTotalDataWithAffiliate',
+            'serinuhaTotalDataWithAffiliateN',
+            'serinuhaTotalDataWithAffiliateR',
+            'serinuhaTotalDataWithEA',
+            'serinuhaTotalDataWithEAN',
+            'serinuhaTotalDataWithEAR',
+            'serinuhaTotalDataWithoutAffiliate',
+            'serinuhaTotalDataWithoutAffiliateN',
+            'serinuhaTotalDataWithoutAffiliateR',
+            'serinuhaTotalDataPreRegisterWithAffiliate',
+            'serinuhaTotalDataPreRegisterWithEA',
+            'serinuhaTotalDataPreRegisterWithoutAffiliate',
+            'serinuhaTotalDataRegisterWithAffiliate',
+            'serinuhaTotalDataRegisterWithOtherEA',
+            'serinuhaTotalDataRegisterWithEA',
+            'serinuhaTotalDataRegisterWithoutAffiliate',
+            'serinuhaTotalDataRejects',
+            'serinuhaTotalNDataCount',
+            'serinuhaTotalRDataCount',
+            'serinuhaTotalDataWithAffiliateCount',
+            'serinuhaTotalDataWithAffiliateNCount',
+            'serinuhaTotalDataWithAffiliateRCount',
+            'serinuhaTotalDataWithEACount',
+            'serinuhaTotalDataWithEANCount',
+            'serinuhaTotalDataWithEARCount',
+            'serinuhaTotalDataWithoutAffiliateCount',
+            'serinuhaTotalDataWithoutAffiliateNCount',
+            'serinuhaTotalDataWithoutAffiliateRCount',
+            'serinuhaTotalDataPreRegisterWithAffiliateCount',
+            'serinuhaTotalDataPreRegisterWithEACount',
+            'serinuhaTotalDataPreRegisterWithoutAffiliateCount',
+            'serinuhaTotalDataRegisterWithAffiliateCount',
+            'serinuhaTotalDataRegisterWithOtherEACount',
+            'serinuhaTotalDataRegisterWithEACount',
+            'serinuhaTotalDataRegisterWithoutAffiliateCount',
+            'serinuhaTotalDataRejectCount',
+            'serinuhaTotalDataNR',
+            'serinuhaTotalDataEntryNR',
+            'serinuhaTotalDataPreRegister',
+            'serinuhaTotalDataRegister',
+        ));
     }
 
     public function yearReports(Request $request)
