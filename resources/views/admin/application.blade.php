@@ -622,9 +622,13 @@
                             @endif
                                 <td>{{ $index + 1 }}</td>
                                 <td>
+                                    @if(in_array(auth()->user()->id, [2, 44, 93, 344, 1226]))
                                     <button type="button" class="btn-applicant-link text-uppercase open-modal" data-ic="{{ $data->ic }}">
-                                        <i class="fas fa-user-circle me-1"></i> {{ $data->name }}
+                                        <i class="fas fa-user-circle me-1"></i> {{ strtoupper($data->name) }}
                                     </button>
+                                    @else
+                                        <i class="fas fa-user-circle me-1"></i> {{ strtoupper($data->name) }}
+                                    @endif
                                 </td>
                                 <td class="text-center font-monospace">{{ $data->ic }}</td>
                                 <td class="text-center">{{ $data->phone }}</td>

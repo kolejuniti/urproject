@@ -108,17 +108,20 @@
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-database-add"></i>&nbsp;Data
                             </a>
                             <ul class="dropdown-menu">
+                                @if(in_array(auth()->user()->id, [2, 44, 93, 344, 1226]))
                                 <li>
                                     <a class="dropdown-item" href="{{ route('admin.program') }}">Program</a>
                                 </li>
                                 <li>
                                     <a class="dropdown-item" href="{{ route('admin.content') }}">Tambah Bahan Media</a>
                                 </li>
+                                @endif
                                 <li>
                                     <a class="dropdown-item" href="{{ route('admin.content.list') }}">Senarai Bahan Media</a>
                                 </li>
                             </ul>
                         </li>
+                        @if(in_array(auth()->user()->id, [2, 44, 93, 344, 1226]))
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person-square"></i>&nbsp;Pengguna
                             </a>
@@ -131,6 +134,7 @@
                                 </li>
                             </ul>
                         </li>
+                        @endif
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person-lines-fill"></i>&nbsp;Data Masuk
                             </a>
