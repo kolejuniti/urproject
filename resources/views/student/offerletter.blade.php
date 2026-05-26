@@ -128,9 +128,15 @@
                 <div class="col-sm-3">
                     <label for="">Tempoh</label>
                 </div>
+                @if ($studentprogram->program_id == 1 || $studentprogram->program_id == 2)
+                <div class="col-sm-9 mb-1">
+                    <label for="">:&nbsp;<strong>2 Tahun 6 Bulan</strong></label>
+                </div>
+                @else
                 <div class="col-sm-9 mb-1">
                     <label for="">:&nbsp;<strong>3 Tahun</strong></label>
                 </div>
+                @endif
             </div>
             <div class="mb-3">
                 <label for="">Sila hadir bagi sesi pendaftaran di:</label>

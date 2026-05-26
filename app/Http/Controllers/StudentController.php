@@ -1190,7 +1190,7 @@ class StudentController extends Controller
         foreach ($students as $student) {
             $studentProgramsByIc[$student->ic] = DB::table('student_programs')
                 ->join('program', 'student_programs.program_id', '=', 'program.id')
-                ->select('program.name AS program')
+                ->select('program.name AS program', 'program.id AS program_id')
                 ->where('student_programs.student_ic', $student->ic)
                 ->where('student_programs.status', '=', 'layak')
                 ->get();
