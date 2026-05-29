@@ -376,6 +376,46 @@
                                 </div>
                             </div>
 
+                            @if(session('success'))
+                            <div class="alert alert-success border-0 bg-success bg-opacity-10 text-success-emphasis mt-3">
+                                <i class="bi bi-check-circle me-2"></i>{{ session('success') }}
+                            </div>
+                            @endif
+
+                            @if(session('error'))
+                            <div class="alert alert-danger border-0 bg-danger bg-opacity-10 text-danger-emphasis mt-3">
+                                <i class="bi bi-exclamation-triangle me-2"></i>{{ session('error') }}
+                            </div>
+                            @endif
+
+                            @if($studentPrograms->isEmpty())
+                            <div class="mt-3">
+                                <div class="alert alert-warning border-0 bg-warning bg-opacity-10 text-warning-emphasis">
+                                    <i class="bi bi-exclamation-triangle me-2"></i> Tiada maklumat program.
+                                </div>
+                                <form method="POST" action="{{ route('student.add-program') }}" class="border rounded-3 p-3 bg-light">
+                                    @csrf
+                                    <input type="hidden" name="student_ic" value="{{ $student->ic }}">
+                                    <div class="row g-2 align-items-end">
+                                        <div class="col-md-9">
+                                            <label class="form-label small fw-bold text-muted mb-1">Pilih Program</label>
+                                            <select name="program_id" class="form-select form-select-sm" required>
+                                                <option value="">-- Pilih Program --</option>
+                                                @foreach($programs as $programOption)
+                                                <option value="{{ $programOption->id }}">{{ $programOption->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3 text-md-end">
+                                            <button type="submit" class="btn btn-primary-custom btn-sm rounded-pill px-4 w-100">
+                                                <i class="bi bi-plus-circle me-1"></i> Tambah
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            @endif
+
                             <div class="mt-3">
                                 @foreach ( $studentPrograms as $program )
                                 <div class="bg-primary bg-opacity-10 p-3 rounded-3 mb-2 border border-primary-subtle">

@@ -1774,6 +1774,12 @@ class StudentController extends Controller
             ->where('student_programs.student_ic', 'LIKE', "{$ic}")
             ->get();
 
+        $programs = DB::table('program')
+            ->where('location_id', 1)
+            ->where('offered', 1)
+            ->orderBy('name')
+            ->get();
+
         $extensions = ['jpg', 'jpeg', 'png', 'pdf'];
         $foundFile = null;
 
@@ -1791,7 +1797,35 @@ class StudentController extends Controller
             $source = 'e-Daftar';
         }
 
-        return view('student.search-kupd', compact('ref', 'students', 'states', 'years', 'ic', 'studentPrograms', 'foundFile'))->with('canonical', 'https://edaftarkolej.uniticms.edu.my/semak-permohonan/port-dickson');
+        return view('student.search-kupd', compact('ref', 'students', 'states', 'years', 'ic', 'studentPrograms', 'programs', 'foundFile'))->with('canonical', 'https://edaftarkolej.uniticms.edu.my/semak-permohonan/port-dickson');
+    }
+
+    public function addStudentProgram(Request $request)
+    {
+        $request->validate([
+            'student_ic' => 'required|string',
+            'program_id' => 'required|integer|exists:program,id',
+        ]);
+
+        $studentIc = strtoupper(trim($request->input('student_ic')));
+        $programId = (int) $request->input('program_id');
+
+        $alreadyExists = DB::table('student_programs')
+            ->where('student_ic', $studentIc)
+            ->where('program_id', $programId)
+            ->exists();
+
+        if ($alreadyExists) {
+            return redirect()->back()->with('error', 'Program ini sudah wujud untuk pelajar ini.');
+        }
+
+        DB::table('student_programs')->insert([
+            'student_ic' => $studentIc,
+            'program_id' => $programId,
+            'status' => 'baru',
+        ]);
+
+        return redirect()->back()->with('success', 'Program berjaya ditambah.');
     }
 
     public function kemaskini_permohonan_kupd($id, $email, Request $request)
@@ -1853,6 +1887,12 @@ class StudentController extends Controller
             ->where('student_programs.student_ic', 'LIKE', "{$ic}")
             ->get();
 
+        $programs = DB::table('program')
+            ->where('location_id', 2)
+            ->where('offered', 1)
+            ->orderBy('name')
+            ->get();
+
         $extensions = ['jpg', 'jpeg', 'png', 'pdf'];
         $foundFile = null;
 
@@ -1865,7 +1905,7 @@ class StudentController extends Controller
             }
         }
 
-        return view('student.search-kukb', compact('ref', 'students', 'states', 'years', 'ic', 'studentPrograms', 'foundFile'))->with('canonical', 'https://edaftarkolej.uniticms.edu.my/semak-permohonan/kota-bharu');
+        return view('student.search-kukb', compact('ref', 'students', 'states', 'years', 'ic', 'studentPrograms', 'programs', 'foundFile'))->with('canonical', 'https://edaftarkolej.uniticms.edu.my/semak-permohonan/kota-bharu');
     }
 
     public function kemaskini_permohonan_kukb($id, $email, Request $request)

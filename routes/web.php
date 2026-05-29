@@ -295,6 +295,7 @@ Route::prefix('daftar')->group(function () {
 Route::prefix('semak-permohonan')->group(function () {
     Route::get('/port-dickson', [App\Http\Controllers\StudentController::class, 'semak_permohonan_kupd'])->name('semak.permohonan.kupd');
     Route::get('/kota-bharu', [App\Http\Controllers\StudentController::class, 'semak_permohonan_kukb'])->name('semak.permohonan.kukb');
+    Route::post('/tambah-program', [App\Http\Controllers\StudentController::class, 'addStudentProgram'])->name('student.add-program');
     Route::put('/kemaskini/kupd/{id}/{email}', [App\Http\Controllers\StudentController::class, 'kemaskini_permohonan_kupd'])->name('kemaskini.permohonan.kupd');
     Route::put('/kemaskini/kukb/{id}/{email}', [App\Http\Controllers\StudentController::class, 'kemaskini_permohonan_kukb'])->name('kemaskini.permohonan.kukb');
     Route::get('/surat-tawaran', [App\Http\Controllers\StudentController::class, 'offerletter'])->name('student.offerletter');
