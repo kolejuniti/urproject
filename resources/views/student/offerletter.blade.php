@@ -83,6 +83,13 @@
     @foreach($students as $student)
     @php
         $programs = $studentProgramsByIc[$student->ic] ?? collect();
+
+        if ($programs->isEmpty()) {
+            $programs = collect([(object) [
+                'program' => 'Tiada program ditawarkan',
+                'program_id' => null,
+            ]]);
+        }
     @endphp
     @foreach($programs as $studentprogram)
     <div class="container-fluid offer-letter">
@@ -132,9 +139,13 @@
                 <div class="col-sm-9 mb-1">
                     <label for="">:&nbsp;<strong>2 Tahun 6 Bulan</strong></label>
                 </div>
-                @else
+                @elseif ($studentprogram->program_id)
                 <div class="col-sm-9 mb-1">
                     <label for="">:&nbsp;<strong>3 Tahun</strong></label>
+                </div>
+                @else
+                <div class="col-sm-9 mb-1">
+                    <label for="">:&nbsp;<strong>Maklumat tempoh program belum tersedia</strong></label>
                 </div>
                 @endif
             </div>
