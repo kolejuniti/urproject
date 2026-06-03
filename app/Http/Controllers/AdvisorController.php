@@ -306,6 +306,7 @@ class AdvisorController extends Controller
                 'register_letter_date' => $register_letter_date,
                 'notes' => $notes,
                 'name' => $studentName ?: DB::table('students')->where('id', $id)->value('name'),
+                'ic' => $ic ?: DB::table('students')->where('id', $id)->value('ic'),
             ]);
 
         if (is_array($programs)) {

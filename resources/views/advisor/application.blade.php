@@ -462,7 +462,6 @@
                         <form id="application-form" action="" method="POST">
                             @csrf
                             @method('PUT')
-                            <input type="hidden" name="ic" id="application-ic">
                             <div class="modal-body p-4 bg-light">
                                 <!-- Student Info Section -->
                                 <div class="info-card">
@@ -475,8 +474,8 @@
                                             <input type="text" name="student_name" id="applicant-name" class="form-control form-control-sm text-uppercase" placeholder="Nama penuh pelajar">
                                         </div>
                                         <div class="col-md-6">
-                                            <div class="label-custom">No. Kad Pengenalan</div>
-                                            <div class="value-custom" id="applicant-ic">Loading...</div>
+                                            <label class="label-custom mb-1">No. Kad Pengenalan</label>
+                                            <input type="text" name="ic" id="application-ic" class="form-control form-control-sm text-uppercase" placeholder="No. Kad Pengenalan" required>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="label-custom">No. Telefon</div>
@@ -686,7 +685,6 @@
                         $('#application-ic').val(response.applicants.ic);
                         // Populate the modal with the returned data
                         $('#applicant-name').val(response.applicants.name);
-                        $('#applicant-ic').text(response.applicants.ic);
                         $('#applicant-phone').text(response.applicants.phone);
                         $('#applicant-email').text(response.applicants.email);
                         $('#applicant-address1').text(response.applicants.address1);
