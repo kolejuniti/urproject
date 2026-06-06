@@ -2114,7 +2114,7 @@ class AdminController extends Controller
                     $applyReferralExclusion($query);
                 })
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date])
-                ->whereIn('students.status_id', [1, 2, 3, 4, 5, 6, 11, 23, 24, 25, 26, 27, 32, 33]);
+                ->whereIn('students.status_id', [1, 2, 3, 4, 5, 6, 23, 24, 25, 26, 27, 32, 33]);
 
             if ($location == 3) {
                 $query->whereIn('students.location_id', [1, 2]);
