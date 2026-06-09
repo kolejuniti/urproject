@@ -642,6 +642,7 @@
                                     <th>Tarikh Mohon</th>
                                     <th>Affiliate</th>
                                     <th>Education Advisor</th>
+                                    <th>Nota</th>
                                     <th>Tarikh Daftar</th>
                                 </tr>
                             </thead>
@@ -773,13 +774,14 @@
                                     <td>${statusDetail.created_at || 'N/A'}</td>
                                     <td class="text-uppercase">${statusDetail.affiliate || 'N/A'}</td>
                                     <td class="text-uppercase">${statusDetail.advisor || 'N/A'}</td>
+                                    <td class="text-uppercase">${statusDetail.reason || 'N/A'}</td>
                                     <td>${statusDetail.register_at || 'N/A'}</td>
                                 </tr>
                             `;
                             $('#statusDetailsContainer').append(recordHtml);
                         });
                     } else {
-                        $('#statusDetailsContainer').html('<tr><td colspan="6" class="text-center py-4 text-muted fst-italic">Tiada rekod ditemui untuk status ini.</td></tr>');
+                        $('#statusDetailsContainer').html('<tr><td colspan="7" class="text-center py-4 text-muted fst-italic">Tiada rekod ditemui untuk status ini.</td></tr>');
                     }
                 },
                 error: function(xhr, status, error) {

@@ -1586,6 +1586,7 @@ class AdminController extends Controller
                 DB::raw("DATE_FORMAT(students.created_at, '%d-%m-%Y') as created_at"),
                 'affiliate.name AS affiliate',
                 'advisor.name AS advisor',
+                'students.reason',
                 DB::raw("DATE_FORMAT(students.register_at, '%d-%m-%Y') as register_at")
             )
             ->where(function ($query) {
