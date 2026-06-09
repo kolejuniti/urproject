@@ -1374,7 +1374,7 @@ class AdminController extends Controller
             ->select(
                 DB::raw('count(students.id) AS total'),
                 'location.name AS location',
-                DB::raw('SUM(CASE WHEN students.status_id = 19 THEN 1 ELSE 0 END) AS total_pra_daftar'),
+                DB::raw("SUM(CASE WHEN students.status_id IN (19,11) AND students.reason != 'BERURUSAN DENGAN EA LAIN' THEN 1 ELSE 0 END) AS total_pra_daftar"),
                 DB::raw('SUM(CASE WHEN students.status_id IN (20,21,22) THEN 1 ELSE 0 END) AS total_daftar_kolej')
             )
             ->where(function ($query) {
@@ -1402,7 +1402,8 @@ class AdminController extends Controller
                 $query->whereNotNull('students.ic')
                     ->where('students.ic', '!=', '');
             })
-            ->where('students.status_id', 19);
+            ->whereIn('students.status_id', [19, 11])
+            ->where('students.reason', '!=', 'BERURUSAN DENGAN EA LAIN');
 
         $daftarKolejTotal = DB::table('students')
             ->where(function ($query) {
