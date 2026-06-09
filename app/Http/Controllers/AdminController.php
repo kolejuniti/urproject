@@ -1428,12 +1428,12 @@ class AdminController extends Controller
             ->select(
                 'students.source',
                 DB::raw('COUNT(students.id) AS total'),
-                DB::raw('SUM(CASE WHEN students.status_id = 19 THEN 1 ELSE 0 END) AS total_pra_daftar'),
+                DB::raw("SUM(CASE WHEN students.status_id IN (19,11) AND students.reason != 'BERURUSAN DENGAN EA LAIN' THEN 1 ELSE 0 END) AS total_pra_daftar"),
                 DB::raw('SUM(CASE WHEN students.status_id IN (20,21,22) THEN 1 ELSE 0 END) AS total_register'),
                 DB::raw('SUM(CASE WHEN students.location_id = 1 THEN 1 ELSE 0 END) AS total_kupd'), // Count for KUPD (location_id = 1)
                 DB::raw('SUM(CASE WHEN students.location_id = 2 THEN 1 ELSE 0 END) AS total_kukb'),  // Count for KUKB (location_id = 2)
-                DB::raw('SUM(CASE WHEN students.location_id = 1 AND students.status_id = 19 THEN 1 ELSE 0 END) AS total_kupd_pra_daftar'), // KUPD pra daftar
-                DB::raw('SUM(CASE WHEN students.location_id = 2 AND students.status_id = 19 THEN 1 ELSE 0 END) AS total_kukb_pra_daftar'), // KUKB pra daftar
+                DB::raw("SUM(CASE WHEN students.location_id = 1 AND students.status_id IN (19,11) AND students.reason != 'BERURUSAN DENGAN EA LAIN' THEN 1 ELSE 0 END) AS total_kupd_pra_daftar"), // KUPD pra daftar
+                DB::raw("SUM(CASE WHEN students.location_id = 2 AND students.status_id IN (19,11) AND students.reason != 'BERURUSAN DENGAN EA LAIN' THEN 1 ELSE 0 END) AS total_kukb_pra_daftar"), // KUKB pra daftar
                 DB::raw('SUM(CASE WHEN students.location_id = 1 AND students.status_id IN (20,22) THEN 1 ELSE 0 END) AS total_kupd_register'), // KUPD register
                 DB::raw('SUM(CASE WHEN students.location_id = 2 AND students.status_id IN (21,22) THEN 1 ELSE 0 END) AS total_kukb_register')  // KUKB register
             )
@@ -1482,12 +1482,12 @@ class AdminController extends Controller
             ->select(
                 'state.name AS state',
                 DB::raw('COUNT(students.id) AS total'),
-                DB::raw('SUM(CASE WHEN students.status_id = 19 THEN 1 ELSE 0 END) AS total_pra_daftar'),
+                DB::raw("SUM(CASE WHEN students.status_id IN (19,11) AND students.reason != 'BERURUSAN DENGAN EA LAIN' THEN 1 ELSE 0 END) AS total_pra_daftar"),
                 DB::raw('SUM(CASE WHEN students.status_id IN (20,21,22) THEN 1 ELSE 0 END) AS total_register'),
                 DB::raw('SUM(CASE WHEN students.location_id = 1 THEN 1 ELSE 0 END) AS total_kupd'), // Count for KUPD (location_id = 1)
                 DB::raw('SUM(CASE WHEN students.location_id = 2 THEN 1 ELSE 0 END) AS total_kukb'),  // Count for KUKB (location_id = 2)
-                DB::raw('SUM(CASE WHEN students.location_id = 1 AND students.status_id = 19 THEN 1 ELSE 0 END) AS total_kupd_pra_daftar'), // KUPD pra daftar
-                DB::raw('SUM(CASE WHEN students.location_id = 2 AND students.status_id = 19 THEN 1 ELSE 0 END) AS total_kukb_pra_daftar'), // KUKB pra daftar
+                DB::raw("SUM(CASE WHEN students.location_id = 1 AND students.status_id IN (19,11) AND students.reason != 'BERURUSAN DENGAN EA LAIN' THEN 1 ELSE 0 END) AS total_kupd_pra_daftar"), // KUPD pra daftar
+                DB::raw("SUM(CASE WHEN students.location_id = 2 AND students.status_id IN (19,11) AND students.reason != 'BERURUSAN DENGAN EA LAIN' THEN 1 ELSE 0 END) AS total_kukb_pra_daftar"), // KUKB pra daftar
                 DB::raw('SUM(CASE WHEN students.location_id = 1 AND students.status_id IN (20,22) THEN 1 ELSE 0 END) AS total_kupd_register'), // KUPD register
                 DB::raw('SUM(CASE WHEN students.location_id = 2 AND students.status_id IN (21,22) THEN 1 ELSE 0 END) AS total_kukb_register')  // KUKB register
             )
