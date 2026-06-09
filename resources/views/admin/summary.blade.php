@@ -632,6 +632,29 @@
                         </table>
                     </div>
                 </div>
+                <div class="modern-card shadow-none border mb-3">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th>Nota</th>
+                                    <th class="text-center">Jumlah</th>
+                                    <th class="text-center">%</th>
+                                </tr>
+                            </thead>
+                            <tbody id="statusNotaTotals">
+                                <!-- JS populated -->
+                            </tbody>
+                            <tfoot class="bg-soft-danger">
+                                <tr>
+                                    <td class="text-end text-uppercase">Jumlah Keseluruhan</td>
+                                    <td class="text-center fw-bold" id="statusNotaTotalsSum">0</td>
+                                    <td class="text-center" id="statusNotaTotalsPercent">0%</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
                 <div class="modern-card shadow-none border mb-0">
                     <div class="table-responsive">
                         <table class="table table-hover mb-0">
@@ -727,10 +750,13 @@
             var end_date = $('input[name="end_date"]').val();
 
             // Show Loading
-            $('#statusDetailsContainer').html('<tr><td colspan="6" class="text-center py-4"><i class="fas fa-spinner fa-spin fa-2x text-primary"></i><br>Sedang memuatkan data...</td></tr>');
+            $('#statusDetailsContainer').html('<tr><td colspan="7" class="text-center py-4"><i class="fas fa-spinner fa-spin fa-2x text-primary"></i><br>Sedang memuatkan data...</td></tr>');
             $('#statusLocationTotals').html('<tr><td colspan="3" class="text-center py-4"><i class="fas fa-spinner fa-spin fa-2x text-primary"></i><br>Sedang memuatkan data...</td></tr>');
+            $('#statusNotaTotals').html('<tr><td colspan="3" class="text-center py-4"><i class="fas fa-spinner fa-spin fa-2x text-primary"></i><br>Sedang memuatkan data...</td></tr>');
             $('#statusLocationTotalsSum').text('0');
             $('#statusLocationTotalsPercent').text('0%');
+            $('#statusNotaTotalsSum').text('0');
+            $('#statusNotaTotalsPercent').text('0%');
             $('#statusModal').modal('show');
 
             $.ajax({
@@ -746,8 +772,11 @@
                     $('#statusDetail-status').text((response.status || 'N/A').toUpperCase());
                     $('#statusDetailsContainer').empty();
                     $('#statusLocationTotals').empty();
+                    $('#statusNotaTotals').empty();
                     $('#statusLocationTotalsSum').text(response.locationTotalsSum || 0);
                     $('#statusLocationTotalsPercent').text((response.locationTotalsSum || 0) > 0 ? '100%' : '0%');
+                    $('#statusNotaTotalsSum').text(response.notaTotalsSum || 0);
+                    $('#statusNotaTotalsPercent').text((response.notaTotalsSum || 0) > 0 ? '100%' : '0%');
 
                     if (response.locationTotals && response.locationTotals.length > 0) {
                         response.locationTotals.forEach(function(item) {
@@ -763,6 +792,22 @@
                         });
                     } else {
                         $('#statusLocationTotals').html('<tr><td colspan="3" class="text-center py-4 text-muted fst-italic">Tiada maklumat lokasi untuk status ini.</td></tr>');
+                    }
+
+                    if (response.notaTotals && response.notaTotals.length > 0) {
+                        response.notaTotals.forEach(function(item) {
+                            var percentage = response.notaTotalsSum > 0 ? ((item.total / response.notaTotalsSum) * 100).toFixed(2) : '0.00';
+                            var notaRow = `
+                                <tr>
+                                    <td class="text-uppercase fw-bold">${item.reason || 'TIADA NOTA'}</td>
+                                    <td class="text-center fw-bold">${item.total || 0}</td>
+                                    <td class="text-center">${percentage}%</td>
+                                </tr>
+                            `;
+                            $('#statusNotaTotals').append(notaRow);
+                        });
+                    } else {
+                        $('#statusNotaTotals').html('<tr><td colspan="3" class="text-center py-4 text-muted fst-italic">Tiada maklumat nota untuk status ini.</td></tr>');
                     }
 
                     if (response.statusDetails && response.statusDetails.length > 0) {
@@ -785,10 +830,13 @@
                     }
                 },
                 error: function(xhr, status, error) {
-                    $('#statusDetailsContainer').html('<tr><td colspan="6" class="text-center py-4 text-danger"><i class="fas fa-exclamation-triangle me-2"></i> Ralat semasa memuatkan data.</td></tr>');
+                    $('#statusDetailsContainer').html('<tr><td colspan="7" class="text-center py-4 text-danger"><i class="fas fa-exclamation-triangle me-2"></i> Ralat semasa memuatkan data.</td></tr>');
                     $('#statusLocationTotals').html('<tr><td colspan="3" class="text-center py-4 text-danger"><i class="fas fa-exclamation-triangle me-2"></i> Ralat semasa memuatkan data.</td></tr>');
+                    $('#statusNotaTotals').html('<tr><td colspan="3" class="text-center py-4 text-danger"><i class="fas fa-exclamation-triangle me-2"></i> Ralat semasa memuatkan data.</td></tr>');
                     $('#statusLocationTotalsSum').text('0');
                     $('#statusLocationTotalsPercent').text('0%');
+                    $('#statusNotaTotalsSum').text('0');
+                    $('#statusNotaTotalsPercent').text('0%');
                 }
             });
         });

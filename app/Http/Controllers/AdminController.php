@@ -1645,11 +1645,45 @@ class AdminController extends Controller
 
         $locationTotalsSum = $locationTotals->sum('total');
 
+        // Summary by nota/reason for the same filters
+        $notaTotalsQuery = DB::table('students')
+            ->select(
+                DB::raw("COALESCE(students.reason, 'TIADA NOTA') AS reason"),
+                DB::raw('COUNT(students.id) AS total')
+            )
+            ->where(function ($query) {
+                $query->whereNotNull('students.ic')
+                    ->where('students.ic', '!=', '');
+            });
+
+        if (is_null($status_id)) {
+            $notaTotalsQuery->whereNull('students.status_id');
+        } else {
+            $notaTotalsQuery->where('students.status_id', '=', $status_id);
+        }
+
+        if ($startDate && $endDate) {
+            $notaTotalsQuery->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$startDate, $endDate]);
+        } elseif ($startDate) {
+            $notaTotalsQuery->whereDate(DB::raw("CAST(students.created_at AS DATE)"), '>=', $startDate);
+        } elseif ($endDate) {
+            $notaTotalsQuery->whereDate(DB::raw("CAST(students.created_at AS DATE)"), '<=', $endDate);
+        }
+
+        $notaTotals = $notaTotalsQuery
+            ->groupBy(DB::raw("COALESCE(students.reason, 'TIADA NOTA')"))
+            ->orderBy('reason')
+            ->get();
+
+        $notaTotalsSum = $notaTotals->sum('total');
+
         return response()->json([
             'statusDetails' => $statusDetails,
             'status' => $statusName,
             'locationTotals' => $locationTotals,
-            'locationTotalsSum' => $locationTotalsSum
+            'locationTotalsSum' => $locationTotalsSum,
+            'notaTotals' => $notaTotals,
+            'notaTotalsSum' => $notaTotalsSum
         ]);
     }
 
