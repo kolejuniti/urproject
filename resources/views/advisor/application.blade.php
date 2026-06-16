@@ -285,6 +285,53 @@
                 </div>
             </div>
 
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
+                <div class="card-body p-4">
+                    <form method="GET" action="{{ route('advisor.application') }}" class="row g-3 align-items-end">
+                        <div class="col-md-4">
+                            <label for="start_date" class="form-label fw-semibold text-muted">
+                                <i class="bi bi-calendar-event me-1"></i> Tarikh Mula
+                            </label>
+                            <input type="date" id="start_date" name="start_date" class="form-control @error('start_date') is-invalid @enderror" value="{{ old('start_date', $start_date ?? '') }}">
+                            @error('start_date')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="col-md-4">
+                            <label for="end_date" class="form-label fw-semibold text-muted">
+                                <i class="bi bi-calendar-check me-1"></i> Tarikh Tamat
+                            </label>
+                            <input type="date" id="end_date" name="end_date" class="form-control @error('end_date') is-invalid @enderror" value="{{ old('end_date', $end_date ?? '') }}">
+                            @error('end_date')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="col-md-4 d-flex gap-2">
+                            <button type="submit" class="btn btn-gradient flex-fill">
+                                <i class="bi bi-funnel me-1"></i> Tapis Rekod
+                            </button>
+                            <a href="{{ route('advisor.application') }}" class="btn btn-light border fw-semibold">
+                                Reset
+                            </a>
+                        </div>
+                    </form>
+
+                    @if(!empty($start_date) || !empty($end_date))
+                    <div class="alert alert-info border-0 rounded-3 mt-3 mb-0 py-2">
+                        <i class="bi bi-info-circle me-1"></i>
+                        Senarai ditapis
+                        @if(!empty($start_date) && !empty($end_date))
+                            dari <strong>{{ \Carbon\Carbon::parse($start_date)->format('d/m/Y') }}</strong> hingga <strong>{{ \Carbon\Carbon::parse($end_date)->format('d/m/Y') }}</strong>.
+                        @elseif(!empty($start_date))
+                            pada <strong>{{ \Carbon\Carbon::parse($start_date)->format('d/m/Y') }}</strong>.
+                        @elseif(!empty($end_date))
+                            pada <strong>{{ \Carbon\Carbon::parse($end_date)->format('d/m/Y') }}</strong>.
+                        @endif
+                    </div>
+                    @endif
+                </div>
+            </div>
+
             @php
                 $excludedStatuses = [
                     'TIDAK CUKUP SYARAT 3 KREDIT',

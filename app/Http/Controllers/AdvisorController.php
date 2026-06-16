@@ -128,7 +128,7 @@ class AdvisorController extends Controller
         ));
     }
 
-    public function applications()
+    public function applications(Request $request)
     {
         $user = Auth::user();
         $ref = $user->referral_code;
@@ -144,7 +144,21 @@ class AdvisorController extends Controller
             ->format('svg')
             ->generate($url, public_path('qrcode.svg'));
 
-        $applicants = DB::table('students')
+        $validated = $request->validate([
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date',
+        ]);
+
+        $start_date = $validated['start_date'] ?? null;
+        $end_date = $validated['end_date'] ?? null;
+
+        if ($start_date && $end_date && Carbon::parse($end_date)->lt(Carbon::parse($start_date))) {
+            return back()
+                ->withInput()
+                ->withErrors(['end_date' => 'Tarikh tamat mesti sama atau selepas tarikh mula.']);
+        }
+
+        $query = DB::table('students')
             ->leftjoin('state', 'students.state_id', '=', 'state.id')
             ->leftJoin('users', 'students.user_id', '=', 'users.id')
             ->join('location', 'students.location_id', '=', 'location.id')
@@ -164,7 +178,17 @@ class AdvisorController extends Controller
             ->where(function ($query) {
                 $query->whereNotNull('students.ic')
                     ->where('students.ic', '!=', '');
-            })
+            });
+
+        if ($start_date && $end_date) {
+            $query->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
+        } elseif ($start_date) {
+            $query->whereDate(DB::raw("CAST(students.created_at AS DATE)"), $start_date);
+        } elseif ($end_date) {
+            $query->whereDate(DB::raw("CAST(students.created_at AS DATE)"), $end_date);
+        }
+
+        $applicants = $query
             ->orderBy('students.created_at', 'desc')
             ->get();
 
@@ -180,7 +204,7 @@ class AdvisorController extends Controller
             $affiliates[$applicant->id] = $affiliate;
         }
 
-        return view('advisor.application', compact('applicants', 'affiliates', 'url', 'qrCode'));
+        return view('advisor.application', compact('applicants', 'affiliates', 'start_date', 'end_date', 'url', 'qrCode'));
     }
 
     public function applicationDetail(Request $request)
