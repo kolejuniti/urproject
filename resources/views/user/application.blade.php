@@ -426,7 +426,7 @@
                     </thead>
                     <tbody>
                         @foreach ($applicantsWithPrograms as $data)
-                        @if ($data['applicant']->user_id !== null && $data['applicant']->register_at === null && in_array($data['applicant']->status_id, [1, 2, 3, 4, 5, 24, 26]))
+                        @if ($data['applicant']->user_id !== null && $data['applicant']->register_at === null && in_array($data['applicant']->status_id, [1, 2, 3, 4, 5, 24, 26, 27,32,33]))
                         <tr class="table-danger">
                             @elseif ($data['applicant']->user_id !== null && $data['applicant']->register_at === null && $data['applicant']->status_id === 19)
                         <tr class="table-info">
