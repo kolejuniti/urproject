@@ -243,15 +243,22 @@
                                     <th>Komisen</th>
                                 </tr>
                             </thead>
+                            @php
+                                $displayTotalIncentive = 0;
+                            @endphp
                             <tbody>
                                 @foreach ($applications as $item)
+                                @php
+                                    $displayIncentive = strtoupper($item->remark ?? '') === 'R' ? 0 : ($item->incentive ?? 0);
+                                    $displayTotalIncentive += (float) $displayIncentive;
+                                @endphp
                                 <tr>
                                     <td></td>
                                     <td class="text-uppercase fw-semibold">{{ $item->name }}</td>
                                     <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d-m-Y') }}</td>
                                     <td class="text-uppercase">{{ $item->source }}</td>
                                     <td class="text-uppercase">{{ $item->remark }}</td>
-                                    <td class="text-center">{{ $item->incentive ?? '0.00' }}</td>
+                                    <td class="text-center">{{ number_format((float) $displayIncentive, 2) }}</td>
                                     <td class="text-center">{{ $item->commission ?? '0.00' }}</td>
                                 </tr>
                                 @endforeach
@@ -263,7 +270,7 @@
                                     <th></th>
                                     <th class="text-center text-uppercase">Jumlah Keseluruhan</th>
                                     <th></th>
-                                    <th class="text-center">{{ $totalIncentive ?? '0.00' }}</th>
+                                    <th class="text-center">{{ number_format($displayTotalIncentive, 2) }}</th>
                                     <th class="text-center">{{ $totalCommission ?? '0.00' }}</th>
                                 </tr>
                             </tfoot>
