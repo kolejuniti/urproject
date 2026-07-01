@@ -1247,6 +1247,116 @@ class AdminController extends Controller
         return view('admin.studentlist', compact('students', 'affiliates', 'advisors', 'start_date', 'end_date', 'locations', 'location_name'));
     }
 
+    public function multiDatabaseReport(Request $request)
+    {
+        $report = [];
+        $counter = 1;
+
+        // Get students from mysql2 (KUPD) where semester = 1
+        $studentsMysql2 = DB::connection('mysql2')
+            ->table('students')
+            ->where('semester', 1)
+            ->where(function ($query) {
+                $query->whereNotNull('ic')
+                    ->where('ic', '!=', '');
+            })
+            ->orderByDesc('id')
+            ->get();
+
+        foreach ($studentsMysql2 as $student) {
+            // Check if IC exists in mysql (default)
+            $existsInMysql = DB::table('students')
+                ->where('ic', $student->ic)
+                ->exists();
+
+            $source = $existsInMysql ? 'edaftar' : 'ucms-kupd';
+
+            // Get status from mysql2's tblstudent_status
+            $statusRecord = DB::connection('mysql2')
+                ->table('tblstudent_status')
+                ->where('id', $student->status)
+                ->first();
+
+            $status = $statusRecord ? ($statusRecord->name ?? 'N/A') : 'N/A';
+
+            // Get created_at from mysql (default) students
+            $mysqlStudent = DB::table('students')
+                ->where('ic', $student->ic)
+                ->first();
+
+            $tarikDataMasuk = $mysqlStudent ? \Carbon\Carbon::parse($mysqlStudent->created_at)->format('d-m-Y') : 'N/A';
+            $tarikDaftarKolej = $student->date_add ? \Carbon\Carbon::parse($student->date_add)->format('d-m-Y') : 'N/A';
+            $tarikTawaran = $student->date_offer ? \Carbon\Carbon::parse($student->date_offer)->format('d-m-Y') : 'N/A';
+
+            $report[] = [
+                'no' => $counter,
+                'name' => $student->name ?? 'N/A',
+                'ic' => $student->ic,
+                'status' => $status,
+                'source' => $source,
+                'tarik_data_masuk' => $tarikDataMasuk,
+                'tarik_daftar_kolej' => $tarikDaftarKolej,
+                'tarik_tawaran' => $tarikTawaran,
+                'location' => 'KUPD',
+            ];
+
+            $counter++;
+        }
+
+        // Get students from mysql3 (KUKB) where semester = 1
+        $studentsMysql3 = DB::connection('mysql3')
+            ->table('students')
+            ->where('semester', 1)
+            ->where(function ($query) {
+                $query->whereNotNull('ic')
+                    ->where('ic', '!=', '');
+            })
+            ->orderByDesc('id')
+            ->get();
+
+        foreach ($studentsMysql3 as $student) {
+            // Check if IC exists in mysql (default)
+            $existsInMysql = DB::table('students')
+                ->where('ic', $student->ic)
+                ->exists();
+
+            $source = $existsInMysql ? 'edaftar' : 'ucms-kukb';
+
+            // Get status from mysql3's tblstudent_status
+            $statusRecord = DB::connection('mysql3')
+                ->table('tblstudent_status')
+                ->where('id', $student->status)
+                ->first();
+
+            $status = $statusRecord ? ($statusRecord->name ?? 'N/A') : 'N/A';
+
+            // Get created_at from mysql (default) students
+            $mysqlStudent = DB::table('students')
+                ->where('ic', $student->ic)
+                ->first();
+
+            $tarikDataMasuk = $mysqlStudent ? \Carbon\Carbon::parse($mysqlStudent->created_at)->format('d-m-Y') : 'N/A';
+            $tarikDaftarKolej = $student->date_add ? \Carbon\Carbon::parse($student->date_add)->format('d-m-Y') : 'N/A';
+            $tarikTawaran = $student->date_offer ? \Carbon\Carbon::parse($student->date_offer)->format('d-m-Y') : 'N/A';
+
+            $report[] = [
+                'no' => $counter,
+                'name' => $student->name ?? 'N/A',
+                'ic' => $student->ic,
+                'status' => $status,
+                'source' => $source,
+                'tarik_data_masuk' => $tarikDataMasuk,
+                'tarik_daftar_kolej' => $tarikDaftarKolej,
+                'tarik_tawaran' => $tarikTawaran,
+                'location' => 'KUKB',
+            ];
+
+            $counter++;
+        }
+
+        return view('admin.multidatabase-report', compact('report'));
+    }
+
     public function profile()
     {
         $banks = DB::table('bank')->get();
@@ -1374,7 +1484,7 @@ class AdminController extends Controller
             ->select(
                 DB::raw('count(students.id) AS total'),
                 'location.name AS location',
-                DB::raw("SUM(CASE WHEN students.status_id IN (19,11) AND students.reason != 'BERURUSAN DENGAN EA LAIN' THEN 1 ELSE 0 END) AS total_pra_daftar"),
+                DB::raw('SUM(CASE WHEN students.status_id = 19 THEN 1 ELSE 0 END) AS total_pra_daftar'),
                 DB::raw('SUM(CASE WHEN students.status_id IN (20,21,22) THEN 1 ELSE 0 END) AS total_daftar_kolej')
             )
             ->where(function ($query) {
@@ -1402,8 +1512,7 @@ class AdminController extends Controller
                 $query->whereNotNull('students.ic')
                     ->where('students.ic', '!=', '');
             })
-            ->whereIn('students.status_id', [19, 11])
-            ->where('students.reason', '!=', 'BERURUSAN DENGAN EA LAIN');
+            ->where('students.status_id', 19);
 
         $daftarKolejTotal = DB::table('students')
             ->where(function ($query) {
@@ -1428,12 +1537,12 @@ class AdminController extends Controller
             ->select(
                 'students.source',
                 DB::raw('COUNT(students.id) AS total'),
-                DB::raw("SUM(CASE WHEN students.status_id IN (19,11) AND students.reason != 'BERURUSAN DENGAN EA LAIN' THEN 1 ELSE 0 END) AS total_pra_daftar"),
+                DB::raw('SUM(CASE WHEN students.status_id = 19 THEN 1 ELSE 0 END) AS total_pra_daftar'),
                 DB::raw('SUM(CASE WHEN students.status_id IN (20,21,22) THEN 1 ELSE 0 END) AS total_register'),
                 DB::raw('SUM(CASE WHEN students.location_id = 1 THEN 1 ELSE 0 END) AS total_kupd'), // Count for KUPD (location_id = 1)
                 DB::raw('SUM(CASE WHEN students.location_id = 2 THEN 1 ELSE 0 END) AS total_kukb'),  // Count for KUKB (location_id = 2)
-                DB::raw("SUM(CASE WHEN students.location_id = 1 AND students.status_id IN (19,11) AND students.reason != 'BERURUSAN DENGAN EA LAIN' THEN 1 ELSE 0 END) AS total_kupd_pra_daftar"), // KUPD pra daftar
-                DB::raw("SUM(CASE WHEN students.location_id = 2 AND students.status_id IN (19,11) AND students.reason != 'BERURUSAN DENGAN EA LAIN' THEN 1 ELSE 0 END) AS total_kukb_pra_daftar"), // KUKB pra daftar
+                DB::raw('SUM(CASE WHEN students.location_id = 1 AND students.status_id = 19 THEN 1 ELSE 0 END) AS total_kupd_pra_daftar'), // KUPD pra daftar
+                DB::raw('SUM(CASE WHEN students.location_id = 2 AND students.status_id = 19 THEN 1 ELSE 0 END) AS total_kukb_pra_daftar'), // KUKB pra daftar
                 DB::raw('SUM(CASE WHEN students.location_id = 1 AND students.status_id IN (20,22) THEN 1 ELSE 0 END) AS total_kupd_register'), // KUPD register
                 DB::raw('SUM(CASE WHEN students.location_id = 2 AND students.status_id IN (21,22) THEN 1 ELSE 0 END) AS total_kukb_register')  // KUKB register
             )
@@ -1482,12 +1591,12 @@ class AdminController extends Controller
             ->select(
                 'state.name AS state',
                 DB::raw('COUNT(students.id) AS total'),
-                DB::raw("SUM(CASE WHEN students.status_id IN (19,11) AND students.reason != 'BERURUSAN DENGAN EA LAIN' THEN 1 ELSE 0 END) AS total_pra_daftar"),
+                DB::raw('SUM(CASE WHEN students.status_id = 19 THEN 1 ELSE 0 END) AS total_pra_daftar'),
                 DB::raw('SUM(CASE WHEN students.status_id IN (20,21,22) THEN 1 ELSE 0 END) AS total_register'),
                 DB::raw('SUM(CASE WHEN students.location_id = 1 THEN 1 ELSE 0 END) AS total_kupd'), // Count for KUPD (location_id = 1)
                 DB::raw('SUM(CASE WHEN students.location_id = 2 THEN 1 ELSE 0 END) AS total_kukb'),  // Count for KUKB (location_id = 2)
-                DB::raw("SUM(CASE WHEN students.location_id = 1 AND students.status_id IN (19,11) AND students.reason != 'BERURUSAN DENGAN EA LAIN' THEN 1 ELSE 0 END) AS total_kupd_pra_daftar"), // KUPD pra daftar
-                DB::raw("SUM(CASE WHEN students.location_id = 2 AND students.status_id IN (19,11) AND students.reason != 'BERURUSAN DENGAN EA LAIN' THEN 1 ELSE 0 END) AS total_kukb_pra_daftar"), // KUKB pra daftar
+                DB::raw('SUM(CASE WHEN students.location_id = 1 AND students.status_id = 19 THEN 1 ELSE 0 END) AS total_kupd_pra_daftar'), // KUPD pra daftar
+                DB::raw('SUM(CASE WHEN students.location_id = 2 AND students.status_id = 19 THEN 1 ELSE 0 END) AS total_kukb_pra_daftar'), // KUKB pra daftar
                 DB::raw('SUM(CASE WHEN students.location_id = 1 AND students.status_id IN (20,22) THEN 1 ELSE 0 END) AS total_kupd_register'), // KUPD register
                 DB::raw('SUM(CASE WHEN students.location_id = 2 AND students.status_id IN (21,22) THEN 1 ELSE 0 END) AS total_kukb_register')  // KUKB register
             )
@@ -2008,8 +2117,7 @@ class AdminController extends Controller
                 })
                 ->whereNotNull('students.referral_code')
                 ->where('students.referral_code', '!=', $serinuhaReferralCode)
-                ->whereIn('students.status_id', [11, 19])
-                ->where('students.reason', '!=', 'BERURUSAN DENGAN EA LAIN')
+                ->where('students.status_id', '=', 19)
                 ->where('affiliate.type', '=', 0)
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
 
@@ -2030,8 +2138,7 @@ class AdminController extends Controller
                 })
                 ->whereNotNull('students.referral_code')
                 ->where('students.referral_code', '!=', $serinuhaReferralCode)
-                ->whereIn('students.status_id', [11, 19])
-                ->where('students.reason', '!=', 'BERURUSAN DENGAN EA LAIN')
+                ->where('students.status_id', '=', 19)
                 ->whereIn('advisor.type', [1, 2])
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
 
@@ -2050,8 +2157,7 @@ class AdminController extends Controller
                         ->where('students.ic', '!=', '');
                 })
                 ->whereNull('students.referral_code')
-                ->whereIn('students.status_id', [11, 19])
-                ->where('students.reason', '!=', 'BERURUSAN DENGAN EA LAIN')
+                ->where('students.status_id', '=', 19)
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
 
             if ($location == 3) {
@@ -2342,8 +2448,7 @@ class AdminController extends Controller
                 })
                 ->whereNotNull('students.referral_code')
                 ->where('students.referral_code', '=', $serinuhaReferralCode)
-                ->whereIn('students.status_id', [11, 19])
-                ->where('students.reason', '!=', 'BERURUSAN DENGAN EA LAIN')
+                ->where('students.status_id', '=', 19)
                 ->where('affiliate.type', '=', 0)
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
 
@@ -2364,8 +2469,7 @@ class AdminController extends Controller
                 })
                 ->whereNotNull('students.referral_code')
                 ->where('students.referral_code', '=', $serinuhaReferralCode)
-                ->whereIn('students.status_id', [11, 19])
-                ->where('students.reason', '!=', 'BERURUSAN DENGAN EA LAIN')
+                ->where('students.status_id', '=', 19)
                 ->whereIn('advisor.type', [1, 2])
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
 
@@ -3056,7 +3160,7 @@ class AdminController extends Controller
                     ->where('students.ic', '!=', '');
             })
             ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date])
-            ->select('students.name', 'students.created_at', 'students.source', 'students.incentive', 'students.commission', 'students.remark',)
+            ->select('students.name', 'students.created_at', 'students.source', 'students.incentive', 'students.register_at', 'students.commission', 'students.remark',)
             ->orderByDesc('students.id');
 
         if ($location == 3) {

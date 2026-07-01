@@ -240,6 +240,7 @@
                                     <th>Sumber</th>
                                     <th>Jenis Data</th>
                                     <th>Insentif</th>
+                                    <th>Tarikh Daftar Kolej</th>
                                     <th>Komisen</th>
                                 </tr>
                             </thead>
@@ -259,6 +260,7 @@
                                     <td class="text-uppercase">{{ $item->source }}</td>
                                     <td class="text-uppercase">{{ $item->remark }}</td>
                                     <td class="text-center">{{ number_format((float) $displayIncentive, 2) }}</td>
+                                    <td class="text-center">{{ $item->register_at ? \Carbon\Carbon::parse($item->register_at)->format('d-m-Y') : '' }}</td>
                                     <td class="text-center">{{ $item->commission ?? '0.00' }}</td>
                                 </tr>
                                 @endforeach
@@ -271,6 +273,7 @@
                                     <th class="text-center text-uppercase">Jumlah Keseluruhan</th>
                                     <th></th>
                                     <th class="text-center">{{ number_format($displayTotalIncentive, 2) }}</th>
+                                    <th></th>
                                     <th class="text-center">{{ $totalCommission ?? '0.00' }}</th>
                                 </tr>
                             </tfoot>
