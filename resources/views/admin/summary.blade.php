@@ -680,6 +680,12 @@
                 </div> --}}
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="exportStatusExcel" disabled>
+                    <i class="fas fa-file-excel me-1"></i> Excel
+                </button>
+                <button type="button" class="btn btn-danger" id="exportStatusPdf" disabled>
+                    <i class="fas fa-file-pdf me-1"></i> PDF
+                </button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
             </div>
         </div>
@@ -691,6 +697,8 @@
 <script src="https://cdn.datatables.net/v/bs5/jq-3.7.0/jszip-3.10.1/dt-2.1.0/b-3.1.0/b-colvis-3.1.0/b-html5-3.1.0/b-print-3.1.0/cr-2.0.3/datatables.min.js"></script>
 
 <script>
+    var currentStatusModalExport = null;
+
     // General DataTable Config
     function getDtConfig(title) {
         return {
@@ -731,6 +739,282 @@
         };
     }
 
+    function statusModalValue(value, fallback) {
+        if (fallback === undefined) {
+            fallback = 'N/A';
+        }
+
+        return value === null || value === undefined || value === '' ? fallback : String(value);
+    }
+
+    function escapeHtml(value) {
+        return statusModalValue(value)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    }
+
+    function statusModalPercent(total, sum) {
+        total = Number(total || 0);
+        sum = Number(sum || 0);
+
+        return sum > 0 ? ((total / sum) * 100).toFixed(2) + '%' : '0.00%';
+    }
+
+    function statusModalFileName(extension) {
+        var status = statusModalValue(currentStatusModalExport && currentStatusModalExport.status, 'status')
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/^-+|-+$/g, '');
+
+        return 'perincian-status-' + status + '.' + extension;
+    }
+
+    function buildStatusModalExportData() {
+        var data = currentStatusModalExport || {};
+        var locationTotalsSum = Number(data.locationTotalsSum || 0);
+        var notaTotalsSum = Number(data.notaTotalsSum || 0);
+
+        return {
+            title: 'Perincian Status: ' + statusModalValue(data.status, 'N/A').toUpperCase(),
+            locations: (data.locationTotals || []).map(function(item) {
+                return [
+                    statusModalValue(item.location, 'TIADA LOKASI').toUpperCase(),
+                    statusModalValue(item.total, 0),
+                    statusModalPercent(item.total, locationTotalsSum)
+                ];
+            }),
+            notes: (data.notaTotals || []).map(function(item) {
+                return [
+                    statusModalValue(item.reason, 'TIADA NOTA').toUpperCase(),
+                    statusModalValue(item.total, 0),
+                    statusModalPercent(item.total, notaTotalsSum)
+                ];
+            }),
+            details: (data.statusDetails || []).map(function(item, index) {
+                return [
+                    index + 1,
+                    statusModalValue(item.student).toUpperCase(),
+                    statusModalValue(item.ic),
+                    statusModalValue(item.created_at),
+                    statusModalValue(item.affiliate).toUpperCase(),
+                    statusModalValue(item.advisor).toUpperCase(),
+                    statusModalValue(item.reason).toUpperCase(),
+                    statusModalValue(item.register_at)
+                ];
+            }),
+            locationTotal: ['Jumlah Keseluruhan', locationTotalsSum, locationTotalsSum > 0 ? '100%' : '0%'],
+            noteTotal: ['Jumlah Keseluruhan', notaTotalsSum, notaTotalsSum > 0 ? '100%' : '0%']
+        };
+    }
+
+    function exportStatusModalPdf() {
+        if (!currentStatusModalExport || !window.pdfMake) {
+            return;
+        }
+
+        var exportData = buildStatusModalExportData();
+        var emptyRow = ['Tiada rekod', '', ''];
+        var emptyDetailRow = ['', 'Tiada rekod ditemui', '', '', '', '', '', ''];
+
+        var docDefinition = {
+            pageOrientation: 'landscape',
+            pageMargins: [24, 32, 24, 32],
+            content: [
+                { text: exportData.title, style: 'title' },
+                { text: 'Lokasi', style: 'sectionTitle' },
+                {
+                    table: {
+                        headerRows: 1,
+                        widths: ['*', 60, 60],
+                        body: [
+                            ['Lokasi', 'Jumlah', '%'],
+                            ...(exportData.locations.length ? exportData.locations : [emptyRow]),
+                            exportData.locationTotal
+                        ]
+                    },
+                    layout: 'lightHorizontalLines'
+                },
+                { text: 'Nota', style: 'sectionTitle', margin: [0, 16, 0, 6] },
+                {
+                    table: {
+                        headerRows: 1,
+                        widths: ['*', 60, 60],
+                        body: [
+                            ['Nota', 'Jumlah', '%'],
+                            ...(exportData.notes.length ? exportData.notes : [emptyRow]),
+                            exportData.noteTotal
+                        ]
+                    },
+                    layout: 'lightHorizontalLines'
+                },
+                { text: 'Senarai Pemohon', style: 'sectionTitle', margin: [0, 16, 0, 6] },
+                {
+                    table: {
+                        headerRows: 1,
+                        widths: [24, '*', 70, 70, '*', '*', '*', 70],
+                        body: [
+                            ['#', 'Nama Pemohon', 'No. KP', 'Tarikh Mohon', 'Affiliate', 'Education Advisor', 'Nota', 'Tarikh Daftar'],
+                            ...(exportData.details.length ? exportData.details : [emptyDetailRow])
+                        ]
+                    },
+                    layout: 'lightHorizontalLines'
+                }
+            ],
+            styles: {
+                title: { fontSize: 14, bold: true, margin: [0, 0, 0, 12] },
+                sectionTitle: { fontSize: 11, bold: true, margin: [0, 8, 0, 6] }
+            },
+            defaultStyle: {
+                fontSize: 8
+            }
+        };
+
+        pdfMake.createPdf(docDefinition).download(statusModalFileName('pdf'));
+    }
+
+    function excelTableHtml(title, headers, rows, footer) {
+        var bodyRows = rows.length ? rows : [headers.map(function(_, index) {
+            return index === 0 ? 'Tiada rekod' : '';
+        })];
+
+        return '<h3>' + escapeHtml(title) + '</h3>' +
+            '<table border="1">' +
+            '<thead><tr>' + headers.map(function(header) {
+                return '<th>' + escapeHtml(header) + '</th>';
+            }).join('') + '</tr></thead>' +
+            '<tbody>' + bodyRows.map(function(row) {
+                return '<tr>' + row.map(function(cell) {
+                    return '<td>' + escapeHtml(cell) + '</td>';
+                }).join('') + '</tr>';
+            }).join('') + '</tbody>' +
+            (footer ? '<tfoot><tr>' + footer.map(function(cell) {
+                return '<td><strong>' + escapeHtml(cell) + '</strong></td>';
+            }).join('') + '</tr></tfoot>' : '') +
+            '</table><br>';
+    }
+
+    function escapeExcelXml(value) {
+        return statusModalValue(value, '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&apos;');
+    }
+
+    function excelColumnName(index) {
+        var name = '';
+
+        while (index >= 0) {
+            name = String.fromCharCode((index % 26) + 65) + name;
+            index = Math.floor(index / 26) - 1;
+        }
+
+        return name;
+    }
+
+    function buildXlsxSheet(rows) {
+        var sheetRows = rows.map(function(row, rowIndex) {
+            var cells = row.map(function(cell, cellIndex) {
+                var cellRef = excelColumnName(cellIndex) + (rowIndex + 1);
+
+                return '<c r="' + cellRef + '" t="inlineStr"><is><t>' + escapeExcelXml(cell) + '</t></is></c>';
+            }).join('');
+
+            return '<row r="' + (rowIndex + 1) + '">' + cells + '</row>';
+        }).join('');
+
+        return '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
+            '<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">' +
+            '<sheetData>' + sheetRows + '</sheetData>' +
+            '</worksheet>';
+    }
+
+    function downloadStatusModalBlob(blob, fileName) {
+        var link = document.createElement('a');
+
+        link.href = URL.createObjectURL(blob);
+        link.download = fileName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(link.href);
+    }
+
+    function buildStatusModalExcelRows(exportData) {
+        return [
+            [exportData.title],
+            [],
+            ['Lokasi'],
+            ['Lokasi', 'Jumlah', '%'],
+            ...(exportData.locations.length ? exportData.locations : [['Tiada rekod', '', '']]),
+            exportData.locationTotal,
+            [],
+            ['Nota'],
+            ['Nota', 'Jumlah', '%'],
+            ...(exportData.notes.length ? exportData.notes : [['Tiada rekod', '', '']]),
+            exportData.noteTotal,
+            [],
+            ['Senarai Pemohon'],
+            ['#', 'Nama Pemohon', 'No. KP', 'Tarikh Mohon', 'Affiliate', 'Education Advisor', 'Nota', 'Tarikh Daftar'],
+            ...(exportData.details.length ? exportData.details : [['', 'Tiada rekod ditemui', '', '', '', '', '', '']])
+        ];
+    }
+
+    function exportStatusModalExcel() {
+        if (!currentStatusModalExport) {
+            return;
+        }
+
+        var exportData = buildStatusModalExportData();
+        var rows = buildStatusModalExcelRows(exportData);
+
+        if (window.JSZip) {
+            var zip = new JSZip();
+            zip.file('[Content_Types].xml', '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
+                '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">' +
+                '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>' +
+                '<Default Extension="xml" ContentType="application/xml"/>' +
+                '<Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>' +
+                '<Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>' +
+                '</Types>');
+            zip.folder('_rels').file('.rels', '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
+                '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">' +
+                '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/>' +
+                '</Relationships>');
+            zip.folder('xl').file('workbook.xml', '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
+                '<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">' +
+                '<sheets><sheet name="Perincian Status" sheetId="1" r:id="rId1"/></sheets>' +
+                '</workbook>');
+            zip.folder('xl').folder('_rels').file('workbook.xml.rels', '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
+                '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">' +
+                '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/>' +
+                '</Relationships>');
+            zip.folder('xl').folder('worksheets').file('sheet1.xml', buildXlsxSheet(rows));
+
+            zip.generateAsync({ type: 'blob' }).then(function(blob) {
+                downloadStatusModalBlob(blob, statusModalFileName('xlsx'));
+            });
+
+            return;
+        }
+
+        var html = '<html><head><meta charset="UTF-8"></head><body>' +
+            '<h2>' + escapeHtml(exportData.title) + '</h2>' +
+            excelTableHtml('Lokasi', ['Lokasi', 'Jumlah', '%'], exportData.locations, exportData.locationTotal) +
+            excelTableHtml('Nota', ['Nota', 'Jumlah', '%'], exportData.notes, exportData.noteTotal) +
+            excelTableHtml('Senarai Pemohon', ['#', 'Nama Pemohon', 'No. KP', 'Tarikh Mohon', 'Affiliate', 'Education Advisor', 'Nota', 'Tarikh Daftar'], exportData.details, null) +
+            '</body></html>';
+
+        downloadStatusModalBlob(
+            new Blob(['\ufeff', html], { type: 'application/vnd.ms-excel;charset=utf-8;' }),
+            statusModalFileName('xls')
+        );
+    }
+
     $(document).ready(function() {
         // Init tables
         $('#myTable').DataTable(getDtConfig('Statistik Status Data Masuk'));
@@ -748,6 +1032,9 @@
             var status_id = $(this).data('status_id');
             var start_date = $('input[name="start_date"]').val();
             var end_date = $('input[name="end_date"]').val();
+            currentStatusModalExport = null;
+            $('#exportStatusExcel, #exportStatusPdf').prop('disabled', true);
+            $('#statusDetail-status').text('');
 
             // Show Loading
             $('#statusDetailsContainer').html('<tr><td colspan="7" class="text-center py-4"><i class="fas fa-spinner fa-spin fa-2x text-primary"></i><br>Sedang memuatkan data...</td></tr>');
@@ -769,6 +1056,8 @@
                     end_date: end_date
                 },
                 success: function(response) {
+                    currentStatusModalExport = response;
+                    $('#exportStatusExcel, #exportStatusPdf').prop('disabled', false);
                     $('#statusDetail-status').text((response.status || 'N/A').toUpperCase());
                     $('#statusDetailsContainer').empty();
                     $('#statusLocationTotals').empty();
@@ -783,8 +1072,8 @@
                             var percentage = response.locationTotalsSum > 0 ? ((item.total / response.locationTotalsSum) * 100).toFixed(2) : '0.00';
                             var locationRow = `
                                 <tr>
-                                    <td class="text-uppercase fw-bold">${item.location || 'TIADA LOKASI'}</td>
-                                    <td class="text-center fw-bold">${item.total || 0}</td>
+                                    <td class="text-uppercase fw-bold">${escapeHtml(item.location || 'TIADA LOKASI')}</td>
+                                    <td class="text-center fw-bold">${escapeHtml(item.total || 0)}</td>
                                     <td class="text-center">${percentage}%</td>
                                 </tr>
                             `;
@@ -799,8 +1088,8 @@
                             var percentage = response.notaTotalsSum > 0 ? ((item.total / response.notaTotalsSum) * 100).toFixed(2) : '0.00';
                             var notaRow = `
                                 <tr>
-                                    <td class="text-uppercase fw-bold">${item.reason || 'TIADA NOTA'}</td>
-                                    <td class="text-center fw-bold">${item.total || 0}</td>
+                                    <td class="text-uppercase fw-bold">${escapeHtml(item.reason || 'TIADA NOTA')}</td>
+                                    <td class="text-center fw-bold">${escapeHtml(item.total || 0)}</td>
                                     <td class="text-center">${percentage}%</td>
                                 </tr>
                             `;
@@ -814,13 +1103,13 @@
                         response.statusDetails.forEach(function(statusDetail, index) {
                             var recordHtml = `
                                 <tr>
-                                    <td class="text-uppercase fw-bold"><span class="text-muted fw-normal me-2">${index + 1}.</span> ${statusDetail.student || 'N/A'}</td>
-                                    <td class="font-monospace">${statusDetail.ic || 'N/A'}</td>
-                                    <td>${statusDetail.created_at || 'N/A'}</td>
-                                    <td class="text-uppercase">${statusDetail.affiliate || 'N/A'}</td>
-                                    <td class="text-uppercase">${statusDetail.advisor || 'N/A'}</td>
-                                    <td class="text-uppercase">${statusDetail.reason || 'N/A'}</td>
-                                    <td>${statusDetail.register_at || 'N/A'}</td>
+                                    <td class="text-uppercase fw-bold"><span class="text-muted fw-normal me-2">${index + 1}.</span> ${escapeHtml(statusDetail.student || 'N/A')}</td>
+                                    <td class="font-monospace">${escapeHtml(statusDetail.ic || 'N/A')}</td>
+                                    <td>${escapeHtml(statusDetail.created_at || 'N/A')}</td>
+                                    <td class="text-uppercase">${escapeHtml(statusDetail.affiliate || 'N/A')}</td>
+                                    <td class="text-uppercase">${escapeHtml(statusDetail.advisor || 'N/A')}</td>
+                                    <td class="text-uppercase">${escapeHtml(statusDetail.reason || 'N/A')}</td>
+                                    <td>${escapeHtml(statusDetail.register_at || 'N/A')}</td>
                                 </tr>
                             `;
                             $('#statusDetailsContainer').append(recordHtml);
@@ -837,9 +1126,14 @@
                     $('#statusLocationTotalsPercent').text('0%');
                     $('#statusNotaTotalsSum').text('0');
                     $('#statusNotaTotalsPercent').text('0%');
+                    currentStatusModalExport = null;
+                    $('#exportStatusExcel, #exportStatusPdf').prop('disabled', true);
                 }
             });
         });
+
+        $('#exportStatusExcel').on('click', exportStatusModalExcel);
+        $('#exportStatusPdf').on('click', exportStatusModalPdf);
     });
 </script>
 @endsection
