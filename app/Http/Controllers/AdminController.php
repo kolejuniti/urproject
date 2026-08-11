@@ -1720,11 +1720,7 @@ class AdminController extends Controller
             $query->whereDate(DB::raw("CAST(students.created_at AS DATE)"), '<=', $endDate);
         }
 
-        if ($status_id == 20 || $status_id == 21 || $status_id == 22) {
-            $statusDetails = $query->orderBy('students.register_at', 'desc')->get();
-        } else {
-            $statusDetails = $query->orderBy('students.created_at', 'desc')->get();
-        }
+        $statusDetails = $query->orderBy('students.created_at', 'desc')->get();
 
         // Summary by location for the same filters
         $locationTotalsQuery = DB::table('students')
@@ -3164,7 +3160,7 @@ class AdminController extends Controller
                     ->where('students.ic', '!=', '');
             })
             ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date])
-            ->select('students.name', 'students.created_at', 'students.source', 'students.incentive', 'students.register_at', 'students.commission', 'students.remark',)
+            ->select('students.name', 'students.created_at', 'students.source', 'students.incentive', 'students.commission', 'students.remark',)
             ->orderByDesc('students.id');
 
         if ($location == 3) {
@@ -3379,5 +3375,24 @@ class AdminController extends Controller
         }
 
         return view('admin.programreport', compact('programStatsByLocation', 'start_date', 'end_date'));
+    }
+
+    public function showImportForm()
+    {
+        return view('admin.import_sheet');
+    }
+
+    public function processImport(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:csv,xlsx,xls'
+        ]);
+
+        try {
+            \Maatwebsite\Excel\Facades\Excel::import(new \App\Imports\StudentsImport, $request->file('file'));
+            return redirect()->back()->with('success', 'Students imported successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Error importing file: ' . $e->getMessage());
+        }
     }
 }

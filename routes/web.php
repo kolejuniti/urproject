@@ -235,6 +235,9 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::delete('/admin/contents/{id}', [AdminController::class, 'destroy'])->name('admin.contents.destroy');
     Route::get('/admin/senarai-kandungan-media', [AdminController::class, 'contentsEnhanced'])->name('admin.content.list');
     Route::match(['get', 'post'], '/admin/laporan/program', [AdminController::class, 'programReport'])->name('admin.programreport');
+    Route::get('/admin/laporan/multi-database', [AdminController::class, 'multiDatabaseReport'])->name('admin.multidatabase');
+    Route::get('/admin/import-students', [AdminController::class, 'showImportForm'])->name('admin.import_students');
+    Route::post('/admin/import-students', [AdminController::class, 'processImport'])->name('admin.import_students.process');
 });
 
 // advisor route

@@ -142,6 +142,11 @@
                                 <li>
                                     <a class="dropdown-item" href="{{ route('admin.application') }}">Senarai Data Masuk</a>
                                 </li>
+                                @if(in_array(auth()->user()->id, [2]))
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('admin.import_students') }}">Import Excel/CSV</a>
+                                </li>
+                                @endif
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
