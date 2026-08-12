@@ -618,7 +618,7 @@ class AdminController extends Controller
 
             // Find the affiliate(s) associated with the current student's referral code
             $affiliate = User::where('referral_code', $applicant->referral_code)
-                ->whereIn('type', [0, 1])
+                ->whereIn('type', [0, 1, 2])
                 ->get();
 
             // Store the affiliate(s) in the $affiliates array, using student ID as key
