@@ -15,7 +15,7 @@ class StudentsImport implements ToCollection, WithHeadingRow
     */
     public function collection(Collection $rows)
     {
-        $sequence = [87, 88, 87, 88, 87, 88, 86, 100, 271, 115, 272, 103];
+        $sequence = [87, 88, 87, 88, 87, 88, 86, 271, 115, 272, 103, 339, 316, 372, 317];
         $currentCount = DB::table('students')->where('source', 'KPM')->count();
 
         foreach ($rows as $row) {
@@ -34,7 +34,7 @@ class StudentsImport implements ToCollection, WithHeadingRow
                 $exists = DB::table('students')->where('ic', $ic)->exists();
                 
                 if (!$exists) {
-                    $userId = $sequence[$currentCount % 12];
+                    $userId = $sequence[$currentCount % 15]; // Cycle through the sequence array
 
                     DB::table('students')->insert([
                         'user_id' => $userId,
@@ -43,6 +43,8 @@ class StudentsImport implements ToCollection, WithHeadingRow
                         'phone' => $row['no_telefon'] ?? null,
                         'email' => $row['email'] ?? null,
                         'referral_code' => $row['kod_rujukan'] ?? null,
+                        'state_id' => 12,
+                        'spm_year' => 2025,
                         'location_id' => 1,
                         'auto_assign' => 1,
                         'incentive' => 10,
