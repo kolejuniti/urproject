@@ -1196,7 +1196,7 @@ class AdminController extends Controller
             ->leftjoin('status', 'students.status_id', '=', 'status.id')
             ->leftJoin('state', 'students.state_id', '=', 'state.id')
             ->join('location', 'students.location_id', '=', 'location.id')
-            ->select('students.id', 'students.name', 'students.ic', 'students.phone', 'students.email', 'students.created_at', 'students.updated_at', 'status.name AS status', 'students.reason', 'students.register_at', 'students.referral_code', 'students.user_id', 'location.code AS location', 'students.city', 'state.name AS state')
+            ->select('students.id', 'students.name', 'students.ic', 'students.phone', 'students.email', 'students.created_at', 'students.updated_at', 'status.name AS status', 'students.reason', 'students.register_at', 'students.referral_code', 'students.user_id', 'location.code AS location', 'students.city', 'state.name AS state', 'students.source')
             ->where(function ($query) {
                 $query->whereNotNull('students.ic')
                     ->where('students.ic', '!=', '');

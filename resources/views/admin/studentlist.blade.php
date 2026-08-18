@@ -352,6 +352,7 @@
                                 <th>Bandar/Daerah</th>
                                 <th>Negeri</th>
                                 <th>Affiliate</th>
+                                <th>Sumber</th>
                                 <th>Education Advisor</th>
                                 <th>Status</th>
                                 <th>Catatan</th>
@@ -383,6 +384,7 @@
                                     <span class="text-muted small">-</span>
                                     @endif
                                 </td>
+                                <td class="text-uppercase">{{ $student->source }}</td>
                                 <td class="text-uppercase">
                                     @foreach ($advisors[$student->id] as $advisor)
                                     <span class="badge badge-modern badge-advisor">
