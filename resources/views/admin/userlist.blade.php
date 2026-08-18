@@ -435,7 +435,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>Nama Pengguna</th>
-                                <!-- <th>No. Kad Pengenalan</th> -->
+                                <th>No. Kad Pengenalan</th>
                                 <th>No. Telefon</th>
                                 <th>Email</th>
                                 <th>Jawatan</th>
@@ -457,7 +457,7 @@
                                         <i class="fas fa-user-circle me-1"></i> {{ $user->name }}
                                     </button>
                                 </td>
-                                <!-- <td class="text-center font-monospace">{{ $user->ic }}</td> -->
+                                <td class="text-center font-monospace">{{ $user->ic }}</td>
                                 <td class="text-center">{{ $user->phone }}</td>
                                 <td>{{ $user->email }}</td>
                                 <td><span class="badge bg-secondary">{{ $user->position }}</span></td>
