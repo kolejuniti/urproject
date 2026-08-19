@@ -1940,7 +1940,7 @@ class AdminController extends Controller
                 })
                 ->whereNotNull('students.referral_code')
                 ->where('students.referral_code', '!=', $serinuhaReferralCode)
-                ->where('affiliate.type', '=', 0)
+                ->whereIn('affiliate.type', [0,2])
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
 
             if ($location == 3) {
@@ -1960,7 +1960,7 @@ class AdminController extends Controller
                 })
                 ->whereNotNull('students.referral_code')
                 ->where('students.referral_code', '!=', $serinuhaReferralCode)
-                ->where('affiliate.type', '=', 0)
+                ->whereIn('affiliate.type', [0, 2])
                 ->where('students.remark', 'LIKE', '%N%')
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
 
@@ -1981,7 +1981,7 @@ class AdminController extends Controller
                 })
                 ->whereNotNull('students.referral_code')
                 ->where('students.referral_code', '!=', $serinuhaReferralCode)
-                ->where('affiliate.type', '=', 0)
+                ->whereIn('affiliate.type', [0, 2])
                 ->where('students.remark', 'LIKE', '%R%')
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
 
@@ -2002,7 +2002,7 @@ class AdminController extends Controller
                 })
                 ->whereNotNull('students.referral_code')
                 ->where('students.referral_code', '!=', $serinuhaReferralCode)
-                ->whereIn('advisor.type', [1, 2])
+                ->whereIn('advisor.type', [1])
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
 
             if ($location == 3) {
@@ -2022,7 +2022,7 @@ class AdminController extends Controller
                 })
                 ->whereNotNull('students.referral_code')
                 ->where('students.referral_code', '!=', $serinuhaReferralCode)
-                ->whereIn('advisor.type', [1, 2])
+                ->whereIn('advisor.type', [1])
                 ->where('students.remark', 'LIKE', '%N%')
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
 
@@ -2043,7 +2043,7 @@ class AdminController extends Controller
                 })
                 ->whereNotNull('students.referral_code')
                 ->where('students.referral_code', '!=', $serinuhaReferralCode)
-                ->whereIn('advisor.type', [1, 2])
+                ->whereIn('advisor.type', [1])
                 ->where('students.remark', 'LIKE', '%R%')
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
 
@@ -2118,7 +2118,7 @@ class AdminController extends Controller
                 ->whereNotNull('students.referral_code')
                 ->where('students.referral_code', '!=', $serinuhaReferralCode)
                 ->where('students.status_id', '=', 19)
-                ->where('affiliate.type', '=', 0)
+                ->whereIn('affiliate.type', [0, 2])
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
 
             if ($location == 3) {
@@ -2139,7 +2139,7 @@ class AdminController extends Controller
                 ->whereNotNull('students.referral_code')
                 ->where('students.referral_code', '!=', $serinuhaReferralCode)
                 ->where('students.status_id', '=', 19)
-                ->whereIn('advisor.type', [1, 2])
+                ->whereIn('advisor.type', [1])
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
 
             if ($location == 3) {
@@ -2178,7 +2178,7 @@ class AdminController extends Controller
                 ->whereNotNull('students.referral_code')
                 ->where('students.referral_code', '!=', $serinuhaReferralCode)
                 ->whereIn('students.status_id', [20, 21])
-                ->where('affiliate.type', '=', 0)
+                ->whereIn('affiliate.type', [0, 2])
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
 
             if ($location == 3) {
@@ -2199,7 +2199,7 @@ class AdminController extends Controller
                 ->whereNotNull('students.referral_code')
                 ->where('students.referral_code', '!=', $serinuhaReferralCode)
                 ->whereIn('students.status_id', [22])
-                ->where('affiliate.type', '=', 0)
+                ->whereIn('affiliate.type', [0, 2])
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
 
             if ($location == 3) {
@@ -2220,7 +2220,7 @@ class AdminController extends Controller
                 ->whereNotNull('students.referral_code')
                 ->where('students.referral_code', '!=', $serinuhaReferralCode)
                 ->whereIn('students.status_id', [20, 21, 22])
-                ->whereIn('advisor.type', [1, 2])
+                ->whereIn('advisor.type', [1])
                 ->whereBetween(DB::raw("CAST(students.created_at AS DATE)"), [$start_date, $end_date]);
 
             if ($location == 3) {
